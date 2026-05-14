@@ -4,115 +4,394 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Initium — The Beginning</title>
-    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Page Loader -->
+    <div class="page-loader">
+        <div class="loader-content">
+            <div class="loader-text">
+                <span class="loader-letter">I</span>
+                <span class="loader-letter">N</span>
+                <span class="loader-letter">I</span>
+                <span class="loader-letter">T</span>
+                <span class="loader-letter">I</span>
+                <span class="loader-letter">U</span>
+                <span class="loader-letter">M</span>
+            </div>
+            <div class="loader-bar">
+                <div class="loader-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress">
+        <div class="scroll-progress-bar"></div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor">
+        <div class="cursor-dot"></div>
+        <div class="cursor-outline"></div>
+    </div>
+
+    <!-- Dot Grid Background -->
+    <div class="dot-grid"></div>
+
+    <!-- Navigation -->
     <nav class="navbar">
-        <div class="nav-brand">INITIUM</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#projects">Projects</a>
-            <a href="#contact">Contact</a>
+        <div class="nav-inner">
+            <a href="#" class="nav-brand" data-magnetic>
+                <span class="brand-text">INITIUM</span>
+            </a>
+            <div class="nav-links">
+                <a href="#about" class="nav-link" data-magnetic>
+                    <span class="link-text">About</span>
+                    <span class="link-line"></span>
+                </a>
+                <a href="#projects" class="nav-link" data-magnetic>
+                    <span class="link-text">Projects</span>
+                    <span class="link-line"></span>
+                </a>
+                <a href="#contact" class="nav-link" data-magnetic>
+                    <span class="link-text">Contact</span>
+                    <span class="link-line"></span>
+                </a>
+            </div>
+            <button class="nav-cta" data-magnetic>
+                <span>Get Started</span>
+            </button>
         </div>
     </nav>
 
-    <header class="hero">
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="hero-bg">
+            <div class="gradient-orb orb-1"></div>
+            <div class="gradient-orb orb-2"></div>
+            <div class="gradient-orb orb-3"></div>
+        </div>
         <div class="hero-content">
-            <p class="hero-tag">WELCOME TO THE BEGINNING</p>
+            <div class="hero-tag-wrapper">
+                <span class="hero-tag">
+                    <span class="tag-dot"></span>
+                    Welcome to the Beginning
+                </span>
+            </div>
             <h1 class="hero-title">
-                Every journey<br>
-                <span class="gradient-text">starts somewhere.</span>
+                <div class="title-line"><span class="reveal-text">Every journey</span></div>
+                <div class="title-line"><span class="reveal-text gradient-text">starts somewhere.</span></div>
             </h1>
-            <p class="hero-subtitle">
+            <p class="hero-subtitle reveal-fade">
                 This is Initium — a place where ideas take shape, projects come to life, 
                 and the future gets built one line at a time.
             </p>
             <div class="hero-buttons">
-                <a href="#projects" class="btn btn-primary">Explore Projects</a>
-                <a href="https://github.com" target="_blank" class="btn btn-secondary">View on GitHub</a>
+                <a href="#projects" class="btn btn-primary" data-magnetic>
+                    <span class="btn-text">Explore Projects</span>
+                    <span class="btn-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
+                </a>
+                <a href="https://github.com/o554tai/initium-website" target="_blank" class="btn btn-secondary" data-magnetic>
+                    <span class="btn-text">View on GitHub</span>
+                </a>
             </div>
         </div>
         <div class="hero-visual">
-            <div class="orbit">
-                <div class="planet"></div>
-                <div class="moon"></div>
+            <div class="orbit-system">
+                <div class="orbit-ring ring-1"></div>
+                <div class="orbit-ring ring-2"></div>
+                <div class="orbit-ring ring-3"></div>
+                <div class="planet-core"></div>
+                <div class="moon moon-1"></div>
+                <div class="moon moon-2"></div>
+                <div class="stars">
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                    <div class="star"></div>
+                </div>
             </div>
         </div>
-    </header>
+        <div class="scroll-hint">
+            <div class="scroll-mouse">
+                <div class="scroll-wheel"></div>
+            </div>
+            <span class="scroll-text">Scroll to explore</span>
+        </div>
+    </section>
 
-    <section id="about" class="section">
+    <!-- Stats Marquee -->
+    <div class="marquee-section">
+        <div class="marquee-track">
+            <div class="marquee-content">
+                <span class="marquee-item">HTML & CSS</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">JavaScript</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">GSAP Animations</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">Smooth Scroll</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">Glassmorphism</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">Parallax Effects</span>
+                <span class="marquee-separator">✦</span>
+            </div>
+            <div class="marquee-content" aria-hidden="true">
+                <span class="marquee-item">HTML & CSS</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">JavaScript</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">GSAP Animations</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">Smooth Scroll</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">Glassmorphism</span>
+                <span class="marquee-separator">✦</span>
+                <span class="marquee-item">Parallax Effects</span>
+                <span class="marquee-separator">✦</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="section about-section">
+        <div class="section-bg">
+            <div class="gradient-orb orb-4"></div>
+        </div>
         <div class="container">
-            <h2 class="section-title">What is Initium?</h2>
-            <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🚀</div>
-                    <h3>Launch Pad</h3>
-                    <p>The starting point for new ideas, experiments, and creative builds.</p>
+            <div class="section-header">
+                <span class="section-tag reveal-fade">What is Initium?</span>
+                <h2 class="section-title">
+                    <span class="reveal-text">The foundation of</span>
+                    <span class="reveal-text gradient-text">something great.</span>
+                </h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 64 64" fill="none">
+                                <path d="M32 8L56 24V48L32 64L8 48V24L32 8Z" stroke="url(#icon-gradient-1)" stroke-width="2" stroke-linejoin="round"/>
+                                <path d="M32 8V32M32 32L56 48M32 32L8 48" stroke="url(#icon-gradient-1)" stroke-width="2" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="icon-gradient-1" x1="8" y1="8" x2="56" y2="64">
+                                        <stop stop-color="#6366f1"/>
+                                        <stop offset="1" stop-color="#a78bfa"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Launch Pad</h3>
+                        <p class="feature-desc">The starting point for new ideas, experiments, and creative builds that push boundaries.</p>
+                        <a href="#" class="feature-link">
+                            Learn more 
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🛠️</div>
-                    <h3>Build & Ship</h3>
-                    <p>From concept to deployment. Tools, code, and workflows that work.</p>
+                <div class="feature-card" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 64 64" fill="none">
+                                <rect x="8" y="8" width="20" height="20" rx="4" stroke="url(#icon-gradient-2)" stroke-width="2"/>
+                                <rect x="36" y="8" width="20" height="20" rx="4" stroke="url(#icon-gradient-2)" stroke-width="2"/>
+                                <rect x="8" y="36" width="20" height="20" rx="4" stroke="url(#icon-gradient-2)" stroke-width="2"/>
+                                <rect x="36" y="36" width="20" height="20" rx="4" stroke="url(#icon-gradient-2)" stroke-width="2"/>
+                                <defs>
+                                    <linearGradient id="icon-gradient-2" x1="8" y1="8" x2="56" y2="56">
+                                        <stop stop-color="#6366f1"/>
+                                        <stop offset="1" stop-color="#a78bfa"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Build & Ship</h3>
+                        <p class="feature-desc">From concept to deployment. Tools, code, and workflows that work flawlessly together.</p>
+                        <a href="#" class="feature-link">
+                            Learn more
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌱</div>
-                    <h3>Always Growing</h3>
-                    <p>Every project is a seed. Watch them grow into something amazing.</p>
+                <div class="feature-card" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="card-content">
+                        <div class="feature-icon-wrapper">
+                            <svg class="feature-icon" viewBox="0 0 64 64" fill="none">
+                                <circle cx="32" cy="32" r="24" stroke="url(#icon-gradient-3)" stroke-width="2"/>
+                                <path d="M32 16V32L44 38" stroke="url(#icon-gradient-3)" stroke-width="2" stroke-linecap="round"/>
+                                <defs>
+                                    <linearGradient id="icon-gradient-3" x1="8" y1="8" x2="56" y2="56">
+                                        <stop stop-color="#6366f1"/>
+                                        <stop offset="1" stop-color="#a78bfa"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h3 class="feature-title">Always Growing</h3>
+                        <p class="feature-desc">Every project is a seed. Watch them grow into something amazing over time.</p>
+                        <a href="#" class="feature-link">
+                            Learn more
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="projects" class="section section-dark">
+    <!-- Projects Section -->
+    <section id="projects" class="section projects-section">
+        <div class="section-bg">
+            <div class="gradient-orb orb-5"></div>
+        </div>
         <div class="container">
-            <h2 class="section-title">Featured Projects</h2>
-            <div class="project-grid">
-                <div class="project-card">
-                    <div class="project-header">
-                        <span class="project-badge">NEW</span>
+            <div class="section-header">
+                <span class="section-tag reveal-fade">Featured Work</span>
+                <h2 class="section-title">
+                    <span class="reveal-text">Projects that</span>
+                    <span class="reveal-text gradient-text">define us.</span>
+                </h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card" data-tilt>
+                    <div class="project-image">
+                        <div class="project-image-inner">
+                            <div class="project-gradient"></div>
+                            <span class="project-number">01</span>
+                        </div>
                     </div>
-                    <h3>This Website</h3>
-                    <p>My first project — a modern, responsive landing page built with HTML & CSS.</p>
-                    <a href="#" class="project-link">View Details →</a>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="project-tag tag-new">NEW</span>
+                            <span class="project-tag">HTML & CSS</span>
+                            <span class="project-tag">GSAP</span>
+                        </div>
+                        <h3 class="project-title">Initium Website</h3>
+                        <p class="project-desc">A modern, responsive landing page with premium animations and smooth scroll effects. Built from scratch with performance in mind.</p>
+                        <a href="#" class="project-link" data-magnetic>
+                            View Project
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
-                <div class="project-card placeholder">
-                    <div class="project-header">
-                        <span class="project-badge badge-soon">SOON</span>
+                <div class="project-card" data-tilt>
+                    <div class="project-image">
+                        <div class="project-image-inner">
+                            <div class="project-gradient project-gradient-2"></div>
+                            <span class="project-number">02</span>
+                        </div>
                     </div>
-                    <h3>Project Two</h3>
-                    <p>Your next project goes here. What will you build?</p>
-                    <span class="project-link disabled">Coming Soon</span>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="project-tag tag-soon">SOON</span>
+                            <span class="project-tag">Coming</span>
+                        </div>
+                        <h3 class="project-title">Project Two</h3>
+                        <p class="project-desc">Your next project goes here. What will you build? The possibilities are truly endless.</p>
+                        <span class="project-link disabled">Coming Soon</span>
+                    </div>
                 </div>
-                <div class="project-card placeholder">
-                    <div class="project-header">
-                        <span class="project-badge badge-soon">SOON</span>
+                <div class="project-card" data-tilt>
+                    <div class="project-image">
+                        <div class="project-image-inner">
+                            <div class="project-gradient project-gradient-3"></div>
+                            <span class="project-number">03</span>
+                        </div>
                     </div>
-                    <h3>Project Three</h3>
-                    <p>The possibilities are endless. Start building today.</p>
-                    <span class="project-link disabled">Coming Soon</span>
+                    <div class="project-info">
+                        <div class="project-tags">
+                            <span class="project-tag tag-soon">SOON</span>
+                            <span class="project-tag">Coming</span>
+                        </div>
+                        <h3 class="project-title">Project Three</h3>
+                        <p class="project-desc">The possibilities are endless. Start building today and create something extraordinary.</p>
+                        <span class="project-link disabled">Coming Soon</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="section">
+    <!-- CTA Section -->
+    <section id="contact" class="section cta-section">
+        <div class="section-bg">
+            <div class="gradient-orb orb-6"></div>
+            <div class="gradient-orb orb-7"></div>
+        </div>
         <div class="container">
-            <h2 class="section-title">Let's Build Together</h2>
-            <p class="contact-text">
-                Got an idea? Want to collaborate? Or just want to say hi?<br>
-                I'm always open to new beginnings.
-            </p>
-            <a href="mailto:hello@initium.dev" class="btn btn-primary btn-large">Get in Touch</a>
+            <div class="cta-content">
+                <h2 class="cta-title">
+                    <span class="reveal-text">Let's build</span>
+                    <span class="reveal-text gradient-text">together.</span>
+                </h2>
+                <p class="cta-desc reveal-fade">
+                    Got an idea? Want to collaborate? Or just want to say hi?<br>
+                    I'm always open to new beginnings.
+                </p>
+                <div class="cta-buttons reveal-fade">
+                    <a href="mailto:hello@initium.dev" class="btn btn-primary btn-large" data-magnetic>
+                        <span class="btn-text">Get in Touch</span>
+                        <span class="btn-icon">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </a>
+                </div>
+            </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <p>Built with 💙 by <strong>You</strong> · Powered by GitHub Pages</p>
-            <p class="footer-year">© 2025 Initium. The beginning of something great.</p>
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <span class="brand-text">INITIUM</span>
+                    <p class="footer-tagline">The beginning of something great.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#about" class="footer-link">About</a>
+                    <a href="#projects" class="footer-link">Projects</a>
+                    <a href="#contact" class="footer-link">Contact</a>
+                    <a href="https://github.com/o554tai" target="_blank" class="footer-link">GitHub</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p class="footer-credit">Built with <span class="heart">❤️</span> by <strong>You</strong> · Powered by GitHub Pages</p>
+                <p class="footer-year">2025 Initium. All beginnings lead somewhere.</p>
+            </div>
         </div>
     </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
