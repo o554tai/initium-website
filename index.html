@@ -10,9 +10,33 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Film Grain Overlay -->
+    <canvas id="grain-canvas" class="grain-overlay"></canvas>
+
+    <!-- Cursor Spotlight -->
+    <div class="cursor-spotlight"></div>
+
+    <!-- Dot Grid Background -->
+    <div class="dot-grid"></div>
+
     <!-- Page Loader -->
     <div class="page-loader">
         <div class="loader-content">
+            <div class="loader-logo">
+                <svg class="logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path class="logo-path logo-path-1" d="M32 4L32 28" stroke="url(#logo-gradient)" stroke-width="4" stroke-linecap="round"/>
+                    <path class="logo-path logo-path-2" d="M20 20L32 8L44 20" stroke="url(#logo-gradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path class="logo-path logo-path-3" d="M32 28L32 60" stroke="url(#logo-gradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 4"/>
+                    <circle class="logo-path logo-path-4" cx="32" cy="32" r="28" stroke="url(#logo-gradient)" stroke-width="1.5" stroke-linecap="round"/>
+                    <defs>
+                        <linearGradient id="logo-gradient" x1="4" y1="4" x2="60" y2="60">
+                            <stop stop-color="#6366f1"/>
+                            <stop offset="0.5" stop-color="#818cf8"/>
+                            <stop offset="1" stop-color="#c084fc"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
             <div class="loader-text">
                 <span class="loader-letter">I</span>
                 <span class="loader-letter">N</span>
@@ -39,13 +63,23 @@
         <div class="cursor-outline"></div>
     </div>
 
-    <!-- Dot Grid Background -->
-    <div class="dot-grid"></div>
-
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-inner">
             <a href="#" class="nav-brand" data-magnetic>
+                <svg class="nav-logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M32 4L32 28" stroke="url(#nav-logo-gradient)" stroke-width="4" stroke-linecap="round"/>
+                    <path d="M20 20L32 8L44 20" stroke="url(#nav-logo-gradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M32 28L32 60" stroke="url(#nav-logo-gradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 4"/>
+                    <circle cx="32" cy="32" r="28" stroke="url(#nav-logo-gradient)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+                    <defs>
+                        <linearGradient id="nav-logo-gradient" x1="4" y1="4" x2="60" y2="60">
+                            <stop stop-color="#6366f1"/>
+                            <stop offset="0.5" stop-color="#818cf8"/>
+                            <stop offset="1" stop-color="#c084fc"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
                 <span class="brand-text">INITIUM</span>
             </a>
             <div class="nav-links">
@@ -70,11 +104,31 @@
 
     <!-- Hero Section -->
     <section class="hero" id="hero">
-        <div class="hero-bg">
-            <div class="gradient-orb orb-1"></div>
-            <div class="gradient-orb orb-2"></div>
-            <div class="gradient-orb orb-3"></div>
+        <!-- Particle Canvas -->
+        <canvas id="particle-canvas" class="particle-canvas"></canvas>
+
+        <!-- Animated Blobs -->
+        <div class="hero-blobs">
+            <svg class="blob blob-1" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <path class="blob-path" d="M440.5,320.5Q418,391,355.5,442.5Q293,494,226,450.5Q159,407,99.5,341.5Q40,276,66,201Q92,126,160.5,74.5Q229,23,302,64.5Q375,106,419,178Q463,250,440.5,320.5Z" fill="url(#blob-gradient-1)"/>
+                <defs>
+                    <linearGradient id="blob-gradient-1" x1="0" y1="0" x2="500" y2="500">
+                        <stop stop-color="#6366f1" stop-opacity="0.15"/>
+                        <stop offset="1" stop-color="#a78bfa" stop-opacity="0.05"/>
+                    </linearGradient>
+                </defs>
+            </svg>
+            <svg class="blob blob-2" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <path class="blob-path" d="M421.5,307.5Q388,365,335,406.5Q282,448,215,432.5Q148,417,105.5,354Q63,291,67,218.5Q71,146,126,95.5Q181,45,252,55.5Q323,66,375,113Q427,160,441,205Q455,250,421.5,307.5Z" fill="url(#blob-gradient-2)"/>
+                <defs>
+                    <linearGradient id="blob-gradient-2" x1="0" y1="0" x2="500" y2="500">
+                        <stop stop-color="#c084fc" stop-opacity="0.1"/>
+                        <stop offset="1" stop-color="#6366f1" stop-opacity="0.05"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
+
         <div class="hero-content">
             <div class="hero-tag-wrapper">
                 <span class="hero-tag">
@@ -87,7 +141,7 @@
                 <div class="title-line"><span class="reveal-text gradient-text">starts somewhere.</span></div>
             </h1>
             <p class="hero-subtitle reveal-fade">
-                This is Initium — a place where ideas take shape, projects come to life, 
+                This is Initium — a place where ideas take shape, projects come to life,
                 and the future gets built one line at a time.
             </p>
             <div class="hero-buttons">
@@ -104,26 +158,6 @@
                 </a>
             </div>
         </div>
-        <div class="hero-visual">
-            <div class="orbit-system">
-                <div class="orbit-ring ring-1"></div>
-                <div class="orbit-ring ring-2"></div>
-                <div class="orbit-ring ring-3"></div>
-                <div class="planet-core"></div>
-                <div class="moon moon-1"></div>
-                <div class="moon moon-2"></div>
-                <div class="stars">
-                    <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                    <div class="star"></div>
-                </div>
-            </div>
-        </div>
         <div class="scroll-hint">
             <div class="scroll-mouse">
                 <div class="scroll-wheel"></div>
@@ -137,31 +171,39 @@
         <div class="marquee-track">
             <div class="marquee-content">
                 <span class="marquee-item">HTML & CSS</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">JavaScript</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">GSAP Animations</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">Smooth Scroll</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">Glassmorphism</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">Parallax Effects</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
+                <span class="marquee-item">Particle Systems</span>
+                <span class="marquee-separator">&#10022;</span>
+                <span class="marquee-item">Text Scramble</span>
+                <span class="marquee-separator">&#10022;</span>
             </div>
             <div class="marquee-content" aria-hidden="true">
                 <span class="marquee-item">HTML & CSS</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">JavaScript</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">GSAP Animations</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">Smooth Scroll</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">Glassmorphism</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
                 <span class="marquee-item">Parallax Effects</span>
-                <span class="marquee-separator">✦</span>
+                <span class="marquee-separator">&#10022;</span>
+                <span class="marquee-item">Particle Systems</span>
+                <span class="marquee-separator">&#10022;</span>
+                <span class="marquee-item">Text Scramble</span>
+                <span class="marquee-separator">&#10022;</span>
             </div>
         </div>
     </div>
@@ -170,18 +212,28 @@
     <section id="about" class="section about-section">
         <div class="section-bg">
             <div class="gradient-orb orb-4"></div>
+            <svg class="section-blob" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <path class="blob-path-slow" d="M423.5,301.5Q376,353,326,389Q276,425,216,410.5Q156,396,117.5,342Q79,288,76.5,219Q74,150,123,98.5Q172,47,239,54.5Q306,62,357.5,104.5Q409,147,440,198.5Q471,250,423.5,301.5Z" fill="url(#section-blob-gradient)"/>
+                <defs>
+                    <linearGradient id="section-blob-gradient" x1="0" y1="0" x2="500" y2="500">
+                        <stop stop-color="#6366f1" stop-opacity="0.08"/>
+                        <stop offset="1" stop-color="#c084fc" stop-opacity="0.03"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
         <div class="container">
             <div class="section-header">
                 <span class="section-tag reveal-fade">What is Initium?</span>
                 <h2 class="section-title">
-                    <span class="reveal-text">The foundation of</span>
-                    <span class="reveal-text gradient-text">something great.</span>
+                    <span class="reveal-text scramble-text" data-text="The foundation of">The foundation of</span>
+                    <span class="reveal-text gradient-text scramble-text" data-text="something great.">something great.</span>
                 </h2>
             </div>
             <div class="features-grid">
                 <div class="feature-card" data-tilt>
                     <div class="card-glow"></div>
+                    <div class="card-border"></div>
                     <div class="card-content">
                         <div class="feature-icon-wrapper">
                             <svg class="feature-icon" viewBox="0 0 64 64" fill="none">
@@ -198,7 +250,7 @@
                         <h3 class="feature-title">Launch Pad</h3>
                         <p class="feature-desc">The starting point for new ideas, experiments, and creative builds that push boundaries.</p>
                         <a href="#" class="feature-link">
-                            Learn more 
+                            Learn more
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
@@ -207,6 +259,7 @@
                 </div>
                 <div class="feature-card" data-tilt>
                     <div class="card-glow"></div>
+                    <div class="card-border"></div>
                     <div class="card-content">
                         <div class="feature-icon-wrapper">
                             <svg class="feature-icon" viewBox="0 0 64 64" fill="none">
@@ -234,6 +287,7 @@
                 </div>
                 <div class="feature-card" data-tilt>
                     <div class="card-glow"></div>
+                    <div class="card-border"></div>
                     <div class="card-content">
                         <div class="feature-icon-wrapper">
                             <svg class="feature-icon" viewBox="0 0 64 64" fill="none">
@@ -265,17 +319,27 @@
     <section id="projects" class="section projects-section">
         <div class="section-bg">
             <div class="gradient-orb orb-5"></div>
+            <svg class="section-blob section-blob-right" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <path class="blob-path-slow" d="M439.5,324.5Q425,399,354.5,436Q284,473,215.5,443Q147,413,101.5,350.5Q56,288,62.5,216Q69,144,123,93.5Q177,43,247.5,60.5Q318,78,372.5,117.5Q427,157,440.5,203.5Q454,250,439.5,324.5Z" fill="url(#section-blob-gradient-2)"/>
+                <defs>
+                    <linearGradient id="section-blob-gradient-2" x1="0" y1="0" x2="500" y2="500">
+                        <stop stop-color="#c084fc" stop-opacity="0.06"/>
+                        <stop offset="1" stop-color="#6366f1" stop-opacity="0.03"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
         <div class="container">
             <div class="section-header">
                 <span class="section-tag reveal-fade">Featured Work</span>
                 <h2 class="section-title">
-                    <span class="reveal-text">Projects that</span>
-                    <span class="reveal-text gradient-text">define us.</span>
+                    <span class="reveal-text scramble-text" data-text="Projects that">Projects that</span>
+                    <span class="reveal-text gradient-text scramble-text" data-text="define us.">define us.</span>
                 </h2>
             </div>
             <div class="projects-grid">
                 <div class="project-card" data-tilt>
+                    <div class="card-border"></div>
                     <div class="project-image">
                         <div class="project-image-inner">
                             <div class="project-gradient"></div>
@@ -299,6 +363,7 @@
                     </div>
                 </div>
                 <div class="project-card" data-tilt>
+                    <div class="card-border"></div>
                     <div class="project-image">
                         <div class="project-image-inner">
                             <div class="project-gradient project-gradient-2"></div>
@@ -316,6 +381,7 @@
                     </div>
                 </div>
                 <div class="project-card" data-tilt>
+                    <div class="card-border"></div>
                     <div class="project-image">
                         <div class="project-image-inner">
                             <div class="project-gradient project-gradient-3"></div>
@@ -341,12 +407,21 @@
         <div class="section-bg">
             <div class="gradient-orb orb-6"></div>
             <div class="gradient-orb orb-7"></div>
+            <svg class="section-blob section-blob-center" viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+                <path class="blob-path-slow" d="M411.5,292.5Q369,335,332.5,370Q296,405,240,419.5Q184,434,140,388Q96,342,74,279Q52,216,88.5,159.5Q125,103,185.5,76.5Q246,50,303,71.5Q360,93,401.5,139Q443,185,448,217.5Q453,250,411.5,292.5Z" fill="url(#section-blob-gradient-3)"/>
+                <defs>
+                    <linearGradient id="section-blob-gradient-3" x1="0" y1="0" x2="500" y2="500">
+                        <stop stop-color="#6366f1" stop-opacity="0.07"/>
+                        <stop offset="1" stop-color="#818cf8" stop-opacity="0.03"/>
+                    </linearGradient>
+                </defs>
+            </svg>
         </div>
         <div class="container">
             <div class="cta-content">
                 <h2 class="cta-title">
-                    <span class="reveal-text">Let's build</span>
-                    <span class="reveal-text gradient-text">together.</span>
+                    <span class="reveal-text scramble-text" data-text="Let's build">Let's build</span>
+                    <span class="reveal-text gradient-text scramble-text" data-text="together.">together.</span>
                 </h2>
                 <p class="cta-desc reveal-fade">
                     Got an idea? Want to collaborate? Or just want to say hi?<br>
@@ -371,6 +446,19 @@
         <div class="container">
             <div class="footer-top">
                 <div class="footer-brand">
+                    <svg class="footer-logo-mark" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 4L32 28" stroke="url(#footer-logo-gradient)" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M20 20L32 8L44 20" stroke="url(#footer-logo-gradient)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M32 28L32 60" stroke="url(#footer-logo-gradient)" stroke-width="4" stroke-linecap="round" stroke-dasharray="4 4"/>
+                        <circle cx="32" cy="32" r="28" stroke="url(#footer-logo-gradient)" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+                        <defs>
+                            <linearGradient id="footer-logo-gradient" x1="4" y1="4" x2="60" y2="60">
+                                <stop stop-color="#6366f1"/>
+                                <stop offset="0.5" stop-color="#818cf8"/>
+                                <stop offset="1" stop-color="#c084fc"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
                     <span class="brand-text">INITIUM</span>
                     <p class="footer-tagline">The beginning of something great.</p>
                 </div>
@@ -382,7 +470,7 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="footer-credit">Built with <span class="heart">❤️</span> by <strong>You</strong> · Powered by GitHub Pages</p>
+                <p class="footer-credit">Built with <span class="heart">&#10084;&#65039;</span> by <strong>You</strong> · Powered by GitHub Pages</p>
                 <p class="footer-year">2025 Initium. All beginnings lead somewhere.</p>
             </div>
         </div>
