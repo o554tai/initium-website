@@ -33,7 +33,7 @@
             position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.03;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 96px 24px 40px; }
         .header {
             display: flex; align-items: center; justify-content: space-between;
             margin-bottom: 48px; padding-bottom: 24px;
@@ -261,6 +261,15 @@
     </style>
 </head>
 <body>
+    <!-- INITIUM Nav -->
+    <nav style="position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px;background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);">
+        <a href="https://initium.sg" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#e2e2e8;font-weight:700;font-size:15px;letter-spacing:-0.3px;">
+            <svg width="22" height="22" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="#6366f1" stroke-width="6"/><path d="M35 65V35l30 15-30 15z" fill="#c084fc"/></svg>
+            INITIUM
+        </a>
+        <a href="https://initium.sg" style="font-size:12px;color:#6b6b7b;text-decoration:none;font-weight:500;">&larr; Back to initium.sg</a>
+    </nav>
+
     <div class="grain"></div>
     <div class="toast" id="toast"></div>
 
@@ -377,7 +386,7 @@
     </div>
 
     <script>
-    const API_BASE = window.location.origin;
+    const API_BASE = 'https://initium-video-studio.onrender.com';
     let apiKey = localStorage.getItem('initium_api_key') || '';
     let mediaList = [];
     let pollInterval = null;
