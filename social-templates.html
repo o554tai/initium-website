@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM — Social Media Templates</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --irid: linear-gradient(135deg, #d4eaea 0%, #ecdde2 50%, #e8ffff 100%);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: var(--font-body);
+    background: #e8eeeb;
+    padding: 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 64px;
+    align-items: center;
+  }
+  .template-section {
+    width: 100%;
+    max-width: 1200px;
+  }
+  .template-section h2 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--ig-ink);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .template-section h2 span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ig-ink-3);
+    font-family: var(--font-body);
+  }
+  .template-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    align-items: flex-start;
+  }
+
+  /* === TEMPLATE 1: Instagram Square Post (1080x1080) === */
+  .ig-post {
+    width: 400px; height: 400px;
+    background: #fff;
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 0 12px 40px rgba(10,31,23,0.1);
+  }
+  .ig-post-dark {
+    background: var(--ig-ink);
+  }
+  .ig-post-green {
+    background: var(--ig);
+  }
+  .ig-post-content {
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+    position: relative;
+  }
+  .ig-post-logo {
+    margin-bottom: 24px;
+  }
+  .ig-post-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ig-ink);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .ig-post-dark .ig-post-title,
+  .ig-post-green .ig-post-title { color: #fff; }
+  .ig-post-sub {
+    font-size: 13px;
+    color: var(--ig-ink-2);
+    line-height: 1.5;
+    max-width: 280px;
+  }
+  .ig-post-dark .ig-post-sub,
+  .ig-post-green .ig-post-sub { color: rgba(255,255,255,0.75); }
+  .ig-post-tag {
+    position: absolute;
+    bottom: 28px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ig);
+  }
+  .ig-post-dark .ig-post-tag,
+  .ig-post-green .ig-post-tag { color: rgba(255,255,255,0.8); }
+  .ig-post-accent {
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: var(--irid);
+    opacity: 0.25;
+    filter: blur(40px);
+  }
+  .ig-post-green .ig-post-accent { opacity: 0.15; background: #fff; }
+
+  /* === TEMPLATE 2: Instagram Story (1080x1920) === */
+  .ig-story {
+    width: 280px; height: 497px;
+    background: var(--ig-ink);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 0 12px 40px rgba(10,31,23,0.12);
+  }
+  .ig-story-img {
+    position: absolute;
+    inset:0;
+    background: linear-gradient(180deg, rgba(10,31,23,0.2) 0%, rgba(10,31,23,0.7) 60%, var(--ig-ink) 100%),
+                url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=1067&fit=crop&q=80') center/cover;
+  }
+  .ig-story-content {
+    position: absolute;
+    bottom: 0; left:0; right:0;
+    padding: 32px 24px;
+    z-index: 2;
+  }
+  .ig-story-label {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 10px;
+  }
+  .ig-story-title {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .ig-story-sub {
+    font-size: 12px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+    margin-bottom: 20px;
+  }
+  .ig-story-cta {
+    display: inline-block;
+    padding: 10px 24px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+  }
+  .ig-story-top {
+    position: absolute;
+    top: 20px; left: 20px; right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 2;
+  }
+  .ig-story-handle {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* === TEMPLATE 3: Carousel Slide (1080x1350) === */
+  .carousel-slide {
+    width: 360px; height: 450px;
+    background: #fff;
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 0 12px 40px rgba(10,31,23,0.08);
+    display: flex;
+    flex-direction: column;
+  }
+  .carousel-img {
+    height: 55%;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    position: relative;
+  }
+  .carousel-img::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0; right:0;
+    height: 60%;
+    background: linear-gradient(to top, #fff, transparent);
+  }
+  .carousel-content {
+    padding: 28px 32px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .carousel-num {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--ig-ink-3);
+    margin-bottom: 10px;
+  }
+  .carousel-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--ig-ink);
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+  .carousel-text {
+    font-size: 13px;
+    color: var(--ig-ink-2);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .carousel-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ig-light);
+  }
+  .carousel-logo {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--ig);
+    text-transform: uppercase;
+  }
+  .carousel-page {
+    font-size: 11px;
+    color: var(--ig-ink-3);
+  }
+
+  /* === TEMPLATE 4: LinkedIn Cover / Banner (1584x396) === */
+  .linkedin-banner {
+    width: 792px; height: 198px;
+    background: var(--ig-ink);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+    box-shadow: 0 12px 40px rgba(10,31,23,0.1);
+    display: flex;
+    align-items: center;
+    padding: 0 48px;
+  }
+  .linkedin-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 50%; height: 200%;
+    background: radial-gradient(ellipse, rgba(0,140,101,0.2) 0%, transparent 70%);
+  }
+  .linkedin-banner-left {
+    position: relative;
+    z-index: 2;
+    flex: 1;
+  }
+  .linkedin-banner-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .linkedin-banner-title {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.04em;
+  }
+  .linkedin-banner-tagline {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .linkedin-banner-right {
+    position: relative;
+    z-index: 2;
+    text-align: right;
+  }
+  .linkedin-banner-stat {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ig);
+  }
+  .linkedin-banner-stat-label {
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* === TEMPLATE 5: Property Card (for social / stories) === */
+  .prop-card {
+    width: 320px;
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 12px 40px rgba(10,31,23,0.08);
+    flex-shrink: 0;
+  }
+  .prop-card-img {
+    height: 200px;
+    background: linear-gradient(135deg, #d4e5e0, #e8d4dc, #d4e8e8);
+    position: relative;
+  }
+  .prop-card-badge {
+    position: absolute;
+    top: 14px; left: 14px;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(8px);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ig);
+  }
+  .prop-card-body {
+    padding: 24px;
+  }
+  .prop-card-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }
+  .prop-card-loc {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    margin-bottom: 16px;
+  }
+  .prop-card-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .prop-card-detail {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ig-ink-2);
+  }
+  .prop-card-price {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ig);
+  }
+  .prop-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--ig-light);
+  }
+  .prop-card-agent {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .prop-card-avatar {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: var(--ig);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .prop-card-agent-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ig-ink);
+  }
+  .prop-card-logo {
+    font-family: var(--font-display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--ig);
+    text-transform: uppercase;
+  }
+
+  .download-note {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    margin-top: 12px;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    body { padding: 24px; }
+    .template-grid { justify-content: center; }
+    .linkedin-banner { width: 100%; height: auto; aspect-ratio: 4/1; padding: 24px; }
+    .linkedin-banner-title { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="template-section">
+  <h2>Instagram Feed Posts <span>— 1080 × 1080px</span></h2>
+  <div class="template-grid">
+    <!-- Light -->
+    <div class="ig-post">
+      <div class="ig-post-content">
+        <div class="ig-post-accent"></div>
+        <svg class="ig-post-logo" width="64" height="64" viewBox="0 0 36 36" fill="none">
+          <path d="M4 28L14 14L20 22L28 8L32 12" stroke="#008c65" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="10" r="2.5" fill="url(#irid1)"/>
+          <defs><linearGradient id="irid1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4eaea"/><stop offset="50%" stop-color="#ecdde2"/><stop offset="100%" stop-color="#e8ffff"/></linearGradient></defs>
+        </svg>
+        <div class="ig-post-title">Igniting<br>Journeys</div>
+        <div class="ig-post-sub">Every ascent begins with a single, confident step. Discover how INITIUM guides you home.</div>
+        <div class="ig-post-tag">New Launch · The Orie</div>
+      </div>
+    </div>
+
+    <!-- Dark -->
+    <div class="ig-post ig-post-dark">
+      <div class="ig-post-content">
+        <div class="ig-post-accent"></div>
+        <svg class="ig-post-logo" width="64" height="64" viewBox="0 0 36 36" fill="none">
+          <path d="M4 28L14 14L20 22L28 8L32 12" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="10" r="2.5" fill="url(#irid2)"/>
+          <defs><linearGradient id="irid2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4eaea"/><stop offset="50%" stop-color="#ecdde2"/><stop offset="100%" stop-color="#e8ffff"/></linearGradient></defs>
+        </svg>
+        <div class="ig-post-title">The View<br>From the Top</div>
+        <div class="ig-post-sub">Premium units at Nava Grove are moving fast. Secure your preferred stack before the next price revision.</div>
+        <div class="ig-post-tag">Limited Units</div>
+      </div>
+    </div>
+
+    <!-- Green -->
+    <div class="ig-post ig-post-green">
+      <div class="ig-post-content">
+        <div class="ig-post-accent"></div>
+        <svg class="ig-post-logo" width="64" height="64" viewBox="0 0 36 36" fill="none">
+          <path d="M4 28L14 14L20 22L28 8L32 12" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="10" r="2.5" fill="#ffffff"/>
+        </svg>
+        <div class="ig-post-title">Team<br>Initium</div>
+        <div class="ig-post-sub">70 agents. One mission. To ignite property journeys across Singapore with clarity and care.</div>
+        <div class="ig-post-tag">We Are Hiring</div>
+      </div>
+    </div>
+  </div>
+  <p class="download-note">Right-click any template and select "Inspect" to copy the HTML/CSS, or use browser DevTools to capture at exact dimensions.</p>
+</section>
+
+<section class="template-section">
+  <h2>Instagram Stories <span>— 1080 × 1920px</span></h2>
+  <div class="template-grid">
+    <div class="ig-story">
+      <div class="ig-story-img"></div>
+      <div class="ig-story-top">
+        <div class="ig-story-handle">@initium.sg</div>
+      </div>
+      <div class="ig-story-content">
+        <div class="ig-story-label">New Launch</div>
+        <div class="ig-story-title">The Orie</div>
+        <div class="ig-story-sub">Toa Payoh · District 12<br>From $1.45M</div>
+        <a href="#" class="ig-story-cta">Book Preview</a>
+      </div>
+    </div>
+
+    <div class="ig-story" style="background:var(--ig);">
+      <div class="ig-story-content" style="justify-content:center; text-align:center; height:100%;">
+        <svg width="80" height="80" viewBox="0 0 36 36" fill="none" style="margin:0 auto 24px;">
+          <path d="M4 28L14 14L20 22L28 8L32 12" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="11" cy="10" r="2.5" fill="url(#irid3)"/>
+          <defs><linearGradient id="irid3" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4eaea"/><stop offset="50%" stop-color="#ecdde2"/><stop offset="100%" stop-color="#e8ffff"/></linearGradient></defs>
+        </svg>
+        <div class="ig-story-title" style="font-size:26px;">Market Update</div>
+        <div class="ig-story-sub" style="color:rgba(255,255,255,0.8);">Q2 2025 sees 12% volume surge in OCR new launches. Here is what it means for buyers.</div>
+        <a href="#" class="ig-story-cta" style="background:#fff; color:var(--ig); margin-top:16px;">Read More</a>
+      </div>
+    </div>
+
+    <div class="ig-story" style="background:#fff;">
+      <div class="ig-story-content" style="justify-content:center; text-align:center; height:100%;">
+        <div class="ig-story-label" style="color:var(--ig);">Testimonial</div>
+        <div style="font-family:var(--font-display); font-size:20px; font-weight:500; color:var(--ig-ink); line-height:1.4; margin:20px 0;">
+          "Initium gave me the confidence to make the biggest purchase of my life."
+        </div>
+        <div style="width:40px; height:40px; border-radius:50%; background:var(--ig); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-family:var(--font-display); font-weight:700; color:#fff; font-size:14px;">JL</div>
+        <div style="font-size:13px; font-weight:600; color:var(--ig-ink);">Jason Lim</div>
+        <div style="font-size:11px; color:var(--ig-ink-3);">Buyer, The Orie</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="template-section">
+  <h2>Carousel Slides <span>— 1080 × 1350px</span></h2>
+  <div class="template-grid">
+    <div class="carousel-slide">
+      <div class="carousel-img"></div>
+      <div class="carousel-content">
+        <div class="carousel-num">01 / 05</div>
+        <div class="carousel-title">Why New Launches Outperform in 2025</div>
+        <div class="carousel-text">Early-bird pricing, progressive payment schemes, and first-mover unit selection make new launches the smart entry for today's buyer.</div>
+        <div class="carousel-footer">
+          <div class="carousel-logo">Initium</div>
+          <div class="carousel-page">Swipe →</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-slide">
+      <div class="carousel-img" style="background:linear-gradient(135deg,#e6e8f5,#f5e6ee);"></div>
+      <div class="carousel-content">
+        <div class="carousel-num">02 / 05</div>
+        <div class="carousel-title">5 Things Every First-Timer Must Know</div>
+        <div class="carousel-text">From CPF usage to ABSD timelines, we break down the non-negotiables before you sign on the dotted line.</div>
+        <div class="carousel-footer">
+          <div class="carousel-logo">Initium</div>
+          <div class="carousel-page">Swipe →</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="carousel-slide">
+      <div class="carousel-img" style="background:linear-gradient(135deg,#f5f0e6,#e6f5ee);"></div>
+      <div class="carousel-content">
+        <div class="carousel-num">03 / 05</div>
+        <div class="carousel-title">Inside The Orie: Floor Plan Analysis</div>
+        <div class="carousel-text">We studied every stack, view corridor, and sun path so you don't have to. Here are the best units by budget tier.</div>
+        <div class="carousel-footer">
+          <div class="carousel-logo">Initium</div>
+          <div class="carousel-page">Swipe →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="template-section">
+  <h2>LinkedIn Banner <span>— 1584 × 396px</span></h2>
+  <div class="template-grid">
+    <div class="linkedin-banner">
+      <div class="linkedin-banner-left">
+        <div class="linkedin-banner-logo">
+          <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+            <path d="M4 28L14 14L20 22L28 8L32 12" stroke="#008c65" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="11" cy="10" r="2.5" fill="url(#irid4)"/>
+            <defs><linearGradient id="irid4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4eaea"/><stop offset="50%" stop-color="#ecdde2"/><stop offset="100%" stop-color="#e8ffff"/></linearGradient></defs>
+          </svg>
+          <div class="linkedin-banner-title">INITIUM</div>
+        </div>
+        <div class="linkedin-banner-tagline">Igniting Journeys in Singapore Real Estate</div>
+      </div>
+      <div class="linkedin-banner-right">
+        <div class="linkedin-banner-stat">70+</div>
+        <div class="linkedin-banner-stat-label">Agents Nationwide</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="template-section">
+  <h2>Property Listing Cards <span>— For Stories &amp; Feed</span></h2>
+  <div class="template-grid">
+    <div class="prop-card">
+      <div class="prop-card-img">
+        <div class="prop-card-badge">Launching Soon</div>
+      </div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">The Orie</div>
+        <div class="prop-card-loc">Toa Payoh, District 12</div>
+        <div class="prop-card-row">
+          <div class="prop-card-detail">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21l9-9 9 9"/><path d="M9 21V9h6v12"/></svg>
+            2–5 Bed
+          </div>
+          <div class="prop-card-detail">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            657–1,615 sqft
+          </div>
+        </div>
+        <div class="prop-card-price">From $1.45M</div>
+        <div class="prop-card-footer">
+          <div class="prop-card-agent">
+            <div class="prop-card-avatar">HH</div>
+            <div class="prop-card-agent-name">Hermes Honcho</div>
+          </div>
+          <div class="prop-card-logo">Initium</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prop-card">
+      <div class="prop-card-img" style="background:linear-gradient(135deg,#e6f0f5,#f0e6f5);">
+        <div class="prop-card-badge">Best Seller</div>
+      </div>
+      <div class="prop-card-body">
+        <div class="prop-card-name">Nava Grove</div>
+        <div class="prop-card-loc">Ulu Pandan, District 21</div>
+        <div class="prop-card-row">
+          <div class="prop-card-detail">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21l9-9 9 9"/><path d="M9 21V9h6v12"/></svg>
+            2–5 Bed
+          </div>
+          <div class="prop-card-detail">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            700–1,550 sqft
+          </div>
+        </div>
+        <div class="prop-card-price">From $1.28M</div>
+        <div class="prop-card-footer">
+          <div class="prop-card-agent">
+            <div class="prop-card-avatar">HH</div>
+            <div class="prop-card-agent-name">Hermes Honcho</div>
+          </div>
+          <div class="prop-card-logo">Initium</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
