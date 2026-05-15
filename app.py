@@ -20,8 +20,6 @@ import time
 from datetime import datetime
 from pathlib import Path
 
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-
 from flask import Flask, request, jsonify, send_from_directory, abort
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -46,7 +44,7 @@ from seedance import (
 )
 
 # ═══════════════════════════════════════════════════════════
-app = Flask(__name__, static_folder="../", static_url_path="")
+app = Flask(__name__, static_folder=".", static_url_path="")
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 ADMIN_KEY = init_admin_key()
@@ -55,17 +53,17 @@ ADMIN_KEY = init_admin_key()
 jobs = {}
 jobs_lock = threading.Lock()
 
-VIDEO_DIR = Path("/home/hermes/initium-website/backend/static/videos")
+VIDEO_DIR = Path("static/videos")
 VIDEO_DIR.mkdir(parents=True, exist_ok=True)
 
-UPLOAD_DIR = Path("/home/hermes/initium-website/backend/static/uploads")
+UPLOAD_DIR = Path("static/uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
 UPLOAD_MAX_AGE = 86400 * 7  # Keep uploads for 7 days
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp", "mp3", "mp4", "wav"}
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
 
-JOBS_FILE = Path(__file__).parent / "jobs.json"
+JOBS_FILE = Path("jobs.json")
 
 # ═══════════════════════════════════════════════════════════
 # PERSISTENCE
