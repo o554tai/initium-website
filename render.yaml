@@ -3,10 +3,12 @@ services:
     name: initium-video-studio
     runtime: python
     plan: free
-    buildCommand: "cd backend && pip install -r requirements.txt"
+    buildCommand: "pip install -r backend/requirements.txt"
     startCommand: "cd backend && gunicorn app:app"
     envVars:
       - key: PYTHON_VERSION
         value: "3.11"
       - key: INITIUM_ADMIN_KEY
         generateValue: true
+      - key: SEEDANCE_API_KEY
+        sync: false
