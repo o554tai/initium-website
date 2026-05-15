@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# Environment
+.env
+.venv/
+
+# Uploads & videos (generated content, don't commit)
+backend/static/uploads/
+backend/static/videos/
+
+# Data files
+backend/keys.json
+backend/jobs.json
+
+# IDE
+.vscode/
+.idea/

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INITIUM Video Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg-elevated: #12121a;
+            --bg-card: #1a1a24;
+            --border: rgba(255,255,255,0.06);
+            --text: #e2e2e8;
+            --text-muted: #6b6b7b;
+            --accent: #6366f1;
+            --accent-glow: rgba(99,102,241,0.3);
+            --accent-secondary: #c084fc;
+            --success: #22c55e;
+            --error: #ef4444;
+            --warning: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        .grain {
+            position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+        .header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 48px; padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+        .brand {
+            display: flex; align-items: center; gap: 14px;
+            font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.25rem;
+            letter-spacing: -0.02em; color: var(--text);
+            text-decoration: none;
+        }
+        .brand-mark {
+            width: 36px; height: 36px; border-radius: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem; color: white; font-weight: 800;
+        }
+        .api-status {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.8125rem; color: var(--text-muted);
+        }
+        .api-status .dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--text-muted); transition: background 0.3s;
+        }
+        .api-status.connected .dot { background: var(--success); box-shadow: 0 0 8px var(--success); }
+        .api-status.error .dot { background: var(--error); }
+
+        .auth-gate {
+            max-width: 480px; margin: 80px auto;
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 20px; padding: 48px;
+            text-align: center;
+        }
+        .auth-gate h2 {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem;
+            margin-bottom: 8px; letter-spacing: -0.02em;
+        }
+        .auth-gate p { color: var(--text-muted); margin-bottom: 32px; font-size: 0.9375rem; }
+        .input-group { margin-bottom: 20px; text-align: left; }
+        .input-group label {
+            display: block; font-size: 0.8125rem; font-weight: 500;
+            color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em;
+        }
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%; padding: 14px 16px;
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-radius: 12px; color: var(--text); font-size: 0.9375rem;
+            font-family: inherit; transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .input-group input:focus, .input-group textarea:focus, .input-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        .input-group textarea { min-height: 120px; resize: vertical; line-height: 1.6; }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            padding: 14px 28px; border-radius: 12px; border: none;
+            font-family: inherit; font-size: 0.9375rem; font-weight: 600; cursor: pointer;
+            transition: all 0.2s; color: white;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 28px var(--accent-glow); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .btn-secondary {
+            background: var(--bg-elevated); border: 1px solid var(--border); color: var(--text);
+        }
+        .btn-secondary:hover { border-color: var(--accent); }
+        .btn-sm { padding: 10px 18px; font-size: 0.8125rem; }
+
+        .studio { display: none; }
+        .studio.active { display: block; }
+
+        .studio-grid {
+            display: grid; grid-template-columns: 1fr 380px; gap: 32px;
+        }
+        @media (max-width: 900px) { .studio-grid { grid-template-columns: 1fr; } }
+
+        .panel {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 20px; padding: 32px;
+        }
+        .panel h3 {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1.125rem;
+            margin-bottom: 24px; display: flex; align-items: center; gap: 10px;
+        }
+        .panel h3 .icon {
+            width: 32px; height: 32px; border-radius: 8px;
+            background: var(--bg-elevated); display: flex; align-items: center; justify-content: center;
+            font-size: 0.875rem;
+        }
+
+        .media-inputs { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+        .media-chip {
+            display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+            background: var(--bg-elevated); border-radius: 10px; font-size: 0.8125rem;
+        }
+        .media-chip button {
+            margin-left: auto; background: none; border: none; color: var(--text-muted);
+            cursor: pointer; font-size: 1rem; line-height: 1;
+        }
+        .media-chip button:hover { color: var(--error); }
+        .media-add {
+            display: flex; gap: 8px;
+        }
+        .media-add input { flex: 1; }
+        .media-add select {
+            width: 120px; padding: 10px 12px; background: var(--bg-elevated);
+            border: 1px solid var(--border); border-radius: 10px; color: var(--text);
+            font-size: 0.8125rem;
+        }
+
+        .drop-zone {
+            border: 2px dashed var(--border);
+            border-radius: 14px;
+            padding: 28px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            margin-bottom: 12px;
+            background: var(--bg-elevated);
+        }
+        .drop-zone:hover, .drop-zone.drag-over {
+            border-color: var(--accent);
+            background: rgba(99,102,241,0.06);
+            color: var(--text);
+        }
+        .drop-zone .drop-icon {
+            font-size: 2rem; margin-bottom: 10px; display: block;
+        }
+        .drop-zone .drop-text {
+            font-weight: 500;
+        }
+        .drop-zone .drop-hint {
+            font-size: 0.75rem; margin-top: 6px; opacity: 0.7;
+        }
+        .upload-progress {
+            width: 100%; height: 4px; background: var(--border);
+            border-radius: 2px; margin-top: 12px; overflow: hidden;
+            display: none;
+        }
+        .upload-progress .bar {
+            height: 100%; width: 0%; background: var(--accent);
+            border-radius: 2px; transition: width 0.3s;
+        }
+
+        .jobs-list { display: flex; flex-direction: column; gap: 12px; }
+        .job-card {
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-radius: 14px; padding: 18px;
+            transition: border-color 0.2s;
+        }
+        .job-card:hover { border-color: var(--accent); }
+        .job-card .job-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+        }
+        .job-card .job-id {
+            font-family: 'Space Grotesk', monospace; font-size: 0.75rem;
+            color: var(--text-muted); background: var(--bg); padding: 4px 10px; border-radius: 6px;
+        }
+        .job-card .job-status {
+            font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            padding: 4px 12px; border-radius: 20px;
+        }
+        .job-status.submitted { background: rgba(99,102,241,0.15); color: var(--accent); }
+        .job-status.running { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .job-status.completed { background: rgba(34,197,94,0.15); color: var(--success); }
+        .job-status.failed { background: rgba(239,68,68,0.15); color: var(--error); }
+        .job-card .job-prompt {
+            font-size: 0.875rem; color: var(--text-muted);
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+            overflow: hidden; line-height: 1.5;
+        }
+        .job-card .job-meta {
+            display: flex; gap: 16px; margin-top: 12px; font-size: 0.75rem; color: var(--text-muted);
+        }
+        .job-card .job-actions { margin-top: 14px; }
+        .job-card video {
+            width: 100%; border-radius: 10px; margin-top: 12px;
+            background: var(--bg);
+        }
+
+        .empty-state {
+            text-align: center; padding: 48px 24px; color: var(--text-muted);
+        }
+        .empty-state .empty-icon {
+            font-size: 3rem; margin-bottom: 16px; opacity: 0.4;
+        }
+
+        .toast {
+            position: fixed; bottom: 24px; right: 24px; z-index: 10000;
+            padding: 16px 24px; border-radius: 14px;
+            background: var(--bg-card); border: 1px solid var(--border);
+            color: var(--text); font-size: 0.875rem; font-weight: 500;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            transform: translateY(120%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex; align-items: center; gap: 12px;
+        }
+        .toast.show { transform: translateY(0); }
+        .toast.success { border-color: rgba(34,197,94,0.3); }
+        .toast.error { border-color: rgba(239,68,68,0.3); }
+
+        .spinner {
+            width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.1);
+            border-top-color: var(--accent); border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .user-pill {
+            display: flex; align-items: center; gap: 8px;
+            padding: 8px 16px; background: var(--bg-card);
+            border: 1px solid var(--border); border-radius: 100px;
+            font-size: 0.8125rem; color: var(--text-muted);
+        }
+        .user-pill strong { color: var(--text); }
+    </style>
+</head>
+<body>
+    <div class="grain"></div>
+    <div class="toast" id="toast"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="/" class="brand">
+                <div class="brand-mark">I</div>
+                <span>INITIUM Video Studio</span>
+            </a>
+            <div style="display:flex;align-items:center;gap:16px;">
+                <div class="api-status" id="apiStatus">
+                    <div class="dot"></div>
+                    <span>Checking...</span>
+                </div>
+                <div class="user-pill" id="userPill" style="display:none;">
+                    <span>👤 <strong id="userName">-</strong></span>
+                    <button class="btn btn-sm btn-secondary" onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Auth Gate -->
+        <div class="auth-gate" id="authGate">
+            <h2>🔐 Enter Access Key</h2>
+            <p>Contact your admin (Hermes Honcho) to get a team API key.</p>
+            <div class="input-group">
+                <label>API Key</label>
+                <input type="password" id="apiKeyInput" placeholder="initium-xxxxxxxx..."
+                    onkeydown="if(event.key==='Enter')login()">
+            </div>
+            <button class="btn btn-primary" onclick="login()" id="loginBtn" style="width:100%;">
+                Unlock Studio
+            </button>
+        </div>
+
+        <!-- Studio -->
+        <div class="studio" id="studio">
+            <div class="studio-grid">
+                <!-- Generate Panel -->
+                <div>
+                    <div class="panel">
+                        <h3><span class="icon">✍️</span> New Generation</h3>
+                        <div class="input-group">
+                            <label>Prompt</label>
+                            <textarea id="promptInput"
+                                placeholder="Describe your scene: camera movement, lighting, mood, subjects..."></textarea>
+                        </div>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label>Ratio</label>
+                                <select id="ratioInput">
+                                    <option value="9:16">9:16 (Reels)</option>
+                                    <option value="16:9">16:9 (YouTube)</option>
+                                    <option value="1:1">1:1 (Feed)</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Duration</label>
+                                <select id="durationInput">
+                                    <option value="5">5 sec</option>
+                                    <option value="8">8 sec</option>
+                                    <option value="11">11 sec</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label>Reference Media (optional)</label>
+                            <div class="media-inputs" id="mediaInputs"></div>
+
+                            <!-- Drag & Drop Upload -->
+                            <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                                <span class="drop-icon">📁</span>
+                                <div class="drop-text">Drop image, video, or audio here</div>
+                                <div class="drop-hint">or click to browse · max 50MB</div>
+                                <input type="file" id="fileInput" style="display:none" accept="image/*,video/*,audio/*" onchange="handleFiles(this.files)">
+                                <div class="upload-progress" id="uploadProgress"><div class="bar" id="uploadBar"></div></div>
+                            </div>
+
+                            <!-- Or paste URL manually -->
+                            <div class="media-add">
+                                <input type="text" id="mediaUrlInput" placeholder="Or paste a URL: https://...">
+                                <select id="mediaTypeInput">
+                                    <option value="image">Image</option>
+                                    <option value="video">Video</option>
+                                    <option value="audio">Audio</option>
+                                </select>
+                                <button class="btn btn-sm btn-secondary" onclick="addMedia()">+</button>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary" onclick="generate()" id="genBtn" style="width:100%;">
+                            <span class="spinner" id="genSpinner" style="display:none;"></span>
+                            <span id="genBtnText">▶️ Generate Video</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Jobs Panel -->
+                <div>
+                    <div class="panel" style="min-height:500px;">
+                        <h3><span class="icon">📝</span> Your Generations</h3>
+                        <div class="jobs-list" id="jobsList">
+                            <div class="empty-state">
+                                <div class="empty-icon">🎬</div>
+                                <p>No generations yet. Create your first video!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    const API_BASE = window.location.origin;
+    let apiKey = localStorage.getItem('initium_api_key') || '';
+    let mediaList = [];
+    let pollInterval = null;
+
+    // ── Auth ──
+    async function login() {
+        const key = document.getElementById('apiKeyInput').value.trim();
+        if (!key) return toast('Please enter your API key', 'error');
+
+        const btn = document.getElementById('loginBtn');
+        btn.disabled = true; btn.textContent = 'Checking...';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/me`, {
+                headers: { 'X-API-Key': key }
+            });
+            if (!res.ok) throw new Error('Invalid key');
+            const data = await res.json();
+
+            apiKey = key;
+            localStorage.setItem('initium_api_key', apiKey);
+            document.getElementById('userName').textContent = data.key.name;
+            enterStudio();
+            toast(`Welcome, ${data.key.name}!`, 'success');
+            loadJobs();
+        } catch (e) {
+            toast('Invalid API key. Contact admin.', 'error');
+        } finally {
+            btn.disabled = false; btn.textContent = 'Unlock Studio';
+        }
+    }
+
+    function logout() {
+        apiKey = '';
+        localStorage.removeItem('initium_api_key');
+        location.reload();
+    }
+
+    function enterStudio() {
+        document.getElementById('authGate').style.display = 'none';
+        document.getElementById('studio').classList.add('active');
+        document.getElementById('userPill').style.display = 'flex';
+    }
+
+    // ── Media inputs ──
+    function addMedia() {
+        const url = document.getElementById('mediaUrlInput').value.trim();
+        const type = document.getElementById('mediaTypeInput').value;
+        if (!url) return;
+        mediaList.push({ url, type });
+        renderMedia();
+        document.getElementById('mediaUrlInput').value = '';
+    }
+
+    function removeMedia(idx) {
+        mediaList.splice(idx, 1);
+        renderMedia();
+    }
+
+    function renderMedia() {
+        const el = document.getElementById('mediaInputs');
+        el.innerHTML = mediaList.map((m, i) => `
+            <div class="media-chip">
+                <span>${m.type === 'image' ? '🖼️' : m.type === 'video' ? '🎥' : '🎵'} ${m.type}</span>
+                <span style="color:var(--text-muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:220px;">${m.url}</span>
+                <button onclick="removeMedia(${i})">&times;</button>
+            </div>
+        `).join('');
+    }
+
+    // ── Drag & Drop Upload ──
+    const dropZone = document.getElementById('dropZone');
+    const uploadProgress = document.getElementById('uploadProgress');
+    const uploadBar = document.getElementById('uploadBar');
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+        document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.add('drag-over'), false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => dropZone.classList.remove('drag-over'), false);
+    });
+
+    dropZone.addEventListener('drop', handleDrop, false);
+
+    function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+    }
+
+    function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        handleFiles(files);
+    }
+
+    function handleFiles(files) {
+        if (!files.length) return;
+        Array.from(files).forEach(uploadFile);
+    }
+
+    function uploadFile(file) {
+        // Auto-detect type from mime type
+        let type = 'image';
+        if (file.type.startsWith('video/')) type = 'video';
+        else if (file.type.startsWith('audio/')) type = 'audio';
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        uploadProgress.style.display = 'block';
+        uploadBar.style.width = '30%';
+
+        fetch(`${API_BASE}/api/upload`, {
+            method: 'POST',
+            headers: { 'X-API-Key': apiKey },
+            body: formData
+        })
+        .then(r => {
+            uploadBar.style.width = '70%';
+            if (!r.ok) return r.json().then(d => { throw new Error(d.error || 'Upload failed'); });
+            return r.json();
+        })
+        .then(data => {
+            uploadBar.style.width = '100%';
+            mediaList.push({ url: data.url, type });
+            renderMedia();
+            toast(`Uploaded ${file.name}`, 'success');
+            setTimeout(() => {
+                uploadProgress.style.display = 'none';
+                uploadBar.style.width = '0%';
+            }, 800);
+        })
+        .catch(err => {
+            uploadProgress.style.display = 'none';
+            uploadBar.style.width = '0%';
+            toast(err.message, 'error');
+        });
+    }
+
+    // ── Generate ──
+    async function generate() {
+        const prompt = document.getElementById('promptInput').value.trim();
+        if (!prompt) return toast('Enter a prompt first', 'error');
+
+        const btn = document.getElementById('genBtn');
+        const spinner = document.getElementById('genSpinner');
+        const btnText = document.getElementById('genBtnText');
+        btn.disabled = true;
+        spinner.style.display = 'block';
+        btnText.textContent = 'Submitting...';
+
+        const images = mediaList.filter(m => m.type === 'image').map(m => m.url);
+        const video = mediaList.find(m => m.type === 'video')?.url || null;
+        const audio = mediaList.find(m => m.type === 'audio')?.url || null;
+
+        try {
+            const res = await fetch(`${API_BASE}/api/generate`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({
+                    prompt,
+                    ratio: document.getElementById('ratioInput').value,
+                    duration: parseInt(document.getElementById('durationInput').value),
+                    images: images.length ? images : undefined,
+                    video,
+                    audio,
+                    generate_audio: true,
+                    watermark: false
+                })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed');
+
+            toast('Task submitted! Polling for result...', 'success');
+            document.getElementById('promptInput').value = '';
+            mediaList = []; renderMedia();
+            loadJobs();
+        } catch (e) {
+            toast(e.message, 'error');
+        } finally {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.textContent = '▶️ Generate Video';
+        }
+    }
+
+    // ── Jobs ──
+    async function loadJobs() {
+        try {
+            const res = await fetch(`${API_BASE}/api/jobs`, {
+                headers: { 'X-API-Key': apiKey }
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            renderJobs(data.jobs);
+
+            // Auto-poll running jobs
+            const hasRunning = data.jobs.some(j => ['submitted','running','pending'].includes(j.status));
+            if (hasRunning && !pollInterval) {
+                pollInterval = setInterval(loadJobs, 8000);
+            } else if (!hasRunning && pollInterval) {
+                clearInterval(pollInterval); pollInterval = null;
+            }
+        } catch (e) { console.error(e); }
+    }
+
+    function renderJobs(jobs) {
+        const el = document.getElementById('jobsList');
+        if (!jobs.length) {
+            el.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🎬</div>
+                    <p>No generations yet. Create your first video!</p>
+                </div>`;
+            return;
+        }
+        el.innerHTML = jobs.map(j => `
+            <div class="job-card" id="job-${j.id}">
+                <div class="job-header">
+                    <span class="job-id">${j.id}</span>
+                    <span class="job-status ${j.status}">${j.status}</span>
+                </div>
+                <div class="job-prompt">${escapeHtml(j.prompt)}</div>
+                <div class="job-meta">
+                    <span>${j.ratio} · ${j.duration}s</span>
+                    <span>${new Date(j.created_at).toLocaleString()}</span>
+                </div>
+                ${j.video_path ? `
+                    <div class="job-actions">
+                        <a href="${j.video_path}" download class="btn btn-sm btn-primary">⬇️ Download</a>
+                    </div>
+                    <video controls src="${j.video_path}"></video>
+                ` : ''}
+                ${j.error ? `<div style="margin-top:10px;font-size:0.75rem;color:var(--error);">❌ ${escapeHtml(j.error)}</div>` : ''}
+            </div>
+        `).join('');
+    }
+
+    // ── Utils ──
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str; return div.innerHTML;
+    }
+
+    function toast(msg, type='info') {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.className = 'toast ' + type;
+        el.classList.add('show');
+        setTimeout(() => el.classList.remove('show'), 3500);
+    }
+
+    async function checkHealth() {
+        const statusEl = document.getElementById('apiStatus');
+        try {
+            const res = await fetch(`${API_BASE}/api/me`, {
+                headers: { 'X-API-Key': apiKey || 'test' }
+            });
+            if (res.status === 401 || res.status === 200) {
+                statusEl.classList.add('connected');
+                statusEl.querySelector('span').textContent = 'Connected';
+            } else { throw new Error(); }
+        } catch {
+            statusEl.classList.add('error');
+            statusEl.querySelector('span').textContent = 'Offline';
+        }
+    }
+
+    // ── Init ──
+    checkHealth();
+    if (apiKey) {
+        // Auto-login if key stored
+        fetch(`${API_BASE}/api/me`, { headers: { 'X-API-Key': apiKey } })
+            .then(r => r.ok ? r.json() : Promise.reject())
+            .then(d => {
+                document.getElementById('userName').textContent = d.key.name;
+                enterStudio(); loadJobs();
+            })
+            .catch(() => { localStorage.removeItem('initium_api_key'); });
+    }
+    </script>
+</body>
+</html>
