@@ -86,6 +86,44 @@ def _save_jobs():
 
 _load_jobs()
 
+import stripe
+
+# ═══════════════════════════════════════════════════════════
+# STRIPE SETUP
+# ═══════════════════════════════════════════════════════════
+
+stripe.api_key = os.environ.get("STRIPE_SECRET_KEY", "")
+STRIPE_PUBLISHABLE_KEY = os.environ.get("STRIPE_PUBLISHABLE_KEY", "")
+
+PRICING = {
+    5: {"amount_cents": 500, "label": "S$5.00", "duration": 5},
+    10: {"amount_cents": 800, "label": "S$8.00", "duration": 10},
+}
+
+# Track used payments to prevent double-spending
+PAYMENTS_FILE = Path("payments.json")
+payments = {}
+payments_lock = threading.Lock()
+
+
+def _load_payments():
+    global payments
+    if PAYMENTS_FILE.exists():
+        try:
+            with open(PAYMENTS_FILE) as f:
+                payments = json.load(f)
+        except:
+            payments = {}
+
+
+def _save_payments():
+    with open(PAYMENTS_FILE, "w") as f:
+        json.dump(payments, f, indent=2, default=str)
+
+
+_load_payments()
+
+
 # ═══════════════════════════════════════════════════════════
 # STATIC SITE
 # ═══════════════════════════════════════════════════════════
@@ -107,7 +145,7 @@ def static_files(path):
 @app.route("/api/generate", methods=["POST"])
 @require_api_key
 def api_generate():
-    """Submit a video generation task."""
+    """Submit a video generation task. Requires verified payment."""
     data = request.get_json(force=True) or {}
     prompt = data.get("prompt", "").strip()
     if not prompt:
@@ -120,6 +158,32 @@ def api_generate():
     audio = data.get("audio")
     generate_audio = data.get("generate_audio", True)
     watermark = data.get("watermark", False)
+    payment_intent_id = data.get("payment_intent_id", "").strip()
+
+    # Verify payment
+    if not payment_intent_id:
+        return jsonify({"error": "Payment required. Please pay before generating."}), 402
+
+    with payments_lock:
+        if payment_intent_id in payments:
+            return jsonify({"error": "Payment already used. Please pay again."}), 402
+
+    try:
+        intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+        if intent.status != "succeeded":
+            return jsonify({"error": f"Payment not completed. Status: {intent.status}"}), 402
+
+        # Mark as used
+        with payments_lock:
+            payments[payment_intent_id] = {
+                "used_at": datetime.utcnow().isoformat(),
+                "user": request.api_key_entry.get("name", "unknown"),
+                "amount": intent.amount,
+                "duration": duration,
+            }
+            _save_payments()
+    except Exception as e:
+        return jsonify({"error": f"Payment verification failed: {e}"}), 402
 
     # Build payload
     kwargs = {"generate_audio": generate_audio, "watermark": watermark}
@@ -289,6 +353,57 @@ def api_upload():
 @app.route("/uploads/<path:filename>")
 def serve_upload(filename):
     return send_from_directory(UPLOAD_DIR, filename)
+
+
+# ═══════════════════════════════════════════════════════════
+# PAYMENT API (Stripe)
+# ═══════════════════════════════════════════════════════════
+
+@app.route("/api/pricing", methods=["GET"])
+def api_pricing():
+    """Return pricing + Stripe publishable key."""
+    return jsonify({
+        "stripe_key": STRIPE_PUBLISHABLE_KEY,
+        "pricing": PRICING,
+        "currency": "sgd",
+    })
+
+
+@app.route("/api/create-payment-intent", methods=["POST"])
+@require_api_key
+def api_create_payment_intent():
+    """Create a Stripe PaymentIntent for a video generation."""
+    if not stripe.api_key:
+        return jsonify({"error": "Stripe not configured"}), 500
+
+    data = request.get_json(force=True) or {}
+    duration = int(data.get("duration", 5))
+
+    if duration not in PRICING:
+        return jsonify({"error": "Invalid duration"}), 400
+
+    price = PRICING[duration]
+
+    try:
+        intent = stripe.PaymentIntent.create(
+            amount=price["amount_cents"],
+            currency="sgd",
+            metadata={
+                "user": request.api_key_entry.get("name", "unknown"),
+                "duration": str(duration),
+                "api_key": request.headers.get("X-API-Key", "")[:12],
+            },
+            automatic_payment_methods={"enabled": True},
+        )
+        return jsonify({
+            "client_secret": intent.client_secret,
+            "payment_intent_id": intent.id,
+            "amount": price["amount_cents"],
+            "currency": "sgd",
+            "label": price["label"],
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 # ═══════════════════════════════════════════════════════════

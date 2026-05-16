@@ -259,6 +259,7 @@
         }
         .user-pill strong { color: var(--text); }
     </style>
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <!-- INITIUM Nav -->
@@ -329,10 +330,9 @@
                             </div>
                             <div class="input-group">
                                 <label>Duration</label>
-                                <select id="durationInput">
+                                <select id="durationInput" onchange="updatePriceLabel()">
                                     <option value="5">5 sec</option>
-                                    <option value="8">8 sec</option>
-                                    <option value="11">11 sec</option>
+                                    <option value="10">10 sec</option>
                                 </select>
                             </div>
                         </div>
@@ -532,11 +532,134 @@
         });
     }
 
+    // ── Payment & Pricing ──
+    let stripe = null;
+    let cardElement = null;
+    let currentPaymentIntent = null;
+    let pricingMap = {5: 'S$5.00', 10: 'S$8.00'};
+
+    async function loadPricing() {
+        try {
+            const res = await fetch(`${API_BASE}/api/pricing`);
+            const data = await res.json();
+            if (data.pricing) {
+                pricingMap = {};
+                for (const [dur, info] of Object.entries(data.pricing)) {
+                    pricingMap[parseInt(dur)] = info.label;
+                }
+            }
+            if (data.stripe_key) {
+                stripe = Stripe(data.stripe_key);
+                const elements = stripe.elements({ appearance: { theme: 'night' } });
+                cardElement = elements.create('card', {
+                    style: {
+                        base: {
+                            color: '#e2e2e8',
+                            fontSize: '16px',
+                            '::placeholder': { color: '#6b6b7b' },
+                        }
+                    }
+                });
+            }
+        } catch (e) { console.log('Pricing load failed:', e); }
+    }
+
+    function updatePriceLabel() {
+        const dur = parseInt(document.getElementById('durationInput').value);
+        const label = pricingMap[dur] || `S$${(dur * 1).toFixed(2)}`;
+        document.getElementById('genBtnText').textContent = `▶️ Generate Video · ${label}`;
+    }
+
+    function openPaymentModal(duration, amountLabel) {
+        document.getElementById('payDuration').textContent = duration + 's';
+        document.getElementById('payAmount').textContent = amountLabel;
+        document.getElementById('paymentModal').style.display = 'flex';
+        document.getElementById('cardErrors').textContent = '';
+        if (cardElement) {
+            cardElement.mount('#cardElement');
+        }
+    }
+
+    function closePaymentModal() {
+        document.getElementById('paymentModal').style.display = 'none';
+        if (cardElement) cardElement.unmount();
+        currentPaymentIntent = null;
+    }
+
+    async function confirmPayment() {
+        const btn = document.getElementById('payBtn');
+        const spinner = document.getElementById('paySpinner');
+        const btnText = document.getElementById('payBtnText');
+        btn.disabled = true;
+        spinner.style.display = 'inline';
+        btnText.style.display = 'none';
+
+        try {
+            const { error, paymentIntent } = await stripe.confirmCardPayment(
+                currentPaymentIntent.client_secret,
+                { payment_method: { card: cardElement } }
+            );
+
+            if (error) {
+                document.getElementById('cardErrors').textContent = error.message;
+                btn.disabled = false;
+                spinner.style.display = 'none';
+                btnText.style.display = 'inline';
+                return;
+            }
+
+            closePaymentModal();
+            await doGenerate(paymentIntent.id);
+        } catch (e) {
+            document.getElementById('cardErrors').textContent = e.message;
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.style.display = 'inline';
+        }
+    }
+
     // ── Generate ──
     async function generate() {
         const prompt = document.getElementById('promptInput').value.trim();
         if (!prompt) return toast('Enter a prompt first', 'error');
 
+        const duration = parseInt(document.getElementById('durationInput').value);
+
+        // Create payment intent
+        const genBtn = document.getElementById('genBtn');
+        const genSpinner = document.getElementById('genSpinner');
+        const genBtnText = document.getElementById('genBtnText');
+        genBtn.disabled = true;
+        genSpinner.style.display = 'block';
+        genBtnText.textContent = 'Preparing payment...';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/create-payment-intent`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({ duration })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Payment setup failed');
+
+            currentPaymentIntent = data;
+            genBtn.disabled = false;
+            genSpinner.style.display = 'none';
+            updatePriceLabel();
+            openPaymentModal(duration, data.label);
+        } catch (e) {
+            toast(e.message, 'error');
+            genBtn.disabled = false;
+            genSpinner.style.display = 'none';
+            updatePriceLabel();
+        }
+    }
+
+    async function doGenerate(paymentIntentId) {
+        const prompt = document.getElementById('promptInput').value.trim();
         const btn = document.getElementById('genBtn');
         const spinner = document.getElementById('genSpinner');
         const btnText = document.getElementById('genBtnText');
@@ -563,7 +686,8 @@
                     video,
                     audio,
                     generate_audio: true,
-                    watermark: false
+                    watermark: false,
+                    payment_intent_id: paymentIntentId
                 })
             });
             const data = await res.json();
@@ -578,7 +702,7 @@
         } finally {
             btn.disabled = false;
             spinner.style.display = 'none';
-            btnText.textContent = '▶️ Generate Video';
+            updatePriceLabel();
         }
     }
 
@@ -665,6 +789,7 @@
     }
 
     // ── Init ──
+    loadPricing();
     checkHealth();
     if (apiKey) {
         // Auto-login if key stored
@@ -672,10 +797,40 @@
             .then(r => r.ok ? r.json() : Promise.reject())
             .then(d => {
                 document.getElementById('userName').textContent = d.key.name;
-                enterStudio(); loadJobs();
+                enterStudio(); loadJobs(); updatePriceLabel();
             })
             .catch(() => { localStorage.removeItem('initium_api_key'); });
+    } else {
+        updatePriceLabel();
     }
     </script>
+    <!-- Payment Modal -->
+    <div id="paymentModal" style="display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center;">
+        <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:420px; margin:20px;">
+            <h3 style="margin:0 0 4px; font-size:1.1rem;">Complete Payment</h3>
+            <p id="paymentDesc" style="margin:0 0 20px; color:var(--text-muted); font-size:0.85rem;">Pay to generate your video</p>
+
+            <div style="background:var(--bg-elevated); border-radius:10px; padding:14px; margin-bottom:16px;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span style="color:var(--text-muted); font-size:0.8rem;">Duration</span>
+                    <span id="payDuration" style="font-weight:600;">5s</span>
+                </div>
+                <div style="display:flex; justify-content:space-between;">
+                    <span style="color:var(--text-muted); font-size:0.8rem;">Total</span>
+                    <span id="payAmount" style="font-weight:700; color:var(--accent-secondary); font-size:1.1rem;">S$5.00</span>
+                </div>
+            </div>
+
+            <div id="cardElement" style="background:var(--bg-elevated); border:1px solid var(--border); border-radius:10px; padding:12px; margin-bottom:12px;"></div>
+            <div id="cardErrors" style="color:var(--error); font-size:0.8rem; margin-bottom:12px; min-height:18px;"></div>
+
+            <button id="payBtn" onclick="confirmPayment()" class="btn btn-primary" style="width:100%; margin-bottom:10px;">
+                <span id="paySpinner" style="display:none;">Processing...</span>
+                <span id="payBtnText">Pay & Generate</span>
+            </button>
+            <button onclick="closePaymentModal()" class="btn btn-secondary" style="width:100%;">Cancel</button>
+        </div>
+    </div>
+
 </body>
 </html>
