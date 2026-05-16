@@ -42,6 +42,13 @@ from seedance import (
     build_text_only_payload,
     build_multimodal_payload,
 )
+from imagegen import (
+    submit_image_task,
+    poll_image_result,
+    extract_image_url,
+    download_image,
+    MODELS,
+)
 
 # ═══════════════════════════════════════════════════════════
 app = Flask(__name__, static_folder=".", static_url_path="")
@@ -55,6 +62,9 @@ jobs_lock = threading.Lock()
 
 VIDEO_DIR = Path("static/videos")
 VIDEO_DIR.mkdir(parents=True, exist_ok=True)
+
+IMAGE_DIR = Path("static/images")
+IMAGE_DIR.mkdir(parents=True, exist_ok=True)
 
 UPLOAD_DIR = Path("static/uploads")
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
@@ -226,6 +236,51 @@ def api_generate():
     return jsonify({"job": job}), 202
 
 
+@app.route("/api/generate-image", methods=["POST"])
+@require_api_key
+def api_generate_image():
+    """Submit an image generation task via fal.ai. Free for team members."""
+    data = request.get_json(force=True) or {}
+    prompt = data.get("prompt", "").strip()
+    if not prompt:
+        return jsonify({"error": "prompt is required"}), 400
+
+    ratio = data.get("ratio", "16:9")
+    model = data.get("model", "flux-pro")
+    if model not in MODELS:
+        model = "flux-pro"
+
+    try:
+        result = submit_image_task(model, prompt, ratio=ratio)
+        request_id = result.get("request_id", "")
+        status_url = result.get("status_url", "")
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+    job_id = str(uuid.uuid4())[:8]
+    job = {
+        "id": job_id,
+        "task_id": request_id,
+        "status_url": status_url,
+        "prompt": prompt,
+        "ratio": ratio,
+        "model": model,
+        "status": "submitted",
+        "created_by": request.api_key_entry.get("name", "unknown"),
+        "created_at": datetime.utcnow().isoformat(),
+        "image_path": None,
+        "image_url": None,
+        "error": None,
+    }
+
+    with jobs_lock:
+        jobs[job_id] = job
+        _save_jobs()
+
+    record_usage(request.headers.get("X-API-Key").strip())
+    return jsonify({"job": job}), 202
+
+
 @app.route("/api/jobs/<job_id>", methods=["GET"])
 @require_api_key
 def api_get_job(job_id):
@@ -238,31 +293,57 @@ def api_get_job(job_id):
     # If still running, poll upstream
     if job["status"] in ("submitted", "running", "pending"):
         try:
-            status = get_task_status(job["task_id"])
-            state = status.get("status", "unknown")
+            # ── Image jobs (fal.ai) ──
+            if job.get("status_url"):
+                status = poll_image_result(job["status_url"])
+                status_state = status.get("status", "unknown")
 
-            if state in ("completed", "succeeded", "success"):
-                job["status"] = "completed"
-                try:
-                    video_url = extract_video_url(status)
-                    job["video_url"] = video_url
+                if status_state in ("completed", "success") or "images" in status:
+                    job["status"] = "completed"
+                    try:
+                        image_url = extract_image_url(status)
+                        job["image_url"] = image_url
+                        filename = f"{job_id}.png"
+                        local_path = IMAGE_DIR / filename
+                        download_image(image_url, str(local_path))
+                        job["image_path"] = f"/images/{filename}"
+                    except Exception as e:
+                        job["status"] = "failed"
+                        job["error"] = f"Download failed: {e}"
 
-                    # Download locally
-                    filename = f"{job_id}.mp4"
-                    local_path = VIDEO_DIR / filename
-                    download_video(video_url, str(local_path))
-                    job["video_path"] = f"/videos/{filename}"
-                except Exception as e:
+                elif status_state in ("failed", "error", "cancelled"):
                     job["status"] = "failed"
-                    job["error"] = f"Download failed: {e}"
+                    job["error"] = status.get("error", "Unknown error")
+                else:
+                    job["status"] = status_state
 
-            elif state in ("failed", "error", "cancelled"):
-                job["status"] = "failed"
-                err = status.get("error", {})
-                job["error"] = err.get("message", "Unknown error")
-
+            # ── Video jobs (Seedance) ──
             else:
-                job["status"] = state
+                status = get_task_status(job["task_id"])
+                state = status.get("status", "unknown")
+
+                if state in ("completed", "succeeded", "success"):
+                    job["status"] = "completed"
+                    try:
+                        video_url = extract_video_url(status)
+                        job["video_url"] = video_url
+
+                        # Download locally
+                        filename = f"{job_id}.mp4"
+                        local_path = VIDEO_DIR / filename
+                        download_video(video_url, str(local_path))
+                        job["video_path"] = f"/videos/{filename}"
+                    except Exception as e:
+                        job["status"] = "failed"
+                        job["error"] = f"Download failed: {e}"
+
+                elif state in ("failed", "error", "cancelled"):
+                    job["status"] = "failed"
+                    err = status.get("error", {})
+                    job["error"] = err.get("message", "Unknown error")
+
+                else:
+                    job["status"] = state
 
             with jobs_lock:
                 jobs[job_id] = job

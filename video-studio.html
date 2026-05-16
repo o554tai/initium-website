@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INITIUM Video Studio</title>
+    <title>INITIUM Studio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -112,6 +112,25 @@
 
         .studio { display: none; }
         .studio.active { display: block; }
+
+        .tabs {
+            display: flex; gap: 8px; margin-bottom: 32px;
+        }
+        .tab {
+            padding: 10px 20px; border-radius: 10px;
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            color: var(--text-muted); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s;
+        }
+        .tab:hover { border-color: var(--accent); color: var(--text); }
+        .tab.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-secondary));
+            color: white; border-color: transparent;
+            box-shadow: 0 4px 20px var(--accent-glow);
+        }
+
+        .tab-panel { display: none; }
+        .tab-panel.active { display: block; }
 
         .studio-grid {
             display: grid; grid-template-columns: 1fr 380px; gap: 32px;
@@ -309,74 +328,126 @@
 
         <!-- Studio -->
         <div class="studio" id="studio">
-            <div class="studio-grid">
-                <!-- Generate Panel -->
-                <div>
-                    <div class="panel">
-                        <h3><span class="icon">✍️</span> New Generation</h3>
-                        <div class="input-group">
-                            <label>Prompt</label>
-                            <textarea id="promptInput"
-                                placeholder="Describe your scene: camera movement, lighting, mood, subjects..."></textarea>
-                        </div>
-                        <div class="input-row">
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('video')" id="tab-video">🎬 Video Studio</div>
+                <div class="tab" onclick="switchTab('image')" id="tab-image">🖼️ Image Studio</div>
+            </div>
+
+            <!-- Video Panel -->
+            <div class="tab-panel active" id="panel-video">
+                <div class="studio-grid">
+                    <div>
+                        <div class="panel">
+                            <h3><span class="icon">✍️</span> New Video</h3>
                             <div class="input-group">
-                                <label>Ratio</label>
-                                <select id="ratioInput">
-                                    <option value="9:16">9:16 (Reels)</option>
-                                    <option value="16:9">16:9 (YouTube)</option>
-                                    <option value="1:1">1:1 (Feed)</option>
-                                </select>
+                                <label>Prompt</label>
+                                <textarea id="promptInput"
+                                    placeholder="Describe your scene: camera movement, lighting, mood, subjects..."></textarea>
                             </div>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label>Ratio</label>
+                                    <select id="ratioInput">
+                                        <option value="9:16">9:16 (Reels)</option>
+                                        <option value="16:9">16:9 (YouTube)</option>
+                                        <option value="1:1">1:1 (Feed)</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Duration</label>
+                                    <select id="durationInput" onchange="updatePriceLabel()">
+                                        <option value="5">5 sec</option>
+                                        <option value="10">10 sec</option>
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="input-group">
-                                <label>Duration</label>
-                                <select id="durationInput" onchange="updatePriceLabel()">
-                                    <option value="5">5 sec</option>
-                                    <option value="10">10 sec</option>
-                                </select>
+                                <label>Reference Media (optional)</label>
+                                <div class="media-inputs" id="mediaInputs"></div>
+                                <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+                                    <span class="drop-icon">📁</span>
+                                    <div class="drop-text">Drop image, video, or audio here</div>
+                                    <div class="drop-hint">or click to browse · max 50MB</div>
+                                    <input type="file" id="fileInput" style="display:none" accept="image/*,video/*,audio/*" onchange="handleFiles(this.files)">
+                                    <div class="upload-progress" id="uploadProgress"><div class="bar" id="uploadBar"></div></div>
+                                </div>
+                                <div class="media-add">
+                                    <input type="text" id="mediaUrlInput" placeholder="Or paste a URL: https://...">
+                                    <select id="mediaTypeInput">
+                                        <option value="image">Image</option>
+                                        <option value="video">Video</option>
+                                        <option value="audio">Audio</option>
+                                    </select>
+                                    <button class="btn btn-sm btn-secondary" onclick="addMedia()">+</button>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" onclick="generate()" id="genBtn" style="width:100%;">
+                                <span class="spinner" id="genSpinner" style="display:none;"></span>
+                                <span id="genBtnText">▶️ Generate Video</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="panel" style="min-height:500px;">
+                            <h3><span class="icon">📝</span> Your Videos</h3>
+                            <div class="jobs-list" id="jobsList">
+                                <div class="empty-state">
+                                    <div class="empty-icon">🎬</div>
+                                    <p>No generations yet. Create your first video!</p>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="input-group">
-                            <label>Reference Media (optional)</label>
-                            <div class="media-inputs" id="mediaInputs"></div>
-
-                            <!-- Drag & Drop Upload -->
-                            <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
-                                <span class="drop-icon">📁</span>
-                                <div class="drop-text">Drop image, video, or audio here</div>
-                                <div class="drop-hint">or click to browse · max 50MB</div>
-                                <input type="file" id="fileInput" style="display:none" accept="image/*,video/*,audio/*" onchange="handleFiles(this.files)">
-                                <div class="upload-progress" id="uploadProgress"><div class="bar" id="uploadBar"></div></div>
-                            </div>
-
-                            <!-- Or paste URL manually -->
-                            <div class="media-add">
-                                <input type="text" id="mediaUrlInput" placeholder="Or paste a URL: https://...">
-                                <select id="mediaTypeInput">
-                                    <option value="image">Image</option>
-                                    <option value="video">Video</option>
-                                    <option value="audio">Audio</option>
-                                </select>
-                                <button class="btn btn-sm btn-secondary" onclick="addMedia()">+</button>
-                            </div>
-                        </div>
-
-                        <button class="btn btn-primary" onclick="generate()" id="genBtn" style="width:100%;">
-                            <span class="spinner" id="genSpinner" style="display:none;"></span>
-                            <span id="genBtnText">▶️ Generate Video</span>
-                        </button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Jobs Panel -->
-                <div>
-                    <div class="panel" style="min-height:500px;">
-                        <h3><span class="icon">📝</span> Your Generations</h3>
-                        <div class="jobs-list" id="jobsList">
-                            <div class="empty-state">
-                                <div class="empty-icon">🎬</div>
-                                <p>No generations yet. Create your first video!</p>
+            <!-- Image Panel -->
+            <div class="tab-panel" id="panel-image">
+                <div class="studio-grid">
+                    <div>
+                        <div class="panel">
+                            <h3><span class="icon">✍️</span> New Image</h3>
+                            <div class="input-group">
+                                <label>Prompt</label>
+                                <textarea id="imgPromptInput"
+                                    placeholder="Describe the image: interior design, architectural style, lighting, mood..."></textarea>
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label>Ratio</label>
+                                    <select id="imgRatioInput">
+                                        <option value="16:9">16:9 (Landscape)</option>
+                                        <option value="9:16">9:16 (Portrait)</option>
+                                        <option value="1:1">1:1 (Square)</option>
+                                        <option value="4:3">4:3 (Standard)</option>
+                                        <option value="3:4">3:4 (Portrait)</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <label>Model</label>
+                                    <select id="imgModelInput">
+                                        <option value="flux-pro">Flux Pro</option>
+                                        <option value="flux-ultra">Flux Ultra</option>
+                                        <option value="seedream-v4">Seedream V4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary" onclick="generateImage()" id="imgGenBtn" style="width:100%;">
+                                <span class="spinner" id="imgGenSpinner" style="display:none;"></span>
+                                <span id="imgGenBtnText">🖼️ Generate Image</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="panel" style="min-height:500px;">
+                            <h3><span class="icon">📝</span> Your Images</h3>
+                            <div class="jobs-list" id="imgJobsList">
+                                <div class="empty-state">
+                                    <div class="empty-icon">🖼️</div>
+                                    <p>No images yet. Create your first one!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -429,6 +500,14 @@
         document.getElementById('authGate').style.display = 'none';
         document.getElementById('studio').classList.add('active');
         document.getElementById('userPill').style.display = 'flex';
+    }
+
+    // ── Tabs ──
+    function switchTab(tab) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        document.getElementById('panel-' + tab).classList.add('active');
     }
 
     // ── Media inputs ──
@@ -706,6 +785,46 @@
         }
     }
 
+    // ── Image Generation ──
+    async function generateImage() {
+        const prompt = document.getElementById('imgPromptInput').value.trim();
+        if (!prompt) return toast('Enter a prompt first', 'error');
+
+        const btn = document.getElementById('imgGenBtn');
+        const spinner = document.getElementById('imgGenSpinner');
+        const btnText = document.getElementById('imgGenBtnText');
+        btn.disabled = true;
+        spinner.style.display = 'block';
+        btnText.textContent = 'Submitting...';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/generate-image`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({
+                    prompt,
+                    ratio: document.getElementById('imgRatioInput').value,
+                    model: document.getElementById('imgModelInput').value,
+                })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed');
+
+            toast('Image task submitted! Polling...', 'success');
+            document.getElementById('imgPromptInput').value = '';
+            loadJobs();
+        } catch (e) {
+            toast(e.message, 'error');
+        } finally {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.textContent = '🖼️ Generate Image';
+        }
+    }
+
     // ── Jobs ──
     async function loadJobs() {
         try {
@@ -727,35 +846,70 @@
     }
 
     function renderJobs(jobs) {
-        const el = document.getElementById('jobsList');
-        if (!jobs.length) {
-            el.innerHTML = `
+        const videoJobs = jobs.filter(j => !j.status_url);
+        const imageJobs = jobs.filter(j => j.status_url);
+
+        // Video list
+        const videoEl = document.getElementById('jobsList');
+        if (!videoJobs.length) {
+            videoEl.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-icon">🎬</div>
                     <p>No generations yet. Create your first video!</p>
                 </div>`;
-            return;
-        }
-        el.innerHTML = jobs.map(j => `
-            <div class="job-card" id="job-${j.id}">
-                <div class="job-header">
-                    <span class="job-id">${j.id}</span>
-                    <span class="job-status ${j.status}">${j.status}</span>
-                </div>
-                <div class="job-prompt">${escapeHtml(j.prompt)}</div>
-                <div class="job-meta">
-                    <span>${j.ratio} · ${j.duration}s</span>
-                    <span>${new Date(j.created_at).toLocaleString()}</span>
-                </div>
-                ${j.video_path ? `
-                    <div class="job-actions">
-                        <a href="${j.video_path}" download class="btn btn-sm btn-primary">⬇️ Download</a>
+        } else {
+            videoEl.innerHTML = videoJobs.map(j => `
+                <div class="job-card" id="job-${j.id}">
+                    <div class="job-header">
+                        <span class="job-id">${j.id}</span>
+                        <span class="job-status ${j.status}">${j.status}</span>
                     </div>
-                    <video controls src="${j.video_path}"></video>
-                ` : ''}
-                ${j.error ? `<div style="margin-top:10px;font-size:0.75rem;color:var(--error);">❌ ${escapeHtml(j.error)}</div>` : ''}
-            </div>
-        `).join('');
+                    <div class="job-prompt">${escapeHtml(j.prompt)}</div>
+                    <div class="job-meta">
+                        <span>${j.ratio} · ${j.duration}s</span>
+                        <span>${new Date(j.created_at).toLocaleString()}</span>
+                    </div>
+                    ${j.video_path ? `
+                        <div class="job-actions">
+                            <a href="${j.video_path}" download class="btn btn-sm btn-primary">⬇️ Download</a>
+                        </div>
+                        <video controls src="${j.video_path}"></video>
+                    ` : ''}
+                    ${j.error ? `<div style="margin-top:10px;font-size:0.75rem;color:var(--error);">❌ ${escapeHtml(j.error)}</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        // Image list
+        const imageEl = document.getElementById('imgJobsList');
+        if (!imageJobs.length) {
+            imageEl.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🖼️</div>
+                    <p>No images yet. Create your first one!</p>
+                </div>`;
+        } else {
+            imageEl.innerHTML = imageJobs.map(j => `
+                <div class="job-card" id="job-${j.id}">
+                    <div class="job-header">
+                        <span class="job-id">${j.id}</span>
+                        <span class="job-status ${j.status}">${j.status}</span>
+                    </div>
+                    <div class="job-prompt">${escapeHtml(j.prompt)}</div>
+                    <div class="job-meta">
+                        <span>${j.ratio} · ${j.model}</span>
+                        <span>${new Date(j.created_at).toLocaleString()}</span>
+                    </div>
+                    ${j.image_path ? `
+                        <div class="job-actions">
+                            <a href="${j.image_path}" download class="btn btn-sm btn-primary">⬇️ Download</a>
+                        </div>
+                        <img src="${j.image_path}" style="width:100%;border-radius:10px;margin-top:10px;">
+                    ` : ''}
+                    ${j.error ? `<div style="margin-top:10px;font-size:0.75rem;color:var(--error);">❌ ${escapeHtml(j.error)}</div>` : ''}
+                </div>
+            `).join('');
+        }
     }
 
     // ── Utils ──
