@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM — Cinematic Reveal</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #030305;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .stage {
+    position: relative;
+    width: 400px;
+    height: 520px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* The actual logo PNG — starts invisible */
+  .logo-img {
+    width: 345px;
+    height: auto;
+    display: block;
+    opacity: 0;
+    transform: scale(0.96);
+    animation: logoReveal 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
+  }
+
+  /* Atmospheric glow bloom */
+  .glow-bloom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0,140,101,0.35) 0%, rgba(0,140,101,0.08) 40%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0;
+    animation: bloomIn 2.5s ease-out 0s forwards;
+    pointer-events: none;
+  }
+
+  /* Secondary tighter bloom */
+  .glow-core {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    background: radial-gradient(circle, rgba(0,140,101,0.5) 0%, rgba(0,200,150,0.15) 45%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(20px);
+    opacity: 0;
+    animation: bloomIn 2s ease-out 0.2s forwards;
+    pointer-events: none;
+  }
+
+  /* Edge light sweep mask layer */
+  .sweep-layer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .sweep-light {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      transparent 60deg,
+      rgba(0,255,180,0.12) 65deg,
+      rgba(0,220,160,0.25) 75deg,
+      rgba(0,255,200,0.12) 85deg,
+      transparent 90deg,
+      transparent 360deg
+    );
+    opacity: 0;
+    animation: sweepRotate 2s ease-in-out 0.6s forwards;
+  }
+
+  /* Floating particles for atmosphere */
+  .particles {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .particle {
+    position: absolute;
+    width: 2px; height: 2px;
+    background: rgba(0,220,160,0.6);
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat 4s ease-in-out infinite;
+  }
+  .particle:nth-child(1) { top: 20%; left: 15%; animation-delay: 1.2s; }
+  .particle:nth-child(2) { top: 35%; left: 80%; animation-delay: 1.6s; width: 3px; height: 3px; }
+  .particle:nth-child(3) { top: 65%; left: 25%; animation-delay: 2.0s; }
+  .particle:nth-child(4) { top: 75%; left: 70%; animation-delay: 2.4s; width: 1px; height: 1px; }
+  .particle:nth-child(5) { top: 45%; left: 50%; animation-delay: 2.8s; width: 2px; height: 2px; }
+
+  /* Vignette overlay */
+  .vignette {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: radial-gradient(ellipse at center, transparent 40%, rgba(3,3,5,0.6) 100%);
+    pointer-events: none;
+  }
+
+  /* Replay button */
+  .replay {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: transparent;
+    border: 1px solid rgba(0,140,101,0.5);
+    color: #008c65;
+    padding: 10px 28px;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0;
+    animation: fadeIn 0.8s ease 3s forwards;
+    transition: all 0.3s ease;
+  }
+  .replay:hover {
+    background: rgba(0,140,101,0.15);
+    border-color: #008c65;
+    letter-spacing: 4px;
+  }
+
+  /* Animations */
+  @keyframes bloomIn {
+    0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+    40%  { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+    100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+  }
+
+  @keyframes logoReveal {
+    0%   { opacity: 0; transform: scale(0.96); filter: brightness(2) blur(4px); }
+    40%  { opacity: 1; transform: scale(1.01); filter: brightness(1.3) blur(1px); }
+    70%  { transform: scale(0.998); filter: brightness(1.05) blur(0px); }
+    100% { opacity: 1; transform: scale(1); filter: brightness(1) blur(0px); }
+  }
+
+  @keyframes sweepRotate {
+    0%   { opacity: 0; transform: rotate(-45deg); }
+    20%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; transform: rotate(45deg); }
+  }
+
+  @keyframes particleFloat {
+    0%   { opacity: 0; transform: translateY(0) scale(0); }
+    20%  { opacity: 1; transform: translateY(-10px) scale(1); }
+    80%  { opacity: 0.4; transform: translateY(-30px) scale(0.6); }
+    100% { opacity: 0; transform: translateY(-50px) scale(0); }
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  /* Gentle idle pulse after reveal */
+  .logo-img {
+    animation:
+      logoReveal 2.2s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards,
+      gentlePulse 4s ease-in-out 3s infinite;
+  }
+
+  @keyframes gentlePulse {
+    0%, 100% { filter: brightness(1); }
+    50%      { filter: brightness(1.08); }
+  }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    .stage { width: 300px; height: 390px; }
+    .logo-img { width: 260px; }
+    .glow-bloom { width: 220px; height: 220px; }
+    .glow-core  { width: 140px; height: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="vignette"></div>
+
+<div class="stage">
+  <div class="glow-bloom"></div>
+  <div class="glow-core"></div>
+
+  <div class="sweep-layer">
+    <div class="sweep-light"></div>
+  </div>
+
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <img class="logo-img" src="logo-main.png" alt="INITIUM">
+</div>
+
+<button class="replay" onclick="replay()">Replay</button>
+
+<script>
+function replay() {
+  const img = document.querySelector('.logo-img');
+  const bloom = document.querySelector('.glow-bloom');
+  const core = document.querySelector('.glow-core');
+  const sweep = document.querySelector('.sweep-light');
+
+  // Reset animations by removing and re-adding elements
+  const parent = img.parentNode;
+
+  [img, bloom, core, sweep].forEach(el => {
+    const clone = el.cloneNode(true);
+    el.parentNode.replaceChild(clone, el);
+  });
+}
+</script>
+
+</body>
+</html>
