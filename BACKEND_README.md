@@ -1,8 +1,8 @@
-# INITIUM Video Studio Backend
+# INITIUM Studio Backend
 
 ## What Is This?
 
-A Flask backend that adds **AI video generation** to your INITIUM website, with **team permissions** so only authorized members can generate videos.
+A Flask backend that adds **AI video + image generation** to your INITIUM website, with **team permissions** so only authorized members can generate content.
 
 ## Architecture
 
@@ -10,10 +10,14 @@ A Flask backend that adds **AI video generation** to your INITIUM website, with 
 ├── app.py              # Flask server (static files + API)
 ├── auth.py             # API key auth system
 ├── admin.py            # CLI for managing team keys
+├── seedance.py         # BytePlus Seedance video integration
+├── imagegen.py         # fal.ai image generation integration
 ├── start.sh            # Startup script (activates venv)
 ├── keys.json           # Team keys database
 ├── jobs.json           # Job history
-└── static/videos/      # Downloaded video files
+└── static/
+    ├── videos/           # Downloaded video files
+    └── images/           # Generated image files
 ```
 
 ## API Endpoints
@@ -22,7 +26,8 @@ A Flask backend that adds **AI video generation** to your INITIUM website, with 
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| `POST` | `/api/generate` | Submit video generation task |
+| `POST` | `/api/generate` | Submit video generation task (paid) |
+| `POST` | `/api/generate-image` | Submit image generation task (free) |
 | `GET`  | `/api/jobs` | List your jobs |
 | `GET`  | `/api/jobs/<id>` | Get job status + poll upstream |
 | `GET`  | `/api/me` | Check your key info |
@@ -77,14 +82,32 @@ python3 admin.py delete initium-xxxxxxxx...
 
 1. Open `http://your-server:5000/video-studio.html`
 2. Enter their API key
-3. Write prompt → Generate → Download
+3. Switch between **Video Studio** and **Image Studio** tabs
+4. Write prompt → Generate → Download
+
+## Image Generation Setup
+
+Images are generated via **fal.ai** (free for team members, no Stripe required).
+
+1. Sign up at [fal.ai](https://fal.ai)
+2. Get your API key from the dashboard
+3. Set `FAL_API_KEY` in your environment variables
+4. Redeploy
+
+Available models:
+- **Flux Pro** ($0.04/image) — best overall quality
+- **Flux Ultra** ($0.04/image) — highest detail
+- **Seedream V4** ($0.03/image) — BytePlus image model via fal
 
 ## Environment Variables
 
 | Variable | Description |
 |----------|-------------|
 | `INITIUM_ADMIN_KEY` | Override auto-generated admin key |
-| `SEEDANCE_API_KEY` | Override Seedance API key in `seedance.py` |
+| `SEEDANCE_API_KEY` | BytePlus Seedance API key for video generation |
+| `FAL_API_KEY` | fal.ai API key for image generation |
+| `STRIPE_SECRET_KEY` | Stripe secret key for payments |
+| `STRIPE_PUBLISHABLE_KEY` | Stripe publishable key for client-side payments |
 
 ## Running as a Service (Production)
 
@@ -119,4 +142,5 @@ sudo systemctl start initium-studio
 - Keep `keys.json` secure — it contains all API keys
 - The admin key has full control — store it in env vars, never commit it
 - Team keys are bearer tokens — share via secure channels only
-- Video files are stored locally — clean up `static/videos/` periodically
+- Video files are stored in `static/videos/` — clean up periodically
+- Image files are stored in `static/images/` — clean up periodically
