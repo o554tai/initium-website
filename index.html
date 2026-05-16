@@ -83,7 +83,7 @@
     text-decoration: none;
   }
   .nav-logo img {
-    height: 32px;
+    height: 40px;
     width: auto;
     display: block;
   }
@@ -150,8 +150,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 380px;
-    height: 383px;
+    width: min(380px, 85vw);
+    height: min(383px, 85vw);
     margin-left: auto;
     margin-right: auto;
   }
@@ -767,7 +767,7 @@
 
 <nav id="navbar">
   <a href="https://initium.sg/" class="nav-logo">
-    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAADwUlEQVR4nO2VbWhbVRjH/+fcm5smTZu0MqWuSRZHy5bqEN20k2E/aNG9ONmHRKZDhUJRZFQY1mnFk+uqZYhjmzJpB920K4PEdn5xm5tYZFgR3Vq1yWqHE+baDZsalsQ2yX15/NCXb5q0e0PoDy4cLuc85/c89zn3AIss8r+FiEEIfrs1AIDd2u2E4CCwdUffq15zeNejc+8WyPwX1sQYZ6CRifE9F9PxnqGhIQWxGAMtrBLzEwiHJQQjhufgzmdkSdJKFfvh+jOH2hCJGAgJaSEChTOdIdvY3VZW+fFr55d3NNdIjGHpgR2/3t+prgGwoKaU52MgRIhhyUpbgka29m9rjgLAyjvdm6ocpZmfAKKb1ZBExEFgv0/k1o6NXhngACAEr+sTMgB425vfWN7x5vMAgHBgXp+i0JIRGOj05XN/6IbWuLn3wzuYqprfjMeorvvdFRldf0UztIbag6IcUT+BqOBK5BcIByTGGPkPtTz5Tv9nBzwezw8/j4/u9na8vp0FI8aFa4n2sqLi7W6nqzXBtRaoqolIpOBeyDeRIeonIuKJTGZ3mVK8XwjBnUX2D7K6vq26860mAmkjDbuOfftsy+kirmQe6mqtRTBoFNqQ/z0pHOBMVU1f+85WDn52qEH9KlIDeeCFt89bJUv3BNP3rl7qe8mcOQHLXM73ZeJP+MNCKbQCeWEAajrFI/VffloMIjb7BPo+ctR2tW4BABAxMZPxpp49D2zu2b8RAMQNvytmLiBBgs+WOExhSRBxxhga29stAPDyiU8ebzzRVTG35laz7/hx6y8Tl91ExCiPQN4fUV2fkKWrzrVpfQrrK6sGvotfWmVCto2l/7pH5jxzrL5xOM1LMqvucoz1DPWtaOo/pTdt2PD9w0da792hVI8Fg0HjugSGf0xbS8v0LYZp3PfFpeELOTKlnKlfBKHUZNKVckvJUwldB5A8UiRJDVkt61vX1dZ7dTL5YuC5wMl88fMK+Lx3m38mxk1FUcJJLevVDaNKZ0aUTJOVc2vKVerwOVJZJzJynUQ0SIwNp/SpZYpk+Xx1R8gGYPK6BNxw56orXVGFc7tVUs7Ep1KTJuByWorsJmPxvedOXsuZyHjszgdPjf42uN7rlyuKnbH4ZLI8/XdJ9uz0QaJ/i5+vQxkAevXro08bBnkms5kcZ3Jch1lsk2UXoA+mdK3CymVbUsvZlyh2RTNNA0DSZlVS+x7b2os8Aredgs6oEIIjND1WQ4CYHSNEIhSajhECYpEY80f9c9mqqmreQNdFFrk5/AOnxZU+qT+W+wAAAABJRU5ErkJggg==" alt="INITIUM" height="32">
+    <img src="logo-nav.png" alt="INITIUM" height="40">
   </a>
   <ul class="nav-links">
     <li><a href="https://litter.catbox.moe/lzfuha.html#about">About</a></li>
@@ -795,7 +795,7 @@
         <path class="logo-stroke" id="stroke-main" d="M30 50 L45 72 L65 42 L88 82" stroke="#008c65" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         <circle class="logo-dot" id="logo-dot" cx="30" cy="35" r="4" fill="url(#irid)"/>
       </svg>
-      <img class="hero-logo-png" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAABJsAAASlCAYAAAAPh9jAAAEAAElEQVR4nOz9Z4xjaZ7v+X2f55xDMhiRmZVZ1d577211V/ueHnPvzOje6dm9RosVriAJ+0IQIGj1RnonAXqxggAJKwi7K0iaXczemWkz7aamusv7LO9dl7ddJn0EGSTPOc+jF4cRGZGZ1V1Vyaw09f0kDhhBHpKHZASC/OX//39CzhlJkiRJkiRpEeLpPgBJkiRJkiSdOwybJEmSJEmStDCGTZIkSZIkSVoYwyZJkiRJkiQtjGGTJEmSJEmSFsawSZIkSZIkSQtj2CRJkiRJkqSFMWySJEmSJEnSwhg2SZIkSZIkaWEMmyRJkiRJkrQwhk2SJEmSJElaGMMmSZIkSZIkLYxhkyRJkiRJkhbGsEmSJEmSJEkLY9gkSZIkSZKkhTFskiRJkiRJ0sIYNkmSJEmSJGlhDJskSZIkSZK0MIZNkiRJkiRJWhjDJkmSJEmSJC2MYZMkSZIkSZIWxrBJkiRJkiRJC2PYJEmSJEmSpIUxbJIkSZIkSdLCGDZJkiRJkiRpYQybJEmSJEmStDCGTZIkSZIkSVoYwyZJkiRJkiQtjGGTJEmSJEmSFsawSZIkSZIkSQtj2CRJkiRJkqSFMWySJEmSJEnSwhg2SZIkSZIkaWEMmyRJkiRJkrQwhk2SJEmSJElaGMMmSZIkSZIkLYxhkyRJkiRJkhbGsEmSJEmSJEkLY9gkSZIkSZKkhTFskiRJkiRJ0sIYNkmSJEmSJGlhDJskSZIkSZK0MIZNkiRJkiRJWhjDJkmSJEmSJC2MYZMkSZIkSZIWxrBJkiRJkiRJC2PYJEmSJEmSpIUxbJIkSZIkSdLCGDZJkiRJkiRpYQybJEmSJEmStDCGTZIkSZIkSVoYwyZJkiRJkiQtjGGTJEmSJEmSFsawSZIkZZIkSQtj2CRJkiRJkqSFMWySJEmSJEnSwhg2SZIkSZIkSQtj2CRJkiRJkqSFMWySJEmSJEnSwhg2SZIkSZIkLYxhkyRJkiRJkhbGsEmSJEmSJEkLY9gkSZIkSZKkhTFskiRJkiRJ0sIYNkmSJEmSJGlhDJskSZIkSZK0MIZNkiRJkiRJWhjDJkmSJEmSJC2MYZMkSZIkSZIWxrBJkiRJkiRJC2PYJEmSJEmSpIUxbJIkSZIkSdLCGDZJkiRJkiRpYQybJEmSJEmStDCGTZIkSZIkSVoYwyZJkiRJkiQtjGGTJEmSJEnSwhg2SZIkSZIkaWEMmyRJkiRJkrQwhk2SJEmSJElaGMMmSZIkSZIkLYxhkyRJkiRJkhbGsEmSJEmSJEkLY9gkSZIkSZKkhTFskiRJkiRJ0sIYNkmSJEmSJGlhDJskSZIkSZK0MIZNkiRJkiRJWhjDJkmSJEmSJC2MYZMkSZIkSZIWxrBJkiRJkiRJC2PYJEmSJEmSpIUxbJIkSZIkSdLCGDZJkiRJkiRpYQybJEmSJEmStDCGTZIkSZIkSVoYwyZJkiRJkiQtjGGTJEmSJEmSFsawSZIkSZIkSQtj2CRJkiRJkqSFMWySJEmSJEnSwhg2SZIkSZIkaWEMmyRJkiRJkrQwhk2SJEmSJElaGMMmSZIkSZIkLYxhkyRJkiRJkhbGsEmSJEmSJEkLY9gkSZIkSZKkhTFskiRJkiRJ0sIYNkmSJEmSJGlhDJskSZIkSZK0MIZNkiRJkiRJWhjDJkmSJEmSJC2MYZMkSZIkSZIWxrBJkiRJkiRJC2PYJEmSJEmSpIUxbJIkSZIkSdLCGDZJkiRJkiRpYQybJEmSJEmStDCGTZIkSZIkSVoYwyZJkiRJkiQtjGGTJEmSJEmSFsawSZIkSZIkSQtj2CRJkiRJkqSFMWySJEmSJEnSwhg2SZIkSZIkaWEMmyRJ... [truncated]
+      <img class="hero-logo-png" src="logo-main.png" alt="INITIUM">
       <div class="hero-spark" id="hero-spark"></div>
       <div class="hero-trail" id="trail1"></div>
       <div class="hero-trail" id="trail2"></div>
@@ -1000,7 +1000,7 @@
     }
   });
   gsap.set('#logo-dot', { opacity: 0, scale: 0 });
-  gsap.set('.hero-logo-png', { opacity: 0, scale: 0.98 });
+  gsap.set('.hero-logo-png', { opacity: 0, filter: 'brightness(0.3) blur(2px)', scale: 0.92 });
 
   const heroTl = gsap.timeline({ delay: 0.2 });
 
@@ -1013,16 +1013,18 @@
     // Phase 2: Dot pop (1.4s – 1.8s)
     .to('#logo-dot', { opacity: 1, scale: 1, duration: 0.4, ease: 'back.out(2.5)' }, '-=0.25')
 
-    // Phase 3: Crossfade SVG → PNG (1.8s – 2.3s)
+    // Phase 3: Crossfade SVG → PNG with ignition sweep (1.8s – 2.3s)
     .to('.hero-logo-svg', { opacity: 0, scale: 1.02, duration: 0.35, ease: 'power2.in' })
-    .to('.hero-logo-png', { opacity: 1, scale: 1,   duration: 0.45, ease: 'power2.out' }, '-=0.2')
-
-    // Phase 4: Subtle settle pulse (2.5s – 3.0s)
-    .fromTo('.hero-logo-png',
-      { filter: 'brightness(1.15)' },
-      { filter: 'brightness(1)', duration: 0.5, ease: 'power2.out' },
-      '-=0.1'
-    )
+    .to('.hero-logo-png', { opacity: 1, scale: 1, filter: 'brightness(1.1) blur(0px)', duration: 0.6, ease: 'power3.out' }, '-=0.2')
+    .to('.hero-logo-png', { filter: 'brightness(1) blur(0px)', duration: 0.4, ease: 'power1.out' })
+    // ambient breathing pulse
+    .to('.hero-logo-png', {
+      filter: 'brightness(1.03) drop-shadow(0 0 8px rgba(0,140,101,0.15))',
+      duration: 1.5,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1
+    })
 
     // Text reveal starts at ~2.0s overlapping with logo finish
     .to('.hero-label',  { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 1.9)
