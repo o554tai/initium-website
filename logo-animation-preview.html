@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM Logo Animation Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #030305;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 60px;
+    padding: 40px;
+  }
+  h2 { font-size: 14px; letter-spacing: 3px; color: #008c65; text-transform: uppercase; }
+
+  /* Option A — SVG Stroke Draw */
+  .opt-a svg { overflow: visible; }
+  .opt-a .logo-path {
+    stroke-dasharray: 160;
+    stroke-dashoffset: 160;
+  }
+  .opt-a .logo-dot {
+    transform-origin: 42px 22px;
+    transform: scale(0);
+  }
+  .opt-a .logo-text {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  /* Option B — PNG Glitch */
+  .opt-b {
+    position: relative;
+    width: 180px;
+  }
+  .opt-b img {
+    width: 100%;
+    height: auto;
+    display: block;
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  .glitch-layer {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: url('logo-main.png') center/contain no-repeat;
+    opacity: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  /* Option C — Hybrid: SVG icon + PNG wordmark (not shown inline, described) */
+
+  .controls {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  button {
+    background: transparent;
+    border: 1px solid #008c65;
+    color: #008c65;
+    padding: 10px 24px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover { background: #008c65; color: #030305; }
+</style>
+</head>
+<body>
+
+<!-- OPTION A: SVG Stroke Draw + Text Reveal -->
+<div style="text-align:center;">
+  <h2 style="margin-bottom:24px;">Option A — SVG Stroke Draw</h2>
+  <div class="opt-a">
+    <svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="irid" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#d4eaea"/>
+          <stop offset="50%" stop-color="#ecdde2"/>
+          <stop offset="100%" stop-color="#e8ffff"/>
+        </linearGradient>
+      </defs>
+      <path class="logo-path" d="M20 65L50 30L75 50L110 15L130 35"
+            stroke="#008c65" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle class="logo-dot" cx="42" cy="22" r="5" fill="url(#irid)"/>
+      <text class="logo-text" x="100" y="72" text-anchor="middle"
+            font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="28"
+            fill="#008c65" letter-spacing="4">INITIUM</text>
+    </svg>
+  </div>
+  <div class="controls">
+    <button onclick="playA()">Replay A</button>
+  </div>
+</div>
+
+<!-- OPTION B: Actual PNG with Glitch Reveal -->
+<div style="text-align:center;">
+  <h2 style="margin-bottom:24px;">Option B — PNG Glitch Reveal</h2>
+  <div class="opt-b">
+    <img id="pngLogo" src="logo-main.png" alt="INITIUM">
+    <div class="glitch-layer" id="glitch1"></div>
+    <div class="glitch-layer" id="glitch2"></div>
+  </div>
+  <div class="controls">
+    <button onclick="playB()">Replay B</button>
+  </div>
+</div>
+
+<script>
+  // Option A Animation
+  function playA() {
+    const tl = gsap.timeline();
+    tl.set('.opt-a .logo-path', { strokeDashoffset: 160, opacity: 1 })
+      .set('.opt-a .logo-dot', { scale: 0 })
+      .set('.opt-a .logo-text', { opacity: 0, y: 10 })
+      .to('.opt-a .logo-path', { strokeDashoffset: 0, duration: 1.4, ease: 'power2.inOut' })
+      .to('.opt-a .logo-dot', { scale: 1, duration: 0.5, ease: 'back.out(2)' }, '-=0.3')
+      .to('.opt-a .logo-text', { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, '-=0.2');
+  }
+
+  // Option B Animation
+  function playB() {
+    const tl = gsap.timeline();
+    const g1 = document.getElementById('glitch1');
+    const g2 = document.getElementById('glitch2');
+    const img = document.getElementById('pngLogo');
+
+    tl.set(img, { opacity: 0, scale: 0.95 })
+      .set([g1, g2], { opacity: 0, x: 0 })
+      .to(img, { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out' })
+      .to(g1, { opacity: 0.6, x: -4, duration: 0.05 })
+      .to(g1, { opacity: 0, x: 6, duration: 0.05 })
+      .to(g2, { opacity: 0.5, x: 5, duration: 0.05 })
+      .to(g2, { opacity: 0, x: -3, duration: 0.05 })
+      .to(g1, { opacity: 0.4, x: -2, duration: 0.04 })
+      .to(g1, { opacity: 0, x: 0, duration: 0.04 })
+      .to(img, { scale: 1.02, duration: 0.1, yoyo: true, repeat: 1 })
+      .to(img, { scale: 1, duration: 0.3, ease: 'elastic.out(1, 0.5)' });
+  }
+
+  // Auto-play on load
+  window.addEventListener('load', () => {
+    setTimeout(playA, 300);
+    setTimeout(playB, 800);
+  });
+</script>
+
+</body>
+</html>

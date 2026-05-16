@@ -43,11 +43,11 @@ from seedance import (
     build_multimodal_payload,
 )
 from imagegen import (
-    submit_image_task,
-    poll_image_result,
-    extract_image_url,
+    generate_image,
+    poll_image_result_fal,
+    extract_image_url_fal,
     download_image,
-    MODELS,
+    ALL_MODELS,
 )
 
 # ═══════════════════════════════════════════════════════════
@@ -246,32 +246,68 @@ def api_generate_image():
         return jsonify({"error": "prompt is required"}), 400
 
     ratio = data.get("ratio", "16:9")
-    model = data.get("model", "flux-pro")
-    if model not in MODELS:
-        model = "flux-pro"
+    model = data.get("model", "seedream-4.5")
+    if model not in ALL_MODELS:
+        model = "seedream-4.5"
 
     try:
-        result = submit_image_task(model, prompt, ratio=ratio)
-        request_id = result.get("request_id", "")
-        status_url = result.get("status_url", "")
+        result = generate_image(model, prompt, ratio=ratio)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
     job_id = str(uuid.uuid4())[:8]
-    job = {
-        "id": job_id,
-        "task_id": request_id,
-        "status_url": status_url,
-        "prompt": prompt,
-        "ratio": ratio,
-        "model": model,
-        "status": "submitted",
-        "created_by": request.api_key_entry.get("name", "unknown"),
-        "created_at": datetime.utcnow().isoformat(),
-        "image_path": None,
-        "image_url": None,
-        "error": None,
-    }
+
+    # BytePlus is synchronous — complete immediately
+    if result.get("provider") == "byteplus":
+        try:
+            filename = f"{job_id}.png"
+            local_path = IMAGE_DIR / filename
+            download_image(result["url"], str(local_path))
+            job = {
+                "id": job_id,
+                "task_id": None,
+                "status_url": None,
+                "prompt": prompt,
+                "ratio": ratio,
+                "model": model,
+                "status": "completed",
+                "created_by": request.api_key_entry.get("name", "unknown"),
+                "created_at": datetime.utcnow().isoformat(),
+                "image_path": f"/images/{filename}",
+                "image_url": result["url"],
+                "error": None,
+            }
+        except Exception as e:
+            job = {
+                "id": job_id,
+                "task_id": None,
+                "status_url": None,
+                "prompt": prompt,
+                "ratio": ratio,
+                "model": model,
+                "status": "failed",
+                "created_by": request.api_key_entry.get("name", "unknown"),
+                "created_at": datetime.utcnow().isoformat(),
+                "image_path": None,
+                "image_url": None,
+                "error": str(e),
+            }
+    else:
+        # fal.ai async path
+        job = {
+            "id": job_id,
+            "task_id": result.get("request_id", ""),
+            "status_url": result.get("status_url", ""),
+            "prompt": prompt,
+            "ratio": ratio,
+            "model": model,
+            "status": "submitted",
+            "created_by": request.api_key_entry.get("name", "unknown"),
+            "created_at": datetime.utcnow().isoformat(),
+            "image_path": None,
+            "image_url": None,
+            "error": None,
+        }
 
     with jobs_lock:
         jobs[job_id] = job
@@ -295,13 +331,13 @@ def api_get_job(job_id):
         try:
             # ── Image jobs (fal.ai) ──
             if job.get("status_url"):
-                status = poll_image_result(job["status_url"])
+                status = poll_image_result_fal(job["status_url"])
                 status_state = status.get("status", "unknown")
 
                 if status_state in ("completed", "success") or "images" in status:
                     job["status"] = "completed"
                     try:
-                        image_url = extract_image_url(status)
+                        image_url = extract_image_url_fal(status)
                         job["image_url"] = image_url
                         filename = f"{job_id}.png"
                         local_path = IMAGE_DIR / filename
