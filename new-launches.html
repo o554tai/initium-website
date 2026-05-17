@@ -1675,5 +1675,146 @@
 })();
 </script>
 
+
+<!-- Social Proof Widget -->
+<style>
+  .social-toast {
+    position: fixed;
+    bottom: 100px;
+    left: 24px;
+    z-index: 9998;
+    background: #fff;
+    border-radius: 16px;
+    padding: 14px 18px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    border: 1px solid rgba(0,140,101,0.1);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 340px;
+    transform: translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+  }
+  .social-toast.show {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .social-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ig), var(--ig-dark));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .social-text {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ig-ink);
+  }
+  .social-text strong {
+    font-weight: 600;
+    color: var(--ig-ink);
+  }
+  .social-time {
+    font-size: 11px;
+    color: var(--ig-ink-3);
+    margin-top: 2px;
+  }
+  .social-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    color: var(--ig-ink-3);
+    font-size: 16px;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    padding: 0;
+  }
+  .social-close:hover { opacity: 1; }
+  @media (max-width: 480px) {
+    .social-toast {
+      left: 12px;
+      right: 12px;
+      max-width: none;
+      bottom: 88px;
+    }
+  }
+</style>
+<div class="social-toast" id="socialToast">
+  <button class="social-close" id="socialClose" aria-label="Close">&times;</button>
+  <div class="social-avatar" id="socialAvatar">JL</div>
+  <div>
+    <div class="social-text" id="socialText"><strong>Jason Lim</strong> from Tampines just enquired about <strong>The Orie</strong></div>
+    <div class="social-time" id="socialTime">2 minutes ago</div>
+  </div>
+</div>
+<script>
+(function() {
+  var toast = document.getElementById('socialToast');
+  var closeBtn = document.getElementById('socialClose');
+  var avatar = document.getElementById('socialAvatar');
+  var text = document.getElementById('socialText');
+  var time = document.getElementById('socialTime');
+  var hidden = false;
+
+  var messages = [
+    { name: 'Jason Lim', loc: 'Tampines', action: 'enquired about', target: 'The Orie', time: '2 minutes ago', initials: 'JL' },
+    { name: 'Sarah Tan', loc: 'Katong', action: 'requested a viewing for', target: 'Emerald of Katong', time: '5 minutes ago', initials: 'ST' },
+    { name: 'Rajesh K.', loc: 'Jurong', action: 'downloaded the brochure for', target: 'Nava Grove', time: '8 minutes ago', initials: 'RK' },
+    { name: 'Michelle W.', loc: 'Bishan', action: 'scheduled a consultation for', target: 'selling her unit', time: '12 minutes ago', initials: 'MW' },
+    { name: 'David Chen', loc: 'Toa Payoh', action: 'requested a valuation for', target: 'District 12', time: '15 minutes ago', initials: 'DC' },
+    { name: 'Amirah S.', loc: 'Punggol', action: 'enquired about', target: 'Aurelle of Tampines', time: '18 minutes ago', initials: 'AS' },
+    { name: 'Kevin Ong', loc: 'Bukit Timah', action: 'booked a VVIP preview for', target: 'The Orie', time: '22 minutes ago', initials: 'KO' },
+    { name: 'Priya N.', loc: 'Serangoon', action: 'requested rental comps for', target: 'District 19', time: '25 minutes ago', initials: 'PN' }
+  ];
+
+  var idx = 0;
+
+  function showToast() {
+    if (hidden) return;
+    var m = messages[idx];
+    avatar.textContent = m.initials;
+    text.innerHTML = '<strong>' + m.name + '</strong> from ' + m.loc + ' ' + m.action + ' <strong>' + m.target + '</strong>';
+    time.textContent = m.time;
+    toast.classList.add('show');
+    idx = (idx + 1) % messages.length;
+  }
+
+  function hideToast() {
+    toast.classList.remove('show');
+  }
+
+  closeBtn.addEventListener('click', function() {
+    hidden = true;
+    hideToast();
+  });
+
+  // Show first after 8 seconds, then cycle every 12 seconds
+  setTimeout(function() {
+    showToast();
+    setInterval(function() {
+      hideToast();
+      setTimeout(showToast, 600);
+    }, 12000);
+  }, 8000);
+})();
+</script>
+
 </body>
 </html>
