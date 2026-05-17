@@ -2,6 +2,7 @@
 """
 SingMap scraper - logs into app.singmap.com and extracts project data.
 Credentials provided by user.
+Uses JavaScript injection for login to bypass UI interaction issues.
 """
 
 import asyncio
@@ -30,61 +31,122 @@ async def fetch_from_singmap():
 
         try:
             # Navigate to login page
-            print(f"[{datetime.now()}] Navigating to singmap...")
-            await page.goto('https://app.singmap.com/#/login', wait_until='networkidle', timeout=60000)
-            await page.wait_for_timeout(2000)
+            print(f"[{datetime.now()}] Navigating to singmap login...")
+            await page.goto('https://app.singmap.com/#/login', wait_until='commit', timeout=20000)
+            await page.wait_for_timeout(8000)
 
-            # Fill login form
-            print(f"[{datetime.now()}] Filling login form...")
-            await page.fill('input[type="text"], input[placeholder*="mail"], input[name="email"]', 'tassochan@sri.sg')
-            await page.fill('input[type="password"], input[placeholder*="password"], input[name="password"]', 'R028756g')
-
-            # Click login button
-            await page.click('button[type="submit"], .login-btn, button:has-text("Login")')
-            await page.wait_for_timeout(5000)
-
-            # Check if logged in
-            current_url = page.url
-            print(f"[{datetime.now()}] Current URL: {current_url}")
-
-            if 'login' in current_url:
-                print(f"[{datetime.now()}] Login may have failed, checking for errors...")
-                # Take screenshot for debugging
-                # await page.screenshot(path='/tmp/singmap_login.png')
-
-            # Navigate to projects/new launch page
-            print(f"[{datetime.now()}] Navigating to new launches...")
-            await page.goto('https://app.singmap.com/#/new-launch-properties', wait_until='networkidle', timeout=60000)
-            await page.wait_for_timeout(5000)
-
-            # Try to extract project data from page
-            projects = await page.evaluate('''() => {
-                // Look for project data in various places
-                if (window.__NUXT__ && window.__NUXT__.state) {
-                    const state = window.__NUXT__.state;
-                    for (let key of Object.keys(state)) {
-                        const val = state[key];
-                        if (val && val.lists && Array.isArray(val.lists)) {
-                            return val.lists;
+            # Use JavaScript to fill form and submit
+            print(f"[{datetime.now()}] Attempting login via JS...")
+            login_result = await page.evaluate('''(credentials) => {
+                return new Promise((resolve) => {
+                    // Find all input fields
+                    const inputs = document.querySelectorAll('input');
+                    let emailInput = null;
+                    let pwdInput = null;
+                    
+                    for (let inp of inputs) {
+                        const type = inp.type || '';
+                        const placeholder = inp.placeholder || '';
+                        if (type === 'text' || placeholder.toLowerCase().includes('email') || placeholder.toLowerCase().includes('user')) {
+                            emailInput = inp;
                         }
-                        if (val && val.projects && Array.isArray(val.projects)) {
-                            return val.projects;
+                        if (type === 'password' || placeholder.toLowerCase().includes('pass')) {
+                            pwdInput = inp;
                         }
                     }
-                }
-                // Try to find data in other global variables
-                for (let key of Object.keys(window)) {
-                    try {
-                        const val = window[key];
-                        if (val && typeof val === 'object' && val.lists && Array.isArray(val.lists)) {
-                            return val.lists;
+                    
+                    if (!emailInput || !pwdInput) {
+                        resolve({success: false, error: 'Could not find input fields'});
+                        return;
+                    }
+                    
+                    // Set values
+                    emailInput.value = credentials.email;
+                    emailInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    emailInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    
+                    pwdInput.value = credentials.password;
+                    pwdInput.dispatchEvent(new Event('input', { bubbles: true }));
+                    pwdInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    
+                    // Find and click submit button
+                    const buttons = document.querySelectorAll('button');
+                    let submitBtn = null;
+                    for (let btn of buttons) {
+                        const text = btn.innerText || btn.textContent || '';
+                        if (text.toLowerCase().includes('login') || text.toLowerCase().includes('sign in') || btn.type === 'submit') {
+                            submitBtn = btn;
+                            break;
                         }
-                    } catch(e) {}
+                    }
+                    
+                    if (!submitBtn) {
+                        // Try submitting the form directly
+                        const form = emailInput.closest('form');
+                        if (form) {
+                            form.dispatchEvent(new Event('submit', { bubbles: true }));
+                            resolve({success: true, method: 'form_submit'});
+                        } else {
+                            resolve({success: false, error: 'No submit button or form found'});
+                        }
+                        return;
+                    }
+                    
+                    submitBtn.click();
+                    resolve({success: true, method: 'button_click'});
+                });
+            }''', {'email': 'tassochan@sri.sg', 'password': 'R028756g'})
+            
+            print(f"  Login attempt: {login_result}")
+            
+            # Wait for navigation after login
+            await page.wait_for_timeout(8000)
+            
+            current_url = page.url
+            print(f"[{datetime.now()}] Current URL: {current_url}")
+            
+            # Check if we're logged in (URL should change from login page)
+            if 'login' in current_url:
+                print(f"[{datetime.now()}] Still on login page, login may have failed")
+                # Dump page text for debugging
+                body_text = await page.evaluate('() => document.body.innerText')
+                if 'incorrect' in body_text.lower() or 'error' in body_text.lower():
+                    print(f"  Error text found on page")
+                await browser.close()
+                return None
+
+            # Navigate to new launches
+            print(f"[{datetime.now()}] Navigating to new launches...")
+            await page.goto('https://app.singmap.com/#/new-launch-properties', wait_until='commit', timeout=20000)
+            await page.wait_for_timeout(8000)
+            
+            # Extract project data from page
+            projects = await page.evaluate('''() => {
+                // Try multiple data sources
+                const sources = [
+                    () => { if (window.__NUXT__ && window.__NUXT__.state) {
+                        for (let key of Object.keys(window.__NUXT__.state)) {
+                            const val = window.__NUXT__.state[key];
+                            if (val && val.lists && Array.isArray(val.lists)) return val.lists;
+                            if (val && val.projects && Array.isArray(val.projects)) return val.projects;
+                        }
+                    }},
+                    () => { for (let key of Object.keys(window)) {
+                        try {
+                            const val = window[key];
+                            if (val && typeof val === 'object' && val.lists && Array.isArray(val.lists)) return val.lists;
+                        } catch(e) {}
+                    }},
+                ];
+                
+                for (let fn of sources) {
+                    const result = fn();
+                    if (result && result.length > 0) return result;
                 }
                 return null;
             }''')
 
-            if projects and isinstance(projects, list):
+            if projects and isinstance(projects, list) and len(projects) > 0:
                 print(f"[{datetime.now()}] Extracted {len(projects)} projects from page")
                 await browser.close()
                 return projects
