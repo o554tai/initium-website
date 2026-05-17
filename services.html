@@ -190,31 +190,31 @@
   .service-tab {
     flex: 1;
     min-width: 0;
-    padding: 10px 8px;
-    background: #ffffff;
-    border: 1.5px solid #c8ddd4;
+    padding: 12px 10px;
+    background: var(--ig);
+    border: none;
     border-radius: 100px;
     font-family: var(--font-display);
-    font-size: 12px;
-    font-weight: 600;
-    color: #1a3d2e;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     text-align: center;
   }
   .service-tab:hover {
-    border-color: var(--ig);
-    color: var(--ig);
+    background: #0d9e6d;
+    transform: translateY(-1px);
   }
   .service-tab.active {
-    background: var(--ig);
+    background: #0a7a55;
     color: #fff;
-    border-color: var(--ig);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
   }
 
   /* Service Panel */
