@@ -1010,9 +1010,6 @@
       });
       const data = await res.json();
       if (data.url) {
-        localStorage.removeItem('intm_cart');
-        cart = [];
-        updateCartUI();
         window.location.href = data.url;
       } else {
         throw new Error(data.error || 'Checkout failed');
@@ -1088,6 +1085,9 @@
     if (status === 'success') {
       banner.textContent = '✓ Payment successful! We\'ll ship your order soon.';
       banner.className = 'checkout-banner success show';
+      localStorage.removeItem('intm_cart');
+      cart = [];
+      updateCartUI();
     } else if (status === 'cancel') {
       banner.textContent = 'Checkout cancelled. Your cart is still here.';
       banner.className = 'checkout-banner cancel show';

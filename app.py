@@ -669,7 +669,6 @@ def api_shop_checkout():
 
     try:
         session = stripe.checkout.Session.create(
-            payment_method_types=["card"],
             line_items=line_items,
             mode="payment",
             success_url="https://initium.sg/intm-shop.html?status=success",
@@ -679,6 +678,7 @@ def api_shop_checkout():
         return jsonify({"url": session.url})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
 
 # ═══════════════════════════════════════════════════════════
 # ADMIN API (Protected by Admin Key)
