@@ -181,18 +181,14 @@
 
   /* Service Tabs */
   .service-tabs {
-    display: flex;
-    gap: 6px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
     margin-bottom: 64px;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    scrollbar-width: none;
-    -webkit-overflow-scrolling: touch;
-    width: 100%;
+    max-width: 480px;
   }
-  .service-tabs::-webkit-scrollbar { display: none; }
   .service-tab {
-    padding: 8px 16px;
+    padding: 10px 16px;
     background: #fff;
     border: 1.5px solid rgba(0,140,101,0.15);
     border-radius: 100px;
@@ -203,9 +199,9 @@
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
-    flex-shrink: 0;
     letter-spacing: 0.02em;
     text-transform: uppercase;
+    text-align: center;
   }
   .service-tab:hover {
     border-color: var(--ig);
@@ -490,7 +486,7 @@
     .why-grid { grid-template-columns: 1fr; }
     .why-section, .cta-section { margin: 0 12px; border-radius: 24px; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
-    .service-tabs { justify-content: center; }
+    .service-tabs { max-width: 100%; }
   }
 </style>
 </head>
