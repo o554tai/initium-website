@@ -577,6 +577,25 @@
     scrollTrigger: { trigger: '#contact', start: 'top 80%' }
   });
 
+  // Auto-fill WhatsApp link with name from form
+  const nameInput = document.getElementById('name');
+  const whatsappBtn = document.querySelector('.whatsapp-btn');
+  const baseNumber = '6588464814';
+
+  function updateWhatsAppLink() {
+    const name = nameInput.value.trim();
+    let text;
+    if (name) {
+      text = `Hi INITIUM, my name is ${name}, I'm interested in your services`;
+    } else {
+      text = `Hi INITIUM, my name is ____ , I'm interested in your services`;
+    }
+    whatsappBtn.href = `https://wa.me/${baseNumber}?text=${encodeURIComponent(text)}`;
+  }
+
+  nameInput.addEventListener('input', updateWhatsAppLink);
+  nameInput.addEventListener('blur', updateWhatsAppLink);
+
   // Form handling
   const form = document.getElementById('enquiryForm');
   const submitBtn = document.getElementById('submitBtn');
