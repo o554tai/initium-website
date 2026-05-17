@@ -434,13 +434,94 @@ def api_me():
 
 @app.route("/api/projects", methods=["GET"])
 def api_projects():
-    """Return scraped EcoProp new launch projects. Public endpoint."""
+    """Return scraped EcoProp new launch projects. Public endpoint. Supports filtering."""
     try:
         with open("ecoprop_projects.json", encoding="utf-8") as f:
             data = json.load(f)
-        return jsonify(data)
     except FileNotFoundError:
         return jsonify({"error": "Project data not available yet"}), 404
+
+    projects = data.get("projects", [])
+
+    # Query params
+    search = (request.args.get("search", "")).lower().strip()
+    district = request.args.get("district", "").strip()
+    property_type = request.args.get("property_type", "").lower().strip()
+    tenure = request.args.get("tenure", "").lower().strip()
+    min_price = request.args.get("min_price", type=int)
+    max_price = request.args.get("max_price", type=int)
+    sort = request.args.get("sort", "name")  # name, price_asc, price_desc, district
+
+    def normalize_tenure(t):
+        t = (t or "").lower()
+        if "freehold" in t:
+            return "freehold"
+        if "999" in t:
+            return "999"
+        if "leasehold" in t and "99" not in t:
+            return "leasehold"
+        if "99" in t:
+            return "99"
+        return ""
+
+    def get_category(pt):
+        pt = (pt or "").lower()
+        if "executive condominium" in pt or pt == "ec":
+            return "ec"
+        if any(x in pt for x in ["landed", "cluster", "villa", "low-rise residential"]):
+            return "landed"
+        if any(x in pt for x in ["commercial", "industrial", "mixed"]):
+            return "commercial"
+        return "condo"
+
+    filtered = []
+    for p in projects:
+        if search:
+            hay = " ".join([
+                p.get("project_name", ""),
+                p.get("district", ""),
+                p.get("location", ""),
+                p.get("address", ""),
+                p.get("property_type", ""),
+            ]).lower()
+            if search not in hay:
+                continue
+        if district and p.get("district") != district:
+            continue
+        if property_type and get_category(p.get("property_type", "")) != property_type:
+            continue
+        if tenure and normalize_tenure(p.get("tenure", "")) != tenure:
+            continue
+        if min_price is not None and (p.get("min_price") or 0) < min_price:
+            continue
+        if max_price is not None and (p.get("min_price") or 0) > max_price:
+            continue
+        filtered.append(p)
+
+    # Sorting
+    if sort == "price_asc":
+        filtered.sort(key=lambda x: x.get("min_price") or 999999999)
+    elif sort == "price_desc":
+        filtered.sort(key=lambda x: x.get("min_price") or 0, reverse=True)
+    elif sort == "district":
+        filtered.sort(key=lambda x: x.get("district", ""))
+    else:
+        filtered.sort(key=lambda x: x.get("project_name", "").lower())
+
+    return jsonify({
+        "source": data.get("source", "ecoprop.com"),
+        "total": len(filtered),
+        "filters_applied": {
+            "search": search or None,
+            "district": district or None,
+            "property_type": property_type or None,
+            "tenure": tenure or None,
+            "min_price": min_price,
+            "max_price": max_price,
+            "sort": sort,
+        },
+        "projects": filtered,
+    })
 
 
 # ═══════════════════════════════════════════════════════════
@@ -640,6 +721,8 @@ def _send_telegram_notification(submission):
         f"<b>Email:</b> {submission.get('email', 'N/A')}\n"
         f"<b>Type:</b> {label}\n"
     )
+    if submission.get("project"):
+        text += f"<b>Project:</b> {submission['project']}\n"
     if submission.get("district"):
         text += f"<b>District:</b> {submission['district']}\n"
     if submission.get("message"):
@@ -691,6 +774,7 @@ def contact_submit():
         "enquiryType": data.get("enquiryType", ""),
         "district": data.get("district", "").strip(),
         "message": data.get("message", "").strip(),
+        "project": data.get("project", "").strip(),  # Project of interest
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "source": request.headers.get("Origin", "unknown"),
     }
@@ -713,9 +797,27 @@ def contact_submit():
 def admin_list_submissions():
     """View all contact form submissions."""
     subs = _load_submissions()
+    project = request.args.get("project", "").strip()
+    if project:
+        subs = [s for s in subs if project.lower() in (s.get("project") or "").lower()]
     return jsonify({
         "count": len(subs),
         "submissions": subs
+    })
+
+
+@app.route("/admin/submissions/stats", methods=["GET"])
+@require_admin_key
+def admin_submission_stats():
+    """Summary stats of enquiries."""
+    subs = _load_submissions()
+    from collections import Counter
+    by_type = Counter(s.get("enquiryType", "unknown") for s in subs)
+    by_project = Counter(s.get("project", "General") for s in subs if s.get("project"))
+    return jsonify({
+        "total": len(subs),
+        "by_type": dict(by_type),
+        "by_project": dict(by_project.most_common(20)),
     })
 
 

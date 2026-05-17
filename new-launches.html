@@ -179,12 +179,53 @@
     max-width: 540px;
   }
 
-  /* Filters */
-  .filter-bar {
+  /* Search + Filters */
+  .search-filter-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 48px;
+  }
+  .search-row {
     display: flex;
     gap: 12px;
-    margin-bottom: 48px;
     flex-wrap: wrap;
+    align-items: center;
+  }
+  .search-input {
+    flex: 1;
+    min-width: 260px;
+    padding: 12px 20px;
+    background: #fff;
+    border: 1px solid rgba(0,140,101,0.1);
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ig-ink);
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .search-input:focus {
+    border-color: var(--ig);
+  }
+  .search-input::placeholder {
+    color: var(--ig-ink-3);
+  }
+  .filter-select {
+    padding: 12px 18px;
+    background: #fff;
+    border: 1px solid rgba(0,140,101,0.1);
+    border-radius: 100px;
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: var(--ig-ink);
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+    min-width: 140px;
+  }
+  .filter-select:focus {
+    border-color: var(--ig);
   }
   .filter-btn {
     padding: 10px 24px;
@@ -206,6 +247,11 @@
     background: var(--ig);
     color: #fff;
     border-color: var(--ig);
+  }
+  .results-count {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    margin-bottom: 24px;
   }
 
   /* Project Grid */
@@ -238,6 +284,15 @@
     justify-content: center;
     overflow: hidden;
   }
+  .project-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+  .project-card:hover .project-img img {
+    transform: scale(1.05);
+  }
   .project-img::before {
     content: attr(data-initial);
     font-family: var(--font-display);
@@ -245,6 +300,10 @@
     font-weight: 700;
     color: var(--ig);
     opacity: 0.15;
+    position: absolute;
+  }
+  .project-img.has-image::before {
+    display: none;
   }
   .project-badge {
     position: absolute;
@@ -258,6 +317,10 @@
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+    z-index: 2;
+  }
+  .project-badge.sold {
+    background: #c0392b;
   }
   .project-info {
     padding: 28px 24px;
@@ -294,6 +357,11 @@
     color: var(--ig-ink);
     margin-bottom: 16px;
   }
+  .project-price.unpriced {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ig-ink-3);
+  }
   .project-cta {
     font-size: 12px;
     font-weight: 600;
@@ -307,6 +375,36 @@
     transition: gap 0.3s ease;
   }
   .project-cta:hover { gap: 10px; }
+
+  /* Loading state */
+  .loading-state {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--ig-ink-3);
+  }
+  .loading-state .spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--ig-light);
+    border-top-color: var(--ig);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 0 auto 20px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Empty state */
+  .empty-state {
+    text-align: center;
+    padding: 80px 24px;
+    color: var(--ig-ink-3);
+  }
+  .empty-state h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    color: var(--ig-ink);
+    margin-bottom: 12px;
+  }
 
   /* Project Detail Modal */
   .modal-overlay {
@@ -358,6 +456,12 @@
     align-items: center;
     justify-content: center;
     position: relative;
+    overflow: hidden;
+  }
+  .modal-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
   .modal-img::before {
     content: attr(data-initial);
@@ -366,6 +470,10 @@
     font-weight: 700;
     color: var(--ig);
     opacity: 0.12;
+    position: absolute;
+  }
+  .modal-img.has-image::before {
+    display: none;
   }
   .modal-body {
     padding: 40px;
@@ -430,6 +538,72 @@
     background: var(--ig-dark);
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(0,140,101,0.2);
+  }
+
+  /* Enquiry modal (CRM integration) */
+  .enquiry-form label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ig-ink-2);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .enquiry-form input,
+  .enquiry-form select,
+  .enquiry-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid rgba(0,140,101,0.12);
+    border-radius: 12px;
+    font-family: var(--font-body);
+    font-size: 14px;
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  .enquiry-form input:focus,
+  .enquiry-form select:focus,
+  .enquiry-form textarea:focus {
+    border-color: var(--ig);
+  }
+  .enquiry-form .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .enquiry-form button[type="submit"] {
+    width: 100%;
+    padding: 16px;
+    background: var(--ig);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .enquiry-form button[type="submit"]:hover {
+    background: var(--ig-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,140,101,0.2);
+  }
+  .enquiry-form .success-msg {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--ig);
+  }
+  .enquiry-form .success-msg h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    margin-bottom: 8px;
   }
 
   /* CTA Section */
@@ -526,7 +700,8 @@
     footer { flex-direction: column; gap: 16px; text-align: center; }
     .modal-details { grid-template-columns: 1fr; }
     .modal-img { height: 200px; }
-    .filter-bar { justify-content: center; }
+    .search-row { flex-direction: column; align-items: stretch; }
+    .enquiry-form .form-row { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -556,108 +731,35 @@
     <div class="section-label">Current Projects</div>
     <h2 class="section-title">Featured New Launches</h2>
 
-    <div class="filter-bar">
-      <button class="filter-btn active" data-filter="all">All</button>
-      <button class="filter-btn" data-filter="condo">Condo</button>
-      <button class="filter-btn" data-filter="ec">EC</button>
-      <button class="filter-btn" data-filter="landed">Landed</button>
+    <div class="search-filter-bar">
+      <div class="search-row">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search by project name, district, or location...">
+        <select class="filter-select" id="districtFilter">
+          <option value="">All Districts</option>
+        </select>
+        <select class="filter-select" id="tenureFilter">
+          <option value="">All Tenures</option>
+          <option value="Freehold">Freehold</option>
+          <option value="99">99-Year</option>
+          <option value="999">999-Year</option>
+          <option value="Leasehold">Leasehold</option>
+        </select>
+      </div>
+      <div class="filter-row" id="typeFilters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="condo">Condo</button>
+        <button class="filter-btn" data-filter="ec">EC</button>
+        <button class="filter-btn" data-filter="landed">Landed</button>
+        <button class="filter-btn" data-filter="commercial">Commercial</button>
+      </div>
     </div>
 
+    <div class="results-count" id="resultsCount">Loading projects...</div>
+
     <div class="project-grid" id="projectGrid">
-      <div class="project-card" data-type="condo" onclick="openModal('altura')">
-        <div class="project-img" data-initial="A">
-          <div class="project-badge">New</div>
-        </div>
-        <div class="project-info">
-          <div class="project-name">Altura</div>
-          <div class="project-district">Bukit Batok West Avenue 5</div>
-          <div class="project-meta">
-            <span>🏠 1–5 Bed</span>
-            <span>📍 D23</span>
-          </div>
-          <div class="project-price">From S$1.45M</div>
-          <span class="project-cta">Enquire Now →</span>
-        </div>
-      </div>
-
-      <div class="project-card" data-type="ec" onclick="openModal('lumina')">
-        <div class="project-img" data-initial="L">
-          <div class="project-badge">Selling Fast</div>
-        </div>
-        <div class="project-info">
-          <div class="project-name">Lumina Grand</div>
-          <div class="project-district">Bukit Batok West Avenue 5</div>
-          <div class="project-meta">
-            <span>🏠 3–5 Bed</span>
-            <span>📍 D23</span>
-          </div>
-          <div class="project-price">From S$1.35M</div>
-          <span class="project-cta">Enquire Now →</span>
-        </div>
-      </div>
-
-      <div class="project-card" data-type="condo" onclick="openModal('hillock')">
-        <div class="project-img" data-initial="H">
-          <div class="project-badge">Coming Soon</div>
-        </div>
-        <div class="project-info">
-          <div class="project-name">The Hillock Green</div>
-          <div class="project-district">Lentor Central</div>
-          <div class="project-meta">
-            <span>🏠 2–4 Bed</span>
-            <span>📍 D26</span>
-          </div>
-          <div class="project-price">From S$1.15M</div>
-          <span class="project-cta">Enquire Now →</span>
-        </div>
-      </div>
-
-      <div class="project-card" data-type="condo" onclick="openModal('botany')">
-        <div class="project-img" data-initial="B">
-          <div class="project-badge">New</div>
-        </div>
-        <div class="project-info">
-          <div class="project-name">The Botany at Dairy Farm</div>
-          <div class="project-district">Dairy Farm Road</div>
-          <div class="project-meta">
-            <span>🏠 2–5 Bed</span>
-            <span>📍 D23</span>
-          </div>
-          <div class="project-price">From S$1.05M</div>
-          <span class="project-cta">Enquire Now →</span>
-        </div>
-      </div>
-
-      <div class="project-card" data-type="landed" onclick="openModal('meyer')">
-        <div class="project-img" data-initial="M">
-          <div class="project-badge">Limited</div>
-        </div>
-        <div class="project-info">
-          <div class="project-name">Meyer House</div>
-          <div class="project-district">Meyer Road</div>
-          <div class="project-meta">
-            <span>🏠 4–6 Bed</span>
-            <span>📍 D15</span>
-          </div>
-          <div class="project-price">From S$6.5M</div>
-          <span class="project-cta">Enquire Now →</span>
-        </div>
-      </div>
-
-      <div class="project-card" data-type="condo" onclick="openModal('kassia')">
-        <div class="project-img" data-initial="K">
-          <div class="project-badge">New</div>
-        </div>
-        <div class="project-info">
-          <div class="project-name">Kassia</div>
-          <div class="project-district">Flora Drive</div>
-          <div class="project-meta">
-            <span>🏠 1–4 Bed</span>
-            <span>📍 D17</span>
-          </div>
-          <div class="project-price">From S$890K</div>
-          <span class="project-cta">Enquire Now →</span>
-        </div>
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading new launch projects...</p>
       </div>
     </div>
   </div>
@@ -669,17 +771,58 @@
   <a href="contact.html?type=newlaunch" class="cta-btn">Register Interest</a>
 </section>
 
-<!-- Modal -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+<!-- Project Detail Modal -->
+<div class="modal-overlay" id="projectModal" onclick="closeProjectModal(event)">
   <div class="modal" onclick="event.stopPropagation()">
-    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <button class="modal-close" onclick="closeProjectModal()">&times;</button>
     <div class="modal-img" id="modalImg" data-initial="A"></div>
     <div class="modal-body">
       <div class="modal-name" id="modalName">Project Name</div>
       <div class="modal-district" id="modalDistrict">District</div>
       <div class="modal-details" id="modalDetails"></div>
       <p class="modal-desc" id="modalDesc">Description</p>
-      <a href="contact.html?type=newlaunch" class="modal-cta">Register Interest</a>
+      <a href="#" class="modal-cta" id="modalCta" onclick="openEnquiryModal(); return false;">Register Interest</a>
+    </div>
+  </div>
+</div>
+
+<!-- Enquiry Modal (CRM Integration) -->
+<div class="modal-overlay" id="enquiryModal" onclick="closeEnquiryModal(event)">
+  <div class="modal" onclick="event.stopPropagation()" style="max-width: 520px;">
+    <button class="modal-close" onclick="closeEnquiryModal()">&times;</button>
+    <div class="modal-body">
+      <div class="modal-name" style="font-size: 22px;">Register Interest</div>
+      <div class="modal-district" id="enquiryProjectName" style="margin-bottom: 24px;">Project</div>
+      <form class="enquiry-form" id="enquiryForm" onsubmit="submitEnquiry(event)">
+        <input type="hidden" id="enquiryProject" name="project">
+        <div class="form-row">
+          <div>
+            <label>Name *</label>
+            <input type="text" name="name" required placeholder="Your full name">
+          </div>
+          <div>
+            <label>Mobile *</label>
+            <input type="tel" name="mobile" required placeholder="+65 9123 4567">
+          </div>
+        </div>
+        <label>Email *</label>
+        <input type="email" name="email" required placeholder="you@email.com">
+        <label>Enquiry Type</label>
+        <select name="enquiryType">
+          <option value="newlaunch">New Launch Enquiry</option>
+          <option value="buy">Buy Property</option>
+          <option value="sell">Sell Property</option>
+          <option value="rent">Rent / Lease</option>
+          <option value="general">General Enquiry</option>
+        </select>
+        <label>Message</label>
+        <textarea name="message" rows="3" placeholder="Tell us what you're looking for (unit type, budget, timeline...)"></textarea>
+        <button type="submit" id="enquirySubmitBtn">Submit Enquiry</button>
+      </form>
+      <div class="success-msg" id="enquirySuccess" style="display: none;">
+        <h3>Enquiry Sent!</h3>
+        <p>We will reply within 2 hours.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -696,155 +839,275 @@
 </footer>
 
 <script>
-  // Nav scroll effect
-  ScrollTrigger.create({
-    start: 'top -80',
-    onUpdate: (self) => {
-      document.getElementById('navbar').classList.toggle('scrolled', self.progress > 0);
+  // ── Config ──
+  const API_BASE = window.location.origin; // Same origin for /api/projects
+  let allProjects = [];
+  let currentProject = null;
+
+  // ── Normalize property type into filter category ──
+  function getCategory(type) {
+    const t = (type || '').toLowerCase();
+    if (t.includes('executive condominium') || t.includes('ec')) return 'ec';
+    if (t.includes('landed') || t.includes('cluster') || t.includes('villa') || t.includes('low-rise residential')) return 'landed';
+    if (t.includes('commercial') || t.includes('industrial') || t.includes('mixed')) return 'commercial';
+    return 'condo'; // Default: everything else is condo
+  }
+
+  function normalizeTenure(tenure) {
+    const t = (tenure || '').toLowerCase();
+    if (t.includes('freehold')) return 'Freehold';
+    if (t.includes('999')) return '999';
+    if (t.includes('leasehold') && !t.includes('99')) return 'Leasehold';
+    if (t.includes('99')) return '99';
+    return '';
+  }
+
+  function formatPrice(min, max, currency) {
+    if (!min || min === 0) return 'Price on enquiry';
+    const c = currency || '$';
+    const fmt = n => {
+      if (n >= 1000000) return c + (n / 1000000).toFixed(2) + 'M';
+      return c + (n / 1000).toFixed(0) + 'K';
+    };
+    if (!max || max === 0 || max === min) return 'From ' + fmt(min);
+    return fmt(min) + ' – ' + fmt(max);
+  }
+
+  function getBadge(project) {
+    if (project.sold_out) return { text: 'Sold Out', class: 'sold' };
+    const top = (project.completion_date || '').toLowerCase();
+    if (top.includes('obtained') || top.includes('ready') || top.includes('2022') || top.includes('2023')) return { text: 'Completed', class: '' };
+    if (project.launch_date) {
+      const d = new Date(project.launch_date);
+      const now = new Date();
+      const monthsAgo = (now - d) / (1000 * 60 * 60 * 24 * 30);
+      if (monthsAgo < 3) return { text: 'New', class: '' };
     }
-  });
+    return { text: 'Available', class: '' };
+  }
 
-  // Section reveals
-  gsap.utils.toArray('section').forEach(sec => {
-    gsap.from(sec.querySelectorAll('.section-label, .section-title, .filter-btn, .project-card'), {
-      y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-      scrollTrigger: { trigger: sec, start: 'top 80%' }
+  // ── Fetch projects ──
+  async function loadProjects() {
+    const grid = document.getElementById('projectGrid');
+    try {
+      const res = await fetch(API_BASE + '/api/projects');
+      if (!res.ok) throw new Error('Failed to load');
+      const data = await res.json();
+      allProjects = data.projects || [];
+      populateDistricts();
+      renderProjects();
+    } catch (e) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column: 1/-1;">
+          <h3>Unable to load projects</h3>
+          <p>Please refresh the page or try again later.</p>
+        </div>`;
+    }
+  }
+
+  function populateDistricts() {
+    const select = document.getElementById('districtFilter');
+    const districts = [...new Set(allProjects.map(p => p.district).filter(Boolean))].sort();
+    districts.forEach(d => {
+      const opt = document.createElement('option');
+      opt.value = d;
+      opt.textContent = d;
+      select.appendChild(opt);
     });
-  });
+  }
 
-  // Filter
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const projectCards = document.querySelectorAll('.project-card');
+  // ── Render ──
+  function renderProjects() {
+    const grid = document.getElementById('projectGrid');
+    const search = document.getElementById('searchInput').value.toLowerCase().trim();
+    const district = document.getElementById('districtFilter').value;
+    const tenure = document.getElementById('tenureFilter').value;
+    const activeTypeBtn = document.querySelector('.filter-btn.active');
+    const typeFilter = activeTypeBtn ? activeTypeBtn.dataset.filter : 'all';
 
-  filterBtns.forEach(btn => {
+    let filtered = allProjects.filter(p => {
+      if (search) {
+        const hay = [p.project_name, p.district, p.location, p.address, p.property_type].join(' ').toLowerCase();
+        if (!hay.includes(search)) return false;
+      }
+      if (district && p.district !== district) return false;
+      if (tenure && normalizeTenure(p.tenure) !== tenure) return false;
+      if (typeFilter !== 'all' && getCategory(p.property_type) !== typeFilter) return false;
+      return true;
+    });
+
+    document.getElementById('resultsCount').textContent = `Showing ${filtered.length} of ${allProjects.length} projects`;
+
+    if (filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column: 1/-1;">
+          <h3>No projects found</h3>
+          <p>Try adjusting your filters or search term.</p>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = filtered.map(p => {
+      const badge = getBadge(p);
+      const priceText = formatPrice(p.min_price, p.max_price, p.currency);
+      const hasImg = !!p.cover_image;
+      const initial = (p.project_name || 'P').charAt(0).toUpperCase();
+      return `
+        <div class="project-card" onclick="openProjectModal('${p.project_name?.replace(/'/g, "\\'") || ''}')">
+          <div class="project-img ${hasImg ? 'has-image' : ''}" data-initial="${initial}">
+            ${hasImg ? `<img src="${p.cover_image}" alt="${p.project_name}" loading="lazy">` : ''}
+            <div class="project-badge ${badge.class}">${badge.text}</div>
+          </div>
+          <div class="project-info">
+            <div class="project-name">${p.project_name || 'Unnamed'}</div>
+            <div class="project-district">${p.district || ''} ${p.location ? '· ' + p.location : ''}</div>
+            <div class="project-meta">
+              <span>${p.property_type || 'Residential'}</span>
+              <span>${p.tenure || ''}</span>
+            </div>
+            <div class="project-price ${(!p.min_price || p.min_price === 0) ? 'unpriced' : ''}">${priceText}</div>
+            <span class="project-cta">Enquire Now →</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    // Animate in
+    gsap.fromTo('.project-card', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out' });
+  }
+
+  // ── Event listeners ──
+  document.getElementById('searchInput').addEventListener('input', debounce(renderProjects, 250));
+  document.getElementById('districtFilter').addEventListener('change', renderProjects);
+  document.getElementById('tenureFilter').addEventListener('change', renderProjects);
+
+  document.querySelectorAll('#typeFilters .filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const filter = btn.dataset.filter;
-      filterBtns.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#typeFilters .filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      projectCards.forEach(card => {
-        if (filter === 'all' || card.dataset.type === filter) {
-          card.classList.remove('hidden');
-        } else {
-          card.classList.add('hidden');
-        }
-      });
+      renderProjects();
     });
   });
 
-  // Modal data
-  const projectData = {
-    altura: {
-      name: 'Altura',
-      district: 'Bukit Batok West Avenue 5, D23',
-      initial: 'A',
-      details: [
-        { label: 'Type', value: 'Executive Condo' },
-        { label: 'Units', value: '360' },
-        { label: 'Tenure', value: '99-Year Leasehold' },
-        { label: 'TOP', value: '2028' },
-        { label: 'Bedrooms', value: '1–5' },
-        { label: 'Price From', value: 'S$1.45M' },
-      ],
-      desc: 'Altura is a premium executive condominium located in the heart of Bukit Batok. With sleek architecture and lush landscaping, it offers residents a serene retreat while staying connected to the city via the nearby Jurong East MRT interchange.'
-    },
-    lumina: {
-      name: 'Lumina Grand',
-      district: 'Bukit Batok West Avenue 5, D23',
-      initial: 'L',
-      details: [
-        { label: 'Type', value: 'Executive Condo' },
-        { label: 'Units', value: '512' },
-        { label: 'Tenure', value: '99-Year Leasehold' },
-        { label: 'TOP', value: '2027' },
-        { label: 'Bedrooms', value: '3–5' },
-        { label: 'Price From', value: 'S$1.35M' },
-      ],
-      desc: 'Lumina Grand offers spacious layouts and premium finishes at an attractive entry price. Located near the upcoming Tengah Town, this EC is perfect for growing families seeking value and future capital appreciation.'
-    },
-    hillock: {
-      name: 'The Hillock Green',
-      district: 'Lentor Central, D26',
-      initial: 'H',
-      details: [
-        { label: 'Type', value: 'Private Condo' },
-        { label: 'Units', value: '474' },
-        { label: 'Tenure', value: '99-Year Leasehold' },
-        { label: 'TOP', value: '2028' },
-        { label: 'Bedrooms', value: '2–4' },
-        { label: 'Price From', value: 'S$1.15M' },
-      ],
-      desc: 'Nestled in the verdant Lentor precinct, The Hillock Green offers a nature-inspired living experience. Directly connected to Lentor MRT and the upcoming Lentor Mall, it combines tranquility with urban convenience.'
-    },
-    botany: {
-      name: 'The Botany at Dairy Farm',
-      district: 'Dairy Farm Road, D23',
-      initial: 'B',
-      details: [
-        { label: 'Type', value: 'Private Condo' },
-        { label: 'Units', value: '386' },
-        { label: 'Tenure', value: '99-Year Leasehold' },
-        { label: 'TOP', value: '2027' },
-        { label: 'Bedrooms', value: '2–5' },
-        { label: 'Price From', value: 'S$1.05M' },
-      ],
-      desc: 'Surrounded by the Bukit Timah Nature Reserve and Dairy Farm Nature Park, The Botany offers a rare opportunity to live amidst greenery. Hillview MRT is just a short walk away, connecting residents to the city in minutes.'
-    },
-    meyer: {
-      name: 'Meyer House',
-      district: 'Meyer Road, D15',
-      initial: 'M',
-      details: [
-        { label: 'Type', value: 'Landed / Strata' },
-        { label: 'Units', value: '56' },
-        { label: 'Tenure', value: 'Freehold' },
-        { label: 'TOP', value: 'Ready' },
-        { label: 'Bedrooms', value: '4–6' },
-        { label: 'Price From', value: 'S$6.5M' },
-      ],
-      desc: 'An ultra-luxury freehold development along the prestigious Meyer Road. Each residence is designed with expansive living spaces, private pools, and panoramic sea views. A rare gem in Singapore's East Coast enclave.'
-    },
-    kassia: {
-      name: 'Kassia',
-      district: 'Flora Drive, D17',
-      initial: 'K',
-      details: [
-        { label: 'Type', value: 'Private Condo' },
-        { label: 'Units', value: '280' },
-        { label: 'Tenure', value: 'Freehold' },
-        { label: 'TOP', value: '2026' },
-        { label: 'Bedrooms', value: '1–4' },
-        { label: 'Price From', value: 'S$890K' },
-      ],
-      desc: 'Kassia is a boutique freehold development in the serene Flora Drive precinct. With its low-density design and resort-style facilities, it offers an exclusive lifestyle at an accessible price point for first-time buyers and investors alike.'
-    },
-  };
+  function debounce(fn, ms) {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
+  }
 
-  function openModal(id) {
-    const data = projectData[id];
-    if (!data) return;
-    document.getElementById('modalName').textContent = data.name;
-    document.getElementById('modalDistrict').textContent = data.district;
-    document.getElementById('modalImg').dataset.initial = data.initial;
-    document.getElementById('modalDesc').textContent = data.desc;
+  // ── Modals ──
+  function openProjectModal(projectName) {
+    const p = allProjects.find(x => x.project_name === projectName);
+    if (!p) return;
+    currentProject = p;
 
-    const detailsHtml = data.details.map(d => `
+    document.getElementById('modalName').textContent = p.project_name || 'Unnamed';
+    document.getElementById('modalDistrict').textContent = `${p.district || ''} ${p.location ? '· ' + p.location : ''} · ${p.address || ''}`;
+    document.getElementById('modalDesc').textContent = `${p.property_type || 'Residential'} in ${p.location || p.district || 'Singapore'}. ${p.tenure || ''}. ${p.units ? p.units + ' units.' : ''} ${p.completion_date ? 'Expected TOP: ' + p.completion_date + '.' : ''}`;
+
+    const img = document.getElementById('modalImg');
+    img.innerHTML = '';
+    img.classList.remove('has-image');
+    img.dataset.initial = (p.project_name || 'P').charAt(0).toUpperCase();
+    if (p.cover_image) {
+      const el = document.createElement('img');
+      el.src = p.cover_image;
+      el.alt = p.project_name;
+      img.appendChild(el);
+      img.classList.add('has-image');
+    }
+
+    const details = [
+      { label: 'Type', value: p.property_type || '—' },
+      { label: 'Units', value: p.units || '—' },
+      { label: 'Tenure', value: p.tenure || '—' },
+      { label: 'TOP', value: p.completion_date || p.expected_top || '—' },
+      { label: 'Price', value: formatPrice(p.min_price, p.max_price, p.currency) },
+      { label: 'Status', value: p.sold_out ? 'Sold Out' : 'Available' },
+    ];
+    document.getElementById('modalDetails').innerHTML = details.map(d => `
       <div class="detail-row">
         <span class="detail-label">${d.label}</span>
         <span class="detail-value">${d.value}</span>
       </div>
     `).join('');
-    document.getElementById('modalDetails').innerHTML = detailsHtml;
 
-    document.getElementById('modalOverlay').classList.add('active');
+    document.getElementById('projectModal').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeModal(e) {
-    if (e && e.target !== document.getElementById('modalOverlay')) return;
-    document.getElementById('modalOverlay').classList.remove('active');
+  function closeProjectModal(e) {
+    if (e && e.target !== document.getElementById('projectModal')) return;
+    document.getElementById('projectModal').classList.remove('active');
     document.body.style.overflow = '';
   }
+
+  function openEnquiryModal() {
+    closeProjectModal();
+    const p = currentProject;
+    document.getElementById('enquiryProject').value = p ? p.project_name : '';
+    document.getElementById('enquiryProjectName').textContent = p ? p.project_name : 'General Enquiry';
+    document.getElementById('enquiryForm').style.display = 'block';
+    document.getElementById('enquirySuccess').style.display = 'none';
+    document.getElementById('enquiryModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeEnquiryModal(e) {
+    if (e && e.target !== document.getElementById('enquiryModal')) return;
+    document.getElementById('enquiryModal').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // ── Submit enquiry (CRM integration) ──
+  async function submitEnquiry(e) {
+    e.preventDefault();
+    const btn = document.getElementById('enquirySubmitBtn');
+    const form = document.getElementById('enquiryForm');
+    const data = Object.fromEntries(new FormData(form));
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(API_BASE + '/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (result.success) {
+        form.style.display = 'none';
+        document.getElementById('enquirySuccess').style.display = 'block';
+      } else {
+        alert(result.error || 'Something went wrong. Please try again.');
+      }
+    } catch (err) {
+      alert('Network error. Please try again.');
+    } finally {
+      btn.textContent = 'Submit Enquiry';
+      btn.disabled = false;
+    }
+  }
+
+  // ── Nav scroll effect ──
+  if (typeof ScrollTrigger !== 'undefined') {
+    ScrollTrigger.create({
+      start: 'top -80',
+      onUpdate: (self) => {
+        document.getElementById('navbar').classList.toggle('scrolled', self.progress > 0);
+      }
+    });
+
+    gsap.utils.toArray('section').forEach(sec => {
+      gsap.from(sec.querySelectorAll('.section-label, .section-title, .filter-btn, .project-card'), {
+        y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+        scrollTrigger: { trigger: sec, start: 'top 80%' }
+      });
+    });
+  }
+
+  // ── Init ──
+  loadProjects();
 </script>
 
 </body>
