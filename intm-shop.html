@@ -133,6 +133,42 @@
     transform: scale(1);
   }
 
+  /* Checkout status banner */
+  .checkout-banner {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    z-index: 3000;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    max-width: 90vw;
+    text-align: center;
+  }
+  .checkout-banner.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+  .checkout-banner.success {
+    background: #fff;
+    color: var(--ig);
+    border: 2px solid var(--ig);
+  }
+  .checkout-banner.cancel {
+    background: #fff;
+    color: var(--ig-ink);
+    border: 2px solid var(--ig-ink-3);
+  }
+
   .page-hero {
     position: relative;
     min-height: 55vh;
@@ -674,6 +710,8 @@
   </button>
 </nav>
 
+<div class="checkout-banner" id="checkoutBanner"></div>
+
 <main class="page-hero">
   <div class="page-hero-label">INTM Shop</div>
   <h1 class="page-hero-title">Wear the Ascent</h1>
@@ -766,9 +804,7 @@
   // ============================================
   // PRODUCT CATALOG
   // ============================================
-  // NOTE: Replace stripeLink with your actual Stripe Payment Link for each product.
-  // Create products at: https://dashboard.stripe.com/products
-  // Then generate Payment Links: https://dashboard.stripe.com/payment-links
+  const API_BASE = 'https://initium-video-studio.onrender.com';
   const products = [
     {
       id: 'initium-cap',
@@ -777,8 +813,7 @@
       price: 48,
       originalPrice: 58,
       emoji: '🧢',
-      badge: 'Best Seller',
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_1'
+      badge: 'Best Seller'
     },
     {
       id: 'initium-tee',
@@ -787,8 +822,7 @@
       price: 68,
       originalPrice: null,
       emoji: '👕',
-      badge: 'New Drop',
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_2'
+      badge: 'New Drop'
     },
     {
       id: 'initium-tote',
@@ -797,8 +831,7 @@
       price: 38,
       originalPrice: 45,
       emoji: '🛍️',
-      badge: null,
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_3'
+      badge: null
     },
     {
       id: 'initium-sticker',
@@ -807,8 +840,7 @@
       price: 12,
       originalPrice: null,
       emoji: '🏷️',
-      badge: null,
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_4'
+      badge: null
     },
     {
       id: 'initium-hoodie',
@@ -817,8 +849,7 @@
       price: 128,
       originalPrice: 158,
       emoji: '🧥',
-      badge: 'Limited',
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_5'
+      badge: 'Limited'
     },
     {
       id: 'initium-mug',
@@ -827,8 +858,7 @@
       price: 32,
       originalPrice: null,
       emoji: '☕',
-      badge: null,
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_6'
+      badge: null
     }
   ];
 
@@ -848,7 +878,7 @@
       existing.qty += 1;
     } else {
       const product = products.find(p => p.id === productId);
-      cart.push({ id: productId, qty: 1, price: product.price, name: product.name, emoji: product.emoji, stripeLink: product.stripeLink });
+      cart.push({ id: productId, qty: 1, price: product.price, name: product.name, emoji: product.emoji, desc: product.desc });
     }
     saveCart();
     // Animate button
@@ -963,24 +993,35 @@
   // ============================================
   // CHECKOUT
   // ============================================
-  function checkout() {
-    // For static sites, we use Stripe Payment Links.
-    // If cart has 1 item, go directly to that product's Stripe link.
-    // If cart has multiple items, we open the first item's link
-    // (Stripe Payment Links are per-product; for multi-item you'd need
-    //  a backend or a pre-configured bundle link.)
+  async function checkout() {
     if (cart.length === 0) return;
 
-    if (cart.length === 1) {
-      window.open(cart[0].stripeLink, '_blank');
-    } else {
-      // Multiple items: show an alert explaining the limitation
-      // In production, you'd want a backend to create a checkout session.
-      alert('For orders with multiple items, please contact us via WhatsApp and we will send you a combined invoice.\n\nOr checkout each item individually.');
-      // Alternative: open WhatsApp with order summary
-      const summary = cart.map(item => `${item.qty}x ${item.name} (S$${item.price * item.qty})`).join('%0A');
-      const total = getCartTotal();
-      window.open(`https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%20would%20like%20to%20order%3A%0A%0A${summary}%0A%0ATotal%3A%20S$${total}`, '_blank');
+    const btn = document.getElementById('checkoutBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span>Loading…</span>';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/shop/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        localStorage.removeItem('intm_cart');
+        cart = [];
+        updateCartUI();
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Checkout failed');
+      }
+    } catch (err) {
+      alert('Checkout error: ' + err.message);
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+      btn.style.opacity = '';
     }
   }
 
@@ -1037,6 +1078,25 @@
       }
     });
   }
+
+  // Checkout status toast
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get('status');
+    const banner = document.getElementById('checkoutBanner');
+    if (!banner || !status) return;
+    if (status === 'success') {
+      banner.textContent = '✓ Payment successful! We\'ll ship your order soon.';
+      banner.className = 'checkout-banner success show';
+    } else if (status === 'cancel') {
+      banner.textContent = 'Checkout cancelled. Your cart is still here.';
+      banner.className = 'checkout-banner cancel show';
+    }
+    setTimeout(() => banner.classList.remove('show'), 6000);
+    if (window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  })();
 
   // Init
   renderProducts();
