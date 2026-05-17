@@ -1,0 +1,690 @@
+#!/usr/bin/env python3
+"""Hourly property news updater for INITIUM Pulse page.
+Fetches fresh articles from ST, CNA, EdgeProp via Google News RSS.
+Accumulates articles: fresh (<48h) → carousel, archived (≥48h) → archive page.
+"""
+import json
+import os
+import re
+import subprocess
+import sys
+import time
+from datetime import datetime, timezone
+from html import unescape
+from xml.etree import ElementTree as ET
+
+import requests
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_DIR = os.path.dirname(SCRIPT_DIR)
+DATA_FILE = os.path.join(REPO_DIR, "data", "property-news.json")
+BLOG_HTML = os.path.join(REPO_DIR, "blog.html")
+ARCHIVE_HTML = os.path.join(REPO_DIR, "news-archive.html")
+
+# Unsplash images per source
+SOURCE_IMAGES = {
+    "ST": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+    "CNA": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop",
+    "EdgeProp": "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop",
+}
+
+HOURS_FRESH = 48
+
+
+def now_ts() -> float:
+    return datetime.now(timezone.utc).timestamp()
+
+
+def fmt_date(ts: float) -> str:
+    dt = datetime.fromtimestamp(ts, tz=timezone.utc)
+    return dt.strftime("%a, %d %b %Y")
+
+
+def fetch_google_news_rss(query: str) -> list[dict]:
+    url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=en-SG&gl=SG&ceid=SG:en"
+    try:
+        r = requests.get(url, headers={"User-Agent": "Mozilla/5.0"}, timeout=20)
+        r.raise_for_status()
+        root = ET.fromstring(r.content)
+        articles = []
+        for item in root.findall(".//item"):
+            title_el = item.find("title")
+            link_el = item.find("link")
+            pub_el = item.find("pubDate")
+            src_el = item.find("source")
+            if title_el is None or link_el is None:
+                continue
+            title = unescape(title_el.text or "").strip()
+            link = link_el.text or ""
+            source = src_el.text if src_el is not None else ""
+            pub_date = pub_el.text if pub_el is not None else ""
+            # Parse pub date
+            pub_ts = None
+            for fmt in ("%a, %d %b %Y %H:%M:%S %Z", "%a, %d %b %Y %H:%M:%S %z"):
+                try:
+                    pub_ts = datetime.strptime(pub_date, fmt).replace(tzinfo=timezone.utc).timestamp()
+                    break
+                except ValueError:
+                    continue
+            if pub_ts is None:
+                pub_ts = now_ts()
+            articles.append({
+                "title": title,
+                "url": link,
+                "source": source,
+                "pub_date": pub_date,
+                "pub_ts": pub_ts,
+                "fetched_ts": now_ts(),
+            })
+        return articles
+    except Exception as e:
+        print(f"  RSS fetch error ({query[:40]}): {e}")
+        return []
+
+
+def is_property_article(title: str) -> bool:
+    t = title.lower()
+    skip = ["football", "sport", "basketball", "crash", "train", "election", "war", "iran", "trump", "tennis", "golf", "f1", "formula 1"]
+    if any(s in t for s in skip):
+        return False
+    prop = ["property", "home", "hdb", "condo", "rental", "land", "flat", "resale", "launch", "absd", "bto", "ura", "ec ", "executive condo", "mop", "shophouse", "development", "private home"]
+    return any(p in t for p in prop)
+
+
+def clean_title(title: str) -> str:
+    return re.sub(r"\s*-\s*(The Straits Times|CNA|EdgeProp\.sg)$", "", title).strip()
+
+
+def make_excerpt(title: str) -> str:
+    words = title.split()
+    if len(words) > 12:
+        return " ".join(words[:12]) + "..."
+    return title
+
+
+def load_articles() -> list[dict]:
+    if not os.path.exists(DATA_FILE):
+        return []
+    try:
+        with open(DATA_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"  JSON load error: {e}")
+        return []
+
+
+def save_articles(articles: list[dict]):
+    os.makedirs(os.path.dirname(DATA_FILE), exist_ok=True)
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(articles, f, indent=2, ensure_ascii=False)
+
+
+def dedupe_by_url(articles: list[dict]) -> list[dict]:
+    seen = set()
+    out = []
+    for a in articles:
+        u = a.get("url", "")
+        if u and u not in seen:
+            seen.add(u)
+            out.append(a)
+    return out
+
+
+def build_card_html(article: dict) -> str:
+    title = clean_title(article["title"])
+    display_title = title if len(title) < 90 else title[:87] + "..."
+    excerpt = make_excerpt(title)
+    tag = article.get("source_tag", "News")
+    img = SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
+    date_str = fmt_date(article.get("pub_ts", article.get("fetched_ts", now_ts())))
+    url = article.get("url", "#")
+    return (
+        f'      <a href="{url}" class="blog-card" target="_blank" rel="noopener">\n'
+        f'        <div class="blog-thumb">\n'
+        f'          <img src="{img}" alt="{tag} property news" loading="lazy">\n'
+        f'        </div>\n'
+        f'        <div class="blog-content">\n'
+        f'          <span class="blog-tag">{tag}</span>\n'
+        f'          <h3 class="blog-title">{display_title}</h3>\n'
+        f'          <p class="blog-excerpt">{excerpt}</p>\n'
+        f'          <div class="blog-meta">{date_str} &middot; Read on {tag}</div>\n'
+        f'        </div>\n'
+        f'      </a>'
+    )
+
+
+def classify_articles(articles: list[dict]) -> tuple[list[dict], list[dict]]:
+    cutoff = now_ts() - (HOURS_FRESH * 3600)
+    fresh = [a for a in articles if a.get("fetched_ts", a.get("pub_ts", 0)) > cutoff]
+    archived = [a for a in articles if a.get("fetched_ts", a.get("pub_ts", 0)) <= cutoff]
+    # Sort by newest first
+    fresh.sort(key=lambda a: a.get("fetched_ts", a.get("pub_ts", 0)), reverse=True)
+    archived.sort(key=lambda a: a.get("fetched_ts", a.get("pub_ts", 0)), reverse=True)
+    return fresh, archived
+
+
+def update_blog_html(fresh: list[dict]):
+    with open(BLOG_HTML, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    cards_html = "\n\n".join(build_card_html(a) for a in fresh)
+
+    pattern = r'(<div class="news-track" id="newsTrack">)\n\n(.*?)(\n      </div>)'
+    match = re.search(pattern, content, re.DOTALL)
+    if not match:
+        # Try without the leading newline after open tag
+        pattern2 = r'(<div class="news-track" id="newsTrack">)(.*?)(</div>)'
+        match = re.search(pattern2, content, re.DOTALL)
+        if match:
+            old = match.group(0)
+            new = match.group(1) + "\n\n" + cards_html + "\n      " + match.group(3)
+            content = content.replace(old, new)
+        else:
+            print("  ERROR: Could not find news-track in blog.html")
+            return False
+    else:
+        old = match.group(0)
+        new = match.group(1) + "\n\n" + cards_html + match.group(3)
+        content = content.replace(old, new)
+
+    with open(BLOG_HTML, "w", encoding="utf-8") as f:
+        f.write(content)
+    return True
+
+
+def generate_archive_html(archived: list[dict]):
+    # Build archive cards (full grid, not carousel)
+    cards = []
+    for a in archived:
+        title = clean_title(a["title"])
+        display_title = title if len(title) < 90 else title[:87] + "..."
+        excerpt = make_excerpt(title)
+        tag = a.get("source_tag", "News")
+        img = SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
+        date_str = fmt_date(a.get("pub_ts", a.get("fetched_ts", now_ts())))
+        url = a.get("url", "#")
+        cards.append(
+            f'      <a href="{url}" class="blog-card" target="_blank" rel="noopener">\n'
+            f'        <div class="blog-thumb">\n'
+            f'          <img src="{img}" alt="{tag} property news" loading="lazy">\n'
+            f'        </div>\n'
+            f'        <div class="blog-content">\n'
+            f'          <span class="blog-tag">{tag}</span>\n'
+            f'          <h3 class="blog-title">{display_title}</h3>\n'
+            f'          <p class="blog-excerpt">{excerpt}</p>\n'
+            f'          <div class="blog-meta">{date_str} &middot; Read on {tag}</div>\n'
+            f'        </div>\n'
+            f'      </a>'
+        )
+
+    archive_grid = "\n\n".join(cards) if cards else '<p style="color:var(--ig-ink-3); text-align:center; padding:60px 0;">No archived articles yet.</p>'
+
+    html = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property News Archive — INITIUM</title>
+<meta name="description" content="Archived property news from The Straits Times, CNA, and EdgeProp.">
+<meta name="theme-color" content="#008c65">
+<link rel="canonical" href="https://initium.sg/news-archive.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {{
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }}
+  * {{ margin:0; padding:0; box-sizing:border-box; }}
+  html {{ scroll-behavior: smooth; }}
+  body {{
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }}
+  nav {{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }}
+  nav.scrolled {{
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }}
+  .nav-logo {{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }}
+  .nav-logo img {{ height: 56px; width: auto; display: block; background: transparent; }}
+  .nav-links {{
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }}
+  .nav-links a {{
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }}
+  .nav-links a::after {{
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }}
+  .nav-links a:hover {{ color: var(--ig); }}
+  .nav-links a:hover::after {{ width: 100%; }}
+  .nav-links a.active {{ color: var(--ig); }}
+  .nav-links a.active::after {{ width: 100%; }}
+
+  .page-hero {{
+    position: relative;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 60px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    overflow: hidden;
+  }}
+  .page-hero-label {{
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
+  }}
+  .page-hero-title {{
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 16px;
+    max-width: 700px;
+  }}
+  .page-hero-sub {{
+    font-size: clamp(15px, 2vw, 18px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 520px;
+    line-height: 1.7;
+  }}
+  .archive-link {{
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ig);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ig);
+    padding-bottom: 2px;
+    transition: opacity 0.3s ease;
+  }}
+  .archive-link:hover {{ opacity: 0.7; }}
+
+  section {{
+    position: relative;
+    padding: 80px 48px;
+  }}
+  .section-inner {{
+    max-width: 1200px;
+    margin: 0 auto;
+  }}
+  .section-header {{
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }}
+  .section-subheader {{
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 12px;
+  }}
+  .section-title {{
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--ig-ink);
+    line-height: 1.2;
+  }}
+  .archive-count {{
+    font-size: 14px;
+    color: var(--ig-ink-3);
+    font-weight: 500;
+  }}
+  .blog-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 32px;
+  }}
+  .blog-card {{
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(0,140,101,0.08);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }}
+  .blog-card:hover {{
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,140,101,0.1);
+    border-color: rgba(0,140,101,0.2);
+  }}
+  .blog-thumb {{
+    height: 220px;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }}
+  .blog-thumb img {{
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }}
+  .blog-content {{
+    padding: 28px;
+  }}
+  .blog-tag {{
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--ig-light);
+    color: var(--ig-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }}
+  .blog-title {{
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ig-ink);
+    margin-bottom: 10px;
+  }}
+  .blog-excerpt {{
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin-bottom: 16px;
+  }}
+  .blog-meta {{
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }}
+
+  footer {{
+    border-top: 1px solid var(--ig-light);
+    padding: 64px 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }}
+  .footer-main {{
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }}
+  .footer-col {{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }}
+  .footer-col-title {{
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }}
+  .footer-col a {{
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }}
+  .footer-col a:hover {{ color: var(--ig); }}
+  .footer-bottom {{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--ig-light);
+  }}
+  .footer-copy {{
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }}
+  .footer-legal {{
+    display: flex;
+    gap: 24px;
+  }}
+  .footer-legal a {{
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }}
+  .footer-legal a:hover {{ color: var(--ig); }}
+
+  @media (max-width: 900px) {{
+    nav {{ padding: 16px 24px; }}
+    .nav-links {{ display: none; }}
+    section {{ padding: 60px 24px; }}
+    .blog-grid {{ grid-template-columns: 1fr; }}
+    footer {{ padding: 48px 24px 24px; }}
+    .footer-main {{ grid-template-columns: 1fr 1fr; gap: 32px; }}
+    .footer-bottom {{ flex-direction: column; gap: 12px; text-align: center; }}
+  }}
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav-crop.png" alt="INITIUM" height="56" style="background:transparent;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="blog.html">Pulse</a></li>
+    <li><a href="intm-studio.html">INTM Studio</a></li>
+    <li><a href="intm-shop.html">INTM Shop</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-label">Market Watch</div>
+  <h1 class="page-hero-title">Property News Archive</h1>
+  <p class="page-hero-sub">Past headlines from The Straits Times, CNA, and EdgeProp.</p>
+  <a href="blog.html" class="archive-link">&larr; Back to Pulse</a>
+</div>
+
+<section style="background:#fff;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-subheader">Archive</div>
+        <h2 class="section-title">Past Headlines</h2>
+      </div>
+      <div class="archive-count">{len(archived)} articles</div>
+    </div>
+    <div class="blog-grid">
+
+{archive_grid}
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
+      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">Igniting Journeys</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="new-launches.html">New Launches</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="team.html">Team</a>
+      <a href="join.html">Join Us</a>
+      <a href="blog.html">Pulse</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="https://wa.me/6588464814" target="_blank">WhatsApp</a>
+      <a href="https://www.instagram.com/initium.grp" target="_blank">Instagram</a>
+      <a href="mailto:hello@initium.sg">Email</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2026 INITIUM. Igniting Journeys.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', function() {{
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  }});
+</script>
+
+</body>
+</html>'''
+
+    with open(ARCHIVE_HTML, "w", encoding="utf-8") as f:
+        f.write(html)
+    return True
+
+
+def git_deploy():
+    for cmd in [
+        ["git", "add", "-A"],
+        ["git", "commit", "-m", "Auto: hourly property news update"],
+        ["git", "push"],
+    ]:
+        result = subprocess.run(cmd, capture_output=True, text=True, cwd=REPO_DIR)
+        if result.returncode != 0:
+            if "nothing to commit" in result.stdout.lower() or "nothing to commit" in result.stderr.lower():
+                continue
+            print(f"  Git error ({cmd[1]}): {result.stderr.strip()}")
+            return False
+    return True
+
+
+def main():
+    print("[1/6] Loading existing articles...")
+    existing = load_articles()
+    print(f"      {len(existing)} articles in database")
+
+    print("[2/6] Fetching ST property news...")
+    st_new = fetch_google_news_rss("site:straitstimes.com Singapore property")
+    for a in st_new:
+        a["source_tag"] = "ST"
+    st_new = [a for a in st_new if is_property_article(a["title"])]
+    print(f"      {len(st_new)} property articles")
+
+    print("[3/6] Fetching CNA property news...")
+    cna_new = fetch_google_news_rss("site:channelnewsasia.com Singapore property")
+    for a in cna_new:
+        a["source_tag"] = "CNA"
+    cna_new = [a for a in cna_new if is_property_article(a["title"])]
+    print(f"      {len(cna_new)} property articles")
+
+    print("[4/6] Fetching EdgeProp news...")
+    ep_new = fetch_google_news_rss("site:edgeprop.sg Singapore property")
+    for a in ep_new:
+        a["source_tag"] = "EdgeProp"
+    ep_new = [a for a in ep_new if is_property_article(a["title"])]
+    print(f"      {len(ep_new)} property articles")
+
+    # Merge and dedupe
+    all_articles = dedupe_by_url(existing + st_new + cna_new + ep_new)
+    print(f"\n      Total unique articles: {len(all_articles)}")
+
+    # Classify
+    fresh, archived = classify_articles(all_articles)
+    print(f"      Fresh (<48h): {len(fresh)}")
+    print(f"      Archived (≥48h): {len(archived)}")
+
+    print("[5/6] Regenerating pages...")
+    ok1 = update_blog_html(fresh)
+    ok2 = generate_archive_html(archived)
+    save_articles(all_articles)
+    if not ok1:
+        print("      WARNING: blog.html update failed")
+    if not ok2:
+        print("      WARNING: archive.html generation failed")
+
+    print("[6/6] Deploying...")
+    if git_deploy():
+        print("\nDone. Deployed successfully.")
+    else:
+        print("\nGit deploy had issues.")
+
+
+if __name__ == "__main__":
+    main()
