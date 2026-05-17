@@ -74,6 +74,7 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif", "webp", "mp3", "mp4", "wav"}
 MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
 
 JOBS_FILE = Path("jobs.json")
+SUBMISSIONS_FILE = Path("submissions.json")
 
 # ═══════════════════════════════════════════════════════════
 # PERSISTENCE
@@ -92,6 +93,21 @@ def _load_jobs():
 def _save_jobs():
     with open(JOBS_FILE, "w") as f:
         json.dump(jobs, f, indent=2, default=str)
+
+
+def _load_submissions():
+    if SUBMISSIONS_FILE.exists():
+        try:
+            with open(SUBMISSIONS_FILE) as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+
+def _save_submissions(subs):
+    with open(SUBMISSIONS_FILE, "w") as f:
+        json.dump(subs, f, indent=2, default=str)
 
 
 _load_jobs()
@@ -580,6 +596,58 @@ def admin_stats():
         "completed": completed,
         "failed": failed,
         "keys_count": len(list_team_keys()),
+    })
+
+
+# ═══════════════════════════════════════════════════════════
+# CONTACT FORM
+# ═══════════════════════════════════════════════════════════
+
+@app.route("/api/contact", methods=["POST"])
+def contact_submit():
+    """Receive enquiry from the contact form."""
+    data = request.get_json(silent=True) or {}
+    
+    required = ["name", "mobile", "email", "enquiryType"]
+    missing = [f for f in required if not data.get(f)]
+    if missing:
+        return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
+    
+    submission = {
+        "id": str(uuid.uuid4())[:8],
+        "name": data.get("name", "").strip(),
+        "mobile": data.get("mobile", "").strip(),
+        "email": data.get("email", "").strip(),
+        "enquiryType": data.get("enquiryType", ""),
+        "district": data.get("district", "").strip(),
+        "message": data.get("message", "").strip(),
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "source": request.headers.get("Origin", "unknown"),
+    }
+    
+    subs = _load_submissions()
+    subs.insert(0, submission)
+    _save_submissions(subs)
+    
+    # TODO: Add Telegram or email notification here
+    # Telegram: send_message_to_bot(submission)
+    # Email: send_email_notification(submission)
+    
+    return jsonify({
+        "success": True,
+        "id": submission["id"],
+        "message": "Enquiry received. We will reply within 2 hours."
+    }), 201
+
+
+@app.route("/admin/submissions", methods=["GET"])
+@require_admin_key
+def admin_list_submissions():
+    """View all contact form submissions."""
+    subs = _load_submissions()
+    return jsonify({
+        "count": len(subs),
+        "submissions": subs
     })
 
 
