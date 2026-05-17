@@ -1240,13 +1240,26 @@
     // Keep first option, remove rest
     while (select.options.length > 1) select.remove(1);
 
-    const districts = [...new Set(allProjects.map(p => p.district).filter(Boolean))].sort();
-    console.log('[INITIUM] Districts found:', districts.length);
+    const allDistricts = [
+      "District 1", "District 2", "District 3", "District 4", "District 5",
+      "District 6", "District 7", "District 8", "District 9", "District 10",
+      "District 11", "District 12", "District 13", "District 14", "District 15",
+      "District 16", "District 17", "District 18", "District 19", "District 20",
+      "District 21", "District 22", "District 23", "District 24", "District 25",
+      "District 26", "District 27", "District 28"
+    ];
 
-    districts.forEach(d => {
+    const activeDistricts = [...new Set(allProjects.map(p => p.district).filter(Boolean))].sort();
+    console.log('[INITIUM] Districts found:', activeDistricts.length);
+
+    allDistricts.forEach(d => {
       const opt = document.createElement('option');
       opt.value = d;
       opt.textContent = d;
+      if (!activeDistricts.includes(d)) {
+        opt.disabled = true;
+        opt.textContent = d + ' (no projects)';
+      }
       select.appendChild(opt);
     });
   }
