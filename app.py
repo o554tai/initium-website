@@ -655,13 +655,14 @@ def api_shop_checkout():
 
     line_items = []
     for item in items:
+        product_data = {"name": item.get("name", "Item")}
+        desc = item.get("desc", "")
+        if desc:
+            product_data["description"] = desc
         line_items.append({
             "price_data": {
                 "currency": "sgd",
-                "product_data": {
-                    "name": item.get("name", "Item"),
-                    "description": item.get("desc", ""),
-                },
+                "product_data": product_data,
                 "unit_amount": int(round(float(item.get("price", 0)) * 100)),
             },
             "quantity": int(item.get("qty", 1)),
