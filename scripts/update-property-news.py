@@ -164,6 +164,8 @@ def classify_articles(articles: list[dict]) -> tuple[list[dict], list[dict]]:
 
 
 def update_blog_html(fresh: list[dict]):
+    # Cap carousel at 20 most recent articles
+    fresh = fresh[:20]
     with open(BLOG_HTML, "r", encoding="utf-8") as f:
         content = f.read()
 
