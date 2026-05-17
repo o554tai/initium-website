@@ -17,6 +17,8 @@ import json
 import uuid
 import threading
 import time
+import urllib.request
+import urllib.parse
 from datetime import datetime
 from pathlib import Path
 
@@ -75,6 +77,10 @@ MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
 
 JOBS_FILE = Path("jobs.json")
 SUBMISSIONS_FILE = Path("submissions.json")
+
+# Telegram notification config
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8838407168:AAEmuWjjoswhuOpi4a-85FfG3GlUhOY9vT8")
+TELEGRAM_CHAT_ID = os.environ.get("TELEGRAM_CHAT_ID", "328460225")
 
 # ═══════════════════════════════════════════════════════════
 # PERSISTENCE
@@ -599,6 +605,57 @@ def admin_stats():
     })
 
 
+def _send_telegram_notification(submission):
+    """Send a Telegram message when a new enquiry comes in."""
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+
+    enquiry_labels = {
+        "buy": "Buy Property",
+        "sell": "Sell Property",
+        "rent": "Rent / Lease",
+        "newlaunch": "New Launch",
+        "join": "Join INITIUM",
+        "general": "General Enquiry",
+    }
+    label = enquiry_labels.get(submission.get("enquiryType"), "Other")
+
+    text = (
+        f"🔔 <b>New INITIUM Enquiry</b>\n\n"
+        f"<b>Name:</b> {submission.get('name', 'N/A')}\n"
+        f"<b>Mobile:</b> {submission.get('mobile', 'N/A')}\n"
+        f"<b>Email:</b> {submission.get('email', 'N/A')}\n"
+        f"<b>Type:</b> {label}\n"
+    )
+    if submission.get("district"):
+        text += f"<b>District:</b> {submission['district']}\n"
+    if submission.get("message"):
+        msg = submission["message"]
+        if len(msg) > 200:
+            msg = msg[:200] + "..."
+        text += f"\n<b>Message:</b>\n{msg}\n"
+    text += f"\n📅 {submission.get('timestamp', '')}"
+
+    payload = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "text": text,
+        "parse_mode": "HTML",
+        "disable_web_page_preview": True,
+    }
+
+    try:
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=10)
+    except Exception:
+        pass  # Fail silently so form submission still succeeds
+
+
 # ═══════════════════════════════════════════════════════════
 # CONTACT FORM
 # ═══════════════════════════════════════════════════════════
@@ -629,9 +686,7 @@ def contact_submit():
     subs.insert(0, submission)
     _save_submissions(subs)
     
-    # TODO: Add Telegram or email notification here
-    # Telegram: send_message_to_bot(submission)
-    # Email: send_email_notification(submission)
+    _send_telegram_notification(submission)
     
     return jsonify({
         "success": True,
