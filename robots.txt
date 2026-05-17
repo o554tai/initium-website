@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /video-studio.html
+
+Sitemap: https://initium.sg/sitemap.xml
