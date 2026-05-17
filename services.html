@@ -181,24 +181,28 @@
 
   /* Service Tabs */
   .service-tabs {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    display: flex;
+    gap: 8px;
     margin-bottom: 64px;
-    max-width: 480px;
+    width: 100%;
+    max-width: 520px;
   }
   .service-tab {
-    padding: 10px 16px;
-    background: #fff;
-    border: 1.5px solid rgba(0,140,101,0.15);
+    flex: 1;
+    min-width: 0;
+    padding: 10px 8px;
+    background: #ffffff;
+    border: 1.5px solid #c8ddd4;
     border-radius: 100px;
     font-family: var(--font-display);
     font-size: 12px;
     font-weight: 600;
-    color: var(--ig-ink);
+    color: #1a3d2e;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     letter-spacing: 0.02em;
     text-transform: uppercase;
     text-align: center;
@@ -486,7 +490,8 @@
     .why-grid { grid-template-columns: 1fr; }
     .why-section, .cta-section { margin: 0 12px; border-radius: 24px; }
     footer { flex-direction: column; gap: 16px; text-align: center; }
-    .service-tabs { max-width: 100%; }
+    .service-tabs { max-width: 100%; gap: 6px; }
+    .service-tab { font-size: 11px; padding: 8px 4px; }
   }
 </style>
 </head>
