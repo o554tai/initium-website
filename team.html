@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team — INITIUM | Singapore Real Estate</title>
+<meta name="description" content="Meet the leadership behind INITIUM. A team built on trust, excellence, and the drive to lift everyone higher.">
+<meta name="theme-color" content="#008c65">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://initium.sg/team.html">
+<meta property="og:title" content="Team — INITIUM">
+<meta property="og:description" content="Meet the leadership behind INITIUM.">
+<meta property="og:image" content="og-image.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 48px; width: auto; display: block; background:transparent; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
+
+  .page-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 80px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    overflow: hidden;
+  }
+  .page-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
+  }
+  .page-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 20px;
+    max-width: 700px;
+  }
+  .page-hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  section {
+    position: relative;
+    padding: 120px 48px;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ig);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+  .section-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    max-width: 540px;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .team-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px 32px;
+    text-align: center;
+    border: 1px solid rgba(0,140,101,0.08);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .team-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,140,101,0.1);
+    border-color: rgba(0,140,101,0.15);
+  }
+  .team-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--ig);
+    border: 3px solid rgba(0,140,101,0.1);
+  }
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--ig-ink);
+  }
+  .team-role {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 16px;
+  }
+  .team-bio {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+  }
+
+  .founder-card {
+    grid-column: span 3;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
+    align-items: center;
+    text-align: left;
+    padding: 48px;
+  }
+  .founder-card .team-avatar {
+    width: 140px;
+    height: 140px;
+    font-size: 52px;
+    margin: 0;
+  }
+  .founder-info h3 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .founder-info .team-role {
+    margin-bottom: 20px;
+  }
+  .founder-info p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ig-ink-2);
+    margin-bottom: 16px;
+  }
+
+  .cta-section {
+    background: var(--ig);
+    border-radius: 40px;
+    margin: 0 24px 80px;
+    padding: 100px 48px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -20%; left: -10%;
+    width: 50%; height: 80%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-text {
+    font-size: 17px;
+    opacity: 0.85;
+    max-width: 480px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 40px;
+    background: #fff;
+    color: var(--ig);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ig-light);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--ig); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .team-grid { grid-template-columns: 1fr; }
+    .founder-card { grid-column: span 1; grid-template-columns: 1fr; text-align: center; }
+    .founder-card .team-avatar { margin: 0 auto; }
+    .cta-section { margin: 0 12px; border-radius: 24px; padding: 60px 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-main.png" alt="INITIUM" height="48" style="background:transparent;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html" class="active">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<section class="page-hero">
+  <div class="page-hero-label">Our People</div>
+  <h1 class="page-hero-title">Meet the Minds Behind INITIUM</h1>
+  <p class="page-hero-sub">A team built on trust, excellence, and the drive to lift everyone higher.</p>
+</section>
+
+<section>
+  <div class="section-inner">
+    <div class="section-label">Leadership</div>
+    <h2 class="section-title">The People Who Make It Happen</h2>
+    <p class="section-text">Every great result starts with great people. Here are the leaders steering INITIUM forward.</p>
+
+    <div class="team-grid">
+      <div class="team-card founder-card">
+        <div class="team-avatar">H</div>
+        <div class="founder-info">
+          <h3>Hermes Honcho</h3>
+          <div class="team-role">Founder & Vision Lead</div>
+          <p>Studied art and visual communication. Built INITIUM from the ground up with a belief that real estate should be about people first, transactions second. His north star: to be remembered as trustworthy, reliable, and the go-to person for work or personal matters.</p>
+          <p>When he is not leading the team, he is at home cooking for his two daughters or hunting down the next streetwear drop.</p>
+        </div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">A</div>
+        <div class="team-name">Ainsley Chong</div>
+        <div class="team-role">Planning & Execution</div>
+        <div class="team-bio">The architect behind INITIUM's operations. Ainsley turns vision into action, ensuring every initiative is planned, resourced, and delivered with precision.</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">G</div>
+        <div class="team-name">Grace Yong</div>
+        <div class="team-role">Events & Community</div>
+        <div class="team-bio">Grace builds the moments that bring people together. From team celebrations to client experiences, she creates the culture that makes INITIUM feel like family.</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">K</div>
+        <div class="team-name">Kesang</div>
+        <div class="team-role">Knowledge & Training</div>
+        <div class="team-bio">The brain trust of the team. Kesang ensures every agent has the market intelligence, legal know-how, and negotiation skills to represent clients at the highest level.</div>
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar">W</div>
+        <div class="team-name">William Tan</div>
+        <div class="team-role">Top Producer & Team Lead</div>
+        <div class="team-bio">Leads the largest sub-team at INITIUM and consistently ranks as a top producer. William proves that systems, mentorship, and hustle scale together.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">Want to Join Us?</h2>
+  <p class="cta-text">We are always looking for people who believe real estate is about relationships, not just deals.</p>
+  <a href="join.html" class="cta-btn">Explore Opportunities</a>
+</section>
+
+<footer>
+  <div class="footer-copy">© 2026 INITIUM. All rights reserved.</div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Scroll nav
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Entrance animations
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.utils.toArray('.team-card').forEach((card, i) => {
+    gsap.from(card, {
+      scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' },
+      y: 40, opacity: 0, duration: 0.7, delay: i * 0.1, ease: 'power3.out'
+    });
+  });
+</script>
+</body>
+</html>
