@@ -324,12 +324,58 @@
   }
   .footer-links a:hover { color: var(--ig); }
 
+  /* News Carousel */
+  .news-carousel { position: relative; }
+  .news-track {
+    display: flex;
+    gap: 24px;
+    overflow-x: auto;
+    padding: 12px 4px 32px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .news-track::-webkit-scrollbar { display: none; }
+  .news-track .blog-card {
+    flex: 0 0 360px;
+    scroll-snap-align: start;
+  }
+  .news-nav {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: -12px;
+    margin-bottom: 24px;
+  }
+  .news-nav button {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,140,101,0.15);
+    background: #fff;
+    color: var(--ig);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  .news-nav button:hover {
+    background: var(--ig);
+    color: #fff;
+    border-color: var(--ig);
+    transform: translateY(-2px);
+  }
+  .news-nav button svg { width: 18px; height: 18px; }
+
   /* Mobile */
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
     section { padding: 80px 24px; }
     .blog-grid { grid-template-columns: 1fr; }
+    .news-track .blog-card { flex: 0 0 85vw; }
+    .news-nav { margin-top: 0; }
     footer { padding: 48px 24px 24px; }
     .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
@@ -415,7 +461,16 @@
       <div class="section-subheader">Market Watch</div>
       <h2 class="section-title">Property News</h2>
     </div>
-    <div class="blog-grid">
+    <div class="news-carousel">
+      <div class="news-nav" aria-label="Property news carousel navigation">
+        <button id="newsPrev" aria-label="Previous news">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button id="newsNext" aria-label="Next news">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+      <div class="news-track" id="newsTrack">
 
       <a href="#" class="blog-card">
         <div class="blog-thumb">
@@ -453,6 +508,7 @@
         </div>
       </a>
 
+      </div>
     </div>
   </div>
 </section>
@@ -518,6 +574,21 @@
   window.addEventListener('scroll', function() {
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
   });
+
+  // Property News carousel
+  (function() {
+    var track = document.getElementById('newsTrack');
+    var prev = document.getElementById('newsPrev');
+    var next = document.getElementById('newsNext');
+    if (!track || !prev || !next) return;
+    var cardWidth = 384; // 360px + 24px gap
+    prev.addEventListener('click', function() {
+      track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+    });
+    next.addEventListener('click', function() {
+      track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    });
+  })();
 </script>
 
 
