@@ -167,6 +167,8 @@ def index():
 
 @app.route("/<path:path>")
 def static_files(path):
+    if path.startswith("api/"):
+        abort(404)
     return send_from_directory(app.static_folder, path)
 
 
