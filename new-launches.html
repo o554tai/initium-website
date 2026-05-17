@@ -190,12 +190,18 @@
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: stretch;
+  }
+  .search-input-wrap {
+    flex: 1;
+    min-width: 260px;
+    position: relative;
+    display: flex;
   }
   .search-input {
     flex: 1;
-    min-width: 260px;
     padding: 12px 20px;
+    padding-right: 100px;
     background: #fff;
     border: 1px solid rgba(0,140,101,0.1);
     border-radius: 100px;
@@ -211,8 +217,44 @@
   .search-input::placeholder {
     color: var(--ig-ink-3);
   }
+  .search-btn {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 8px 20px;
+    background: var(--ig);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  .search-btn:hover {
+    background: var(--ig-dark);
+  }
+  .select-wrap {
+    position: relative;
+    min-width: 160px;
+  }
+  .select-wrap::after {
+    content: '▼';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 10px;
+    color: var(--ig-ink-3);
+    pointer-events: none;
+  }
   .filter-select {
-    padding: 12px 18px;
+    width: 100%;
+    padding: 12px 40px 12px 18px;
     background: #fff;
     border: 1px solid rgba(0,140,101,0.1);
     border-radius: 100px;
@@ -222,7 +264,8 @@
     outline: none;
     cursor: pointer;
     transition: border-color 0.3s ease;
-    min-width: 140px;
+    appearance: none;
+    -webkit-appearance: none;
   }
   .filter-select:focus {
     border-color: var(--ig);
@@ -252,6 +295,27 @@
     font-size: 13px;
     color: var(--ig-ink-3);
     margin-bottom: 24px;
+  }
+  .retry-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: var(--ig);
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    margin-top: 16px;
+  }
+  .retry-btn:hover {
+    background: var(--ig-dark);
   }
 
   /* Project Grid */
@@ -733,17 +797,24 @@
 
     <div class="search-filter-bar">
       <div class="search-row">
-        <input type="text" class="search-input" id="searchInput" placeholder="Search by project name, district, or location...">
-        <select class="filter-select" id="districtFilter">
-          <option value="">All Districts</option>
-        </select>
-        <select class="filter-select" id="tenureFilter">
-          <option value="">All Tenures</option>
-          <option value="Freehold">Freehold</option>
-          <option value="99">99-Year</option>
-          <option value="999">999-Year</option>
-          <option value="Leasehold">Leasehold</option>
-        </select>
+        <div class="search-input-wrap">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search by project name, district, or location...">
+          <button class="search-btn" id="searchBtn">Search</button>
+        </div>
+        <div class="select-wrap">
+          <select class="filter-select" id="districtFilter">
+            <option value="">All Districts</option>
+          </select>
+        </div>
+        <div class="select-wrap">
+          <select class="filter-select" id="tenureFilter">
+            <option value="">All Tenures</option>
+            <option value="Freehold">Freehold</option>
+            <option value="99">99-Year</option>
+            <option value="999">999-Year</option>
+            <option value="Leasehold">Leasehold</option>
+          </select>
+        </div>
       </div>
       <div class="filter-row" id="typeFilters">
         <button class="filter-btn active" data-filter="all">All</button>
@@ -840,9 +911,12 @@
 
 <script>
   // ── Config ──
-  const API_BASE = window.location.origin; // Same origin for /api/projects
+  const API_BASE = window.location.origin;
   let allProjects = [];
   let currentProject = null;
+  let loadError = false;
+
+  console.log('[INITIUM] API base:', API_BASE);
 
   // ── Normalize property type into filter category ──
   function getCategory(type) {
@@ -850,7 +924,7 @@
     if (t.includes('executive condominium') || t.includes('ec')) return 'ec';
     if (t.includes('landed') || t.includes('cluster') || t.includes('villa') || t.includes('low-rise residential')) return 'landed';
     if (t.includes('commercial') || t.includes('industrial') || t.includes('mixed')) return 'commercial';
-    return 'condo'; // Default: everything else is condo
+    return 'condo';
   }
 
   function normalizeTenure(tenure) {
@@ -878,10 +952,12 @@
     const top = (project.completion_date || '').toLowerCase();
     if (top.includes('obtained') || top.includes('ready') || top.includes('2022') || top.includes('2023')) return { text: 'Completed', class: '' };
     if (project.launch_date) {
-      const d = new Date(project.launch_date);
-      const now = new Date();
-      const monthsAgo = (now - d) / (1000 * 60 * 60 * 24 * 30);
-      if (monthsAgo < 3) return { text: 'New', class: '' };
+      try {
+        const d = new Date(project.launch_date);
+        const now = new Date();
+        const monthsAgo = (now - d) / (1000 * 60 * 60 * 24 * 30);
+        if (monthsAgo < 3) return { text: 'New', class: '' };
+      } catch(e) {}
     }
     return { text: 'Available', class: '' };
   }
@@ -889,25 +965,58 @@
   // ── Fetch projects ──
   async function loadProjects() {
     const grid = document.getElementById('projectGrid');
+    const resultsCount = document.getElementById('resultsCount');
+
+    grid.innerHTML = `
+      <div class="loading-state" style="grid-column: 1/-1;">
+        <div class="spinner"></div>
+        <p>Loading new launch projects...</p>
+      </div>`;
+    resultsCount.textContent = 'Loading...';
+    loadError = false;
+
+    const url = API_BASE + '/api/projects';
+    console.log('[INITIUM] Fetching:', url);
+
     try {
-      const res = await fetch(API_BASE + '/api/projects');
-      if (!res.ok) throw new Error('Failed to load');
+      const res = await fetch(url);
+      console.log('[INITIUM] Response status:', res.status);
+
+      if (!res.ok) {
+        throw new Error('HTTP ' + res.status);
+      }
+
       const data = await res.json();
+      console.log('[INITIUM] Data received:', data.total, 'projects');
+
       allProjects = data.projects || [];
+      if (!Array.isArray(allProjects)) {
+        throw new Error('Invalid data format');
+      }
+
       populateDistricts();
       renderProjects();
     } catch (e) {
+      console.error('[INITIUM] Load failed:', e);
+      loadError = true;
       grid.innerHTML = `
         <div class="empty-state" style="grid-column: 1/-1;">
           <h3>Unable to load projects</h3>
-          <p>Please refresh the page or try again later.</p>
+          <p>${e.message || 'Please check your connection and try again.'}</p>
+          <button class="retry-btn" onclick="loadProjects()">↻ Retry</button>
         </div>`;
+      resultsCount.textContent = 'Load failed';
     }
   }
 
   function populateDistricts() {
     const select = document.getElementById('districtFilter');
+    // Keep first option, remove rest
+    while (select.options.length > 1) select.remove(1);
+
     const districts = [...new Set(allProjects.map(p => p.district).filter(Boolean))].sort();
+    console.log('[INITIUM] Districts found:', districts.length);
+
     districts.forEach(d => {
       const opt = document.createElement('option');
       opt.value = d;
@@ -922,7 +1031,7 @@
     const search = document.getElementById('searchInput').value.toLowerCase().trim();
     const district = document.getElementById('districtFilter').value;
     const tenure = document.getElementById('tenureFilter').value;
-    const activeTypeBtn = document.querySelector('.filter-btn.active');
+    const activeTypeBtn = document.querySelector('#typeFilters .filter-btn.active');
     const typeFilter = activeTypeBtn ? activeTypeBtn.dataset.filter : 'all';
 
     let filtered = allProjects.filter(p => {
@@ -952,10 +1061,11 @@
       const priceText = formatPrice(p.min_price, p.max_price, p.currency);
       const hasImg = !!p.cover_image;
       const initial = (p.project_name || 'P').charAt(0).toUpperCase();
+      const nameEsc = (p.project_name || 'Unnamed').replace(/"/g, '&quot;');
       return `
-        <div class="project-card" onclick="openProjectModal('${p.project_name?.replace(/'/g, "\\'") || ''}')">
+        <div class="project-card" onclick="openProjectModal(&quot;${nameEsc}&quot;)">
           <div class="project-img ${hasImg ? 'has-image' : ''}" data-initial="${initial}">
-            ${hasImg ? `<img src="${p.cover_image}" alt="${p.project_name}" loading="lazy">` : ''}
+            ${hasImg ? `<img src="${p.cover_image}" alt="${nameEsc}" loading="lazy">` : ''}
             <div class="project-badge ${badge.class}">${badge.text}</div>
           </div>
           <div class="project-info">
@@ -973,26 +1083,35 @@
     }).join('');
 
     // Animate in
-    gsap.fromTo('.project-card', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out' });
+    if (typeof gsap !== 'undefined') {
+      gsap.fromTo('.project-card', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out' });
+    }
   }
 
   // ── Event listeners ──
-  document.getElementById('searchInput').addEventListener('input', debounce(renderProjects, 250));
-  document.getElementById('districtFilter').addEventListener('change', renderProjects);
-  document.getElementById('tenureFilter').addEventListener('change', renderProjects);
-
-  document.querySelectorAll('#typeFilters .filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('#typeFilters .filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderProjects();
-    });
-  });
-
   function debounce(fn, ms) {
     let t;
     return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), ms); };
   }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    console.log('[INITIUM] DOM ready');
+
+    document.getElementById('searchInput').addEventListener('input', debounce(renderProjects, 250));
+    document.getElementById('searchBtn').addEventListener('click', renderProjects);
+    document.getElementById('districtFilter').addEventListener('change', renderProjects);
+    document.getElementById('tenureFilter').addEventListener('change', renderProjects);
+
+    document.querySelectorAll('#typeFilters .filter-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#typeFilters .filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderProjects();
+      });
+    });
+
+    loadProjects();
+  });
 
   // ── Modals ──
   function openProjectModal(projectName) {
@@ -1001,7 +1120,7 @@
     currentProject = p;
 
     document.getElementById('modalName').textContent = p.project_name || 'Unnamed';
-    document.getElementById('modalDistrict').textContent = `${p.district || ''} ${p.location ? '· ' + p.location : ''} · ${p.address || ''}`;
+    document.getElementById('modalDistrict').textContent = `${p.district || ''} ${p.location ? '· ' + p.location : ''} ${p.address ? '· ' + p.address : ''}`;
     document.getElementById('modalDesc').textContent = `${p.property_type || 'Residential'} in ${p.location || p.district || 'Singapore'}. ${p.tenure || ''}. ${p.units ? p.units + ' units.' : ''} ${p.completion_date ? 'Expected TOP: ' + p.completion_date + '.' : ''}`;
 
     const img = document.getElementById('modalImg');
@@ -1105,9 +1224,6 @@
       });
     });
   }
-
-  // ── Init ──
-  loadProjects();
 </script>
 
 </body>
