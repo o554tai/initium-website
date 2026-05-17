@@ -666,18 +666,58 @@
 
   /* Footer */
   footer {
-    padding: 48px;
+    border-top: 1px solid var(--ig-light);
+    padding: 64px 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-col-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }
+  .footer-col a {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-col a:hover { color: var(--ig); }
+  .footer-bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-top: 24px;
     border-top: 1px solid var(--ig-light);
-    max-width: 1200px;
-    margin: 0 auto;
   }
   .footer-copy {
     font-size: 13px;
     color: var(--ig-ink-3);
   }
+  .footer-legal {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-legal a {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-legal a:hover { color: var(--ig); }
   .footer-links {
     display: flex;
     gap: 24px;
@@ -825,7 +865,9 @@
     .service-grid { grid-template-columns: 1fr; }
     .properties-header { flex-direction: column; align-items: flex-start; gap: 16px; }
     .property-card { flex: 0 0 300px; }
-    footer { flex-direction: column; gap: 16px; text-align: center; }
+    footer { padding: 48px 24px 24px; }
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
     .services { margin: 0 12px; border-radius: 24px; }
     .cta-section { margin: 0 12px 12px; border-radius: 24px; }
     .contact-form { grid-template-columns: 1fr; }
@@ -1213,15 +1255,39 @@
 </a>
 
 <footer>
-  <div class="footer-copy">© 2025 INITIUM. Igniting Journeys.</div>
-  <ul class="footer-links">
-    <li><a href="about.html">About</a></li>
-    <li><a href="services.html">Services</a></li>
-    <li><a href="new-launches.html">New Launches</a></li>
-    <li><a href="team.html">Team</a></li>
-    <li><a href="join.html">Join Us</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
+      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">A collective of 70+ real estate agents guiding your property journey in Singapore.</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="new-launches.html">New Launches</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="team.html">Team</a>
+      <a href="join.html">Join Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="https://wa.me/6588464814" target="_blank">WhatsApp</a>
+      <a href="https://instagram.com/initium.sg" target="_blank">Instagram</a>
+      <a href="mailto:hello@initium.sg">Email</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2025 INITIUM. Igniting Journeys.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
 </footer>
 
 <script>
