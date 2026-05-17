@@ -1449,5 +1449,214 @@
   </div>
 </a>
 
+
+<!-- Exit-Intent Lead Capture -->
+<style>
+  .exit-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(10,31,23,0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .exit-overlay.show {
+    display: flex;
+    opacity: 1;
+  }
+  .exit-modal {
+    background: #fff;
+    border-radius: 28px;
+    padding: 48px 40px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.2);
+  }
+  .exit-overlay.show .exit-modal {
+    transform: translateY(0);
+  }
+  .exit-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--ig-surface, #f7f9f8);
+    color: var(--ig-ink-2, #4a6359);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+  }
+  .exit-close:hover { background: var(--ig-light, #e6f5f0); }
+  .exit-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    background: var(--ig-light, #e6f5f0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 28px;
+  }
+  .exit-title {
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ig-ink, #0a1f17);
+    margin-bottom: 8px;
+  }
+  .exit-text {
+    font-size: 15px;
+    color: var(--ig-ink-2, #4a6359);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+  .exit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .exit-form input {
+    padding: 14px 18px;
+    border: 1.5px solid rgba(0,140,101,0.15);
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: var(--font-body, 'DM Sans', sans-serif);
+    color: var(--ig-ink, #0a1f17);
+    background: #fff;
+    transition: border-color 0.3s ease;
+    outline: none;
+  }
+  .exit-form input:focus {
+    border-color: var(--ig, #008c65);
+  }
+  .exit-form input::placeholder {
+    color: var(--ig-ink-3, #8aa89a);
+  }
+  .exit-submit {
+    padding: 16px;
+    background: var(--ig, #008c65);
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-family: var(--font-display, 'Space Grotesk', sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 4px;
+  }
+  .exit-submit:hover {
+    background: var(--ig-dark, #006b4d);
+    transform: translateY(-1px);
+  }
+  .exit-privacy {
+    font-size: 11px;
+    color: var(--ig-ink-3, #8aa89a);
+    margin-top: 16px;
+  }
+  @media (max-width: 480px) {
+    .exit-modal { padding: 36px 24px 32px; border-radius: 20px; }
+    .exit-title { font-size: 20px; }
+  }
+</style>
+<div class="exit-overlay" id="exitPopup">
+  <div class="exit-modal">
+    <button class="exit-close" id="exitClose" aria-label="Close">&times;</button>
+    <div class="exit-icon">💬</div>
+    <div class="exit-title">Before You Go...</div>
+    <div class="exit-text">Get a free property valuation or new launch brief sent to your WhatsApp. No spam, just value.</div>
+    <form class="exit-form" id="exitForm">
+      <input type="text" id="exitName" placeholder="Your name" required>
+      <input type="email" id="exitEmail" placeholder="Email address" required>
+      <input type="tel" id="exitPhone" placeholder="Phone number" required>
+      <button type="submit" class="exit-submit">Send to WhatsApp</button>
+    </form>
+    <div class="exit-privacy">We respect your privacy. Unsubscribe anytime.</div>
+  </div>
+</div>
+<script>
+(function() {
+  const popup = document.getElementById('exitPopup');
+  const closeBtn = document.getElementById('exitClose');
+  const form = document.getElementById('exitForm');
+  const shownKey = 'exitPopupShown';
+
+  function showPopup() {
+    if (sessionStorage.getItem(shownKey)) return;
+    popup.classList.add('show');
+    sessionStorage.setItem(shownKey, '1');
+  }
+
+  function hidePopup() {
+    popup.classList.remove('show');
+  }
+
+  // Desktop: mouse leaving viewport toward top
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY < 10 && !e.relatedTarget) {
+      showPopup();
+    }
+  });
+
+  // Mobile: rapid scroll up past threshold
+  let lastScroll = 0;
+  let scrollTimeout;
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function() {
+      const current = window.scrollY;
+      if (lastScroll - current > 150 && current < 200) {
+        showPopup();
+      }
+      lastScroll = current;
+    }, 100);
+  }, { passive: true });
+
+  closeBtn.addEventListener('click', hidePopup);
+  popup.addEventListener('click', function(e) {
+    if (e.target === popup) hidePopup();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') hidePopup();
+  });
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('exitName').value.trim();
+    const email = document.getElementById('exitEmail').value.trim();
+    const phone = document.getElementById('exitPhone').value.trim();
+    const msg = encodeURIComponent(
+      'Hi INITIUM,\n\n' +
+      'Name: ' + name + '\n' +
+      'Email: ' + email + '\n' +
+      'Phone: ' + phone + '\n\n' +
+      'I'm interested in your services. Please contact me.'
+    );
+    window.open('https://wa.me/6588464814?text=' + msg, '_blank');
+    hidePopup();
+  });
+})();
+</script>
+
 </body>
 </html>
