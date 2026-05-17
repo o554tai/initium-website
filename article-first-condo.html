@@ -372,46 +372,46 @@
     left: 0;
     width: 20px;
     height: 20px;
-    border: 2px solid var(--ig, #008c65);
-    border-radius: 50%;
     pointer-events: none;
     z-index: 99999;
     transform: translate(-50%, -50%);
-    transition: width 0.3s ease, height 0.3s ease, background 0.3s ease, border-color 0.3s ease;
-    mix-blend-mode: difference;
+    transition: transform 0.3s ease;
+  }
+  .custom-cursor svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    transition: all 0.3s ease;
+  }
+  .custom-cursor svg path {
+    stroke: var(--ig, #008c65);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    transition: all 0.3s ease;
   }
   .custom-cursor.hover {
-    width: 48px;
-    height: 48px;
-    background: rgba(0, 140, 101, 0.15);
-    border-color: var(--ig, #008c65);
-    mix-blend-mode: normal;
+    transform: translate(-50%, -50%) scale(1.8);
   }
-  .custom-cursor-dot {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 6px;
-    height: 6px;
-    background: var(--ig, #008c65);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 99999;
-    transform: translate(-50%, -50%);
+  .custom-cursor.hover svg path {
+    fill: var(--ig, #008c65);
   }
   @media (pointer: coarse) {
-    .custom-cursor, .custom-cursor-dot { display: none !important; }
+    .custom-cursor { display: none !important; }
   }
 </style>
-<div class="custom-cursor" id="customCursor"></div>
-<div class="custom-cursor-dot" id="customCursorDot"></div>
+<div class="custom-cursor" id="customCursor">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M35 25 L45 15 L55 25"/>
+    <path d="M30 50 L45 72 L65 42 L88 82"/>
+  </svg>
+</div>
 <script>
 (function() {
   var cursor = document.getElementById('customCursor');
-  var dot = document.getElementById('customCursorDot');
   var mouseX = 0, mouseY = 0;
   var cursorX = 0, cursorY = 0;
-  var dotX = 0, dotY = 0;
 
   document.addEventListener('mousemove', function(e) {
     mouseX = e.clientX;
@@ -421,17 +421,12 @@
   function animate() {
     cursorX += (mouseX - cursorX) * 0.15;
     cursorY += (mouseY - cursorY) * 0.15;
-    dotX += (mouseX - dotX) * 0.35;
-    dotY += (mouseY - dotY) * 0.35;
     cursor.style.left = cursorX + 'px';
     cursor.style.top = cursorY + 'px';
-    dot.style.left = dotX + 'px';
-    dot.style.top = dotY + 'px';
     requestAnimationFrame(animate);
   }
   animate();
 
-  // Hover effect on interactive elements
   var hoverTargets = 'a, button, .service-tab, .property-card, .blog-card, .testimonial-card, .team-card, .why-card, .social-toast, .exit-close, .exit-submit, .nav-toggle';
   document.querySelectorAll(hoverTargets).forEach(function(el) {
     el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
