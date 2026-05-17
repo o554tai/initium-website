@@ -182,21 +182,22 @@
   /* Service Tabs */
   .service-tabs {
     display: flex;
-    gap: 8px;
+    gap: 6px;
     margin-bottom: 64px;
     flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
   }
   .service-tabs::-webkit-scrollbar { display: none; }
   .service-tab {
-    padding: 10px 18px;
+    padding: 8px 16px;
     background: #fff;
     border: 1.5px solid rgba(0,140,101,0.15);
     border-radius: 100px;
     font-family: var(--font-display);
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 600;
     color: var(--ig-ink);
     cursor: pointer;
@@ -204,6 +205,7 @@
     white-space: nowrap;
     flex-shrink: 0;
     letter-spacing: 0.02em;
+    text-transform: uppercase;
   }
   .service-tab:hover {
     border-color: var(--ig);
@@ -519,7 +521,7 @@
       <button class="service-tab active" data-service="buy">Buy</button>
       <button class="service-tab" data-service="sell">Sell</button>
       <button class="service-tab" data-service="rent">Rent</button>
-      <button class="service-tab" data-service="newlaunch">New Launch</button>
+      <button class="service-tab" data-service="newlaunch">Launch</button>
     </div>
 
     <div class="service-panel active" id="panel-buy">
