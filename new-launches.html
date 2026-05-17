@@ -1082,139 +1082,45 @@
     return { text: 'Available', class: '' };
   }
 
-  // ── Hardcoded projects (GitHub Pages static hosting) ──
-  const HARDCODED_PROJECTS = [
-    {
-      project_name: "The Orie",
-      district: "District 12",
-      location: "Toa Payoh",
-      address: "Toa Payoh Lorong 1",
-      property_type: "Condominium",
-      tenure: "99-Year Leasehold",
-      min_price: 1450000,
-      max_price: 3200000,
-      currency: "$",
-      units: "680",
-      completion_date: "2029",
-      sold_out: false,
-      launch_date: "2025-03-15",
-      cover_image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop"
-    },
-    {
-      project_name: "Nava Grove",
-      district: "District 21",
-      location: "Upper Bukit Timah",
-      address: "Ulu Pandan Road",
-      property_type: "Condominium",
-      tenure: "99-Year Leasehold",
-      min_price: 1280000,
-      max_price: 2800000,
-      currency: "$",
-      units: "552",
-      completion_date: "2028",
-      sold_out: false,
-      launch_date: "2025-01-20",
-      cover_image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop"
-    },
-    {
-      project_name: "Emerald of Katong",
-      district: "District 15",
-      location: "Katong",
-      address: "Jalan Tembusu",
-      property_type: "Condominium",
-      tenure: "99-Year Leasehold",
-      min_price: 1600000,
-      max_price: 4500000,
-      currency: "$",
-      units: "846",
-      completion_date: "2030",
-      sold_out: false,
-      launch_date: "2025-02-10",
-      cover_image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop"
-    },
-    {
-      project_name: "Aurelle of Tampines",
-      district: "District 18",
-      location: "Tampines",
-      address: "Tampines Street 86",
-      property_type: "Executive Condominium",
-      tenure: "99-Year Leasehold",
-      min_price: 980000,
-      max_price: 1800000,
-      currency: "$",
-      units: "420",
-      completion_date: "2028",
-      sold_out: false,
-      launch_date: "2025-04-01",
-      cover_image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop"
-    },
-    {
-      project_name: "Chuan Park",
-      district: "District 19",
-      location: "Serangoon",
-      address: "Lorong Chuan",
-      property_type: "Condominium",
-      tenure: "99-Year Leasehold",
-      min_price: 1350000,
-      max_price: 2900000,
-      currency: "$",
-      units: "916",
-      completion_date: "2029",
-      sold_out: false,
-      launch_date: "2024-11-15",
-      cover_image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop"
-    },
-    {
-      project_name: "Lentor Central Residences",
-      district: "District 26",
-      location: "Lentor",
-      address: "Lentor Central",
-      property_type: "Executive Condominium",
-      tenure: "99-Year Leasehold",
-      min_price: 1050000,
-      max_price: 1950000,
-      currency: "$",
-      units: "475",
-      completion_date: "2028",
-      sold_out: false,
-      launch_date: "2025-05-10",
-      cover_image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop"
-    },
-    {
-      project_name: "Parktown Residence",
-      district: "District 18",
-      location: "Tampines",
-      address: "Tampines Avenue 11",
-      property_type: "Condominium",
-      tenure: "99-Year Leasehold",
-      min_price: 1150000,
-      max_price: 2400000,
-      currency: "$",
-      units: "1200",
-      completion_date: "2029",
-      sold_out: false,
-      launch_date: "2025-03-01",
-      cover_image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop"
-    },
-    {
-      project_name: "Bagnall Haus",
-      district: "District 16",
-      location: "Upper East Coast",
-      address: "Jalan Bagnall",
-      property_type: "Condominium",
-      tenure: "Freehold",
-      min_price: 2200000,
-      max_price: 5800000,
-      currency: "$",
-      units: "113",
-      completion_date: "2027",
-      sold_out: false,
-      launch_date: "2024-09-20",
-      cover_image: "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop"
-    }
-  ];
+  // ── Transform EcoProp JSON → page format ──
+  function transformProjects(raw) {
+    return (raw.projects || []).map(p => {
+      // District: "D11" → "District 11"
+      let district = p.district || '';
+      const m = district.match(/^D(\d+)$/i);
+      if (m) district = 'District ' + parseInt(m[1], 10);
 
-  // ── Load projects (static, no API fetch) ──
+      // Launch date: [2018,10,12,0,0] → "2018-10-12"
+      let launchDate = p.launch_date;
+      if (Array.isArray(launchDate) && launchDate.length >= 3) {
+        const yy = launchDate[0];
+        const mm = String(launchDate[1]).padStart(2, '0');
+        const dd = String(launchDate[2]).padStart(2, '0');
+        launchDate = yy + '-' + mm + '-' + dd;
+      } else if (typeof launchDate !== 'string') {
+        launchDate = '';
+      }
+
+      return {
+        project_name: p.project_name || 'Unnamed',
+        district: district,
+        location: p.location || '',
+        address: p.address || '',
+        property_type: p.property_type || 'Residential',
+        tenure: p.tenure || '',
+        min_price: p.min_price || 0,
+        max_price: p.max_price || 0,
+        currency: p.currency || '$',
+        units: String(p.units || ''),
+        completion_date: p.completion_date || p.expected_top || '',
+        sold_out: !!p.sold_out,
+        launch_date: launchDate,
+        cover_image: p.cover_image || ''
+      };
+    });
+  }
+
+  // ── Load projects from scraped JSON ──
   async function loadProjects() {
     const grid = document.getElementById('projectGrid');
     const resultsCount = document.getElementById('resultsCount');
@@ -1227,12 +1133,26 @@
     resultsCount.textContent = 'Loading...';
     loadError = false;
 
-    // Simulate brief loading for UX
-    setTimeout(() => {
-      allProjects = HARDCODED_PROJECTS;
-      populateDistricts();
-      renderProjects();
-    }, 400);
+    try {
+      const res = await fetch('ecoprop_projects.json?v=' + Date.now());
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const raw = await res.json();
+      allProjects = transformProjects(raw);
+      console.log('[INITIUM] Loaded', allProjects.length, 'projects from ecoprop_projects.json');
+    } catch (err) {
+      console.error('[INITIUM] Failed to load projects:', err);
+      loadError = true;
+      grid.innerHTML = `
+        <div class="empty-state" style="grid-column: 1/-1;">
+          <h3>Unable to load projects</h3>
+          <p>Please refresh the page or try again later.</p>
+        </div>`;
+      resultsCount.textContent = 'Error loading projects';
+      return;
+    }
+
+    populateDistricts();
+    renderProjects();
   }
 
   function populateDistricts() {
