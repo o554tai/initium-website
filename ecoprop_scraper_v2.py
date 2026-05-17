@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 """
-Robust EcoProp scraper with multiple fallback strategies.
-1. Try API directly (fastest)
-2. Try extracting from Nuxt SSR HTML
-3. Use Playwright as last resort
+Robust EcoProp scraper.
+Primary: Direct API call (fast, reliable)
+Fallback: None - API is the only reliable source
 Auto-commits and pushes on success.
 """
 
-import asyncio
 import json
 import os
-import re
 import sys
 import time
 import hashlib
@@ -24,6 +21,18 @@ OUTPUT_FILE = Path("/home/hermes/initium-website/ecoprop_projects.json")
 CACHE_FILE = Path("/home/hermes/ecoprop_projects.json")
 LOCK_FILE = Path("/tmp/ecoprop_scraper.lock")
 
+# The API blocks short/robot User-Agents. Must use full browser UA.
+HEADERS = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Accept": "application/json, text/plain, */*",
+    "Referer": "https://www.ecoprop.com/",
+    "Origin": "https://www.ecoprop.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+}
+
+API_URL = "https://api.singmap.com/c-api/project/queryProjectList"
+
+
 def acquire_lock():
     if LOCK_FILE.exists():
         pid = LOCK_FILE.read_text().strip()
@@ -35,8 +44,10 @@ def acquire_lock():
             pass
     LOCK_FILE.write_text(str(os.getpid()))
 
+
 def release_lock():
     LOCK_FILE.unlink(missing_ok=True)
+
 
 def generate_api_signature(params):
     base = {"appSource": "web", "lang": "en", "timestamp": params["timestamp"]}
@@ -49,45 +60,62 @@ def generate_api_signature(params):
     sig_str += "c1d65f3667324592a071ebec5038f38c"
     return hashlib.md5(sig_str.encode()).hexdigest()
 
+
 def fetch_via_api():
-    """Strategy 1: Direct API call."""
+    """Fetch all projects via EcoProp API."""
     timestamp = str(int(time.time() * 1000))
     all_projects = []
     total_count = None
+    page_no = 0
 
-    for page_no in [1, 2, 3, 4, 5, 6, 7, 8]:
+    while True:
+        page_no += 1
         params = {
-            "lang": "en", "timestamp": timestamp, "country": "Singapore",
-            "type": "", "soldOut": "", "minPrice": "", "maxPrice": "",
-            "bedrooms": "", "projectType": "", "tenure": "",
-            "completionStatus": "", "projectArea": "", "category": "",
-            "minArea": "", "maxArea": "", "projectName": "", "location": "",
-            "pageNo": str(page_no), "pageSize": "500", "pointJson": "",
-            "year": "", "orderRule": "projectName", "distance": "",
-            "total": "web", "vrCall": "",
+            "lang": "en",
+            "timestamp": timestamp,
+            "country": "Singapore",
+            "type": "",
+            "soldOut": "",
+            "minPrice": "",
+            "maxPrice": "",
+            "bedrooms": "",
+            "projectType": "",
+            "tenure": "",
+            "completionStatus": "",
+            "projectArea": "",
+            "category": "",
+            "minArea": "",
+            "maxArea": "",
+            "projectName": "",
+            "location": "",
+            "pageNo": str(page_no),
+            "pageSize": "500",
+            "pointJson": "",
+            "year": "",
+            "orderRule": "projectName",
+            "distance": "",
+            "total": "web",
+            "vrCall": "",
         }
         signature = generate_api_signature(params)
         form_data = {**params, "signature": signature, "appSource": "web"}
 
-        try:
-            resp = requests.post(
-                "https://api.singmap.com/c-api/project/queryProjectList",
-                data=form_data,
-                headers={
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    "Accept": "application/json",
-                    "Referer": "https://www.ecoprop.com/",
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-                },
-                timeout=15
-            )
-            data = resp.json()
-        except Exception as e:
-            print(f"[{datetime.now()}] API page {page_no} error: {e}")
-            return None
+        # Retry up to 3 times per page
+        data = None
+        for attempt in range(1, 4):
+            try:
+                resp = requests.post(API_URL, data=form_data, headers=HEADERS, timeout=30)
+                data = resp.json()
+                break
+            except Exception as e:
+                print(f"[{datetime.now()}] API page {page_no} attempt {attempt} error: {e}")
+                if attempt == 3:
+                    return None
+                time.sleep(2)
 
-        if data.get("code") != "0":
-            print(f"[{datetime.now()}] API error: {data.get('msg')}")
+        if data is None or data.get("code") != "0":
+            msg = data.get("msg") if data else "No response"
+            print(f"[{datetime.now()}] API error: {msg}")
             return None
 
         projects = data.get("datas", {}).get("lists", [])
@@ -95,116 +123,13 @@ def fetch_via_api():
             total_count = data.get("datas", {}).get("count", 0)
 
         all_projects.extend(projects)
-        print(f"[{datetime.now()}] API page {page_no}: {len(projects)} projects (total: {len(all_projects)}/{total_count})")
+        print(f"[{datetime.now()}] Page {page_no}: {len(projects)} projects (total: {len(all_projects)}/{total_count})")
 
         if len(projects) == 0 or len(all_projects) >= total_count:
             break
 
     return all_projects
 
-def fetch_via_html():
-    """Strategy 2: Extract from Nuxt SSR HTML."""
-    try:
-        resp = requests.get(
-            "https://www.ecoprop.com/new-launch-properties",
-            headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"},
-            timeout=30
-        )
-        text = resp.text
-
-        # Try to find and parse __NUXT__ data
-        nuxt_match = re.search(r'window\.__NUXT__\s*=\s*(function\(.*?\)\{return\s+(.+?)\}\(.*?\)\);', text, re.DOTALL)
-        if nuxt_match:
-            # This is obfuscated - let's try a different regex
-            pass
-
-        # Look for raw JSON with project data
-        # Try simpler patterns
-        for pattern in [
-            r'"projectList":\s*(\[.*?\])',
-            r'"lists":\s*(\[.*?\])',
-        ]:
-            # Use non-greedy with a limit to avoid catastrophic backtracking
-            match = re.search(pattern, text[:200000])  # Limit search to first 200KB
-            if match:
-                try:
-                    return json.loads(match.group(1))
-                except:
-                    continue
-
-        print(f"[{datetime.now()}] HTML strategy: no parseable project data found")
-        return None
-    except Exception as e:
-        print(f"[{datetime.now()}] HTML strategy error: {e}")
-        return None
-
-async def fetch_via_playwright():
-    """Strategy 3: Playwright browser automation."""
-    try:
-        from playwright.async_api import async_playwright
-    except ImportError:
-        print(f"[{datetime.now()}] Playwright not installed")
-        return None
-
-    try:
-        async with async_playwright() as p:
-            browser = await p.chromium.launch(
-                headless=True,
-                args=['--no-sandbox', '--disable-setuid-sandbox']
-            )
-            page = await browser.new_page()
-
-            # Intercept API response
-            api_response = None
-            def handle_response(response):
-                nonlocal api_response
-                if "queryProjectList" in response.url:
-                    api_response = response
-
-            page.on("response", handle_response)
-
-            await page.goto('https://www.ecoprop.com/new-launch-properties', wait_until='networkidle', timeout=60000)
-            await page.wait_for_timeout(3000)
-
-            if api_response:
-                data = await api_response.json()
-                if data.get("code") == "0":
-                    projects = data.get("datas", {}).get("lists", [])
-                    await browser.close()
-                    print(f"[{datetime.now()}] Playwright: captured {len(projects)} projects from network")
-                    return projects
-
-            # Fallback: try to extract from page JS context
-            result = await page.evaluate('''() => {
-                try {
-                    const nuxt = window.__NUXT__;
-                    if (nuxt && nuxt.state) {
-                        // Look for project data in state
-                        const state = nuxt.state;
-                        for (let key of Object.keys(state)) {
-                            const val = state[key];
-                            if (val && val.lists && Array.isArray(val.lists)) {
-                                return val.lists;
-                            }
-                        }
-                    }
-                    return null;
-                } catch(e) {
-                    return null;
-                }
-            }''')
-
-            await browser.close()
-
-            if result and isinstance(result, list):
-                print(f"[{datetime.now()}] Playwright: extracted {len(result)} projects from JS state")
-                return result
-
-            print(f"[{datetime.now()}] Playwright: no data extracted")
-            return None
-    except Exception as e:
-        print(f"[{datetime.now()}] Playwright error: {e}")
-        return None
 
 def clean_projects(raw_projects):
     cleaned = []
@@ -230,6 +155,7 @@ def clean_projects(raw_projects):
         })
     return cleaned
 
+
 def save_and_commit(projects):
     output = {
         'source': 'ecoprop.com',
@@ -238,21 +164,16 @@ def save_and_commit(projects):
         'projects': projects,
     }
 
-    # Save to both locations
     OUTPUT_FILE.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding='utf-8')
     CACHE_FILE.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding='utf-8')
 
     print(f"[{datetime.now()}] Saved {len(projects)} projects")
 
-    # Git commit and push
     try:
-        import subprocess
         os.chdir("/home/hermes/initium-website")
+        import subprocess
         subprocess.run(["git", "add", "ecoprop_projects.json"], check=True, capture_output=True)
-        result = subprocess.run(
-            ["git", "diff", "--cached", "--quiet"],
-            capture_output=True
-        )
+        result = subprocess.run(["git", "diff", "--cached", "--quiet"], capture_output=True)
         if result.returncode != 0:
             subprocess.run(
                 ["git", "commit", "-m", f"Auto-update EcoProp projects: {len(projects)} projects"],
@@ -265,39 +186,25 @@ def save_and_commit(projects):
     except Exception as e:
         print(f"[{datetime.now()}] Git error: {e}")
 
-async def main():
+
+def main():
     acquire_lock()
     try:
         print(f"[{datetime.now()}] Starting EcoProp scraper...")
 
-        # Strategy 1: API
         raw_projects = fetch_via_api()
         if raw_projects is not None:
             projects = clean_projects(raw_projects)
             save_and_commit(projects)
-            print(f"[{datetime.now()}] SUCCESS via API: {len(projects)} projects")
-            return
+            print(f"[{datetime.now()}] SUCCESS: {len(projects)} projects")
+            return 0
 
-        # Strategy 2: HTML
-        raw_projects = fetch_via_html()
-        if raw_projects is not None:
-            projects = clean_projects(raw_projects)
-            save_and_commit(projects)
-            print(f"[{datetime.now()}] SUCCESS via HTML: {len(projects)} projects")
-            return
-
-        # Strategy 3: Playwright
-        raw_projects = await fetch_via_playwright()
-        if raw_projects is not None:
-            projects = clean_projects(raw_projects)
-            save_and_commit(projects)
-            print(f"[{datetime.now()}] SUCCESS via Playwright: {len(projects)} projects")
-            return
-
-        print(f"[{datetime.now()}] ALL STRATEGIES FAILED - keeping existing data")
+        print(f"[{datetime.now()}] FAILED - keeping existing data")
+        return 1
 
     finally:
         release_lock()
 
+
 if __name__ == '__main__':
-    asyncio.run(main())
+    sys.exit(main())

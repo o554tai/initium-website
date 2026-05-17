@@ -1,188 +1,139 @@
 #!/usr/bin/env python3
 """
-SingMap scraper - logs into app.singmap.com and extracts project data.
-Credentials provided by user.
-Uses JavaScript injection for login to bypass UI interaction issues.
+SingMap scraper - uses the same API backend as EcoProp.
+SingMap (app.singmap.com) and EcoProp (ecoprop.com) share the same backend
+at api.singmap.com. This scraper fetches the same data with SingMap branding.
 """
 
-import asyncio
 import json
 import os
 import sys
-from datetime import datetime
+import time
+import hashlib
 from pathlib import Path
+from datetime import datetime
+
+import requests
 
 OUTPUT_FILE = Path("/home/hermes/initium-website/ecoprop_projects.json")
 CACHE_FILE = Path("/home/hermes/ecoprop_projects.json")
 
-async def fetch_from_singmap():
-    try:
-        from playwright.async_api import async_playwright
-    except ImportError:
-        print(f"[{datetime.now()}] Playwright not installed")
-        return None
+HEADERS = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Accept": "application/json, text/plain, */*",
+    "Referer": "https://app.singmap.com/",
+    "Origin": "https://app.singmap.com",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
+}
 
-    async with async_playwright() as p:
-        browser = await p.chromium.launch(
-            headless=True,
-            args=['--no-sandbox', '--disable-setuid-sandbox']
-        )
-        page = await browser.new_page()
+API_URL = "https://api.singmap.com/c-api/project/queryProjectList"
 
-        try:
-            # Navigate to login page
-            print(f"[{datetime.now()}] Navigating to singmap login...")
-            await page.goto('https://app.singmap.com/#/login', wait_until='commit', timeout=20000)
-            await page.wait_for_timeout(8000)
 
-            # Use JavaScript to fill form and submit
-            print(f"[{datetime.now()}] Attempting login via JS...")
-            login_result = await page.evaluate('''(credentials) => {
-                return new Promise((resolve) => {
-                    // Find all input fields
-                    const inputs = document.querySelectorAll('input');
-                    let emailInput = null;
-                    let pwdInput = null;
-                    
-                    for (let inp of inputs) {
-                        const type = inp.type || '';
-                        const placeholder = inp.placeholder || '';
-                        if (type === 'text' || placeholder.toLowerCase().includes('email') || placeholder.toLowerCase().includes('user')) {
-                            emailInput = inp;
-                        }
-                        if (type === 'password' || placeholder.toLowerCase().includes('pass')) {
-                            pwdInput = inp;
-                        }
-                    }
-                    
-                    if (!emailInput || !pwdInput) {
-                        resolve({success: false, error: 'Could not find input fields'});
-                        return;
-                    }
-                    
-                    // Set values
-                    emailInput.value = credentials.email;
-                    emailInput.dispatchEvent(new Event('input', { bubbles: true }));
-                    emailInput.dispatchEvent(new Event('change', { bubbles: true }));
-                    
-                    pwdInput.value = credentials.password;
-                    pwdInput.dispatchEvent(new Event('input', { bubbles: true }));
-                    pwdInput.dispatchEvent(new Event('change', { bubbles: true }));
-                    
-                    // Find and click submit button
-                    const buttons = document.querySelectorAll('button');
-                    let submitBtn = null;
-                    for (let btn of buttons) {
-                        const text = btn.innerText || btn.textContent || '';
-                        if (text.toLowerCase().includes('login') || text.toLowerCase().includes('sign in') || btn.type === 'submit') {
-                            submitBtn = btn;
-                            break;
-                        }
-                    }
-                    
-                    if (!submitBtn) {
-                        // Try submitting the form directly
-                        const form = emailInput.closest('form');
-                        if (form) {
-                            form.dispatchEvent(new Event('submit', { bubbles: true }));
-                            resolve({success: true, method: 'form_submit'});
-                        } else {
-                            resolve({success: false, error: 'No submit button or form found'});
-                        }
-                        return;
-                    }
-                    
-                    submitBtn.click();
-                    resolve({success: true, method: 'button_click'});
-                });
-            }''', {'email': 'tassochan@sri.sg', 'password': 'R028756g'})
-            
-            print(f"  Login attempt: {login_result}")
-            
-            # Wait for navigation after login
-            await page.wait_for_timeout(8000)
-            
-            current_url = page.url
-            print(f"[{datetime.now()}] Current URL: {current_url}")
-            
-            # Check if we're logged in (URL should change from login page)
-            if 'login' in current_url:
-                print(f"[{datetime.now()}] Still on login page, login may have failed")
-                # Dump page text for debugging
-                body_text = await page.evaluate('() => document.body.innerText')
-                if 'incorrect' in body_text.lower() or 'error' in body_text.lower():
-                    print(f"  Error text found on page")
-                await browser.close()
-                return None
+def generate_api_signature(params):
+    base = {"appSource": "web", "lang": "en", "timestamp": params["timestamp"]}
+    merged = {**base, **params}
+    sorted_keys = sorted(merged.keys())
+    sig_str = ""
+    for k in sorted_keys:
+        if k != "token" and merged[k] is not None:
+            sig_str += str(merged[k])
+    sig_str += "c1d65f3667324592a071ebec5038f38c"
+    return hashlib.md5(sig_str.encode()).hexdigest()
 
-            # Navigate to new launches
-            print(f"[{datetime.now()}] Navigating to new launches...")
-            await page.goto('https://app.singmap.com/#/new-launch-properties', wait_until='commit', timeout=20000)
-            await page.wait_for_timeout(8000)
-            
-            # Extract project data from page
-            projects = await page.evaluate('''() => {
-                // Try multiple data sources
-                const sources = [
-                    () => { if (window.__NUXT__ && window.__NUXT__.state) {
-                        for (let key of Object.keys(window.__NUXT__.state)) {
-                            const val = window.__NUXT__.state[key];
-                            if (val && val.lists && Array.isArray(val.lists)) return val.lists;
-                            if (val && val.projects && Array.isArray(val.projects)) return val.projects;
-                        }
-                    }},
-                    () => { for (let key of Object.keys(window)) {
-                        try {
-                            const val = window[key];
-                            if (val && typeof val === 'object' && val.lists && Array.isArray(val.lists)) return val.lists;
-                        } catch(e) {}
-                    }},
-                ];
-                
-                for (let fn of sources) {
-                    const result = fn();
-                    if (result && result.length > 0) return result;
-                }
-                return null;
-            }''')
 
-            if projects and isinstance(projects, list) and len(projects) > 0:
-                print(f"[{datetime.now()}] Extracted {len(projects)} projects from page")
-                await browser.close()
-                return projects
+def fetch_projects():
+    """Fetch all projects via SingMap/EcoProp API."""
+    timestamp = str(int(time.time() * 1000))
+    all_projects = []
+    total_count = None
+    page_no = 0
 
-            print(f"[{datetime.now()}] No project data found on page")
-            await browser.close()
+    while True:
+        page_no += 1
+        params = {
+            "lang": "en",
+            "timestamp": timestamp,
+            "country": "Singapore",
+            "type": "",
+            "soldOut": "",
+            "minPrice": "",
+            "maxPrice": "",
+            "bedrooms": "",
+            "projectType": "",
+            "tenure": "",
+            "completionStatus": "",
+            "projectArea": "",
+            "category": "",
+            "minArea": "",
+            "maxArea": "",
+            "projectName": "",
+            "location": "",
+            "pageNo": str(page_no),
+            "pageSize": "500",
+            "pointJson": "",
+            "year": "",
+            "orderRule": "projectName",
+            "distance": "",
+            "total": "web",
+            "vrCall": "",
+        }
+        signature = generate_api_signature(params)
+        form_data = {**params, "signature": signature, "appSource": "web"}
+
+        data = None
+        for attempt in range(1, 4):
+            try:
+                resp = requests.post(API_URL, data=form_data, headers=HEADERS, timeout=30)
+                data = resp.json()
+                break
+            except Exception as e:
+                print(f"[{datetime.now()}] Page {page_no} attempt {attempt} error: {e}")
+                if attempt == 3:
+                    return None
+                time.sleep(2)
+
+        if data is None or data.get("code") != "0":
+            msg = data.get("msg") if data else "No response"
+            print(f"[{datetime.now()}] API error: {msg}")
             return None
 
-        except Exception as e:
-            print(f"[{datetime.now()}] Error: {e}")
-            await browser.close()
-            return None
+        projects = data.get("datas", {}).get("lists", [])
+        if total_count is None:
+            total_count = data.get("datas", {}).get("count", 0)
+
+        all_projects.extend(projects)
+        print(f"[{datetime.now()}] Page {page_no}: {len(projects)} projects (total: {len(all_projects)}/{total_count})")
+
+        if len(projects) == 0 or len(all_projects) >= total_count:
+            break
+
+    return all_projects
+
 
 def clean_projects(raw_projects):
     cleaned = []
     for proj in raw_projects:
         cleaned.append({
-            'project_name': proj.get('projectName') or proj.get('name'),
+            'project_name': proj.get('projectName'),
             'district': proj.get('district'),
             'location': proj.get('location'),
-            'address': proj.get('streetAddress') or proj.get('address'),
-            'property_type': proj.get('projectType') or proj.get('type'),
+            'address': proj.get('streetAddress'),
+            'property_type': proj.get('projectType'),
             'tenure': proj.get('tenure'),
             'min_price': proj.get('minPrice'),
             'max_price': proj.get('maxPrice'),
-            'currency': proj.get('currencySymbol') or 'S$',
-            'units': proj.get('unitsNum') or proj.get('units'),
-            'completion_date': proj.get('completionDate') or proj.get('top'),
+            'currency': proj.get('currencySymbol'),
+            'units': proj.get('unitsNum'),
+            'completion_date': proj.get('completionDate'),
             'expected_top': proj.get('expTop'),
             'launch_date': proj.get('launchDate'),
             'sold_out': proj.get('soldOut') == 1,
             'latitude': proj.get('latitude'),
             'longitude': proj.get('longitude'),
-            'cover_image': proj.get('mainImage') or proj.get('coverImage'),
+            'cover_image': f"https://img.singmap.com{proj.get('mainImage')}" if proj.get('mainImage') else None,
         })
     return cleaned
+
 
 def save_and_commit(projects):
     output = {
@@ -191,8 +142,10 @@ def save_and_commit(projects):
         'scraped_at': datetime.utcnow().isoformat(),
         'projects': projects,
     }
+
     OUTPUT_FILE.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding='utf-8')
     CACHE_FILE.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding='utf-8')
+
     print(f"[{datetime.now()}] Saved {len(projects)} projects")
 
     try:
@@ -210,15 +163,18 @@ def save_and_commit(projects):
     except Exception as e:
         print(f"[{datetime.now()}] Git error: {e}")
 
-async def main():
+
+def main():
     print(f"[{datetime.now()}] Starting SingMap scraper...")
-    raw_projects = await fetch_from_singmap()
-    if raw_projects:
+    raw_projects = fetch_projects()
+    if raw_projects is not None:
         projects = clean_projects(raw_projects)
         save_and_commit(projects)
         print(f"[{datetime.now()}] SUCCESS: {len(projects)} projects")
-    else:
-        print(f"[{datetime.now()}] FAILED - keeping existing data")
+        return 0
+    print(f"[{datetime.now()}] FAILED - keeping existing data")
+    return 1
+
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    sys.exit(main())
