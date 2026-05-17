@@ -149,14 +149,20 @@
   }
   .hero-icon {
     position: relative;
-    margin-bottom: 32px;
+    margin-bottom: 16px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: min(420px, 90vw);
-    height: min(280px, 60vw);
+    width: auto;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
+  }
+  .hero-icon img {
+    height: clamp(36px, 6vw, 72px);
+    width: auto;
+    display: block;
+    position: relative !important;
   }
   .hero-logo-svg,
   .hero-logo-png {
@@ -997,7 +1003,7 @@
   <div class="hero-particles" id="particles"><div class="particle" style="width: 395.505px; height: 395.505px; left: 59.1133%; top: 85.9358%; translate: none; rotate: none; scale: none; transform: translate3d(20.2674px, -43.7895px, 0px);"></div><div class="particle" style="width: 219.908px; height: 219.908px; left: 79.2737%; top: 37.5477%; translate: none; rotate: none; scale: none; transform: translate3d(-0.074px, -0.5484px, 0px);"></div><div class="particle" style="width: 309.222px; height: 309.222px; left: 75.932%; top: 42.1121%; translate: none; rotate: none; scale: none; transform: translate3d(59.3184px, 62.8959px, 0px);"></div><div class="particle" style="width: 313.907px; height: 313.907px; left: 4.45119%; top: 76.9345%; translate: none; rotate: none; scale: none; transform: translate3d(4.2902px, 18.1278px, 0px);"></div><div class="particle" style="width: 362.889px; height: 362.889px; left: 46.3723%; top: 5.92847%; translate: none; rotate: none; scale: none; transform: translate3d(6.5299px, 2.6054px, 0px);"></div><div class="particle" style="width: 351.014px; height: 351.014px; left: 25.9346%; top: 29.0846%; translate: none; rotate: none; scale: none; transform: translate3d(-41.5928px, 40.9464px, 0px);"></div><div class="particle" style="width: 221.382px; height: 221.382px; left: 58.0421%; top: 87.6472%; translate: none; rotate: none; scale: none; transform: translate3d(16.177px, 20.6227px, 0px);"></div><div class="particle" style="width: 348.058px; height: 348.058px; left: 73.6797%; top: 65.6368%; translate: none; rotate: none; scale: none; transform: translate3d(-25.976px, 18.1412px, 0px);"></div></div>
   <div class="hero-content">
         <div class="hero-icon">
-      <img class="hero-logo-png" src="logo-nav.png" alt="INITIUM" style="position:relative; width:auto; height:auto; max-height:220px; max-width:90vw;">
+      <img class="hero-logo-png" src="logo-nav.png" alt="INITIUM">
     </div>
     <h1 class="hero-title">
       <span class="line"><span class="line-inner">Igniting Journeys</span></span>
