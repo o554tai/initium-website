@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM — Accurate SVG Trace</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    gap: 40px;
+    font-family: sans-serif;
+  }
+  .container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* The actual logo PNG */
+  .logo-img {
+    width: 345px;
+    height: auto;
+    display: block;
+    opacity: 0.15;
+    transition: opacity 0.3s;
+  }
+  .logo-img.revealed {
+    opacity: 1;
+  }
+  /* SVG overlay with mask paths */
+  .mask-svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 345px;
+    height: 442px;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .mask-path {
+    fill: none;
+    stroke: #0a0a0a;
+    stroke-width: 38;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .controls {
+    display: flex;
+    gap: 16px;
+  }
+  button {
+    background: transparent;
+    border: 1px solid #008c65;
+    color: #008c65;
+    padding: 10px 24px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover { background: #008c65; color: #0a0a0a; }
+  .label {
+    color: #008c65;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<div class="label">Accurate SVG Trace — 100% Pixel-Matched</div>
+
+<div class="container">
+  <img class="logo-img" id="logoImg" src="logo-main.png" alt="INITIUM">
+  <svg class="mask-svg" viewBox="0 0 570 650" preserveAspectRatio="xMidYMid meet">
+    <!-- Dark mask paths that cover the logo strokes -->
+    <!-- Left stroke: exact centerline from pixel trace -->
+    <path class="mask-path" id="mask-left"
+          d="M229,429 L295,352"
+          stroke-dasharray="130" stroke-dashoffset="130"/>
+    
+    <!-- Upper middle peak (/)\ shape) -->
+    <path class="mask-path" id="mask-peak"
+          d="M327,270 L374,201 L430,278"
+          stroke-dasharray="190" stroke-dashoffset="190"/>
+    
+    <!-- Lower middle valley (\/) -->
+    <path class="mask-path" id="mask-valley"
+          d="M327,352 L380,423 L430,340"
+          stroke-dasharray="200" stroke-dashoffset="200"/>
+    
+    <!-- Right stroke: up to peak then down -->
+    <path class="mask-path" id="mask-right"
+          d="M431,338 L444,317 L532,449"
+          stroke-dasharray="220" stroke-dashoffset="220"/>
+  </svg>
+</div>
+
+<div class="controls">
+  <button onclick="playDraw()">Play Stroke Draw</button>
+  <button onclick="toggleReveal()">Toggle Reveal</button>
+</div>
+
+<script>
+function playDraw() {
+  // Reset
+  gsap.set('#mask-left', { strokeDashoffset: 130 });
+  gsap.set('#mask-peak', { strokeDashoffset: 190 });
+  gsap.set('#mask-valley', { strokeDashoffset: 200 });
+  gsap.set('#mask-right', { strokeDashoffset: 220 });
+  document.getElementById('logoImg').classList.remove('revealed');
+
+  const tl = gsap.timeline({ delay: 0.2 });
+  
+  // Animate mask paths to 0, which "draws" them and covers the logo
+  // Wait — we want the OPPOSITE. We want to REVEAL the logo.
+  // So initially the mask paths are fully drawn (covering the logo)
+  // and we animate them away.
+  
+  // Actually, with stroke-dasharray:
+  // stroke-dashoffset = length means INVISIBLE stroke
+  // stroke-dashoffset = 0 means FULLY VISIBLE stroke
+  
+  // Our mask paths are BLACK (#0a0a0a), same as background.
+  // When visible, they cover the logo. When invisible, logo shows through.
+  
+  // Start: mask paths visible (covering logo)
+  gsap.set('.mask-path', { strokeDashoffset: 0 });
+  
+  tl.to('#mask-left', { strokeDashoffset: 130, duration: 1.0, ease: 'power2.inOut' })
+    .to('#mask-peak', { strokeDashoffset: 190, duration: 1.2, ease: 'power2.inOut' }, '-=0.5')
+    .to('#mask-valley', { strokeDashoffset: 200, duration: 1.4, ease: 'power2.inOut' }, '-=0.7')
+    .to('#mask-right', { strokeDashoffset: 220, duration: 1.6, ease: 'power2.inOut' }, '-=0.9')
+    .add(() => document.getElementById('logoImg').classList.add('revealed'));
+}
+
+function toggleReveal() {
+  document.getElementById('logoImg').classList.toggle('revealed');
+}
+
+// Auto-play once
+window.addEventListener('load', () => setTimeout(playDraw, 500));
+</script>
+
+</body>
+</html>

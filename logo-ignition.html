@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM Logo — Ignition</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #030305;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .stage {
+    position: relative;
+    width: 280px;
+    height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  #logo-png {
+    width: 220px;
+    height: auto;
+    opacity: 0;
+    filter: brightness(0.3) blur(2px);
+    transform: scale(0.92);
+  }
+  .spark {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffffff 0%, #d4eaea 40%, transparent 70%);
+    box-shadow: 0 0 12px 4px rgba(212, 234, 234, 0.6), 0 0 30px 10px rgba(232, 255, 255, 0.2);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 10;
+  }
+  .spark-trail {
+    position: absolute;
+    height: 2px;
+    border-radius: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 234, 234, 0.9), transparent);
+    box-shadow: 0 0 8px 2px rgba(0, 140, 101, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9;
+  }
+  button {
+    background: transparent;
+    border: 1px solid #008c65;
+    color: #008c65;
+    padding: 12px 32px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover { background: #008c65; color: #030305; }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <img id="logo-png" src="logo-main.png" alt="INITIUM">
+  <div class="spark" id="spark"></div>
+  <div class="spark-trail" id="trail1"></div>
+  <div class="spark-trail" id="trail2"></div>
+  <div class="spark-trail" id="trail3"></div>
+</div>
+
+<button onclick="ignite()">Ignite</button>
+
+<script>
+  // Mountain peak coordinates relative to 220px wide logo
+  // The icon sits in the upper portion of the 793x800 PNG
+  // Approx positions at 220px render width:
+  const peaks = [
+    { x: 32,  y: 138 }, // left base
+    { x: 72,  y: 92 },  // peak 1
+    { x: 98,  y: 112 }, // valley
+    { x: 138, y: 68 },  // peak 2 (highest)
+    { x: 170, y: 95 }   // right end
+  ];
+
+  function ignite() {
+    const logo = document.getElementById('logo-png');
+    const spark = document.getElementById('spark');
+    const trails = [
+      document.getElementById('trail1'),
+      document.getElementById('trail2'),
+      document.getElementById('trail3')
+    ];
+    const stage = document.getElementById('stage');
+    const rect = stage.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const logoW = 220;
+    const offsetX = centerX - logoW / 2;
+    const offsetY = centerY - 160; // shift up so icon is centered
+
+    // Position spark at first peak
+    gsap.set(spark, {
+      x: offsetX + peaks[0].x - 3,
+      y: offsetY + peaks[0].y - 3,
+      opacity: 0,
+      scale: 0
+    });
+
+    // Reset logo
+    gsap.set(logo, { opacity: 0, scale: 0.92, filter: 'brightness(0.3) blur(2px)' });
+
+    const tl = gsap.timeline();
+
+    // 1. Spark appears
+    tl.to(spark, { opacity: 1, scale: 1.5, duration: 0.2, ease: 'power2.out' });
+
+    // 2. Spark travels peak to peak, leaving trails
+    for (let i = 0; i < peaks.length - 1; i++) {
+      const p1 = peaks[i];
+      const p2 = peaks[i + 1];
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+      // Position trail between peaks
+      const trail = trails[i % trails.length];
+      gsap.set(trail, {
+        width: dist,
+        left: offsetX + p1.x,
+        top: offsetY + p1.y,
+        rotation: angle,
+        transformOrigin: '0 50%',
+        opacity: 0,
+        scaleX: 0
+      });
+
+      tl.to(spark, {
+        x: offsetX + p2.x - 3,
+        y: offsetY + p2.y - 3,
+        duration: 0.35,
+        ease: 'power1.inOut'
+      }, '-=0.05');
+
+      tl.to(trail, {
+        opacity: 1,
+        scaleX: 1,
+        duration: 0.3,
+        ease: 'power1.out'
+      }, '<');
+    }
+
+    // 3. Spark bursts at final peak
+    tl.to(spark, { scale: 3, opacity: 0, duration: 0.25, ease: 'power2.out' });
+
+    // 4. Logo ignites — brightness sweeps in, blur clears, scale settles
+    tl.to(logo, {
+      opacity: 1,
+      scale: 1,
+      filter: 'brightness(1.1) blur(0px)',
+      duration: 0.8,
+      ease: 'power3.out'
+    }, '-=0.3');
+
+    tl.to(logo, {
+      filter: 'brightness(1) blur(0px)',
+      duration: 0.4,
+      ease: 'power1.out'
+    });
+
+    // 5. Gentle ambient pulse on the dot area (subtle glow breathing)
+    tl.to(logo, {
+      filter: 'brightness(1.03) drop-shadow(0 0 8px rgba(0,140,101,0.15))',
+      duration: 1.5,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1
+    });
+  }
+
+  window.addEventListener('load', () => setTimeout(ignite, 400));
+</script>
+
+</body>
+</html>

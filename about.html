@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — INITIUM | Singapore Real Estate</title>
+<meta name="description" content="Meet the INITIUM collective. Built on ascent, authenticity, and partnership. 70 agents guiding your property journey in Singapore.">
+<meta name="theme-color" content="#008c65">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://initium.sg/about.html">
+<meta property="og:title" content="About — INITIUM">
+<meta property="og:description" content="Meet the INITIUM collective. Built on ascent, authenticity, and partnership.">
+<meta property="og:image" content="og-image.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 40px; width: auto; display: block; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
+
+  /* Page Hero */
+  .page-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 80px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    overflow: hidden;
+  }
+  .page-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
+  }
+  .page-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 20px;
+    max-width: 700px;
+  }
+  .page-hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* Section base */
+  section {
+    position: relative;
+    padding: 120px 48px;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ig);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+  .section-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    max-width: 540px;
+  }
+
+  /* Origin Story */
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .story-visual {
+    position: relative;
+    height: 480px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+  }
+  .story-visual::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url('logo-main.png') center/60% no-repeat;
+    opacity: 0.08;
+  }
+  .story-visual::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10,31,23,0.05), transparent);
+  }
+  .story-content h2 {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 42px);
+    font-weight: 700;
+    line-height: 1.15;
+    margin-bottom: 24px;
+    color: var(--ig-ink);
+  }
+  .story-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ig-ink-2);
+    margin-bottom: 20px;
+  }
+  .story-quote {
+    margin-top: 32px;
+    padding: 24px 28px;
+    border-left: 3px solid var(--ig);
+    background: rgba(0,140,101,0.04);
+    border-radius: 0 16px 16px 0;
+  }
+  .story-quote p {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    font-style: italic;
+    color: var(--ig-ink);
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+  .story-quote span {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+
+  /* Mission & Values */
+  .mission-section {
+    background: var(--ig-ink);
+    color: #fff;
+    border-radius: 40px;
+    margin: 0 24px;
+    overflow: hidden;
+    position: relative;
+  }
+  .mission-section::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 80%; height: 120%;
+    background: radial-gradient(ellipse, rgba(0,140,101,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .mission-section .section-label { color: var(--ig-light); }
+  .mission-section .section-label::before { background: var(--ig-light); }
+  .mission-section .section-title { color: #fff; }
+  .mission-section .section-text { color: rgba(255,255,255,0.7); }
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .pillar-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 48px 32px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .pillar-card:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-4px);
+  }
+  .pillar-number {
+    font-family: var(--font-display);
+    font-size: 56px;
+    font-weight: 700;
+    color: var(--ig);
+    line-height: 1;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+  .pillar-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  .pillar-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* Leadership Team */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+  .team-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(10,31,23,0.06);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  .team-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(10,31,23,0.1);
+  }
+  .team-photo {
+    height: 220px;
+    background: linear-gradient(135deg, var(--ig-light), #e0f0e8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .team-photo::before {
+    content: '';
+    position: absolute;
+    width: 80px; height: 80px;
+    background: var(--ig);
+    border-radius: 50%;
+    opacity: 0.1;
+  }
+  .team-photo span {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--ig);
+    opacity: 0.4;
+  }
+  .team-info {
+    padding: 28px 24px;
+  }
+  .team-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }
+  .team-role {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ig);
+    letter-spacing: 0.02em;
+    margin-bottom: 12px;
+  }
+  .team-bio {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin-bottom: 16px;
+  }
+  .team-connect {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ig);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.3s ease;
+  }
+  .team-connect:hover { gap: 10px; }
+
+  /* Culture */
+  .culture-section {
+    text-align: center;
+  }
+  .culture-section .section-title,
+  .culture-section .section-text {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .culture-values {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 48px;
+  }
+  .culture-tag {
+    padding: 12px 24px;
+    background: #fff;
+    border: 1px solid rgba(0,140,101,0.1);
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ig-ink-2);
+    transition: all 0.3s ease;
+  }
+  .culture-tag:hover {
+    background: var(--ig);
+    color: #fff;
+    border-color: var(--ig);
+    transform: translateY(-2px);
+  }
+
+  /* Timeline */
+  .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 64px auto 0;
+    padding-left: 40px;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--ig), var(--ig-light));
+  }
+  .timeline-item {
+    position: relative;
+    padding-bottom: 48px;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -44px;
+    top: 4px;
+    width: 10px;
+    height: 10px;
+    background: var(--ig);
+    border-radius: 50%;
+    border: 3px solid var(--ig-surface);
+  }
+  .timeline-year {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig);
+    margin-bottom: 4px;
+  }
+  .timeline-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 6px;
+  }
+  .timeline-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: var(--ig);
+    border-radius: 40px;
+    margin: 0 24px 80px;
+    padding: 100px 48px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -20%; left: -10%;
+    width: 50%; height: 80%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-text {
+    font-size: 17px;
+    opacity: 0.85;
+    max-width: 480px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 40px;
+    background: #fff;
+    color: var(--ig);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Footer */
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ig-light);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--ig); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .story-grid { grid-template-columns: 1fr; gap: 40px; }
+    .story-visual { height: 300px; }
+    .pillars-grid { grid-template-columns: 1fr; }
+    .team-grid { grid-template-columns: 1fr 1fr; }
+    .mission-section, .cta-section { margin: 0 12px; border-radius: 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .team-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav.png" alt="INITIUM" height="40">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#properties">New Launches</a></li>
+    <li><a href="video-studio.html">Video Studio</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="page-hero">
+  <div class="page-hero-label">About Initium</div>
+  <h1 class="page-hero-title">Built on Ascent</h1>
+  <p class="page-hero-sub">A collective designed around one principle: every client deserves a beginning that feels certain.</p>
+</header>
+
+<section id="story">
+  <div class="section-inner">
+    <div class="story-grid">
+      <div class="story-visual"></div>
+      <div class="story-content">
+        <div class="section-label">Origin Story</div>
+        <h2>From Visual Communication to Property Journeys</h2>
+        <p>INITIUM was founded by a team that believed real estate could be different. Not a numbers game. Not a race to the bottom. But a craft — built on seeing people clearly and guiding them with precision and heart.</p>
+        <p>With a background in art and visual communication, the founder brought a storyteller's eye to an industry that too often forgets the human behind the transaction. Street culture, collectibles, and an obsession with authenticity shaped a brand that doesn't sell — it ignites.</p>
+        <div class="story-quote">
+          <p>"I want to be remembered as trustworthy, reliable, and the go-to person for work or personal matters."</p>
+          <span>— Founder, INITIUM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="mission-section">
+  <div class="section-inner">
+    <div class="section-label">Mission & Values</div>
+    <h2 class="section-title">Three Pillars That Guide Every Decision</h2>
+    <p class="section-text">INITIUM operates on three interconnected pillars. Each one informs how we serve clients, support our agents, and grow as a collective.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card">
+        <div class="pillar-number">01</div>
+        <div class="pillar-title">Salesperson</div>
+        <div class="pillar-desc">Mastery of the craft. Deep market knowledge, negotiation skill, and relentless client advocacy. We don't close deals — we open futures.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-number">02</div>
+        <div class="pillar-title">Leader</div>
+        <div class="pillar-desc">Raising others as we rise. Participative, proactive leadership that makes every team member feel seen, valued, and empowered to lead.</div>
+      </div>
+      <div class="pillar-card">
+        <div class="pillar-number">03</div>
+        <div class="pillar-title">Personal</div>
+        <div class="pillar-desc">Authentic storytelling over sales pitches. We show up as ourselves — imperfect, relatable, human. That is the INITIUM difference.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="section-inner">
+    <div class="section-label">Leadership Team</div>
+    <h2 class="section-title">The People Who Rise With You</h2>
+    <p class="section-text">Meet the core team shaping INITIUM's culture, strategy, and client experience.</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-photo"><span>A</span></div>
+        <div class="team-info">
+          <div class="team-name">Ainsley Chong</div>
+          <div class="team-role">Planning & Execution</div>
+          <div class="team-bio">The architect of INITIUM's operational backbone. Ainsley ensures every launch, every campaign, and every team initiative lands with precision.</div>
+          <a href="contact.html" class="team-connect">Connect →</a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo"><span>G</span></div>
+        <div class="team-info">
+          <div class="team-name">Grace Yong</div>
+          <div class="team-role">Events & Culture</div>
+          <div class="team-bio">Grace builds the moments that bind the team together. From town halls to client appreciation events, she makes INITIUM feel like family.</div>
+          <a href="contact.html" class="team-connect">Connect →</a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo"><span>K</span></div>
+        <div class="team-info">
+          <div class="team-name">Kesang</div>
+          <div class="team-role">Knowledge & Training</div>
+          <div class="team-bio">The brain trust of the collective. Kesang curates market intelligence, training programmes, and the systems that keep INITIUM agents ahead of the curve.</div>
+          <a href="contact.html" class="team-connect">Connect →</a>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-photo"><span>W</span></div>
+        <div class="team-info">
+          <div class="team-name">William Tan</div>
+          <div class="team-role">Top Producer & Team Lead</div>
+          <div class="team-bio">Leading INITIUM's largest sub-team, William consistently ranks as a top producer. He proves that scale and personal touch can coexist.</div>
+          <a href="contact.html" class="team-connect">Connect →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="culture-section">
+  <div class="section-inner">
+    <div class="section-label">Our Culture</div>
+    <h2 class="section-title">Engaging. Co-Sharing. Selfless.</h2>
+    <p class="section-text">INITIUM's culture is not written on a wall. It is lived in every huddle, every late-night strategy call, and every moment a senior agent stops to help a junior find their footing.</p>
+    <div class="culture-values">
+      <span class="culture-tag">Two-Way Communication</span>
+      <span class="culture-tag">Co-Sharing</span>
+      <span class="culture-tag">Selfless Sharing</span>
+      <span class="culture-tag">Participative</span>
+      <span class="culture-tag">Proactive</span>
+      <span class="culture-tag">Authentic Storytelling</span>
+      <span class="culture-tag">Relentless Advocacy</span>
+    </div>
+  </div>
+</section>
+
+<section id="timeline">
+  <div class="section-inner">
+    <div class="section-label">Our Journey</div>
+    <h2 class="section-title">Key Milestones</h2>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="timeline-year">2022</div>
+        <div class="timeline-title">The Beginning</div>
+        <div class="timeline-desc">INITIUM founded with a vision to redefine real estate through authenticity and collective strength.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2023</div>
+        <div class="timeline-title">30 Agents Strong</div>
+        <div class="timeline-desc">First major growth milestone. Culture systems established: weekly huddles, knowledge-sharing sessions, and team events.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2024</div>
+        <div class="timeline-title">50 Agents & Counting</div>
+        <div class="timeline-desc">Expanded into new launch advisory. Launched internal Video Studio for agent marketing. Brand identity refined.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2025</div>
+        <div class="timeline-title">70 Agents, One Vision</div>
+        <div class="timeline-desc">INITIUM reaches 70 active agents. Leadership structure formalised with dedicated heads for planning, events, knowledge, and production.</div>
+      </div>
+      <div class="timeline-item">
+        <div class="timeline-year">2026</div>
+        <div class="timeline-title">The Next Ascent</div>
+        <div class="timeline-desc">Targeting 100 members by end of year. Industry recognition initiatives. Systems built for generational sustainability.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">Ready to Join the Collective?</h2>
+  <p class="cta-text">Whether you are looking for a partner in your property journey or a team that sees your potential, INITIUM is where your next chapter begins.</p>
+  <a href="contact.html" class="cta-btn">Begin Your Journey</a>
+</section>
+
+<footer>
+  <div class="footer-copy">&copy; 2025 INITIUM. Igniting Journeys.</div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="index.html#services">Services</a></li>
+    <li><a href="index.html#properties">New Launches</a></li>
+    <li><a href="video-studio.html">Video Studio</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Nav scroll effect
+  ScrollTrigger.create({
+    start: 'top -80',
+    onUpdate: (self) => {
+      document.getElementById('navbar').classList.toggle('scrolled', self.progress > 0);
+    }
+  });
+
+  // Section reveals
+  gsap.utils.toArray('section').forEach(sec => {
+    gsap.from(sec.querySelectorAll('.section-label, .section-title, .section-text, .story-content, .pillar-card, .team-card, .culture-tag, .timeline-item'), {
+      y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+      scrollTrigger: { trigger: sec, start: 'top 80%' }
+    });
+  });
+
+  // Timeline line animation
+  gsap.from('.timeline::before', {
+    scaleY: 0, transformOrigin: 'top',
+    scrollTrigger: { trigger: '.timeline', start: 'top 80%', end: 'bottom 50%', scrub: 1 }
+  });
+</script>
+
+</body>
+</html>
