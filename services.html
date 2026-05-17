@@ -182,26 +182,28 @@
   /* Service Tabs */
   .service-tabs {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 64px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     overflow-x: auto;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
   }
   .service-tabs::-webkit-scrollbar { display: none; }
   .service-tab {
-    padding: 12px 22px;
+    padding: 10px 18px;
     background: #fff;
     border: 1.5px solid rgba(0,140,101,0.15);
     border-radius: 100px;
     font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 13px;
+    font-weight: 600;
     color: var(--ig-ink);
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
     flex-shrink: 0;
+    letter-spacing: 0.02em;
   }
   .service-tab:hover {
     border-color: var(--ig);
