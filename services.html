@@ -834,6 +834,39 @@
   </div>
 </section>
 
+<section id="testimonials" style="padding:120px 48px; background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);">
+  <div class="section-inner">
+    <div style="text-align:center; margin-bottom:64px;">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-title" style="max-width:500px; margin:0 auto;">Trusted by Homeowners</h2>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"We interviewed three agencies before listing. INITIUM's marketing plan was the only one that actually felt like they understood our unit's value. Sold above valuation in two weeks."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#6b4d00,#8c6500);">ST</div>
+          <div>
+            <div class="testimonial-name">Sarah Tan</div>
+            <div class="testimonial-role">Seller, District 15</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"As an overseas investor, I needed someone I could trust remotely. They handled everything — viewings, negotiation, tenant sourcing — and sent me video updates every step of the way."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#4d006b,#65008c);">RK</div>
+          <div>
+            <div class="testimonial-name">Rajesh Kumar</div>
+            <div class="testimonial-role">Investor, Mumbai</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="cta-section">
   <h2 class="cta-title">Not Sure Where to Start?</h2>
   <p class="cta-text">Tell us your situation and we will point you to the right track — no obligation, no pressure.</p>
@@ -1124,7 +1157,70 @@
     color: var(--ig-ink-3, #8aa89a);
     margin-top: 16px;
   }
+  /* Testimonials Grid */
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+  .testimonial-card {
+    background: #fff;
+    border-radius: 24px;
+    padding: 36px;
+    border: 1px solid rgba(0,140,101,0.08);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    display: flex;
+    flex-direction: column;
+  }
+  .testimonial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(0,140,101,0.08);
+    border-color: rgba(0,140,101,0.15);
+  }
+  .testimonial-stars {
+    font-size: 18px;
+    color: #f5a623;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+  .testimonial-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin-bottom: 24px;
+    flex: 1;
+  }
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .testimonial-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+  .testimonial-name {
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ig-ink);
+  }
+  .testimonial-role {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
   @media (max-width: 480px) {
+    .testimonials-grid { grid-template-columns: 1fr; }
+    #testimonials { padding: 80px 24px !important; }
     .exit-modal { padding: 36px 24px 32px; border-radius: 20px; }
     .exit-title { font-size: 20px; }
   }
