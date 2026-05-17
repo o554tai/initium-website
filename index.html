@@ -1029,16 +1029,16 @@
         </p>
         <div class="stats-row">
           <div class="stat-card">
-            <div class="stat-number" data-target="70">0</div>
+            <div class="stat-number" data-target="70" data-suffix="+">0</div>
             <div class="stat-label">Active Agents</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number" data-target="500">0</div>
+            <div class="stat-number" data-target="1000" data-suffix="+">0</div>
             <div class="stat-label">Happy Clients</div>
           </div>
           <div class="stat-card">
-            <div class="stat-number" data-target="12">0</div>
-            <div class="stat-label">New Launches YTD</div>
+            <div class="stat-number" data-target="300" data-suffix="+">0</div>
+            <div class="stat-label">Listings</div>
           </div>
         </div>
       </div>
@@ -1303,12 +1303,15 @@
   // Stats counter
   document.querySelectorAll('.stat-number').forEach(stat => {
     const target = parseInt(stat.dataset.target);
-    gsap.to(stat, {
-      innerText: target,
+    const suffix = stat.dataset.suffix || '';
+    const obj = { val: 0 };
+    gsap.to(obj, {
+      val: target,
       duration: 2,
-      snap: { innerText: 1 },
+      snap: { val: 1 },
       ease: 'power2.out',
-      scrollTrigger: { trigger: stat, start: 'top 85%' }
+      scrollTrigger: { trigger: stat, start: 'top 85%' },
+      onUpdate: () => { stat.innerText = Math.round(obj.val) + suffix; }
     });
   });
 
