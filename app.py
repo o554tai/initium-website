@@ -430,6 +430,17 @@ def api_me():
     return jsonify({"key": request.api_key_entry})
 
 
+@app.route("/api/projects", methods=["GET"])
+def api_projects():
+    """Return scraped EcoProp new launch projects. Public endpoint."""
+    try:
+        with open("ecoprop_projects.json", encoding="utf-8") as f:
+            data = json.load(f)
+        return jsonify(data)
+    except FileNotFoundError:
+        return jsonify({"error": "Project data not available yet"}), 404
+
+
 # ═══════════════════════════════════════════════════════════
 # FILE UPLOAD
 # ═══════════════════════════════════════════════════════════
