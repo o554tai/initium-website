@@ -346,38 +346,25 @@
     align-items: center;
   }
   .about-images {
-    position: relative;
-    height: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: auto;
   }
   .about-img {
-    position: absolute;
-    border-radius: 20px;
+    position: relative;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 24px 80px rgba(10,31,23,0.1);
+    box-shadow: 0 16px 48px rgba(10,31,23,0.1);
     transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
   }
   .about-img img {
     width: 100%; height: 100%;
     object-fit: cover;
     display: block;
-  }
-  .about-img-1 {
-    width: 70%; height: 75%;
-    top: 0; left: 0;
-    z-index: 2;
-  }
-  .about-img-2 {
-    width: 55%; height: 55%;
-    bottom: 0; right: 0;
-    z-index: 3;
-    border: 4px solid var(--ig-surface);
-  }
-  .about-img-3 {
-    width: 40%; height: 40%;
-    top: 20%; right: 5%;
-    z-index: 1;
-    opacity: 0.5;
-    filter: blur(2px);
   }
   .stats-row {
     display: grid;
@@ -824,7 +811,7 @@
     nav { padding: 16px 24px; }
     section { padding: 80px 24px; }
     .about-grid { grid-template-columns: 1fr; }
-    .about-images { height: 360px; }
+    .about-images { height: auto; }
     .stats-row { grid-template-columns: 1fr; }
     .service-grid { grid-template-columns: 1fr; }
     .properties-header { flex-direction: column; align-items: flex-start; gap: 16px; }
@@ -1043,14 +1030,14 @@
         </div>
       </div>
       <div class="about-images">
-        <div class="about-img about-img-1" style="translate: none; rotate: none; scale: none; transform: translate(0px, 0px);">
-          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop" alt="Modern home exterior" loading="lazy">
+        <div class="about-img">
+          <img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&h=450&fit=crop" alt="Singapore landed property" loading="lazy">
         </div>
         <div class="about-img">
-          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop" alt="Luxury interior" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=450&fit=crop" alt="Singapore condo" loading="lazy">
         </div>
         <div class="about-img">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop" alt="Property detail" loading="lazy">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=450&fit=crop" alt="Singapore new launch" loading="lazy">
         </div>
       </div>
     </div>
@@ -1287,17 +1274,11 @@
   });
 
   // About parallax
-  gsap.to('.about-img-1', {
-    y: -60,
-    scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1 }
-  });
-  gsap.to('.about-img-2', {
-    y: -100,
-    scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1.5 }
-  });
-  gsap.to('.about-img-3', {
-    y: -30,
-    scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 0.8 }
+  gsap.utils.toArray('.about-img').forEach((img, i) => {
+    gsap.to(img, {
+      y: -20 * (i + 1),
+      scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1 + i * 0.3 }
+    });
   });
 
   // Stats counter
