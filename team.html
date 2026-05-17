@@ -1029,14 +1029,14 @@
     hideToast();
   });
 
-  // Show first after 8 seconds, then cycle every 12 seconds
+    // Show first after 25 seconds, then cycle every 45 seconds
   setTimeout(function() {
     showToast();
     setInterval(function() {
       hideToast();
-      setTimeout(showToast, 600);
-    }, 18000);
-  }, 8000);
+      setTimeout(showToast, 800);
+    }, 45000);
+  }, 25000);
 })();
 </script>
 
