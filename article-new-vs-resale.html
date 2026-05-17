@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Launch vs. Resale: Which One Is Right for You? — INITIUM Blog</title>
+<meta name="description" content="We break down the pros, cons, and hidden costs of new launch and resale properties so you can make the right decision.">
+<meta name="theme-color" content="#008c65">
+<link rel="canonical" href="https://initium.sg/article-new-vs-resale.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://initium.sg/article-new-vs-resale.html">
+<meta property="og:title" content="New Launch vs. Resale: Which One Is Right for You?">
+<meta property="og:description" content="We break down the pros, cons, and hidden costs of new launch and resale properties.">
+<meta property="og:image" content="og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="New Launch vs. Resale: Which One Is Right for You?">
+<meta name="twitter:description" content="We break down the pros, cons, and hidden costs of new launch and resale properties.">
+<meta name="twitter:image" content="og-image.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+    line-height: 1.7;
+  }
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 48px; width: auto; display: block; background: transparent; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .article-hero {
+    padding: 160px 24px 60px;
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+  }
+  .article-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    background: var(--ig-light);
+    color: var(--ig-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    margin-bottom: 24px;
+  }
+  .article-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 720px;
+    margin: 0 auto 20px;
+    color: var(--ig-ink);
+  }
+  .article-meta {
+    font-size: 15px;
+    color: var(--ig-ink-2);
+  }
+  .article-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 80px 24px 120px;
+  }
+  .article-body h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    margin: 48px 0 20px;
+    color: var(--ig-ink);
+    line-height: 1.2;
+  }
+  .article-body h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    margin: 32px 0 12px;
+    color: var(--ig-ink);
+  }
+  .article-body p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--ig-ink-2);
+    margin-bottom: 20px;
+  }
+  .article-body ul, .article-body ol {
+    margin: 0 0 20px 24px;
+    color: var(--ig-ink-2);
+  }
+  .article-body li {
+    margin-bottom: 10px;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .article-body strong {
+    color: var(--ig-ink);
+    font-weight: 600;
+  }
+  .article-body a {
+    color: var(--ig);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ig);
+  }
+  .article-body a:hover {
+    border-bottom-width: 2px;
+  }
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin: 32px 0;
+  }
+  .compare-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px;
+    border: 1px solid rgba(0,140,101,0.08);
+  }
+  .compare-card h4 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--ig-ink);
+  }
+  .compare-card ul {
+    margin: 0 0 0 18px;
+    padding: 0;
+  }
+  .compare-card li {
+    font-size: 15px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+  .article-cta {
+    background: var(--ig);
+    color: #fff;
+    border-radius: 20px;
+    padding: 48px 36px;
+    text-align: center;
+    margin-top: 64px;
+  }
+  .article-cta h3 {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  .article-cta p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 24px;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    color: #fff;
+  }
+  .article-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: #fff;
+    color: var(--ig);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+  }
+  .article-cta a:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ig-light);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--ig); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    .article-body { padding: 48px 24px 80px; }
+    .article-body h2 { font-size: 24px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav-crop.png" alt="INITIUM" height="48" style="background:transparent;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="article-hero">
+  <span class="article-tag">Strategy</span>
+  <h1 class="article-title">New Launch vs. Resale: Which One Is Right for You?</h1>
+  <div class="article-meta">May 2026 · INITIUM Team · 6 min read</div>
+</div>
+
+<article class="article-body">
+
+<p>One of the most common questions we hear from buyers is: should I buy a new launch or a resale unit? The answer depends on your goals, timeline, and risk appetite. Here is a side-by-side comparison to help you decide.</p>
+
+<h2>The Quick Comparison</h2>
+<div class="compare-grid">
+  <div class="compare-card">
+    <h4>New Launch</h4>
+    <ul>
+      <li>Brand new, modern design</li>
+      <li>Progressive payment scheme</li>
+      <li>Developer warranty (1 year)</li>
+      <li>Potential capital appreciation</li>
+      <li>Wait 3–4 years before moving in</li>
+      <li>Cannot see actual unit</li>
+      <li>Higher upfront ABSD risk</li>
+    </ul>
+  </div>
+  <div class="compare-card">
+    <h4>Resale</h4>
+    <ul>
+      <li>Move in immediately</li>
+      <li>See the actual unit and estate</li>
+      <li>Negotiate on price</li>
+      <li>Rental income from day one</li>
+      <li>May need renovation</li>
+      <li>Older facilities</li>
+      <li>Shorter lease remaining</li>
+    </ul>
+  </div>
+</div>
+
+<h2>When New Launch Makes Sense</h2>
+<p>New launches suit buyers who have time on their side. If you are currently renting and your lease does not end for another three years, a new launch aligns perfectly. You also benefit from the progressive payment scheme — you pay in stages tied to construction milestones, not all at once.</p>
+
+<p>Investors often prefer new launches because the entry price is typically lower than surrounding resale units. By the time the project is completed, the market may have moved up, giving you paper gains before you even collect the keys.</p>
+
+<h2>When Resale Makes Sense</h2>
+<p>Resale is the pragmatic choice for most first-time buyers. You know exactly what you are getting. The floor plan, the view, the neighbour's renovation noise — it is all observable. You can also start living there or renting it out immediately.</p>
+
+<p>Resale units in mature estates often come with better amenities, established schools, and reliable transport links. You can also negotiate based on the seller's urgency, something impossible with a developer who has hundreds of units to move.</p>
+
+<h2>Hidden Costs to Watch</h2>
+<p>New launches come with stamp duty paid upfront on the full purchase price, even though you will not take possession for years. Resale buyers face renovation costs that can range from $30,000 for a light refresh to $150,000 for a full gut job.</p>
+
+<p>Both options require legal fees, valuation fees, and fire insurance. Factor these into your budget from day one.</p>
+
+<h2>The Verdict</h2>
+<p>There is no universal right answer. If you value certainty and immediate use, buy resale. If you have time, prefer modern specifications, and want potential upside, consider a new launch.</p>
+
+<p>The best approach? Speak to an agent who knows both markets. At INITIUM, we help clients compare apples to apples — not just price, but total cost of ownership, rental yield, and exit strategy.</p>
+
+<div class="article-cta">
+  <h3>Still Undecided?</h3>
+  <p>Talk to an INITIUM agent. We will run the numbers on both options and show you what makes sense for your situation.</p>
+  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20comparing%20new%20launch%20vs%20resale%20and%20I%20need%20advice.">Chat on WhatsApp</a>
+</div>
+
+</article>
+
+<footer>
+  <div class="footer-copy">&copy; 2026 INITIUM. All rights reserved.</div>
+  <ul class="footer-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+
+</body>
+</html>
