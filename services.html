@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Services — INITIUM | Singapore Real Estate</title>
+<meta name="description" content="Buy, sell, rent, or explore new launches with INITIUM. Four specialised services, one trusted partner.">
+<meta name="theme-color" content="#008c65">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://initium.sg/services.html">
+<meta property="og:title" content="Services — INITIUM">
+<meta property="og:description" content="Buy, sell, rent, or explore new launches with INITIUM.">
+<meta property="og:image" content="og-image.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 40px; width: auto; display: block; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
+
+  /* Page Hero */
+  .page-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 80px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    overflow: hidden;
+  }
+  .page-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
+  }
+  .page-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 20px;
+    max-width: 700px;
+  }
+  .page-hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* Section base */
+  section {
+    position: relative;
+    padding: 120px 48px;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ig);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+  .section-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    max-width: 540px;
+  }
+
+  /* Service Tabs */
+  .service-tabs {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 64px;
+    flex-wrap: wrap;
+  }
+  .service-tab {
+    padding: 14px 28px;
+    background: #fff;
+    border: 1px solid rgba(0,140,101,0.1);
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ig-ink-2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .service-tab:hover {
+    border-color: var(--ig);
+    color: var(--ig);
+  }
+  .service-tab.active {
+    background: var(--ig);
+    color: #fff;
+    border-color: var(--ig);
+  }
+
+  /* Service Panel */
+  .service-panel {
+    display: none;
+  }
+  .service-panel.active {
+    display: block;
+  }
+  .service-detail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .service-visual {
+    position: relative;
+    height: 480px;
+    border-radius: 24px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .service-visual::before {
+    content: attr(data-icon);
+    font-family: var(--font-display);
+    font-size: 120px;
+    font-weight: 700;
+    color: var(--ig);
+    opacity: 0.12;
+  }
+  .service-content h3 {
+    font-family: var(--font-display);
+    font-size: clamp(24px, 3vw, 36px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: var(--ig-ink);
+  }
+  .service-content p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: var(--ig-ink-2);
+    margin-bottom: 32px;
+  }
+
+  /* Process Steps */
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .process-step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    padding: 24px;
+    background: #fff;
+    border-radius: 16px;
+    border: 1px solid rgba(0,140,101,0.08);
+    transition: all 0.3s ease;
+  }
+  .process-step:hover {
+    border-color: rgba(0,140,101,0.2);
+    transform: translateX(4px);
+  }
+  .step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-content h4 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ig-ink);
+  }
+  .step-content p {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin: 0;
+  }
+
+  /* Service CTA */
+  .service-cta {
+    margin-top: 40px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .service-cta:hover {
+    background: var(--ig-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,140,101,0.2);
+  }
+
+  /* Why INITIUM */
+  .why-section {
+    background: var(--ig-ink);
+    color: #fff;
+    border-radius: 40px;
+    margin: 0 24px;
+    overflow: hidden;
+    position: relative;
+  }
+  .why-section::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -20%;
+    width: 80%; height: 120%;
+    background: radial-gradient(ellipse, rgba(0,140,101,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .why-section .section-label { color: var(--ig-light); }
+  .why-section .section-label::before { background: var(--ig-light); }
+  .why-section .section-title { color: #fff; }
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .why-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 24px;
+    padding: 40px 32px;
+    text-align: center;
+    backdrop-filter: blur(20px);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .why-card:hover {
+    background: rgba(255,255,255,0.08);
+    transform: translateY(-4px);
+  }
+  .why-icon {
+    width: 56px; height: 56px;
+    border-radius: 16px;
+    background: rgba(0,140,101,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 24px;
+  }
+  .why-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #fff;
+  }
+  .why-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: var(--ig);
+    border-radius: 40px;
+    margin: 0 24px 80px;
+    padding: 100px 48px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -20%; left: -10%;
+    width: 50%; height: 80%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-text {
+    font-size: 17px;
+    opacity: 0.85;
+    max-width: 480px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 40px;
+    background: #fff;
+    color: var(--ig);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Footer */
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ig-light);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--ig); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .service-detail { grid-template-columns: 1fr; gap: 40px; }
+    .service-visual { height: 300px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-section, .cta-section { margin: 0 12px; border-radius: 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .service-tabs { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav.png" alt="INITIUM" height="40">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html" class="active">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="video-studio.html">Video Studio</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="page-hero">
+  <div class="page-hero-label">What We Do</div>
+  <h1 class="page-hero-title">Four Ways We Serve</h1>
+  <p class="page-hero-sub">Every property journey is different. We have built specialised tracks for each one.</p>
+</header>
+
+<section id="services">
+  <div class="section-inner">
+    <div class="service-tabs">
+      <button class="service-tab active" data-service="buy">Buy</button>
+      <button class="service-tab" data-service="sell">Sell</button>
+      <button class="service-tab" data-service="rent">Rent</button>
+      <button class="service-tab" data-service="newlaunch">New Launch</button>
+    </div>
+
+    <div class="service-panel active" id="panel-buy">
+      <div class="service-detail">
+        <div class="service-visual" data-icon="BUY"></div>
+        <div class="service-content">
+          <h3>Buy Your Next Home</h3>
+          <p>From first-timer to seasoned investor, we guide you through every step with market intelligence, negotiation muscle, and a network that opens doors.</p>
+          <div class="process-steps">
+            <div class="process-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Discovery Call</h4>
+                <p>We listen to your goals, budget, timeline, and non-negotiables.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Curated Shortlist</h4>
+                <p>We filter the market and present only properties that match your brief.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Viewing &amp; Analysis</h4>
+                <p>We arrange viewings and provide comparative market analysis for each option.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Negotiate &amp; Close</h4>
+                <p>We negotiate the best terms and guide you through paperwork to completion.</p>
+              </div>
+            </div>
+          </div>
+          <a href="contact.html?type=buy" class="service-cta">Start Buying</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-panel" id="panel-sell">
+      <div class="service-detail">
+        <div class="service-visual" data-icon="SELL"></div>
+        <div class="service-content">
+          <h3>Sell With Confidence</h3>
+          <p>Get the best price in the shortest time. Our marketing reach, staging advice, and pricing strategy puts your property in front of the right buyers.</p>
+          <div class="process-steps">
+            <div class="process-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Property Assessment</h4>
+                <p>We evaluate your property and recommend staging or improvement tips.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Pricing Strategy</h4>
+                <p>Data-driven pricing based on recent transactions and market trends.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Market &amp; Showcase</h4>
+                <p>Professional photography, listing syndication, and open house management.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Negotiate &amp; Handover</h4>
+                <p>We handle offers, counter-offers, and guide you through the legal process.</p>
+              </div>
+            </div>
+          </div>
+          <a href="contact.html?type=sell" class="service-cta">Start Selling</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-panel" id="panel-rent">
+      <div class="service-detail">
+        <div class="service-visual" data-icon="RENT"></div>
+        <div class="service-content">
+          <h3>Rent or Lease</h3>
+          <p>Tenants find their ideal space. Landlords secure reliable tenants. We handle the matchmaking, paperwork, and ongoing support.</p>
+          <div class="process-steps">
+            <div class="process-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Requirements Match</h4>
+                <p>We understand budget, location, lease term, and lifestyle needs.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Viewing Coordination</h4>
+                <p>We schedule and accompany viewings, answering questions on the spot.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Application &amp; Screening</h4>
+                <p>Tenancy application support for tenants; tenant screening for landlords.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Lease &amp; Handover</h4>
+                <p>We draft, review, and execute the tenancy agreement. Smooth handover guaranteed.</p>
+              </div>
+            </div>
+          </div>
+          <a href="contact.html?type=rent" class="service-cta">Start Renting</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="service-panel" id="panel-newlaunch">
+      <div class="service-detail">
+        <div class="service-visual" data-icon="NEW"></div>
+        <div class="service-content">
+          <h3>New Launch Advisory</h3>
+          <p>Get first access, insider pricing, and unit selection strategy for Singapore's hottest new developments. We represent your interests, not the developer's.</p>
+          <div class="process-steps">
+            <div class="process-step">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Project Briefing</h4>
+                <p>We walk you through floor plans, pricing, and developer track record.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Ballot &amp; Unit Selection</h4>
+                <p>Priority queue strategy and unit scoring based on your preferences.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Booking &amp; OTP</h4>
+                <p>We guide you through the Option-to-Purchase process and payment timeline.</p>
+              </div>
+            </div>
+            <div class="process-step">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Progress &amp; Completion</h4>
+                <p>Stay updated on construction progress through to key collection day.</p>
+              </div>
+            </div>
+          </div>
+          <a href="new-launches.html" class="service-cta">View New Launches</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why-section">
+  <div class="section-inner">
+    <div class="section-label">Why INITIUM</div>
+    <h2 class="section-title">The Difference Is in the Details</h2>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-icon">📊</div>
+        <div class="why-title">Market Intelligence</div>
+        <div class="why-desc">Real-time data, transaction histories, and district trend analysis inform every recommendation.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🤝</div>
+        <div class="why-title">Buyer Advocacy</div>
+        <div class="why-desc">We negotiate as if it were our own money. No pressure, no rush — just your best outcome.</div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div class="why-title">24/7 Response</div>
+        <div class="why-desc">Property moves fast. We move faster. Reply within 2 hours, any time of day.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">Not Sure Where to Start?</h2>
+  <p class="cta-text">Tell us your situation and we will point you to the right track — no obligation, no pressure.</p>
+  <a href="contact.html" class="cta-btn">Get Free Consultation</a>
+</section>
+
+<footer>
+  <div class="footer-copy">&copy; 2025 INITIUM. Igniting Journeys.</div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="video-studio.html">Video Studio</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Nav scroll effect
+  ScrollTrigger.create({
+    start: 'top -80',
+    onUpdate: (self) => {
+      document.getElementById('navbar').classList.toggle('scrolled', self.progress > 0);
+    }
+  });
+
+  // Section reveals
+  gsap.utils.toArray('section').forEach(sec => {
+    gsap.from(sec.querySelectorAll('.section-label, .section-title, .section-text, .service-tab, .process-step, .why-card'), {
+      y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+      scrollTrigger: { trigger: sec, start: 'top 80%' }
+    });
+  });
+
+  // Service tabs
+  const tabs = document.querySelectorAll('.service-tab');
+  const panels = document.querySelectorAll('.service-panel');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.service;
+
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+
+      panels.forEach(p => {
+        p.classList.toggle('active', p.id === 'panel-' + target);
+      });
+
+      gsap.from('#panel-' + target + ' .process-step', {
+        x: 20, opacity: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out'
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

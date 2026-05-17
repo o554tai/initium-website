@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Launches — INITIUM | Singapore Real Estate</title>
+<meta name="description" content="Discover the latest new launch condos and ECs in Singapore. Get first access, insider pricing, and unit selection strategy with INITIUM.">
+<meta name="theme-color" content="#008c65">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://initium.sg/new-launches.html">
+<meta property="og:title" content="New Launches — INITIUM">
+<meta property="og:description" content="Discover the latest new launch condos and ECs in Singapore.">
+<meta property="og:image" content="og-image.jpg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 40px; width: auto; display: block; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
+
+  /* Page Hero */
+  .page-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 80px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    overflow: hidden;
+  }
+  .page-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
+  }
+  .page-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 20px;
+    max-width: 700px;
+  }
+  .page-hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+
+  /* Section base */
+  section {
+    position: relative;
+    padding: 120px 48px;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ig);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+  .section-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    max-width: 540px;
+  }
+
+  /* Filters */
+  .filter-bar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .filter-btn {
+    padding: 10px 24px;
+    background: #fff;
+    border: 1px solid rgba(0,140,101,0.1);
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ig-ink-2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .filter-btn:hover {
+    border-color: var(--ig);
+    color: var(--ig);
+  }
+  .filter-btn.active {
+    background: var(--ig);
+    color: #fff;
+    border-color: var(--ig);
+  }
+
+  /* Project Grid */
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .project-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(10,31,23,0.04);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+  }
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 60px rgba(10,31,23,0.1);
+  }
+  .project-card.hidden {
+    display: none;
+  }
+  .project-img {
+    height: 220px;
+    background: linear-gradient(135deg, var(--ig-light), #e0f0e8);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .project-img::before {
+    content: attr(data-initial);
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-weight: 700;
+    color: var(--ig);
+    opacity: 0.15;
+  }
+  .project-badge {
+    position: absolute;
+    top: 16px; left: 16px;
+    background: var(--ig);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .project-info {
+    padding: 28px 24px;
+  }
+  .project-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 6px;
+  }
+  .project-district {
+    font-size: 13px;
+    color: var(--ig);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .project-meta {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  .project-meta span {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .project-price {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ig-ink);
+    margin-bottom: 16px;
+  }
+  .project-cta {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ig);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.3s ease;
+  }
+  .project-cta:hover { gap: 10px; }
+
+  /* Project Detail Modal */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,31,23,0.6);
+    backdrop-filter: blur(12px);
+    z-index: 2000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #fff;
+    border-radius: 24px;
+    max-width: 700px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .modal-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.2s ease;
+  }
+  .modal-close:hover { background: #fff; }
+  .modal-img {
+    height: 300px;
+    background: linear-gradient(135deg, var(--ig-light), #e0f0e8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  .modal-img::before {
+    content: attr(data-initial);
+    font-family: var(--font-display);
+    font-size: 80px;
+    font-weight: 700;
+    color: var(--ig);
+    opacity: 0.12;
+  }
+  .modal-body {
+    padding: 40px;
+  }
+  .modal-name {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--ig-ink);
+  }
+  .modal-district {
+    font-size: 15px;
+    color: var(--ig);
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .modal-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  .detail-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .detail-label {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .detail-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+  }
+  .modal-desc {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ig-ink-2);
+    margin-bottom: 32px;
+  }
+  .modal-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 36px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .modal-cta:hover {
+    background: var(--ig-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,140,101,0.2);
+  }
+
+  /* CTA Section */
+  .cta-section {
+    background: var(--ig);
+    border-radius: 40px;
+    margin: 0 24px 80px;
+    padding: 100px 48px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -20%; left: -10%;
+    width: 50%; height: 80%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-text {
+    font-size: 17px;
+    opacity: 0.85;
+    max-width: 480px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 40px;
+    background: #fff;
+    color: var(--ig);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Footer */
+  footer {
+    padding: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--ig-light);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 13px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-links a:hover { color: var(--ig); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 80px 24px; }
+    .project-grid { grid-template-columns: 1fr; }
+    .cta-section, .modal { margin: 0 12px; border-radius: 24px; }
+    footer { flex-direction: column; gap: 16px; text-align: center; }
+    .modal-details { grid-template-columns: 1fr; }
+    .modal-img { height: 200px; }
+    .filter-bar { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav.png" alt="INITIUM" height="40">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html" class="active">New Launches</a></li>
+    <li><a href="video-studio.html">Video Studio</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<header class="page-hero">
+  <div class="page-hero-label">New Launches</div>
+  <h1 class="page-hero-title">First Access, Better Prices</h1>
+  <p class="page-hero-sub">We represent your interests, not the developer's. Get insider pricing and unit selection strategy for Singapore's hottest new developments.</p>
+</header>
+
+<section id="projects">
+  <div class="section-inner">
+    <div class="section-label">Current Projects</div>
+    <h2 class="section-title">Featured New Launches</h2>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="condo">Condo</button>
+      <button class="filter-btn" data-filter="ec">EC</button>
+      <button class="filter-btn" data-filter="landed">Landed</button>
+    </div>
+
+    <div class="project-grid" id="projectGrid">
+      <div class="project-card" data-type="condo" onclick="openModal('altura')">
+        <div class="project-img" data-initial="A">
+          <div class="project-badge">New</div>
+        </div>
+        <div class="project-info">
+          <div class="project-name">Altura</div>
+          <div class="project-district">Bukit Batok West Avenue 5</div>
+          <div class="project-meta">
+            <span>🏠 1–5 Bed</span>
+            <span>📍 D23</span>
+          </div>
+          <div class="project-price">From S$1.45M</div>
+          <span class="project-cta">Enquire Now →</span>
+        </div>
+      </div>
+
+      <div class="project-card" data-type="ec" onclick="openModal('lumina')">
+        <div class="project-img" data-initial="L">
+          <div class="project-badge">Selling Fast</div>
+        </div>
+        <div class="project-info">
+          <div class="project-name">Lumina Grand</div>
+          <div class="project-district">Bukit Batok West Avenue 5</div>
+          <div class="project-meta">
+            <span>🏠 3–5 Bed</span>
+            <span>📍 D23</span>
+          </div>
+          <div class="project-price">From S$1.35M</div>
+          <span class="project-cta">Enquire Now →</span>
+        </div>
+      </div>
+
+      <div class="project-card" data-type="condo" onclick="openModal('hillock')">
+        <div class="project-img" data-initial="H">
+          <div class="project-badge">Coming Soon</div>
+        </div>
+        <div class="project-info">
+          <div class="project-name">The Hillock Green</div>
+          <div class="project-district">Lentor Central</div>
+          <div class="project-meta">
+            <span>🏠 2–4 Bed</span>
+            <span>📍 D26</span>
+          </div>
+          <div class="project-price">From S$1.15M</div>
+          <span class="project-cta">Enquire Now →</span>
+        </div>
+      </div>
+
+      <div class="project-card" data-type="condo" onclick="openModal('botany')">
+        <div class="project-img" data-initial="B">
+          <div class="project-badge">New</div>
+        </div>
+        <div class="project-info">
+          <div class="project-name">The Botany at Dairy Farm</div>
+          <div class="project-district">Dairy Farm Road</div>
+          <div class="project-meta">
+            <span>🏠 2–5 Bed</span>
+            <span>📍 D23</span>
+          </div>
+          <div class="project-price">From S$1.05M</div>
+          <span class="project-cta">Enquire Now →</span>
+        </div>
+      </div>
+
+      <div class="project-card" data-type="landed" onclick="openModal('meyer')">
+        <div class="project-img" data-initial="M">
+          <div class="project-badge">Limited</div>
+        </div>
+        <div class="project-info">
+          <div class="project-name">Meyer House</div>
+          <div class="project-district">Meyer Road</div>
+          <div class="project-meta">
+            <span>🏠 4–6 Bed</span>
+            <span>📍 D15</span>
+          </div>
+          <div class="project-price">From S$6.5M</div>
+          <span class="project-cta">Enquire Now →</span>
+        </div>
+      </div>
+
+      <div class="project-card" data-type="condo" onclick="openModal('kassia')">
+        <div class="project-img" data-initial="K">
+          <div class="project-badge">New</div>
+        </div>
+        <div class="project-info">
+          <div class="project-name">Kassia</div>
+          <div class="project-district">Flora Drive</div>
+          <div class="project-meta">
+            <span>🏠 1–4 Bed</span>
+            <span>📍 D17</span>
+          </div>
+          <div class="project-price">From S$890K</div>
+          <span class="project-cta">Enquire Now →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <h2 class="cta-title">Get Insider Access</h2>
+  <p class="cta-text">Be the first to know about new launches, priority ballot queues, and early-bird pricing.</p>
+  <a href="contact.html?type=newlaunch" class="cta-btn">Register Interest</a>
+</section>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-img" id="modalImg" data-initial="A"></div>
+    <div class="modal-body">
+      <div class="modal-name" id="modalName">Project Name</div>
+      <div class="modal-district" id="modalDistrict">District</div>
+      <div class="modal-details" id="modalDetails"></div>
+      <p class="modal-desc" id="modalDesc">Description</p>
+      <a href="contact.html?type=newlaunch" class="modal-cta">Register Interest</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">&copy; 2025 INITIUM. Igniting Journeys.</div>
+  <ul class="footer-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="video-studio.html">Video Studio</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+  // Nav scroll effect
+  ScrollTrigger.create({
+    start: 'top -80',
+    onUpdate: (self) => {
+      document.getElementById('navbar').classList.toggle('scrolled', self.progress > 0);
+    }
+  });
+
+  // Section reveals
+  gsap.utils.toArray('section').forEach(sec => {
+    gsap.from(sec.querySelectorAll('.section-label, .section-title, .filter-btn, .project-card'), {
+      y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+      scrollTrigger: { trigger: sec, start: 'top 80%' }
+    });
+  });
+
+  // Filter
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const filter = btn.dataset.filter;
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      projectCards.forEach(card => {
+        if (filter === 'all' || card.dataset.type === filter) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  // Modal data
+  const projectData = {
+    altura: {
+      name: 'Altura',
+      district: 'Bukit Batok West Avenue 5, D23',
+      initial: 'A',
+      details: [
+        { label: 'Type', value: 'Executive Condo' },
+        { label: 'Units', value: '360' },
+        { label: 'Tenure', value: '99-Year Leasehold' },
+        { label: 'TOP', value: '2028' },
+        { label: 'Bedrooms', value: '1–5' },
+        { label: 'Price From', value: 'S$1.45M' },
+      ],
+      desc: 'Altura is a premium executive condominium located in the heart of Bukit Batok. With sleek architecture and lush landscaping, it offers residents a serene retreat while staying connected to the city via the nearby Jurong East MRT interchange.'
+    },
+    lumina: {
+      name: 'Lumina Grand',
+      district: 'Bukit Batok West Avenue 5, D23',
+      initial: 'L',
+      details: [
+        { label: 'Type', value: 'Executive Condo' },
+        { label: 'Units', value: '512' },
+        { label: 'Tenure', value: '99-Year Leasehold' },
+        { label: 'TOP', value: '2027' },
+        { label: 'Bedrooms', value: '3–5' },
+        { label: 'Price From', value: 'S$1.35M' },
+      ],
+      desc: 'Lumina Grand offers spacious layouts and premium finishes at an attractive entry price. Located near the upcoming Tengah Town, this EC is perfect for growing families seeking value and future capital appreciation.'
+    },
+    hillock: {
+      name: 'The Hillock Green',
+      district: 'Lentor Central, D26',
+      initial: 'H',
+      details: [
+        { label: 'Type', value: 'Private Condo' },
+        { label: 'Units', value: '474' },
+        { label: 'Tenure', value: '99-Year Leasehold' },
+        { label: 'TOP', value: '2028' },
+        { label: 'Bedrooms', value: '2–4' },
+        { label: 'Price From', value: 'S$1.15M' },
+      ],
+      desc: 'Nestled in the verdant Lentor precinct, The Hillock Green offers a nature-inspired living experience. Directly connected to Lentor MRT and the upcoming Lentor Mall, it combines tranquility with urban convenience.'
+    },
+    botany: {
+      name: 'The Botany at Dairy Farm',
+      district: 'Dairy Farm Road, D23',
+      initial: 'B',
+      details: [
+        { label: 'Type', value: 'Private Condo' },
+        { label: 'Units', value: '386' },
+        { label: 'Tenure', value: '99-Year Leasehold' },
+        { label: 'TOP', value: '2027' },
+        { label: 'Bedrooms', value: '2–5' },
+        { label: 'Price From', value: 'S$1.05M' },
+      ],
+      desc: 'Surrounded by the Bukit Timah Nature Reserve and Dairy Farm Nature Park, The Botany offers a rare opportunity to live amidst greenery. Hillview MRT is just a short walk away, connecting residents to the city in minutes.'
+    },
+    meyer: {
+      name: 'Meyer House',
+      district: 'Meyer Road, D15',
+      initial: 'M',
+      details: [
+        { label: 'Type', value: 'Landed / Strata' },
+        { label: 'Units', value: '56' },
+        { label: 'Tenure', value: 'Freehold' },
+        { label: 'TOP', value: 'Ready' },
+        { label: 'Bedrooms', value: '4–6' },
+        { label: 'Price From', value: 'S$6.5M' },
+      ],
+      desc: 'An ultra-luxury freehold development along the prestigious Meyer Road. Each residence is designed with expansive living spaces, private pools, and panoramic sea views. A rare gem in Singapore's East Coast enclave.'
+    },
+    kassia: {
+      name: 'Kassia',
+      district: 'Flora Drive, D17',
+      initial: 'K',
+      details: [
+        { label: 'Type', value: 'Private Condo' },
+        { label: 'Units', value: '280' },
+        { label: 'Tenure', value: 'Freehold' },
+        { label: 'TOP', value: '2026' },
+        { label: 'Bedrooms', value: '1–4' },
+        { label: 'Price From', value: 'S$890K' },
+      ],
+      desc: 'Kassia is a boutique freehold development in the serene Flora Drive precinct. With its low-density design and resort-style facilities, it offers an exclusive lifestyle at an accessible price point for first-time buyers and investors alike.'
+    },
+  };
+
+  function openModal(id) {
+    const data = projectData[id];
+    if (!data) return;
+    document.getElementById('modalName').textContent = data.name;
+    document.getElementById('modalDistrict').textContent = data.district;
+    document.getElementById('modalImg').dataset.initial = data.initial;
+    document.getElementById('modalDesc').textContent = data.desc;
+
+    const detailsHtml = data.details.map(d => `
+      <div class="detail-row">
+        <span class="detail-label">${d.label}</span>
+        <span class="detail-value">${d.value}</span>
+      </div>
+    `).join('');
+    document.getElementById('modalDetails').innerHTML = detailsHtml;
+
+    document.getElementById('modalOverlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(e) {
+    if (e && e.target !== document.getElementById('modalOverlay')) return;
+    document.getElementById('modalOverlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+</script>
+
+</body>
+</html>
