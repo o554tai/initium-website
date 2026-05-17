@@ -1599,11 +1599,11 @@
 </div>
 <script>
 (function() {
-  const popup = document.getElementById('exitPopup');
-  const closeBtn = document.getElementById('exitClose');
-  const form = document.getElementById('exitForm');
-  const shownKey = 'exitPopupShown';
-  let hasShown = false;
+  var popup = document.getElementById('exitPopup');
+  var closeBtn = document.getElementById('exitClose');
+  var form = document.getElementById('exitForm');
+  var shownKey = 'exitPopupShown';
+  var hasShown = false;
 
   function showPopup() {
     if (hasShown || sessionStorage.getItem(shownKey)) return;
@@ -1616,23 +1616,25 @@
     popup.classList.remove('show');
   }
 
-  // 1. Desktop: mouse leaving viewport toward top
+  // Desktop: detect mouse leaving the document (any direction)
   document.addEventListener('mouseout', function(e) {
-    if (e.clientY < 10) showPopup();
+    if (e.relatedTarget === null || e.toElement === null) {
+      showPopup();
+    }
   });
 
-  // 2. Desktop fallback: mouseleave
-  document.addEventListener('mouseleave', function(e) {
+  // Desktop fallback: mouseleave on html element
+  document.documentElement.addEventListener('mouseleave', function(e) {
     showPopup();
   });
 
-  // 3. Mobile: scroll back to top after scrolling down
-  let maxScroll = 0;
-  let scrollTimer;
+  // Mobile: scroll back to top after scrolling down
+  var maxScroll = 0;
+  var scrollTimer;
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimer);
     scrollTimer = setTimeout(function() {
-      const current = window.scrollY;
+      var current = window.scrollY;
       if (current > maxScroll) maxScroll = current;
       if (maxScroll > 400 && current < 100) {
         showPopup();
@@ -1640,10 +1642,10 @@
     }, 150);
   }, { passive: true });
 
-  // 4. Time-based fallback: show after 15 seconds
+  // Time-based fallback: show after 10 seconds
   setTimeout(function() {
     showPopup();
-  }, 15000);
+  }, 10000);
 
   closeBtn.addEventListener('click', hidePopup);
   popup.addEventListener('click', function(e) {
@@ -1655,15 +1657,15 @@
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
-    const name = document.getElementById('exitName').value.trim();
-    const email = document.getElementById('exitEmail').value.trim();
-    const phone = document.getElementById('exitPhone').value.trim();
-    const msg = encodeURIComponent(
+    var name = document.getElementById('exitName').value.trim();
+    var email = document.getElementById('exitEmail').value.trim();
+    var phone = document.getElementById('exitPhone').value.trim();
+    var msg = encodeURIComponent(
       'Hi INITIUM,\n\n' +
       'Name: ' + name + '\n' +
       'Email: ' + email + '\n' +
       'Phone: ' + phone + '\n\n' +
-      'I\'m interested in your services. Please contact me.'
+      'I am interested in your services. Please contact me.'
     );
     window.open('https://wa.me/6588464814?text=' + msg, '_blank');
     hidePopup();
