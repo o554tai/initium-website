@@ -875,16 +875,19 @@
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 10000;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.4s ease, visibility 0.4s ease;
   }
   .exit-overlay.show {
-    display: flex;
     opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
   .exit-modal {
     background: #fff;
@@ -1016,37 +1019,47 @@
   const closeBtn = document.getElementById('exitClose');
   const form = document.getElementById('exitForm');
   const shownKey = 'exitPopupShown';
+  let hasShown = false;
 
   function showPopup() {
-    if (sessionStorage.getItem(shownKey)) return;
-    popup.classList.add('show');
+    if (hasShown || sessionStorage.getItem(shownKey)) return;
+    hasShown = true;
     sessionStorage.setItem(shownKey, '1');
+    popup.classList.add('show');
   }
 
   function hidePopup() {
     popup.classList.remove('show');
   }
 
-  // Desktop: mouse leaving viewport toward top
+  // 1. Desktop: mouse leaving viewport toward top
   document.addEventListener('mouseleave', function(e) {
-    if (e.clientY <= 0) {
-      showPopup();
-    }
+    if (e.clientY <= 5) showPopup();
   });
 
-  // Mobile: rapid scroll up past threshold
-  let lastScroll = 0;
-  let scrollTimeout;
+  // 2. Desktop fallback: mouseout on document
+  document.addEventListener('mouseout', function(e) {
+    if (e.clientY < 10 && e.relatedTarget === null) showPopup();
+  });
+
+  // 3. Mobile: scroll back to top after scrolling down
+  let maxScroll = 0;
+  let scrollTimer;
   window.addEventListener('scroll', function() {
-    clearTimeout(scrollTimeout);
-    scrollTimeout = setTimeout(function() {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(function() {
       const current = window.scrollY;
-      if (lastScroll - current > 150 && current < 200) {
+      if (current > maxScroll) maxScroll = current;
+      if (maxScroll > 400 && current < 100) {
         showPopup();
       }
-      lastScroll = current;
-    }, 100);
+    }, 150);
   }, { passive: true });
+
+  // 4. Time-based fallback: show after 30 seconds
+  setTimeout(function() {
+    showPopup();
+  }, 30000);
 
   closeBtn.addEventListener('click', hidePopup);
   popup.addEventListener('click', function(e) {
