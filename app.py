@@ -830,6 +830,11 @@ def serve_video(filename):
     return send_from_directory(VIDEO_DIR, filename)
 
 
+@app.route("/images/<path:filename>")
+def serve_image(filename):
+    return send_from_directory(IMAGE_DIR, filename)
+
+
 # ═══════════════════════════════════════════════════════════
 if __name__ == "__main__":
     print(f"\n🚀 INITIUM Video Backend")
