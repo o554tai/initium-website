@@ -154,6 +154,20 @@ def is_property_article(title: str) -> bool:
     ]
     if any(s in t for s in skip):
         return False
+    # Reject generic homepage / portal landing pages
+    generic_portal_titles = [
+        "for sale and for rent",
+        "property | for sale",
+        "property | for rent",
+        "property listings",
+        "find property",
+        "property portal",
+        "real estate listings",
+        "latest property news",
+        "property news - edgeprop",
+    ]
+    if any(g in t for g in generic_portal_titles):
+        return False
     prop_patterns = [
         r'\bproperty\b', r'\bproperties\b', r'\breal estate\b',
         r'\bhdb\b',
