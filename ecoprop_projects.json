@@ -1,7 +1,7 @@
 {
   "source": "singmap.com",
   "total": 327,
-  "scraped_at": "2026-05-18T22:00:14.316417",
+  "scraped_at": "2026-05-18T23:00:42.990340",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -4035,7 +4035,7 @@
       "address": "38, 40, 42 Pine Grove, Singapore\n",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 2168200.0,
+      "min_price": 2176900.0,
       "max_price": 3932500.0,
       "currency": "$",
       "units": "552",
