@@ -85,11 +85,60 @@ def fetch_google_news_rss(query: str) -> list[dict]:
 
 def is_property_article(title: str) -> bool:
     t = title.lower()
-    skip = ["football", "sport", "basketball", "crash", "train", "election", "war", "iran", "trump", "tennis", "golf", "f1", "formula 1"]
+    skip = [
+        "football", "soccer", "sport", "sports", "basketball", "tennis", "golf",
+        "f1", "formula 1", "world cup", "pga", "olympic", "nba", "nfl",
+        "cricket", "rugby", "boxing", "marathon", "athletics", "swimming",
+        "agricultural", "agriculture", "cape verde", "ireland", "china to buy",
+        "trade war", "cyberattack", "hacking", "terror", "murder", "killed",
+        "plane crash", "virus", "covid", "pandemic", "vaccine",
+        "stock market", "crypto", "bitcoin", "wall street",
+        "nazi", "epstein", "solomon islands", "us scraps", "troop", "poland",
+        "new zealand state farming", "nature credit", "lianhe zaobao",
+        "faq: what hikers", "volcano trekking", "insurance",
+        "cna homepage", "thai police", "weapons cache",
+    ]
     if any(s in t for s in skip):
         return False
-    prop = ["property", "home", "hdb", "condo", "rental", "land", "flat", "resale", "launch", "absd", "bto", "ura", "ec ", "executive condo", "mop", "shophouse", "development", "private home"]
-    return any(p in t for p in prop)
+    prop_patterns = [
+        r'\bproperty\b', r'\bproperties\b', r'\breal estate\b',
+        r'\bhdb\b',
+        r'\bcondo\b', r'\bcondos\b', r'\bcondominium\b', r'\bcondominiums\b',
+        r'\brental\b', r'\brentals\b', r'\btenancy\b', r'\blease\b', r'\bleases\b',
+        r'\bland sale\b', r'\blanded\b', r'\bland parcel\b', r'\bland bid\b',
+        r'\bgls\b', r'\bgovernment land sale\b',
+        r'\bresale\b', r'\blaunch\b', r'\blaunches\b', r'\blaunched\b', r'\blaunching\b',
+        r'\babsd\b', r'\bbto\b', r'\bura\b', r'\bmop\b',
+        r'\bshophouse\b', r'\bshophouses\b',
+        r'\bdevelopment\b', r'\bdevelopments\b', r'\bdeveloper\b', r'\bdevelopers\b',
+        r'\bprivate home\b', r'\bprivate homes\b', r'\bpublic housing\b',
+        r'\bcollective sale\b', r'\ben bloc\b', r'\benbloc\b',
+        r'\bproperty market\b', r'\bproperty agency\b', r'\bproperty agent\b', r'\bproperty agents\b',
+        r'\bproperty prices\b', r'\bproperty tax\b', r'\bproperty investment\b',
+        r'\bmortgage\b', r'\bstamp duty\b', r'\bcooling measure\b', r'\bcooling measures\b',
+        r'\bsrr\b', r'\btdsr\b', r'\bgsr\b', r'\bssr\b',
+        r'\bhousing\b', r'\bpsf\b', r'\bper sq ft\b',
+        r'\bresidences\b', r'\bresidence\b', r'\bfreehold\b', r'\bleasehold\b', r'\b99-year\b',
+        r'\bredevelopment\b', r'\bredevelop\b', r'\bupgrade\b', r'\bupgrading\b',
+        r'\bnew launch\b', r'\bmillion dollar\b',
+        r'\bhome prices\b', r'\bhome sales\b', r'\bhome buyers?\b', r'\bhome owners?\b',
+        r'\bnew home\b', r'\bnew homes\b',
+        r'\bflat\b', r'\bflats\b',
+        r'\bec\b', r'\bexecutive condo\b', r'\bexecutive condos\b', r'\bexecutive condominium\b', r'\bexecutive condominiums\b',
+        r'\bsky\b.*\bcondo\b', r'\bestate\b.*\bcondo\b', r'\bestate\b.*\blaunch\b',
+        r'\bprofit\b', r'\bmil profit\b', r'\bmillion profit\b', r'\breap\b', r'\brakes\b',
+        r'\bprices from\b', r'\bprices of\b', r'\btop\b', r'\bhandover\b',
+        r'\byishun\b', r'\bpunggol\b', r'\bsengkang\b', r'\btampines\b', r'\bjurong\b',
+        r'\blentor\b', r'\bnovena\b', r'\bbukit\b',
+        r'\bhouse\b', r'\bhouses\b', r'\bowner\b', r'\bowners\b',
+        r'\bpropnex\b', r'\bera\b', r'\bhuttons\b', r'\brealty\b',
+        r'\bturf club\b.*\bhome\b', r'\bhome\b.*\bturf club\b',
+        r'\bhong kong\b.*\bhome\b', r'\bhong kong\b.*\bproperty\b',
+        r'\bresidential\b', r'\bresidential development\b',
+        r'\bproperty ladder\b', r'\brts link\b.*\bproperty\b',
+        r'\bbuyer\b', r'\bbuyers\b', r'\bseller\b', r'\bsellers\b',
+    ]
+    return any(re.search(p, t) for p in prop_patterns)
 
 
 def clean_title(title: str) -> str:
