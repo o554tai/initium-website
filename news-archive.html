@@ -171,6 +171,63 @@
     color: var(--ig-ink-3);
     font-weight: 500;
   }
+  /* Archive Search */
+  .archive-search {
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .archive-search input {
+    width: 100%;
+    max-width: 480px;
+    padding: 14px 20px 14px 48px;
+    border: 1px solid rgba(0,140,101,0.15);
+    border-radius: 16px;
+    background: #fff;
+    font-family: var(--font-body);
+    font-size: 15px;
+    color: var(--ig-ink);
+    outline: none;
+    transition: all 0.3s ease;
+  }
+  .archive-search input::placeholder {
+    color: var(--ig-ink-3);
+  }
+  .archive-search input:focus {
+    border-color: var(--ig);
+    box-shadow: 0 0 0 4px rgba(0,140,101,0.08);
+  }
+  .archive-search svg {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    color: var(--ig-ink-3);
+    pointer-events: none;
+  }
+  .archive-search-clear {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: none;
+    background: var(--ig-light);
+    color: var(--ig);
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .archive-search-clear.visible {
+    display: flex;
+  }
   .blog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -341,7 +398,12 @@
       </div>
       <div class="archive-count">0 articles</div>
     </div>
-    <div class="blog-grid">
+    <div class="archive-search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
+      <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+    </div>
+    <div class="blog-grid" id="archiveGrid">
 
 <p style="color:var(--ig-ink-3); text-align:center; padding:60px 0;">No archived articles yet.</p>
 
@@ -386,9 +448,72 @@
 </footer>
 
 <script>
+  // Nav scroll effect
   window.addEventListener('scroll', function() {
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
   });
+
+  // Archive search
+  (function() {
+    var searchInput = document.getElementById('archiveSearch');
+    var searchClear = document.getElementById('searchClear');
+    var grid = document.getElementById('archiveGrid');
+    var countEl = document.querySelector('.archive-count');
+    if (!searchInput || !grid) return;
+
+    var cards = grid.querySelectorAll('.blog-card');
+    var emptyState = grid.querySelector('.archive-empty');
+    var originalCount = cards.length;
+
+    function filterArticles(query) {
+      query = query.toLowerCase().trim();
+      var visible = 0;
+
+      cards.forEach(function(card) {
+        var title = (card.querySelector('.blog-title') || {}).textContent || '';
+        var excerpt = (card.querySelector('.blog-excerpt') || {}).textContent || '';
+        var tag = (card.querySelector('.blog-tag') || {}).textContent || '';
+        var text = (title + ' ' + excerpt + ' ' + tag).toLowerCase();
+
+        if (!query || text.indexOf(query) !== -1) {
+          card.style.display = '';
+          visible++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Toggle empty state
+      if (visible === 0 && !emptyState) {
+        var p = document.createElement('p');
+        p.className = 'archive-empty';
+        p.style.cssText = 'color:var(--ig-ink-3); text-align:center; padding:60px 0; grid-column:1/-1;';
+        p.textContent = 'No articles match your search.';
+        grid.appendChild(p);
+      } else if (visible > 0) {
+        var existing = grid.querySelector('.archive-empty');
+        if (existing) existing.remove();
+      }
+
+      // Update count
+      if (countEl) {
+        countEl.textContent = visible + (query ? ' of ' + originalCount : '') + ' article' + (visible !== 1 ? 's' : '');
+      }
+
+      // Toggle clear button
+      searchClear.classList.toggle('visible', query.length > 0);
+    }
+
+    searchInput.addEventListener('input', function() {
+      filterArticles(this.value);
+    });
+
+    searchClear.addEventListener('click', function() {
+      searchInput.value = '';
+      filterArticles('');
+      searchInput.focus();
+    });
+  })();
 </script>
 
 </body>
