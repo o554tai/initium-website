@@ -319,6 +319,21 @@
   }
 
   /* Project Grid */
+  .grid-scroll {
+    max-height: 780px;
+    overflow-y: auto;
+    padding-right: 8px;
+  }
+  .grid-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+  .grid-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .grid-scroll::-webkit-scrollbar-thumb {
+    background: rgba(0,140,101,0.25);
+    border-radius: 3px;
+  }
   .project-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1122,10 +1137,12 @@
 
     <div class="results-count" id="resultsCount">Loading projects...</div>
 
-    <div class="project-grid" id="projectGrid">
-      <div class="loading-state">
-        <div class="spinner"></div>
-        <p>Loading new launch projects...</p>
+    <div class="grid-scroll">
+      <div class="project-grid" id="projectGrid">
+        <div class="loading-state">
+          <div class="spinner"></div>
+          <p>Loading new launch projects...</p>
+        </div>
       </div>
     </div>
   </div>
