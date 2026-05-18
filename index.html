@@ -1438,11 +1438,7 @@
     });
   });
 
-  // Service cards
-  gsap.from('.service-card', {
-    y: 60, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
-    scrollTrigger: { trigger: '.service-grid', start: 'top 80%' }
-  });
+  // Service cards - no animation, cards visible immediately
 
   // Property cards
   // DISABLED: GSAP was injecting inline opacity:0 causing invisible content
