@@ -276,6 +276,150 @@
   .color-dot[data-color="green"] {
     background: #50C878;
   }
+  .product-img.zoomable {
+    cursor: zoom-in;
+  }
+  .product-img.zoomable::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0);
+    transition: background 0.3s ease;
+    pointer-events: none;
+  }
+  .product-img.zoomable:hover::after {
+    background: rgba(0,0,0,0.03);
+  }
+
+  /* Product Detail Modal */
+  .pd-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10,31,23,0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 3000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .pd-modal-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .pd-modal {
+    background: #fff;
+    border-radius: 28px;
+    max-width: 720px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 40px 100px rgba(0,0,0,0.2);
+  }
+  .pd-modal-overlay.open .pd-modal {
+    transform: translateY(0) scale(1);
+  }
+  .pd-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(247,249,248,0.9);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.25s ease;
+  }
+  .pd-modal-close:hover {
+    background: var(--ig);
+    color: #fff;
+  }
+  .pd-modal-img-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 28px 28px 0 0;
+  }
+  .pd-modal-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
+  }
+  .pd-modal-body {
+    padding: 28px 32px 32px;
+  }
+  .pd-modal-name {
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: var(--ig-ink);
+  }
+  .pd-modal-desc {
+    font-size: 15px;
+    color: var(--ig-ink-2);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+  .pd-modal-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .pd-modal-price {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ig);
+  }
+  .pd-modal-price .original {
+    font-size: 16px;
+    color: var(--ig-ink-3);
+    text-decoration: line-through;
+    margin-left: 8px;
+    font-weight: 500;
+  }
+  .pd-modal-colors {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .pd-modal-colors .color-dot {
+    width: 28px;
+    height: 28px;
+  }
+  .pd-modal-colors .color-label {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    margin-right: 4px;
+  }
+  @media (max-width: 600px) {
+    .pd-modal { border-radius: 20px; }
+    .pd-modal-img-wrap { border-radius: 20px 20px 0 0; }
+    .pd-modal-body { padding: 20px 24px 24px; }
+    .pd-modal-name { font-size: 20px; }
+    .pd-modal-price { font-size: 24px; }
+  }
   .product-badge {
     position: absolute;
     top: 16px;
@@ -846,6 +990,26 @@
   <p style="margin-top:12px;font-size:12px;color:var(--ig-ink-3);">Secure payments powered by Stripe</p>
 </div>
 
+<!-- Product Detail Modal -->
+<div class="pd-modal-overlay" id="pdModalOverlay" onclick="closeProductModal(event)">
+  <div class="pd-modal" id="pdModal" onclick="event.stopPropagation()">
+    <button class="pd-modal-close" onclick="closeProductModal()" aria-label="Close">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    <div class="pd-modal-img-wrap">
+      <img src="" alt="" id="pdModalImg">
+    </div>
+    <div class="pd-modal-body">
+      <div class="pd-modal-name" id="pdModalName"></div>
+      <div class="pd-modal-desc" id="pdModalDesc"></div>
+      <div class="pd-modal-row">
+        <div class="pd-modal-price" id="pdModalPrice"></div>
+        <div class="pd-modal-colors" id="pdModalColors"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Cart Drawer -->
 <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 <div class="cart-drawer" id="cartDrawer">
@@ -1072,7 +1236,7 @@
     grid.innerHTML = products.map(p => {
       const hasImages = p.images && p.images.white && p.images.green;
       const imgHtml = hasImages
-        ? `<img src="${p.images.white}" class="cardigan-img" data-color="white" id="img-${p.id}" alt="${p.name}">`
+        ? `<img src="${p.images.white}" class="cardigan-img" data-color="white" id="img-${p.id}" alt="${p.name}" onclick="openProductModal('${p.id}')" style="cursor:zoom-in;">`
         : `<span style="font-size:80px;">${p.emoji}</span>`;
       const colorBar = hasImages
         ? `<div class="product-color-bar">
@@ -1274,6 +1438,65 @@
       dot.classList.toggle('active', dot.dataset.color === color);
     });
   }
+
+  // Product Detail Modal
+  let currentModalProductId = null;
+  let currentModalColor = 'white';
+
+  function openProductModal(productId) {
+    const product = products.find(p => p.id === productId);
+    if (!product || !product.images) return;
+    currentModalProductId = productId;
+    currentModalColor = 'white';
+
+    document.getElementById('pdModalImg').src = product.images.white;
+    document.getElementById('pdModalImg').alt = product.name;
+    document.getElementById('pdModalName').textContent = product.name;
+    document.getElementById('pdModalDesc').textContent = product.desc;
+    document.getElementById('pdModalPrice').innerHTML =
+      `S$${product.price}${product.originalPrice ? `<span class="original">S$${product.originalPrice}</span>` : ''}`;
+
+    const colorsHtml = `
+      <span class="color-label">Color:</span>
+      <button class="color-dot active" data-color="white" onclick="toggleModalColor('white')" aria-label="White logo"></button>
+      <button class="color-dot" data-color="green" onclick="toggleModalColor('green')" aria-label="Green logo"></button>
+    `;
+    document.getElementById('pdModalColors').innerHTML = colorsHtml;
+
+    document.getElementById('pdModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeProductModal(e) {
+    if (e && e.target !== e.currentTarget) return;
+    document.getElementById('pdModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    currentModalProductId = null;
+  }
+
+  function toggleModalColor(color) {
+    if (!currentModalProductId) return;
+    const product = products.find(p => p.id === currentModalProductId);
+    if (!product || !product.images) return;
+    currentModalColor = color;
+
+    const img = document.getElementById('pdModalImg');
+    img.style.opacity = '0';
+    setTimeout(() => {
+      img.src = product.images[color];
+      img.style.opacity = '1';
+    }, 150);
+
+    document.querySelectorAll('#pdModalColors .color-dot').forEach(dot => {
+      dot.classList.toggle('active', dot.dataset.color === color);
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('pdModalOverlay').classList.contains('open')) {
+      closeProductModal();
+    }
+  });
 
   // Init
   renderProducts();
