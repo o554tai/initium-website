@@ -277,6 +277,68 @@
             font-size: 0.8125rem; color: var(--text-muted);
         }
         .user-pill strong { color: var(--text); }
+
+        /* Sub-tabs */
+        .sub-tab {
+            flex: 1; padding: 14px 20px; background: transparent; border: none;
+            color: var(--text-muted); font-size: 0.875rem; font-weight: 600;
+            cursor: pointer; transition: all 0.2s; display: flex; align-items: center;
+            justify-content: center; gap: 6px; border-bottom: 2px solid transparent;
+        }
+        .sub-tab:hover { color: var(--text); background: rgba(255,255,255,0.02); }
+        .sub-tab.active {
+            color: var(--accent); border-bottom-color: var(--accent);
+            background: rgba(99,102,241,0.06);
+        }
+        .sub-panel { display: none; }
+        .sub-panel.active { display: block; }
+
+        /* Template grid */
+        .template-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+        }
+        @media (max-width: 900px) { .template-grid { grid-template-columns: 1fr; } }
+
+        .template-card {
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px; cursor: pointer;
+            transition: all 0.2s; position: relative;
+        }
+        .template-card:hover {
+            border-color: var(--accent); transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(99,102,241,0.1);
+        }
+        .template-card:active { transform: translateY(0); }
+        .template-card .template-preview {
+            width: 48px; height: 48px; border-radius: 12px;
+            background: var(--bg); display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; margin-bottom: 16px;
+        }
+        .template-card h4 {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1rem;
+            font-weight: 600; color: var(--text); margin-bottom: 8px;
+        }
+        .template-card p {
+            font-size: 0.8125rem; color: var(--text-muted); line-height: 1.6;
+            margin-bottom: 14px;
+        }
+        .template-tags {
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .template-tags span {
+            padding: 4px 10px; border-radius: 6px;
+            background: rgba(99,102,241,0.1); color: var(--accent);
+            font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        .template-copied {
+            position: absolute; top: 12px; right: 12px;
+            padding: 6px 12px; border-radius: 8px;
+            background: var(--success); color: white;
+            font-size: 0.75rem; font-weight: 600;
+            opacity: 0; transform: translateY(-4px); transition: all 0.3s;
+            pointer-events: none;
+        }
+        .template-copied.show { opacity: 1; transform: translateY(0); }
     </style>
     <script src="https://js.stripe.com/v3/"></script>
 </head>
@@ -331,6 +393,7 @@
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('video')" id="tab-video">🎬 INTM Studio</div>
                 <div class="tab" onclick="switchTab('image')" id="tab-image">🖼️ Image Studio</div>
+                <div class="tab" onclick="switchTab('templates')" id="tab-templates">📋 Templates</div>
             </div>
 
             <!-- Video Panel -->
@@ -455,6 +518,105 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Templates Panel -->
+            <div class="tab-panel" id="panel-templates">
+                <div class="panel" style="padding: 0; overflow: hidden;">
+                    <!-- Sub-tabs -->
+                    <div style="display: flex; border-bottom: 1px solid var(--border); background: var(--bg-elevated);">
+                        <button class="sub-tab active" onclick="switchSubTab('social')" id="sub-tab-social">
+                            <span style="margin-right: 6px;">📱</span>Social Media
+                        </button>
+                        <button class="sub-tab" onclick="switchSubTab('listing')" id="sub-tab-listing">
+                            <span style="margin-right: 6px;">🏠</span>Property Listings
+                        </button>
+                    </div>
+
+                    <!-- Social Media Sub-panel -->
+                    <div class="sub-panel active" id="sub-panel-social" style="padding: 32px;">
+                        <div class="template-grid">
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">🖼️</div>
+                                <h4>Instagram Carousel</h4>
+                                <p>5-slide property showcase with hook, features, location, price, and CTA.</p>
+                                <div class="template-tags"><span>5 slides</span><span>Engagement</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">🎥</div>
+                                <h4>Reels Script</h4>
+                                <p>15-sec walkthrough hook script with trending audio suggestions.</p>
+                                <div class="template-tags"><span>15 sec</span><span>Viral</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">📸</div>
+                                <h4>Story Sequence</h4>
+                                <p>3-story sequence: poll, countdown, and swipe-up CTA.</p>
+                                <div class="template-tags"><span>3 stories</span><span>Interactive</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">📝</div>
+                                <h4>Caption Pack</h4>
+                                <p>10 ready-to-post captions for new launch, resale, and rental.</p>
+                                <div class="template-tags"><span>10 captions</span><span>Hashtags</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">🎨</div>
+                                <h4>Brand Quote Cards</h4>
+                                <p>Minimal quote cards with INITIUM emerald accent for authority building.</p>
+                                <div class="template-tags"><span>6 designs</span><span>Brand</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">📊</div>
+                                <h4>Market Update Slide</h4>
+                                <p>Single-slide market snapshot with key stats and personal commentary space.</p>
+                                <div class="template-tags"><span>1 slide</span><span>Authority</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Property Listings Sub-panel -->
+                    <div class="sub-panel" id="sub-panel-listing" style="padding: 32px;">
+                        <div class="template-grid">
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">📝</div>
+                                <h4>Luxury Listing Description</h4>
+                                <p>Full property write-up for landed homes and condos above $5M.</p>
+                                <div class="template-tags"><span>Long-form</span><span>Luxury</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">📧</div>
+                                <h4>Buyer Outreach Email</h4>
+                                <p>Warm follow-up email template for serious buyers post-viewing.</p>
+                                <div class="template-tags"><span>Email</span><span>CRM</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">💼</div>
+                                <h4>Listing Presentation Deck</h4>
+                                <p>8-slide seller pitch deck: market analysis, strategy, and track record.</p>
+                                <div class="template-tags"><span>8 slides</span><span>Pitch</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">📱</div>
+                                <h4>WhatsApp Broadcast</h4>
+                                <p>Short punchy broadcast message for new launch or price drop alerts.</p>
+                                <div class="template-tags"><span>Short</span><span>Broadcast</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">📋</div>
+                                <h4>Property Fact Sheet</h4>
+                                <p>One-pager with specs, nearby amenities, and transaction history.</p>
+                                <div class="template-tags"><span>One-pager</span><span>Data</span></div>
+                            </div>
+                            <div class="template-card" onclick="copyTemplate(this)">
+                                <div class="template-preview">🎯</div>
+                                <h4>Virtual Tour Script</h4>
+                                <p>Voiceover script for 60-sec virtual walkthrough with pacing cues.</p>
+                                <div class="template-tags"><span>60 sec</span><span>Script</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -510,6 +672,32 @@
         document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
         document.getElementById('tab-' + tab).classList.add('active');
         document.getElementById('panel-' + tab).classList.add('active');
+    }
+
+    // ── Sub-tabs ──
+    function switchSubTab(sub) {
+        document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sub-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('sub-tab-' + sub).classList.add('active');
+        document.getElementById('sub-panel-' + sub).classList.add('active');
+    }
+
+    // ── Templates ──
+    function copyTemplate(card) {
+        const title = card.querySelector('h4').textContent;
+        const desc = card.querySelector('p').textContent;
+        const text = `[${title}]\n\n${desc}\n\n— INITIUM Template`;
+        navigator.clipboard.writeText(text).then(() => {
+            let badge = card.querySelector('.template-copied');
+            if (!badge) {
+                badge = document.createElement('div');
+                badge.className = 'template-copied';
+                badge.textContent = 'Copied!';
+                card.appendChild(badge);
+            }
+            badge.classList.add('show');
+            setTimeout(() => badge.classList.remove('show'), 1500);
+        }).catch(() => toast('Copy failed. Select and copy manually.', 'error'));
     }
 
     // ── Media inputs ──
