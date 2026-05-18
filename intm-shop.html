@@ -243,6 +243,31 @@
     position: relative;
     overflow: hidden;
   }
+  .product-img .swipe-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.4);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 100px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .product-img .swipe-hint { opacity: 1; }
+    .product-img.swiped .swipe-hint { opacity: 0; }
+  }
   .product-img img {
     width: 100%;
     height: 100%;
@@ -1246,7 +1271,7 @@
     grid.innerHTML = products.map(p => {
       const hasImages = p.images && p.images.white && p.images.green;
       const imgHtml = hasImages
-        ? `<img src="${p.images.white}" class="cardigan-img" data-color="white" id="img-${p.id}" alt="${p.name}" onclick="openProductModal('${p.id}')" style="cursor:zoom-in;">`
+        ? `<img src="${p.images.white}" class="cardigan-img" data-color="white" id="img-${p.id}" alt="${p.name}" onclick="openProductModal('${p.id}')" style="cursor:zoom-in;"><span class="swipe-hint">← Swipe →</span>`
         : `<span style="font-size:80px;">${p.emoji}</span>`;
       const colorBar = hasImages
         ? `<div class="product-color-bar">
@@ -1448,6 +1473,64 @@
       dot.classList.toggle('active', dot.dataset.color === color);
     });
   }
+
+  // Swipe to toggle color on mobile
+  (function initSwipeColorToggle() {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let currentSwipeProductId = null;
+
+    document.addEventListener('touchstart', function(e) {
+      const img = e.target.closest('.product-img img.cardigan-img, #pdModalImg');
+      if (!img) return;
+      touchStartX = e.changedTouches[0].screenX;
+      touchStartY = e.changedTouches[0].screenY;
+      if (img.id === 'pdModalImg') {
+        currentSwipeProductId = currentModalProductId;
+      } else if (img.id && img.id.startsWith('img-')) {
+        currentSwipeProductId = img.id.replace('img-', '');
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', function(e) {
+      if (!currentSwipeProductId) return;
+      const touchEndX = e.changedTouches[0].screenX;
+      const touchEndY = e.changedTouches[0].screenY;
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+
+      // Only register horizontal swipes (ignore vertical scroll)
+      if (Math.abs(deltaX) < Math.abs(deltaY)) { currentSwipeProductId = null; return; }
+      if (Math.abs(deltaX) < 40) { currentSwipeProductId = null; return; } // min threshold
+
+      const product = products.find(p => p.id === currentSwipeProductId);
+      if (!product || !product.images) { currentSwipeProductId = null; return; }
+
+      const colors = Object.keys(product.images);
+      const activeDot = document.querySelector(`.color-dot[data-product="${currentSwipeProductId}"].active, #pdModalColors .color-dot.active`);
+      let currentColor = activeDot ? activeDot.dataset.color : colors[0];
+      let currentIdx = colors.indexOf(currentColor);
+
+      if (deltaX < 0) {
+        // Swipe left → next color
+        currentIdx = (currentIdx + 1) % colors.length;
+      } else {
+        // Swipe right → previous color
+        currentIdx = (currentIdx - 1 + colors.length) % colors.length;
+      }
+      const nextColor = colors[currentIdx];
+
+      if (document.getElementById('pdModalImg') && currentModalProductId === currentSwipeProductId) {
+        toggleModalColor(nextColor);
+      } else {
+        toggleCardiganColor(currentSwipeProductId, nextColor);
+      }
+      // Hide swipe hint after first swipe
+      const cardImg = document.querySelector(`#img-${currentSwipeProductId}`);
+      if (cardImg && cardImg.parentElement) cardImg.parentElement.classList.add('swiped');
+      currentSwipeProductId = null;
+    }, { passive: true });
+  })();
 
   // Product Detail Modal
   let currentModalProductId = null;
