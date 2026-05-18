@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hourly property news updater for INITIUM Pulse page.
 Fetches fresh articles from ST, CNA, EdgeProp via Google News RSS.
-Accumulates articles: fresh (<48h) → carousel, archived (≥48h) → archive page.
+Only keeps articles published within last 48h for the carousel.
 """
 import json
 import os
@@ -9,6 +9,7 @@ import re
 import subprocess
 import sys
 import time
+import hashlib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from html import unescape
@@ -19,20 +20,52 @@ try:
     from bs4 import BeautifulSoup
 except ImportError:
     BeautifulSoup = None
+
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(SCRIPT_DIR)
 DATA_FILE = os.path.join(REPO_DIR, "data", "property-news.json")
 BLOG_HTML = os.path.join(REPO_DIR, "blog.html")
 ARCHIVE_HTML = os.path.join(REPO_DIR, "news-archive.html")
 
-# Unsplash images per source
-SOURCE_IMAGES = {
-    "ST": "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-    "CNA": "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop",
-    "EdgeProp": "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop",
+# Pool of fallback images per source (rotated so cards don't all look identical)
+SOURCE_IMAGE_POOLS = {
+    "ST": [
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop",
+    ],
+    "CNA": [
+        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600047509358-9c977f0e600c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600585154363-67ebad380241?w=600&h=400&fit=crop",
+    ],
+    "EdgeProp": [
+        "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&h=400&fit=crop",
+        "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop",
+    ],
 }
 
+# Keyword → image mapping for more relevant fallbacks
+KEYWORD_IMAGES = [
+    (r'\bhdb\b', "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop"),
+    (r'\bcondo\b|\bcondominium\b', "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop"),
+    (r'\blanded\b|\bshophouse\b', "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop"),
+    (r'\brental\b|\btenancy\b|\blease\b', "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=400&fit=crop"),
+    (r'\blaunch\b|\bnew home\b', "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop"),
+    (r'\bupgrade\b|\bupgrading\b|\bhip\b|\bimprovement\b', "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop"),
+    (r'\babsd\b|\btax\b|\bcooling measure\b|\bmortgage\b|\bstamp duty\b', "https://images.unsplash.com/photo-1600047509358-9c977f0e600c?w=600&h=400&fit=crop"),
+    (r'\bcollective sale\b|\ben bloc\b|\benbloc\b', "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&h=400&fit=crop"),
+]
+
 HOURS_FRESH = 48
+DAYS_KEEP = 7  # Prune articles older than this
 
 
 def now_ts() -> float:
@@ -44,6 +77,19 @@ def fmt_date(ts: float) -> str:
     return dt.strftime("%a, %d %b %Y")
 
 
+def pick_fallback_image(article: dict) -> str:
+    """Pick a relevant fallback image based on article title keywords."""
+    title = article.get("title", "").lower()
+    for pattern, img_url in KEYWORD_IMAGES:
+        if re.search(pattern, title):
+            return img_url
+    # Rotate through source pool based on article hash for variety
+    tag = article.get("source_tag", "ST")
+    pool = SOURCE_IMAGE_POOLS.get(tag, SOURCE_IMAGE_POOLS["ST"])
+    h = int(hashlib.md5(article.get("url", "").encode()).hexdigest(), 16)
+    return pool[h % len(pool)]
+
+
 def fetch_google_news_rss(query: str) -> list[dict]:
     url = f"https://news.google.com/rss/search?q={requests.utils.quote(query)}&hl=en-SG&gl=SG&ceid=SG:en"
     try:
@@ -51,6 +97,7 @@ def fetch_google_news_rss(query: str) -> list[dict]:
         r.raise_for_status()
         root = ET.fromstring(r.content)
         articles = []
+        cutoff_ts = now_ts() - (HOURS_FRESH * 3600)
         for item in root.findall(".//item"):
             title_el = item.find("title")
             link_el = item.find("link")
@@ -72,6 +119,9 @@ def fetch_google_news_rss(query: str) -> list[dict]:
                     continue
             if pub_ts is None:
                 pub_ts = now_ts()
+            # Skip articles published more than 48h ago
+            if pub_ts < cutoff_ts:
+                continue
             articles.append({
                 "title": title,
                 "url": link,
@@ -237,7 +287,10 @@ def build_card_html(article: dict) -> str:
     display_title = title if len(title) < 90 else title[:87] + "..."
     excerpt = make_excerpt(title)
     tag = article.get("source_tag", "News")
-    img = article.get("image") or SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
+    # Use cached image if valid, otherwise pick a smart fallback
+    img = article.get("image")
+    if not img or "googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrp" in img:
+        img = pick_fallback_image(article)
     date_str = fmt_date(article.get("pub_ts", article.get("fetched_ts", now_ts())))
     url = article.get("url", "#")
     return (
@@ -256,13 +309,24 @@ def build_card_html(article: dict) -> str:
 
 
 def classify_articles(articles: list[dict]) -> tuple[list[dict], list[dict]]:
+    """Classify by PUBLICATION date, not fetch date."""
     cutoff = now_ts() - (HOURS_FRESH * 3600)
-    fresh = [a for a in articles if a.get("fetched_ts", a.get("pub_ts", 0)) > cutoff]
-    archived = [a for a in articles if a.get("fetched_ts", a.get("pub_ts", 0)) <= cutoff]
-    # Sort by newest first
-    fresh.sort(key=lambda a: a.get("fetched_ts", a.get("pub_ts", 0)), reverse=True)
-    archived.sort(key=lambda a: a.get("fetched_ts", a.get("pub_ts", 0)), reverse=True)
+    fresh = [a for a in articles if a.get("pub_ts", 0) > cutoff]
+    archived = [a for a in articles if a.get("pub_ts", 0) <= cutoff]
+    # Sort by newest published first
+    fresh.sort(key=lambda a: a.get("pub_ts", 0), reverse=True)
+    archived.sort(key=lambda a: a.get("pub_ts", 0), reverse=True)
     return fresh, archived
+
+
+def prune_old_articles(articles: list[dict]) -> list[dict]:
+    """Remove articles older than DAYS_KEEP to keep the DB lean."""
+    cutoff = now_ts() - (DAYS_KEEP * 24 * 3600)
+    kept = [a for a in articles if a.get("pub_ts", 0) > cutoff]
+    removed = len(articles) - len(kept)
+    if removed:
+        print(f"      Pruned {removed} articles older than {DAYS_KEEP} days")
+    return kept
 
 
 def update_blog_html(fresh: list[dict]):
@@ -304,7 +368,9 @@ def generate_archive_html(archived: list[dict]):
         display_title = title if len(title) < 90 else title[:87] + "..."
         excerpt = make_excerpt(title)
         tag = a.get("source_tag", "News")
-        img = a.get("image") or SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
+        img = a.get("image")
+        if not img or "googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrp" in img:
+            img = pick_fallback_image(a)
         date_str = fmt_date(a.get("pub_ts", a.get("fetched_ts", now_ts())))
         url = a.get("url", "#")
         cards.append(
@@ -895,8 +961,12 @@ def main():
     all_articles = dedupe_by_url(existing + st_new + cna_new + ep_new)
     print(f"\n      Total unique articles: {len(all_articles)}")
 
+    # Prune articles older than 7 days
+    print("[5/7] Pruning old articles...")
+    all_articles = prune_old_articles(all_articles)
+
     # Enrich articles with hero images (concurrent, skip if already cached)
-    print("[5/7] Fetching article images...")
+    print("[6/7] Fetching article images...")
     # Also filter out known Google logo / generic placeholder images
     GOOGLE_LOGO_URL = "googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrp"
     need_img = [a for a in all_articles if not a.get("image") or GOOGLE_LOGO_URL in a.get("image", "")]
@@ -920,12 +990,12 @@ def main():
 
     print(f"      {fetched_images} images fetched")
 
-    # Classify
+    # Classify by PUBLICATION date
     fresh, archived = classify_articles(all_articles)
     print(f"      Fresh (<48h): {len(fresh)}")
     print(f"      Archived (≥48h): {len(archived)}")
 
-    print("[6/7] Regenerating pages...")
+    print("[7/7] Regenerating pages...")
     ok1 = update_blog_html(fresh)
     ok2 = generate_archive_html(archived)
     save_articles(all_articles)
@@ -934,7 +1004,7 @@ def main():
     if not ok2:
         print("      WARNING: archive.html generation failed")
 
-    print("[7/7] Deploying...")
+    print("[8/8] Deploying...")
     if git_deploy():
         print("\nDone. Deployed successfully.")
     else:
