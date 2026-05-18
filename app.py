@@ -639,6 +639,48 @@ def api_create_payment_intent():
         return jsonify({"error": str(e)}), 500
 
 
+
+
+@app.route("/api/shop/checkout", methods=["POST"])
+def api_shop_checkout():
+    """Create a Stripe Checkout Session for multi-item shop orders."""
+    if not stripe.api_key:
+        return jsonify({"error": "Stripe not configured"}), 500
+
+    data = request.get_json(force=True) or {}
+    items = data.get("items", [])
+
+    if not items or not isinstance(items, list):
+        return jsonify({"error": "Cart is empty"}), 400
+
+    line_items = []
+    for item in items:
+        product_data = {"name": item.get("name", "Item")}
+        desc = item.get("desc", "")
+        if desc:
+            product_data["description"] = desc
+        line_items.append({
+            "price_data": {
+                "currency": "sgd",
+                "product_data": product_data,
+                "unit_amount": int(round(float(item.get("price", 0)) * 100)),
+            },
+            "quantity": int(item.get("qty", 1)),
+        })
+
+    try:
+        session = stripe.checkout.Session.create(
+            line_items=line_items,
+            mode="payment",
+            success_url="https://initium.sg/intm-shop.html?status=success",
+            cancel_url="https://initium.sg/intm-shop.html?status=cancel",
+            shipping_address_collection={"allowed_countries": ["SG"]},
+        )
+        return jsonify({"url": session.url})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
 # ═══════════════════════════════════════════════════════════
 # ADMIN API (Protected by Admin Key)
 # ═══════════════════════════════════════════════════════════

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Property News Archive — INITIUM</title>
+<meta name="description" content="Archived property news from The Straits Times, CNA, and EdgeProp.">
+<meta name="theme-color" content="#008c65">
+<link rel="canonical" href="https://initium.sg/news-archive.html">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 56px; width: auto; display: block; background: transparent; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
+
+  .page-hero {
+    position: relative;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 60px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    overflow: hidden;
+  }
+  .page-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
+  }
+  .page-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 16px;
+    max-width: 700px;
+  }
+  .page-hero-sub {
+    font-size: clamp(15px, 2vw, 18px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 520px;
+    line-height: 1.7;
+  }
+  .archive-link {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ig);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ig);
+    padding-bottom: 2px;
+    transition: opacity 0.3s ease;
+  }
+  .archive-link:hover { opacity: 0.7; }
+
+  section {
+    position: relative;
+    padding: 80px 48px;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .section-subheader {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--ig-ink);
+    line-height: 1.2;
+  }
+  .archive-count {
+    font-size: 14px;
+    color: var(--ig-ink-3);
+    font-weight: 500;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 32px;
+  }
+  .blog-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(0,140,101,0.08);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,140,101,0.1);
+    border-color: rgba(0,140,101,0.2);
+  }
+  .blog-thumb {
+    height: 220px;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-thumb img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .blog-content {
+    padding: 28px;
+  }
+  .blog-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--ig-light);
+    color: var(--ig-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    margin-bottom: 16px;
+  }
+  .blog-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ig-ink);
+    margin-bottom: 10px;
+  }
+  .blog-excerpt {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin-bottom: 16px;
+  }
+  .blog-meta {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+
+  footer {
+    border-top: 1px solid var(--ig-light);
+    padding: 64px 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-col-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }
+  .footer-col a {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-col a:hover { color: var(--ig); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--ig-light);
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-legal {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-legal a {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-legal a:hover { color: var(--ig); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .blog-grid { grid-template-columns: 1fr; }
+    footer { padding: 48px 24px 24px; }
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav-crop.png" alt="INITIUM" height="56" style="background:transparent;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="blog.html">Pulse</a></li>
+    <li><a href="intm-studio.html">INTM Studio</a></li>
+    <li><a href="intm-shop.html">INTM Shop</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+</nav>
+
+<div class="page-hero">
+  <div class="page-hero-label">Market Watch</div>
+  <h1 class="page-hero-title">Property News Archive</h1>
+  <p class="page-hero-sub">Past headlines from The Straits Times, CNA, and EdgeProp.</p>
+  <a href="blog.html" class="archive-link">&larr; Back to Pulse</a>
+</div>
+
+<section style="background:#fff;">
+  <div class="section-inner">
+    <div class="section-header">
+      <div>
+        <div class="section-subheader">Archive</div>
+        <h2 class="section-title">Past Headlines</h2>
+      </div>
+      <div class="archive-count">0 articles</div>
+    </div>
+    <div class="blog-grid">
+
+<p style="color:var(--ig-ink-3); text-align:center; padding:60px 0;">No archived articles yet.</p>
+
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
+      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">Igniting Journeys</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="new-launches.html">New Launches</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="team.html">Team</a>
+      <a href="join.html">Join Us</a>
+      <a href="blog.html">Pulse</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="https://wa.me/6588464814" target="_blank">WhatsApp</a>
+      <a href="https://www.instagram.com/initium.grp" target="_blank">Instagram</a>
+      <a href="mailto:hello@initium.sg">Email</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2026 INITIUM. Igniting Journeys.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+</script>
+
+</body>
+</html>

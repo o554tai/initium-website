@@ -133,6 +133,42 @@
     transform: scale(1);
   }
 
+  /* Checkout status banner */
+  .checkout-banner {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-20px);
+    z-index: 3000;
+    padding: 14px 28px;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    max-width: 90vw;
+    text-align: center;
+  }
+  .checkout-banner.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+  .checkout-banner.success {
+    background: #fff;
+    color: var(--ig);
+    border: 2px solid var(--ig);
+  }
+  .checkout-banner.cancel {
+    background: #fff;
+    color: var(--ig-ink);
+    border: 2px solid var(--ig-ink-3);
+  }
+
   .page-hero {
     position: relative;
     min-height: 55vh;
@@ -660,7 +696,7 @@
     <li><a href="new-launches.html">New Launches</a></li>
     <li><a href="team.html">Team</a></li>
     <li><a href="join.html">Join Us</a></li>
-    <li><a href="blog.html">Blog</a></li>
+    <li><a href="blog.html">Pulse</a></li>
     <li><a href="video-studio.html">Video Studio</a></li>
     <li><a href="intm-shop.html" class="active">INTM Shop</a></li>
     <li><a href="contact.html">Contact</a></li>
@@ -673,6 +709,8 @@
     <span></span><span></span><span></span>
   </button>
 </nav>
+
+<div class="checkout-banner" id="checkoutBanner"></div>
 
 <main class="page-hero">
   <div class="page-hero-label">INTM Shop</div>
@@ -687,7 +725,9 @@
 </section>
 
 <section class="cta-section">
-  <h2 class="cta-title">Ready to take the leap?</h2>
+  <button class="checkout-btn" onclick="checkout()" style="max-width:320px;margin:0 auto;font-size:18px;padding:20px 48px;border-radius:100px;">
+    Get Ignited — Checkout
+  </button>
 </section>
 
 <!-- Cart Drawer -->
@@ -754,7 +794,7 @@
       <li><a href="new-launches.html">New Launches</a></li>
       <li><a href="team.html">Team</a></li>
       <li><a href="join.html">Join Us</a></li>
-      <li><a href="blog.html">Blog</a></li>
+      <li><a href="blog.html">Pulse</a></li>
       <li><a href="video-studio.html">Video Studio</a></li>
       <li><a href="intm-shop.html">INTM Shop</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -766,69 +806,88 @@
   // ============================================
   // PRODUCT CATALOG
   // ============================================
-  // NOTE: Replace stripeLink with your actual Stripe Payment Link for each product.
-  // Create products at: https://dashboard.stripe.com/products
-  // Then generate Payment Links: https://dashboard.stripe.com/payment-links
+  const API_BASE = 'https://initium-video-studio.onrender.com';
   const products = [
     {
-      id: 'initium-cap',
-      name: 'INITIUM Dad Cap',
-      desc: 'Minimalist 6-panel cap with embroidered logo. Adjustable strap. One size.',
-      price: 48,
+      id: 'ignite-cardigan',
+      name: 'INITIUM Ignite Cardigan',
+      desc: 'Soft knit cardigan with embroidered INITIUM Ignite logo. Layer up for viewings in style.',
+      price: 38,
       originalPrice: 58,
-      emoji: '🧢',
-      badge: 'Best Seller',
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_1'
+      emoji: '🧥',
+      badge: 'Best Seller'
     },
     {
-      id: 'initium-tee',
-      name: 'INITIUM Essential Tee',
-      desc: 'Heavyweight cotton, boxy fit. Forest green with white logo print.',
-      price: 68,
+      id: 'ignite-tee',
+      name: 'INITIUM Ignite Tee',
+      desc: 'Essential cotton tee with INITIUM Ignite print. Comfortable fit for the daily grind.',
+      price: 15,
       originalPrice: null,
       emoji: '👕',
-      badge: 'New Drop',
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_2'
+      badge: 'Must Have'
     },
     {
-      id: 'initium-tote',
-      name: 'INITIUM Canvas Tote',
-      desc: 'Oversized tote with reinforced handles. Fits a laptop + gym gear.',
-      price: 38,
-      originalPrice: 45,
+      id: 'ignite-tote',
+      name: 'INITIUM Ignite Canvas Tote',
+      desc: 'Durable canvas tote with INITIUM Ignite branding. Fits documents, laptop, and daily essentials.',
+      price: 20,
+      originalPrice: 48,
       emoji: '🛍️',
-      badge: null,
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_3'
+      badge: null
     },
     {
-      id: 'initium-sticker',
-      name: 'INITIUM Sticker Pack',
-      desc: '5-piece vinyl sticker set. Waterproof, fade-resistant. Slap them anywhere.',
-      price: 12,
+      id: 'ignite-decal',
+      name: 'INITIUM Ignite Car Decal',
+      desc: 'Vinyl car decal with INITIUM Ignite logo. Weatherproof, easy apply. Rep the brand on the road.',
+      price: 1,
       originalPrice: null,
-      emoji: '🏷️',
-      badge: null,
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_4'
+      emoji: '🚘',
+      badge: null
     },
     {
-      id: 'initium-hoodie',
-      name: 'INITIUM Hoodie',
-      desc: 'Premium fleece-lined hoodie. Relaxed fit, kangaroo pocket, embroidered chest logo.',
-      price: 128,
+      id: 'ignite-laser',
+      name: 'INITIUM Ignite Laser Pointer',
+      desc: 'Professional laser pointer for property presentations. Sleek metal body, long-range beam.',
+      price: 18,
       originalPrice: 158,
-      emoji: '🧥',
-      badge: 'Limited',
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_5'
+      emoji: '🔦',
+      badge: 'Must Have'
     },
     {
-      id: 'initium-mug',
-      name: 'INITIUM Ceramic Mug',
-      desc: 'Matte ceramic, 400ml. For the morning rituals that start the day right.',
-      price: 32,
+      id: 'ignite-folder',
+      name: 'INITIUM Ignite Folder (Pack of 5)',
+      desc: 'Premium document folder with INITIUM Ignite branding. Pack of 5. Stay organized, stay sharp.',
+      price: 2,
       originalPrice: null,
-      emoji: '☕',
-      badge: null,
-      stripeLink: 'https://buy.stripe.com/YOUR_LINK_HERE_6'
+      emoji: '📁',
+      badge: 'Must Have'
+    },
+    {
+      id: 'ignite-clipboard',
+      name: 'INITIUM Ignite Clip Board',
+      desc: 'Metal clipboard with INITIUM Ignite logo. For field notes, contracts, and on-the-go work.',
+      price: 8,
+      originalPrice: null,
+      emoji: '📋',
+      badge: 'Must Have'
+    },
+    {
+      id: 'ignite-files',
+      name: 'INITIUM Ignite Files (Pack of 5)',
+      desc: 'Document file set with INITIUM Ignite branding. Pack of 5. Keep every deal in order.',
+      price: 3,
+      originalPrice: 158,
+      emoji: '📂',
+      badge: 'Must Have'
+    },
+    {
+      id: 'ignite-measure',
+      name: 'INITIUM Ignite Measuring Device',
+      desc: 'Compact laser measuring device for property viewings. Accurate, pocket-sized essential.',
+      price: 18,
+      originalPrice: null,
+      emoji: '📏',
+      badge: null
     }
   ];
 
@@ -848,7 +907,7 @@
       existing.qty += 1;
     } else {
       const product = products.find(p => p.id === productId);
-      cart.push({ id: productId, qty: 1, price: product.price, name: product.name, emoji: product.emoji, stripeLink: product.stripeLink });
+      cart.push({ id: productId, qty: 1, price: product.price, name: product.name, emoji: product.emoji, desc: product.desc });
     }
     saveCart();
     // Animate button
@@ -963,24 +1022,32 @@
   // ============================================
   // CHECKOUT
   // ============================================
-  function checkout() {
-    // For static sites, we use Stripe Payment Links.
-    // If cart has 1 item, go directly to that product's Stripe link.
-    // If cart has multiple items, we open the first item's link
-    // (Stripe Payment Links are per-product; for multi-item you'd need
-    //  a backend or a pre-configured bundle link.)
+  async function checkout() {
     if (cart.length === 0) return;
 
-    if (cart.length === 1) {
-      window.open(cart[0].stripeLink, '_blank');
-    } else {
-      // Multiple items: show an alert explaining the limitation
-      // In production, you'd want a backend to create a checkout session.
-      alert('For orders with multiple items, please contact us via WhatsApp and we will send you a combined invoice.\n\nOr checkout each item individually.');
-      // Alternative: open WhatsApp with order summary
-      const summary = cart.map(item => `${item.qty}x ${item.name} (S$${item.price * item.qty})`).join('%0A');
-      const total = getCartTotal();
-      window.open(`https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%20would%20like%20to%20order%3A%0A%0A${summary}%0A%0ATotal%3A%20S$${total}`, '_blank');
+    const btn = document.getElementById('checkoutBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span>Loading…</span>';
+    btn.disabled = true;
+    btn.style.opacity = '0.7';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/shop/checkout`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: cart }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error(data.error || 'Checkout failed');
+      }
+    } catch (err) {
+      alert('Checkout error: ' + err.message);
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+      btn.style.opacity = '';
     }
   }
 
@@ -1037,6 +1104,28 @@
       }
     });
   }
+
+  // Checkout status toast
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const status = params.get('status');
+    const banner = document.getElementById('checkoutBanner');
+    if (!banner || !status) return;
+    if (status === 'success') {
+      banner.textContent = '✓ Payment successful! We\'ll ship your order soon.';
+      banner.className = 'checkout-banner success show';
+      localStorage.removeItem('intm_cart');
+      cart = [];
+      updateCartUI();
+    } else if (status === 'cancel') {
+      banner.textContent = 'Checkout cancelled. Your cart is still here.';
+      banner.className = 'checkout-banner cancel show';
+    }
+    setTimeout(() => banner.classList.remove('show'), 6000);
+    if (window.history.replaceState) {
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  })();
 
   // Init
   renderProducts();
