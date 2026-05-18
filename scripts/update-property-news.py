@@ -160,6 +160,9 @@ def extract_article_image(url: str) -> str | None:
     """Fetch article page and extract the hero / Open Graph image."""
     if BeautifulSoup is None:
         return None
+    # Skip Google News redirect URLs — they return 400 and serve a Google logo
+    if "news.google.com" in url:
+        return None
     try:
         r = requests.get(url, headers={
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
@@ -894,7 +897,12 @@ def main():
 
     # Enrich articles with hero images (concurrent, skip if already cached)
     print("[5/7] Fetching article images...")
-    need_img = [a for a in all_articles if not a.get("image")]
+    # Also filter out known Google logo / generic placeholder images
+    GOOGLE_LOGO_URL = "googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrp"
+    need_img = [a for a in all_articles if not a.get("image") or GOOGLE_LOGO_URL in a.get("image", "")]
+    for a in need_img:
+        if GOOGLE_LOGO_URL in a.get("image", ""):
+            a.pop("image", None)
     print(f"      {len(need_img)} articles need images")
     fetched_images = 0
 
