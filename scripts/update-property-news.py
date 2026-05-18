@@ -330,25 +330,25 @@ def prune_old_articles(articles: list[dict]) -> list[dict]:
 
 
 def update_blog_html(fresh: list[dict]):
-    # Cap carousel at 50 most recent articles
+    # Cap at 50 most recent articles; scroll container shows ~6 at a time
     fresh = fresh[:50]
     with open(BLOG_HTML, "r", encoding="utf-8") as f:
         content = f.read()
 
     cards_html = "\n\n".join(build_card_html(a) for a in fresh)
 
-    pattern = r'(<div class="news-track" id="newsTrack">)\n\n(.*?)(\n      </div>)'
+    pattern = r'(<div class="news-grid" id="newsGrid">)\n\n(.*?)(\n      </div>)'
     match = re.search(pattern, content, re.DOTALL)
     if not match:
         # Try without the leading newline after open tag
-        pattern2 = r'(<div class="news-track" id="newsTrack">)(.*?)(</div>)'
+        pattern2 = r'(<div class="news-grid" id="newsGrid">)(.*?)(</div>)'
         match = re.search(pattern2, content, re.DOTALL)
         if match:
             old = match.group(0)
             new = match.group(1) + "\n\n" + cards_html + "\n      " + match.group(3)
             content = content.replace(old, new)
         else:
-            print("  ERROR: Could not find news-track in blog.html")
+            print("  ERROR: Could not find news-grid in blog.html")
             return False
     else:
         old = match.group(0)

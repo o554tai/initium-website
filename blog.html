@@ -330,55 +330,45 @@
   }
   .footer-links a:hover { color: var(--ig); }
 
-  /* News Carousel */
-  .news-carousel { position: relative; }
-  .news-track {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 24px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 12px 4px 32px;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    -webkit-overflow-scrolling: touch;
-    cursor: grab;
+  /* News Scroll Container */
+  .news-scroll-container {
+    max-height: 640px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ig-light) transparent;
   }
-  .news-track:active { cursor: grabbing; }
-  .news-track::-webkit-scrollbar { display: none; }
-  .news-track .blog-card {
-    flex: 0 0 360px;
-    min-width: 360px;
-    scroll-snap-align: start;
+  .news-scroll-container::-webkit-scrollbar {
+    width: 6px;
   }
-  .news-nav {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: -12px;
-    margin-bottom: 24px;
+  .news-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
   }
-  .news-nav button {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 1px solid rgba(0,140,101,0.15);
-    background: #fff;
-    color: var(--ig);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
+  .news-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--ig-light);
+    border-radius: 10px;
   }
-  .news-nav button:hover {
+  .news-scroll-container::-webkit-scrollbar-thumb:hover {
     background: var(--ig);
-    color: #fff;
-    border-color: var(--ig);
-    transform: translateY(-2px);
   }
-  .news-nav button svg { width: 18px; height: 18px; }
+  .news-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .news-grid .blog-card {
+    flex: none;
+    min-width: auto;
+    scroll-snap-align: none;
+  }
+  @media (max-width: 900px) {
+    .news-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .news-scroll-container { max-height: 520px; }
+  }
+  @media (max-width: 600px) {
+    .news-grid { grid-template-columns: 1fr; }
+  }
 
   /* Mobile */
   @media (max-width: 900px) {
@@ -474,16 +464,8 @@
       <h2 class="section-title">Property News</h2>
       <a href="news-archive.html" style="font-size:14px; color:var(--ig); text-decoration:none; font-weight:500; margin-left:auto; white-space:nowrap;">View Archive &rarr;</a>
     </div>
-    <div class="news-carousel">
-      <div class="news-nav" aria-label="Property news carousel navigation">
-        <button id="newsPrev" aria-label="Previous news">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <button id="newsNext" aria-label="Next news">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-      </div>
-      <div class="news-track" id="newsTrack">
+    <div class="news-scroll-container">
+      <div class="news-grid" id="newsGrid">
 
       <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxNeWhTdE5NYWM0QUVCMW13cGREMWZ3OGRRWUxfZkFfZm4zN2hyWEdrT2JJbFg2d1o1VFBRN0JDZlYwQjAtSXRSbXdOWjVTbEN4MkV5dWRZZ2JFQ2tMeks1QTM4Y1VId09id3VoVG94U1ZLbjlvYjlYb3dEY1d5YnVFeGRydFg0ZS1ncjBjeGYzLWt6ZFFMVE9DeEdxQUJJbmJj?oc=5" class="blog-card" target="_blank" rel="noopener">
         <div class="blog-thumb">
@@ -671,46 +653,7 @@
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
   });
 
-  // Property News carousel
-  (function() {
-    var track = document.getElementById('newsTrack');
-    var prev = document.getElementById('newsPrev');
-    var next = document.getElementById('newsNext');
-    if (!track || !prev || !next) return;
-    var cardWidth = 384; // 360px + 24px gap
-    prev.addEventListener('click', function() {
-      track.scrollBy({ left: -cardWidth, behavior: 'smooth' });
-    });
-    next.addEventListener('click', function() {
-      track.scrollBy({ left: cardWidth, behavior: 'smooth' });
-    });
-
-    // Drag-to-scroll for desktop
-    var isDown = false;
-    var startX;
-    var scrollLeft;
-    track.addEventListener('mousedown', function(e) {
-      isDown = true;
-      track.style.cursor = 'grabbing';
-      startX = e.pageX - track.offsetLeft;
-      scrollLeft = track.scrollLeft;
-    });
-    track.addEventListener('mouseleave', function() {
-      isDown = false;
-      track.style.cursor = 'grab';
-    });
-    track.addEventListener('mouseup', function() {
-      isDown = false;
-      track.style.cursor = 'grab';
-    });
-    track.addEventListener('mousemove', function(e) {
-      if (!isDown) return;
-      e.preventDefault();
-      var x = e.pageX - track.offsetLeft;
-      var walk = (x - startX) * 1.5;
-      track.scrollLeft = scrollLeft - walk;
-    });
-  })();
+  // Property News scroll container works natively — no JS needed
 </script>
 
 
