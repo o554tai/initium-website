@@ -12,6 +12,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="animations.js"></script>
 <style>
   :root {
     --ig: #50C878;
@@ -739,7 +740,7 @@
   gsap.utils.toArray('.why-card').forEach((card, i) => {
     gsap.from(card, {
       scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' },
-      y: 40, opacity: 0, duration: 0.7, delay: i * 0.1, ease: 'power3.out'
+      y: 50, rotateX: 16, opacity: 0, duration: 0.8, delay: i * 0.1, ease: 'power3.out'
     });
   });
 

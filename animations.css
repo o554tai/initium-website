@@ -1,0 +1,206 @@
+/* INITIUM 3D Animation System */
+
+/* ── 1. Animated Gradient Backgrounds ── */
+.anim-gradient-bg {
+  position: relative;
+  overflow: hidden;
+}
+.anim-gradient-bg::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(80,200,120,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, rgba(80,200,120,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse at 50% 50%, rgba(247,248,245,1) 0%, rgba(240,242,237,1) 100%);
+  background-size: 200% 200%;
+  animation: gradientShift 20s ease-in-out infinite alternate;
+  z-index: 0;
+  pointer-events: none;
+}
+.anim-gradient-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gradientShift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(-5%, 3%) scale(1.05); }
+  66%  { transform: translate(3%, -4%) scale(1.02); }
+  100% { transform: translate(-2%, 2%) scale(1.04); }
+}
+
+/* Dark variant for dark sections */
+.anim-gradient-bg-dark::before {
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(80,200,120,0.10) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 20%, rgba(80,200,120,0.06) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 80%, rgba(60,160,100,0.08) 0%, transparent 50%);
+  background-size: 200% 200%;
+}
+
+/* ── 2. 3D Scroll Reveal ── */
+.reveal-3d {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+.reveal-3d-item {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+}
+
+/* Auto 3D perspective for section containers */
+section, .section-inner, .hero-content, .page-hero-content {
+  transform-style: preserve-3d;
+}
+
+/* ── 3. 3D Hover Tilt ── */
+.tilt-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+  will-change: transform;
+}
+.tilt-3d-inner {
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out;
+}
+.tilt-3d .tilt-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    rgba(255,255,255,0) 30%,
+    rgba(255,255,255,0.15) 50%,
+    rgba(255,255,255,0) 70%
+  );
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+  z-index: 2;
+}
+.tilt-3d:hover .tilt-shine {
+  opacity: 1;
+}
+
+/* ── 4. Parallax Layers ── */
+.parallax-slow {
+  will-change: transform;
+}
+.parallax-fast {
+  will-change: transform;
+}
+
+/* ── 5. Text Character 3D Reveal ── */
+.char-reveal {
+  display: inline-block;
+  overflow: hidden;
+}
+.char-reveal span {
+  display: inline-block;
+  transform-origin: 50% 100%;
+  will-change: transform, opacity;
+}
+
+/* ── 6. Floating Ambient ── */
+.float-ambient {
+  animation: floatAmbient 8s ease-in-out infinite;
+}
+@keyframes floatAmbient {
+  0%, 100% { transform: translateY(0) rotateX(0); }
+  50%      { transform: translateY(-12px) rotateX(2deg); }
+}
+
+/* ── 7. Counter Roll ── */
+.counter-roll {
+  display: inline-block;
+  overflow: hidden;
+  height: 1.2em;
+  line-height: 1.2em;
+}
+.counter-roll-inner {
+  display: flex;
+  flex-direction: column;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── 8. Magnetic Button ── */
+.magnetic-btn {
+  transition: transform 0.2s ease-out;
+  will-change: transform;
+}
+
+/* ── 9. 3D Card Stack (testimonials) ── */
+.card-stack-3d {
+  perspective: 1200px;
+  transform-style: preserve-3d;
+}
+.card-stack-3d .card-3d {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s;
+}
+
+/* ── 10. Noise texture overlay for depth ── */
+.noise-overlay {
+  position: relative;
+}
+.noise-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── 11. Section divider 3D line ── */
+.divider-3d {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ig-ink-3), transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.divider-3d.revealed {
+  transform: scaleX(1);
+}
+
+/* ── 12. Image reveal mask ── */
+.img-reveal-3d {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.img-reveal-3d.revealed {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ── 13. Smooth scroll hint bounce ── */
+.scroll-hint-bounce {
+  animation: scrollHintBounce 2.5s ease-in-out infinite;
+}
+@keyframes scrollHintBounce {
+  0%, 100% { transform: translateY(0); opacity: 0.6; }
+  50%      { transform: translateY(10px); opacity: 1; }
+}
+
+/* ── 14. Glow pulse on interactive elements ── */
+.glow-pulse {
+  position: relative;
+}
+.glow-pulse::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: var(--ig);
+  opacity: 0;
+  filter: blur(12px);
+  z-index: -1;
+  transition: opacity 0.4s;
+}
+.glow-pulse:hover::after {
+  opacity: 0.25;
+}

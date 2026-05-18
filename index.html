@@ -18,12 +18,14 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="favicon.svg">
 <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="animations.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="animations.js"></script>
 <style>
   :root {
     --ig: #50C878;
@@ -1293,7 +1295,7 @@
   gsap.registerPlugin(ScrollTrigger);
 
   
-  // Hero entrance — PNG logo ignition
+  // Hero entrance — PNG logo ignition + 3D text reveal
   gsap.set('.hero-logo-png', { opacity: 0, filter: 'brightness(0.25) blur(6px)', scale: 0.86 });
 
   const heroTl = gsap.timeline({ delay: 0.3 });
@@ -1313,11 +1315,29 @@
       repeat: -1
     })
 
-    // Text reveals staggered behind logo
-    .to('.line-inner',  { y: '0%', duration: 1.0, stagger: 0.08, ease: 'power4.out' }, 0.9)
-    .to('.hero-sub',    { opacity: 1, y: 0, duration: 0.8, ease: 'power3.out' }, 1.2)
-    .to('.hero-cta',    { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, 1.5)
-    .to('.hero-scroll', { opacity: 1, duration: 0.8, ease: 'power2.out' }, 1.8);
+    // Text reveals — 3D character stagger
+    .from('.line-inner', {
+      y: '110%',
+      rotateX: -75,
+      opacity: 0,
+      duration: 1.0,
+      stagger: 0.08,
+      ease: 'power4.out'
+    }, 0.9)
+    .from('.hero-sub', {
+      y: 40,
+      rotateX: 20,
+      opacity: 0,
+      duration: 0.8,
+      ease: 'power3.out'
+    }, 1.2)
+    .from('.hero-cta', {
+      y: 30,
+      rotateX: 15,
+      opacity: 0,
+      duration: 0.7,
+      ease: 'power3.out'
+    }, 1.5);
 
   // Nav scroll
   ScrollTrigger.create({
@@ -1327,25 +1347,35 @@
     }
   });
 
-  // About parallax
+  // About parallax with subtle 3D rotation
   gsap.to('.about-img-1', {
     y: -60,
+    rotateZ: -2,
     scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1 }
   });
   gsap.to('.about-img-2', {
     y: -100,
+    rotateZ: 1.5,
     scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 1.5 }
   });
   gsap.to('.about-img-3', {
     y: -30,
+    rotateZ: -1,
     scrollTrigger: { trigger: '#about', start: 'top bottom', end: 'bottom top', scrub: 0.8 }
   });
 
-  // Stats counter
+  // Stats counter with 3D roll
   document.querySelectorAll('.stat-number').forEach(stat => {
     const target = parseInt(stat.dataset.target);
     const suffix = stat.dataset.suffix || '';
     const obj = { val: 0 };
+    gsap.from(stat, {
+      rotateX: 90,
+      opacity: 0,
+      duration: 0.6,
+      ease: 'power2.out',
+      scrollTrigger: { trigger: stat, start: 'top 85%' }
+    });
     gsap.to(obj, {
       val: target,
       duration: 2,
@@ -1356,34 +1386,61 @@
     });
   });
 
-  // Service cards - no animation, cards visible immediately
+  // Service cards — 3D staggered rise
+  gsap.from('.service-card', {
+    y: 80,
+    rotateX: 25,
+    opacity: 0,
+    duration: 0.9,
+    stagger: 0.12,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '.service-grid', start: 'top 85%' }
+  });
 
-  // Property cards
-  // DISABLED: GSAP was injecting inline opacity:0 causing invisible content
-  // gsap.from('.property-card', {
-  //   x: 60, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-  //   scrollTrigger: { trigger: '.properties-scroll', start: 'top 85%' }
-  // });
+  // Property cards — 3D slide in
+  gsap.from('.property-card', {
+    x: 80,
+    rotateY: -15,
+    opacity: 0,
+    duration: 0.9,
+    stagger: 0.1,
+    ease: 'power3.out',
+    scrollTrigger: { trigger: '.properties-scroll', start: 'top 85%' }
+  });
 
-  // Testimonial
+  // Testimonial — 3D depth fade
   gsap.from('.testimonial-quote', {
-    y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+    y: 50,
+    rotateX: 15,
+    opacity: 0,
+    duration: 1,
+    ease: 'power3.out',
     scrollTrigger: { trigger: '.testimonial', start: 'top 80%' }
   });
 
-  // CTA
+  // CTA — 3D perspective stagger
   gsap.from('.cta-section .section-inner > *', {
-    y: 40, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+    y: 50,
+    rotateX: 18,
+    opacity: 0,
+    duration: 0.9,
+    stagger: 0.15,
+    ease: 'power3.out',
     scrollTrigger: { trigger: '.cta-section', start: 'top 75%' }
   });
 
-  // Section reveals — DISABLED for .section-title and .section-text to prevent invisible content
-  // document.querySelectorAll('.section-title, .section-text').forEach(el => {
-  //   gsap.from(el, {
-  //     y: 30, opacity: 0, duration: 1, ease: 'power3.out',
-  //     scrollTrigger: { trigger: el, start: 'top 85%' }
-  //   });
-  // });
+  // Section reveals — 3D for titles and text
+  document.querySelectorAll('.section-title, .section-text').forEach((el, i) => {
+    gsap.from(el, {
+      y: 40,
+      rotateX: 12,
+      opacity: 0,
+      duration: 1,
+      delay: (i % 3) * 0.1,
+      ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 85%' }
+    });
+  });
 
   // Mobile menu toggle
   const navToggle = document.querySelector('.nav-toggle');
