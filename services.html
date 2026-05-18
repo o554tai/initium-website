@@ -898,28 +898,39 @@
   <div class="section-inner">
     <div style="text-align:center; margin-bottom:64px;">
       <div class="section-label">Testimonials</div>
-      <h2 class="section-title" style="max-width:500px; margin:0 auto;">Trusted by Homeowners</h2>
+      <h2 class="section-title" style="max-width:500px; margin:0 auto;">Words From Our Clients</h2>
     </div>
     <div class="testimonials-grid">
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"We interviewed three agencies before listing. INITIUM's marketing plan was the only one that actually felt like they understood our unit's value. Sold above valuation in two weeks."</p>
+        <p class="testimonial-text">"Initium didn't just sell me a unit. They gave me a strategy, a timeline, and the confidence to make the biggest purchase of my life."</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#6b4d00,#8c6500);">ST</div>
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,var(--ig),var(--ig-dark));">JL</div>
           <div>
-            <div class="testimonial-name">Sarah Tan</div>
-            <div class="testimonial-role">Seller, District 15</div>
+            <div class="testimonial-name">John Lee</div>
+            <div class="testimonial-role">First-time Buyer, Parktown Residences</div>
           </div>
         </div>
       </div>
       <div class="testimonial-card">
         <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"As an overseas investor, I needed someone I could trust remotely. They handled everything — viewings, negotiation, tenant sourcing — and sent me video updates every step of the way."</p>
+        <p class="testimonial-text">"We interviewed three agencies before listing. INITIUM's marketing plan was the only one that actually felt like they understood our home's value. Sold above valuation in one week."</p>
         <div class="testimonial-author">
-          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#4d006b,#65008c);">RK</div>
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#6b4d00,#8c6500);">TJ</div>
           <div>
-            <div class="testimonial-name">Rajesh Kumar</div>
-            <div class="testimonial-role">Investor, Mumbai</div>
+            <div class="testimonial-name">Chia TJ</div>
+            <div class="testimonial-role">Seller, Nyon</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"As Singaporeans living overseas, we needed someone we could trust remotely. They handled everything — analysis, negotiation, tenant sourcing — and sent us video updates every step of the way."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#4d006b,#65008c);">JS</div>
+          <div>
+            <div class="testimonial-name">Justin and Sam</div>
+            <div class="testimonial-role">Investor, Australia</div>
           </div>
         </div>
       </div>
@@ -1266,7 +1277,7 @@
   /* Testimonials Grid */
   .testimonials-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 28px;
   }
   .testimonial-card {
@@ -1323,6 +1334,10 @@
   .testimonial-role {
     font-size: 13px;
     color: var(--ig-ink-3);
+  }
+  @media (max-width: 900px) {
+    .testimonials-grid { grid-template-columns: 1fr; }
+    #testimonials { padding: 80px 24px !important; }
   }
   @media (max-width: 480px) {
     .testimonials-grid { grid-template-columns: 1fr; }
