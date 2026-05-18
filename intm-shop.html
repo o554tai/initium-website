@@ -1006,6 +1006,9 @@
         <div class="pd-modal-price" id="pdModalPrice"></div>
         <div class="pd-modal-colors" id="pdModalColors"></div>
       </div>
+      <button class="checkout-btn" id="pdModalAddBtn" onclick="addToCartFromModal()" style="margin-top:24px;width:100%;">
+        Add to Cart
+      </button>
     </div>
   </div>
 </div>
@@ -1490,6 +1493,19 @@
     document.querySelectorAll('#pdModalColors .color-dot').forEach(dot => {
       dot.classList.toggle('active', dot.dataset.color === color);
     });
+  }
+
+  function addToCartFromModal() {
+    if (!currentModalProductId) return;
+    addToCart(currentModalProductId);
+    const btn = document.getElementById('pdModalAddBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<span>✓ Added</span>';
+    btn.style.background = 'var(--ig-ink-2)';
+    setTimeout(() => {
+      btn.innerHTML = originalText;
+      btn.style.background = '';
+    }, 1500);
   }
 
   document.addEventListener('keydown', (e) => {
