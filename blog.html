@@ -334,16 +334,22 @@
   .news-carousel { position: relative; }
   .news-track {
     display: flex;
+    flex-wrap: nowrap;
     gap: 24px;
     overflow-x: auto;
+    overflow-y: hidden;
     padding: 12px 4px 32px;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    cursor: grab;
   }
+  .news-track:active { cursor: grabbing; }
   .news-track::-webkit-scrollbar { display: none; }
   .news-track .blog-card {
     flex: 0 0 360px;
+    min-width: 360px;
     scroll-snap-align: start;
   }
   .news-nav {
@@ -677,6 +683,32 @@
     });
     next.addEventListener('click', function() {
       track.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    });
+
+    // Drag-to-scroll for desktop
+    var isDown = false;
+    var startX;
+    var scrollLeft;
+    track.addEventListener('mousedown', function(e) {
+      isDown = true;
+      track.style.cursor = 'grabbing';
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    });
+    track.addEventListener('mouseleave', function() {
+      isDown = false;
+      track.style.cursor = 'grab';
+    });
+    track.addEventListener('mouseup', function() {
+      isDown = false;
+      track.style.cursor = 'grab';
+    });
+    track.addEventListener('mousemove', function(e) {
+      if (!isDown) return;
+      e.preventDefault();
+      var x = e.pageX - track.offsetLeft;
+      var walk = (x - startX) * 1.5;
+      track.scrollLeft = scrollLeft - walk;
     });
   })();
 </script>
