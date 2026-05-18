@@ -187,6 +187,11 @@
     flex-wrap: wrap;
     align-items: stretch;
   }
+  .filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
   .search-input-wrap {
     flex: 1;
     min-width: 260px;
@@ -1469,11 +1474,6 @@
         </div>
       `;
     }).join('');
-
-    // Animate in
-    if (typeof gsap !== 'undefined') {
-      gsap.fromTo('.project-card', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: 'power3.out' });
-    }
   }
 
   // ── Event listeners ──
