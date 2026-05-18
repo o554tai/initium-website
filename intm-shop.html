@@ -857,6 +857,9 @@
     .nav-links a::after { display: none; }
     .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    /* Shop: 2 columns on tablet */
+    .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .shop-section { padding: 60px 24px; }
   }
 </style>
   <link rel="canonical" href="https://initium.sg/intm-shop.html">
@@ -1554,6 +1557,18 @@
   @media (max-width: 600px) {
     .wa-float { width: 48px; height: 48px; bottom: 16px; right: 16px; }
     .wa-float svg { width: 24px; height: 24px; }
+    /* Shop: single column on mobile */
+    .shop-grid { grid-template-columns: 1fr; gap: 20px; max-width: 420px; margin: 0 auto; }
+    .shop-section { padding: 40px 16px; }
+    .product-card { border-radius: 18px; }
+    .product-info { padding: 18px; }
+    .product-name { font-size: 17px; margin-bottom: 6px; }
+    .product-desc { font-size: 13px; margin-bottom: 12px; }
+    .product-price { font-size: 20px; }
+    .product-price .original { font-size: 13px; }
+    .add-to-cart { padding: 9px 16px; font-size: 11px; }
+    .product-color-bar { padding: 10px 0; gap: 8px; }
+    .color-dot { width: 18px; height: 18px; }
   }
 </style>
 <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20shop%20and%20would%20like%20to%20know%20more." class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
