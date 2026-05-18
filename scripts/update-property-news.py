@@ -9,12 +9,13 @@ import re
 import subprocess
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from html import unescape
 from xml.etree import ElementTree as ET
 
 import requests
-
+from bs4 import BeautifulSoup
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(SCRIPT_DIR)
 DATA_FILE = os.path.join(REPO_DIR, "data", "property-news.json")
@@ -102,6 +103,49 @@ def make_excerpt(title: str) -> str:
     return title
 
 
+def extract_article_image(url: str) -> str | None:
+    """Fetch article page and extract the hero / Open Graph image."""
+    try:
+        r = requests.get(url, headers={
+            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept-Language": "en-SG,en;q=0.9",
+        }, timeout=12, allow_redirects=True)
+        if r.status_code != 200:
+            return None
+        soup = BeautifulSoup(r.content, "html.parser")
+        # 1. Open Graph image (most reliable)
+        og = soup.find("meta", property="og:image")
+        if og and og.get("content"):
+            img_url = og["content"].strip()
+            if img_url.startswith("http"):
+                return img_url
+        # 2. Twitter card image
+        tw = soup.find("meta", attrs={"name": "twitter:image"})
+        if tw and tw.get("content"):
+            img_url = tw["content"].strip()
+            if img_url.startswith("http"):
+                return img_url
+        # 3. First substantial image in article body
+        for img in soup.find_all("img"):
+            src = img.get("src") or img.get("data-src") or ""
+            if not src.startswith("http"):
+                continue
+            # Skip tiny icons / tracking pixels
+            w = img.get("width") or ""
+            h = img.get("height") or ""
+            if w and h:
+                try:
+                    if int(w) < 200 or int(h) < 120:
+                        continue
+                except ValueError:
+                    pass
+            return src
+        return None
+    except Exception:
+        return None
+
+
 def load_articles() -> list[dict]:
     if not os.path.exists(DATA_FILE):
         return []
@@ -135,7 +179,7 @@ def build_card_html(article: dict) -> str:
     display_title = title if len(title) < 90 else title[:87] + "..."
     excerpt = make_excerpt(title)
     tag = article.get("source_tag", "News")
-    img = SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
+    img = article.get("image") or SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
     date_str = fmt_date(article.get("pub_ts", article.get("fetched_ts", now_ts())))
     url = article.get("url", "#")
     return (
@@ -202,7 +246,7 @@ def generate_archive_html(archived: list[dict]):
         display_title = title if len(title) < 90 else title[:87] + "..."
         excerpt = make_excerpt(title)
         tag = a.get("source_tag", "News")
-        img = SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
+        img = a.get("image") or SOURCE_IMAGES.get(tag, SOURCE_IMAGES["ST"])
         date_str = fmt_date(a.get("pub_ts", a.get("fetched_ts", now_ts())))
         url = a.get("url", "#")
         cards.append(
@@ -764,25 +808,25 @@ def git_deploy():
 
 
 def main():
-    print("[1/6] Loading existing articles...")
+    print("[1/7] Loading existing articles...")
     existing = load_articles()
     print(f"      {len(existing)} articles in database")
 
-    print("[2/6] Fetching ST property news...")
+    print("[2/7] Fetching ST property news...")
     st_new = fetch_google_news_rss("site:straitstimes.com Singapore property")
     for a in st_new:
         a["source_tag"] = "ST"
     st_new = [a for a in st_new if is_property_article(a["title"])]
     print(f"      {len(st_new)} property articles")
 
-    print("[3/6] Fetching CNA property news...")
+    print("[3/7] Fetching CNA property news...")
     cna_new = fetch_google_news_rss("site:channelnewsasia.com Singapore property")
     for a in cna_new:
         a["source_tag"] = "CNA"
     cna_new = [a for a in cna_new if is_property_article(a["title"])]
     print(f"      {len(cna_new)} property articles")
 
-    print("[4/6] Fetching EdgeProp news...")
+    print("[4/7] Fetching EdgeProp news...")
     ep_new = fetch_google_news_rss("site:edgeprop.sg Singapore property")
     for a in ep_new:
         a["source_tag"] = "EdgeProp"
@@ -793,12 +837,32 @@ def main():
     all_articles = dedupe_by_url(existing + st_new + cna_new + ep_new)
     print(f"\n      Total unique articles: {len(all_articles)}")
 
+    # Enrich articles with hero images (concurrent, skip if already cached)
+    print("[5/7] Fetching article images...")
+    need_img = [a for a in all_articles if not a.get("image")]
+    print(f"      {len(need_img)} articles need images")
+    fetched_images = 0
+
+    def _fetch_one(a):
+        img = extract_article_image(a["url"])
+        if img:
+            a["image"] = img
+        return img is not None
+
+    with ThreadPoolExecutor(max_workers=6) as ex:
+        futures = {ex.submit(_fetch_one, a): a for a in need_img}
+        for future in as_completed(futures):
+            if future.result():
+                fetched_images += 1
+
+    print(f"      {fetched_images} images fetched")
+
     # Classify
     fresh, archived = classify_articles(all_articles)
     print(f"      Fresh (<48h): {len(fresh)}")
     print(f"      Archived (≥48h): {len(archived)}")
 
-    print("[5/6] Regenerating pages...")
+    print("[6/7] Regenerating pages...")
     ok1 = update_blog_html(fresh)
     ok2 = generate_archive_html(archived)
     save_articles(all_articles)
@@ -807,7 +871,7 @@ def main():
     if not ok2:
         print("      WARNING: archive.html generation failed")
 
-    print("[6/6] Deploying...")
+    print("[7/7] Deploying...")
     if git_deploy():
         print("\nDone. Deployed successfully.")
     else:

@@ -462,7 +462,6 @@
     if (!searchInput || !grid) return;
 
     var cards = grid.querySelectorAll('.blog-card');
-    var emptyState = grid.querySelector('.archive-empty');
     var originalCount = cards.length;
 
     function filterArticles(query) {
@@ -484,15 +483,17 @@
       });
 
       // Toggle empty state
-      if (visible === 0 && !emptyState) {
-        var p = document.createElement('p');
-        p.className = 'archive-empty';
-        p.style.cssText = 'color:var(--ig-ink-3); text-align:center; padding:60px 0; grid-column:1/-1;';
-        p.textContent = 'No articles match your search.';
-        grid.appendChild(p);
-      } else if (visible > 0) {
-        var existing = grid.querySelector('.archive-empty');
-        if (existing) existing.remove();
+      var existing = grid.querySelector('.archive-empty');
+      if (visible === 0) {
+        if (!existing) {
+          var p = document.createElement('p');
+          p.className = 'archive-empty';
+          p.style.cssText = 'color:var(--ig-ink-3); text-align:center; padding:60px 0; grid-column:1/-1;';
+          p.textContent = 'No articles match your search.';
+          grid.appendChild(p);
+        }
+      } else if (existing) {
+        existing.remove();
       }
 
       // Update count
