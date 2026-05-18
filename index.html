@@ -75,7 +75,7 @@
     text-decoration: none;
   }
   .nav-logo img {
-    height: 80px;
+    height: 48px;
     width: auto;
     display: block;
   }
@@ -116,19 +116,6 @@
     overflow: hidden;
     background: var(--ig-surface);
   }
-  .hero-particles {
-    position: absolute;
-    inset:0;
-    pointer-events: none;
-    overflow: hidden;
-  }
-  .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: var(--ig);
-    opacity: 0.06;
-    filter: blur(40px);
-  }
   .hero-content {
     position: relative;
     z-index: 2;
@@ -137,60 +124,16 @@
     padding: 0 24px;
   }
   .hero-icon {
-    position: relative;
-    margin-bottom: 0;
+    margin-bottom: 32px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: auto;
-    height: auto;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0;
   }
   .hero-icon img {
-    height: clamp(220px, 48vw, 600px);
+    height: clamp(80px, 12vw, 140px);
     width: auto;
     display: block;
-    position: relative !important;
-  }
-  .hero-logo-svg,
-  .hero-logo-png {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-  }
-  .hero-logo-png {
-    opacity: 0;
-    pointer-events: none;
-    object-fit: contain;
-  }
-  .hero-logo-svg {
-    overflow: visible;
-  }
-  .hero-spark {
-    position: absolute;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #ffffff 0%, #d4eaea 40%, transparent 70%);
-    box-shadow: 0 0 14px 5px rgba(212, 234, 234, 0.6), 0 0 36px 12px rgba(232, 255, 255, 0.2);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 10;
-  }
-  .hero-trail {
-    position: absolute;
-    height: 2px;
-    border-radius: 1px;
-    background: linear-gradient(90deg, transparent, rgba(212, 234, 234, 0.9), transparent);
-    box-shadow: 0 0 10px 2px rgba(80, 200, 120, 0.4);
-    opacity: 0;
-    pointer-events: none;
-    z-index: 9;
+    opacity: 0.9;
   }
   .hero-label {
     font-family: var(--font-display);
@@ -204,12 +147,12 @@
   }
   .hero-title {
     font-family: var(--font-editorial);
-    font-size: clamp(36px, 5.5vw, 72px);
+    font-size: clamp(48px, 8vw, 96px);
     font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.03em;
+    line-height: 1.05;
+    letter-spacing: -0.04em;
     color: var(--ig-ink);
-    margin-bottom: 16px;
+    margin-bottom: 24px;
   }
   .hero-title .line {
     display: inline;
@@ -219,12 +162,12 @@
     transform: translateY(110%);
   }
   .hero-sub {
-    font-size: clamp(16px, 2vw, 20px);
+    font-size: clamp(18px, 2.2vw, 24px);
     font-weight: 400;
     color: var(--ig-ink-2);
-    max-width: 520px;
-    margin: 0 auto 24px;
-    line-height: 1.7;
+    max-width: 600px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
     opacity: 0;
     transform: translateY(20px);
   }
@@ -232,60 +175,33 @@
     display: inline-flex;
     align-items: center;
     gap: 12px;
-    padding: 16px 36px;
+    padding: 18px 48px;
     background: var(--ig);
     color: #fff;
     font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
     text-decoration: none;
-    border-radius: 100px;
+    border-radius: 0;
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     opacity: 0;
     transform: translateY(20px);
-    border: 2px solid var(--ig);
+    border: 1.5px solid var(--ig);
     margin-bottom: 32px;
   }
   .hero-cta:hover {
     background: transparent;
     color: var(--ig);
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(80,200,120,0.15);
   }
-  .hero-scroll {
-    position: absolute;
-    bottom: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-  }
-  .hero-scroll span {
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--ig-ink-3);
-  }
-  .scroll-line {
-    width: 1px;
-    height: 48px;
-    background: linear-gradient(to bottom, var(--ig), transparent);
-    animation: scrollPulse 2s ease-in-out infinite;
-  }
-  @keyframes scrollPulse {
-    0%,100% { transform: scaleY(1); opacity: 0.4; }
     50% { transform: scaleY(0.6); opacity: 1; }
   }
 
   /* Section base */
   section {
     position: relative;
-    padding: 140px 48px;
+    padding: 160px 48px;
   }
   .section-inner {
     max-width: 1200px;
@@ -339,7 +255,7 @@
   }
   .about-img {
     position: absolute;
-    border-radius: 16px;
+    border-radius: 2px;
     overflow: hidden;
     box-shadow: 0 24px 80px rgba(26,26,26,0.14);
     transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
@@ -379,7 +295,7 @@
   .stat-card {
     background: rgba(255,255,255,0.7);
     border: 1px solid rgba(80,200,120,0.08);
-    border-radius: 24px;
+    border-radius: 2px;
     padding: 40px 32px;
     text-align: center;
     backdrop-filter: blur(12px);
@@ -411,8 +327,8 @@
   .services {
     background: var(--ig-ink);
     color: #fff;
-    border-radius: 40px;
-    margin: 0 24px;
+    border-radius: 0;
+    margin: 0;
     overflow: hidden;
     position: relative;
   }
@@ -437,7 +353,7 @@
   .service-card {
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
+    border-radius: 2px;
     padding: 40px 32px;
     backdrop-filter: blur(20px);
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
@@ -457,7 +373,7 @@
   }
   .service-icon {
     width: 48px; height: 48px;
-    border-radius: 14px;
+    border-radius: 2px;
     background: rgba(80,200,120,0.2);
     display: flex;
     align-items: center;
@@ -497,7 +413,7 @@
   .property-card {
     flex: 0 0 360px;
     background: #fff;
-    border-radius: 24px;
+    border-radius: 2px;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(26,26,26,0.06);
     scroll-snap-align: start;
@@ -576,7 +492,7 @@
   }
   .testimonial-avatar {
     width: 56px; height: 56px;
-    border-radius: 50%;
+    border-radius: 2px;
     background: linear-gradient(135deg, var(--ig-light), var(--ig));
     margin: 0 auto 12px;
     display: flex;
@@ -648,12 +564,11 @@
     background: #fff;
     color: var(--ig);
     font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
     text-decoration: none;
-    border-radius: 100px;
+    border-radius: 0;
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     position: relative;
     z-index: 2;
@@ -895,8 +810,8 @@
     footer { padding: 48px 24px 24px; }
     .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-    .services { margin: 0 12px; border-radius: 24px; }
-    .cta-section { margin: 0 12px 12px; border-radius: 24px; }
+    .services { margin: 0 12px; border-radius: 2px; }
+    .cta-section { margin: 0 12px 12px; border-radius: 2px; }
     .contact-form { grid-template-columns: 1fr; }
   }
   /* Testimonials Grid */
@@ -907,7 +822,7 @@
   }
   .testimonial-card {
     background: #fff;
-    border-radius: 24px;
+    border-radius: 2px;
     padding: 36px;
     border: 1px solid rgba(80,200,120,0.08);
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
@@ -940,7 +855,7 @@
   .testimonial-avatar {
     width: 44px;
     height: 44px;
-    border-radius: 50%;
+    border-radius: 2px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1085,8 +1000,7 @@
 </nav>
 
 <header class="hero" id="hero">
-  <div class="hero-particles" id="particles"><div class="particle" style="width: 395.505px; height: 395.505px; left: 59.1133%; top: 85.9358%; translate: none; rotate: none; scale: none; transform: translate3d(20.2674px, -43.7895px, 0px);"></div><div class="particle" style="width: 219.908px; height: 219.908px; left: 79.2737%; top: 37.5477%; translate: none; rotate: none; scale: none; transform: translate3d(-0.074px, -0.5484px, 0px);"></div><div class="particle" style="width: 309.222px; height: 309.222px; left: 75.932%; top: 42.1121%; translate: none; rotate: none; scale: none; transform: translate3d(59.3184px, 62.8959px, 0px);"></div><div class="particle" style="width: 313.907px; height: 313.907px; left: 4.45119%; top: 76.9345%; translate: none; rotate: none; scale: none; transform: translate3d(4.2902px, 18.1278px, 0px);"></div><div class="particle" style="width: 362.889px; height: 362.889px; left: 46.3723%; top: 5.92847%; translate: none; rotate: none; scale: none; transform: translate3d(6.5299px, 2.6054px, 0px);"></div><div class="particle" style="width: 351.014px; height: 351.014px; left: 25.9346%; top: 29.0846%; translate: none; rotate: none; scale: none; transform: translate3d(-41.5928px, 40.9464px, 0px);"></div><div class="particle" style="width: 221.382px; height: 221.382px; left: 58.0421%; top: 87.6472%; translate: none; rotate: none; scale: none; transform: translate3d(16.177px, 20.6227px, 0px);"></div><div class="particle" style="width: 348.058px; height: 348.058px; left: 73.6797%; top: 65.6368%; translate: none; rotate: none; scale: none; transform: translate3d(-25.976px, 18.1412px, 0px);"></div></div>
-  <div class="hero-content">
+    <div class="hero-content">
     <div class="hero-icon">
       <img class="hero-logo-png" src="logo-nav.png" alt="INITIUM">
     </div>
@@ -1096,11 +1010,7 @@
     <p class="hero-sub">Where every property story begins with clarity, confidence, and a partner who rises with you.</p>
     <a href="contact.html" class="hero-cta">Begin Your Journey</a>
   </div>
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</header>
+  </header>
 
 <section id="about">
   <div class="section-inner">
@@ -1177,7 +1087,7 @@
       </div>
     </div>
     <div style="text-align:center;margin-top:48px;">
-      <a href="services.html" style="display:inline-block;max-width:320px;width:100%;padding:16px 48px;background:transparent;color:#fff;font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:0.04em;text-decoration:none;border:2px solid rgba(255,255,255,0.4);border-radius:100px;text-align:center;transition:all 0.3s ease;">
+      <a href="services.html" style="display:inline-block;max-width:320px;width:100%;padding:16px 48px;background:transparent;color:#fff;font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:0.04em;text-decoration:none;border:2px solid rgba(255,255,255,0.4);border-radius:0;text-align:center;transition:all 0.3s ease;">
         Ignite
       </a>
     </div>
@@ -1238,7 +1148,7 @@
 </section>
 
 <div style="text-align:center;padding:40px 24px 80px;">
-  <a href="new-launches.html" style="display:inline-block;max-width:360px;width:100%;padding:16px 48px;background:#fff;color:var(--ig);font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:0.04em;text-decoration:none;border:2px solid var(--ig);border-radius:100px;text-align:center;transition:all 0.3s ease;">
+  <a href="new-launches.html" style="display:inline-block;max-width:360px;width:100%;padding:16px 48px;background:#fff;color:var(--ig);font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:0.04em;text-decoration:none;border:2px solid var(--ig);border-radius:0;text-align:center;transition:all 0.3s ease;">
     View New Launches
   </a>
 </div>
@@ -1382,27 +1292,7 @@
 <script>
   gsap.registerPlugin(ScrollTrigger);
 
-  // Particles
-  const particlesContainer = document.getElementById('particles');
-  for (let i = 0; i < 8; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    const size = 100 + Math.random() * 300;
-    p.style.width = size + 'px';
-    p.style.height = size + 'px';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.top = Math.random() * 100 + '%';
-    particlesContainer.appendChild(p);
-    gsap.to(p, {
-      x: (Math.random() - 0.5) * 200,
-      y: (Math.random() - 0.5) * 200,
-      duration: 10 + Math.random() * 10,
-      repeat: -1,
-      yoyo: true,
-      ease: 'sine.inOut'
-    });
-  }
-
+  
   // Hero entrance — PNG logo ignition
   gsap.set('.hero-logo-png', { opacity: 0, filter: 'brightness(0.25) blur(6px)', scale: 0.86 });
 
@@ -1590,7 +1480,7 @@
     font-size: 13px;
     font-weight: 500;
     padding: 10px 16px;
-    border-radius: 16px;
+    border-radius: 2px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     white-space: nowrap;
     opacity: 0;
@@ -1700,7 +1590,7 @@
   .exit-icon {
     width: 56px;
     height: 56px;
-    border-radius: 16px;
+    border-radius: 2px;
     background: var(--ig-light, #E8F5EE);
     display: flex;
     align-items: center;
@@ -1872,7 +1762,7 @@
     left: 24px;
     z-index: 9998;
     background: #fff;
-    border-radius: 16px;
+    border-radius: 2px;
     padding: 14px 18px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
     border: 1px solid rgba(80,200,120,0.1);
