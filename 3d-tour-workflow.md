@@ -18,7 +18,11 @@
 
 ## Step 1: Capture
 
-### Equipment Options
+### Method A: Photo Capture (Recommended for Quality)
+
+Use this for showflats and high-value listings where quality matters most.
+
+**Equipment:**
 
 | Tier | Gear | Cost | Best For |
 |---|---|---|---|
@@ -26,7 +30,7 @@
 | **Budget** | iPhone 15 Pro + Polaroid Cube tripod | $50 | Consistent framing |
 | **Pro** | DJI RS3 Mini gimbal + iPhone 15 Pro | $400 | Showflats, developer pitches |
 
-### Capture Rules (Non-Negotiable)
+**Capture Rules:**
 
 1. **Lighting**: Overcast afternoon or evenly lit interiors. No direct sun patches.
 2. **Speed**: Walk 1 step per second. No running.
@@ -35,21 +39,67 @@
 5. **No motion**: Turn off fans, close curtains, remove pets, ask occupants to step out.
 6. **Plan the path**: Walk dry first, then scan. Avoid backtracking through same space.
 
-### Recommended Apps
+**Apps:** Polycam (easiest), Luma AI (best free quality), Postshot (pro control)
 
-| App | Platform | Cost | Note |
+---
+
+### Method B: Video-to-3D (Fastest Turnaround)
+
+Use this when you already have a property video or need same-hour delivery.
+
+**How it works:** Instead of capturing hundreds of individual photos, you record a single continuous video walkthrough. AI extracts keyframes from the video and reconstructs the 3D scene.
+
+**Best for:**
+- Resale units where you already have a walkthrough video
+- Quick scans when you don't have time for photo capture
+- Properties where re-entry is difficult
+
+**Requirements:**
+- **Video resolution**: Minimum 1080p, 4K preferred
+- **Duration**: 2–5 minutes per room, 10–15 minutes total per unit
+- **Framing**: Slow, smooth pan. Hold each angle for 2–3 seconds before moving.
+- **No cuts**: Single continuous take per room. Edited videos don't work.
+- **Overlap**: Each new frame should overlap 60%+ with the previous frame
+
+**Step-by-Step Video Capture:**
+
+1. **Mount your phone** on a tripod or gimbal at chest height (1.3–1.5m)
+2. **Record in 4K, 30fps** (not 60fps — motion blur helps the AI)
+3. **Start at the entrance** — hold the shot for 3 seconds
+4. **Pan slowly** — 10–15 degrees per second maximum
+5. **Cover every wall** — pause 2 seconds facing each major surface
+6. **Walk through doorways** — move smoothly, no sudden turns
+7. **Capture floor and ceiling** — tilt down/up briefly in each room
+8. **End where you started** — complete the loop if possible
+
+**Apps that accept video:**
+
+| App | Video Input | Cost | Quality |
 |---|---|---|---|
-| **Polycam** | iOS / Android | Free (watermark) / $8/mo | Easiest UI, fastest export |
-| **Luma AI** | iOS | Free | Best free quality, good reflections |
-| **Postshot** | Desktop (Windows/Mac) | Free beta | Pro control, manual alignment |
+| **Luma AI** | Yes (upload video file) | Free | Best |
+| **Polycam** | Yes (import from camera roll) | $8/mo | Good |
+| **Postshot** | Yes (desktop, multiple videos) | Free beta | Pro |
+| **Splattool** | Yes (browser, drag & drop) | Free | Basic |
 
-### Quick Start (Polycam)
+**Processing video to 3D:**
 
-1. Open Polycam → Select "Room" mode
-2. Tap record → Walk slowly through the unit
-3. Cover every room twice (different angles)
-4. Stop recording → Upload for processing (2–5 min)
-5. Export as `.ply` or `.splat`
+1. Export video from phone to computer (or upload directly from phone app)
+2. In Luma AI: Create New → Video → Upload → Wait 5–10 minutes
+3. Export as `.ply` or `.splat`
+4. Continue to Step 2 (SuperSplat cleanup)
+
+**Video vs Photo comparison:**
+
+| Factor | Photo Capture | Video-to-3D |
+|---|---|---|
+| Setup time | 8–10 min | 2–3 min |
+| Processing time | 2–5 min | 5–10 min |
+| Quality | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐☖ |
+| Motion blur issues | None | Occasional |
+| File size | Smaller | Larger |
+| Best for | Showflats, new launches | Resale, quick scans |
+
+---
 
 ---
 

@@ -381,6 +381,42 @@
   .project-badge.sold {
     background: #c0392b;
   }
+  .project-badge-3d {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: linear-gradient(135deg, var(--ig), var(--ig-dark));
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 4px 12px rgba(0,140,101,0.3);
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-badge-3d:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,140,101,0.4);
+  }
+  .project-badge-3d::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #fff;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.8); }
+  }
   .project-info {
     padding: 28px 24px;
   }
@@ -1323,11 +1359,13 @@
       const hasImg = !!p.cover_image;
       const initial = (p.project_name || 'P').charAt(0).toUpperCase();
       const nameEsc = (p.project_name || 'Unnamed').replace(/"/g, '&quot;');
+      const has3d = ['Hudson Place Residences', 'Dunearn House', 'Thomson Reserve', 'River Green'].includes(p.project_name);
       return `
         <div class="project-card" onclick="openProjectModal(&quot;${nameEsc}&quot;)">
           <div class="project-img ${hasImg ? 'has-image' : ''}" data-initial="${initial}">
             ${hasImg ? `<img src="${p.cover_image}" alt="${nameEsc}" loading="lazy">` : ''}
             <div class="project-badge ${badge.class}">${badge.text}</div>
+            ${has3d ? `<a href="virtual-tours.html" class="project-badge-3d" onclick="event.stopPropagation();">3D Tour →</a>` : ''}
           </div>
           <div class="project-info">
             <div class="project-name">${p.project_name || 'Unnamed'}</div>
