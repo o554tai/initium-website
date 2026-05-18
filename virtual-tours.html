@@ -282,6 +282,7 @@
     padding: 36px 28px;
     text-align: center;
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    opacity: 1;
   }
   .step-card:hover {
     transform: translateY(-4px);
@@ -891,18 +892,21 @@
 
   // GSAP animations
   gsap.registerPlugin(ScrollTrigger);
-  gsap.from('.step-card', {
-    y: 60, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
-    scrollTrigger: { trigger: '.steps-grid', start: 'top 80%' }
-  });
-  gsap.from('.tour-card', {
-    y: 60, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
-    scrollTrigger: { trigger: '.tour-grid', start: 'top 80%' }
-  });
-  gsap.from('.compare-table', {
-    y: 40, opacity: 0, duration: 1, ease: 'power3.out',
-    scrollTrigger: { trigger: '.compare-table', start: 'top 85%' }
-  });
+  gsap.fromTo('.step-card',
+    { y: 60, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+      scrollTrigger: { trigger: '.steps-grid', start: 'top 80%', toggleActions: 'play none none none' } }
+  );
+  gsap.fromTo('.tour-card',
+    { y: 60, opacity: 0 },
+    { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+      scrollTrigger: { trigger: '.tour-grid', start: 'top 80%', toggleActions: 'play none none none' } }
+  );
+  gsap.fromTo('.compare-table',
+    { y: 40, opacity: 0 },
+    { y: 0, opacity: 1, duration: 1, ease: 'power3.out',
+      scrollTrigger: { trigger: '.compare-table', start: 'top 85%', toggleActions: 'play none none none' } }
+  );
 </script>
 
 </body>
