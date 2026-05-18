@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Office 3D Scan — INITIUM</title>
+<meta name="theme-color" content="#008c65">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    -webkit-font-smoothing: antialiased;
+    padding-bottom: 100px;
+  }
+
+  header {
+    background: linear-gradient(135deg, var(--ig), var(--ig-dark));
+    padding: 32px 24px 40px;
+    text-align: center;
+    color: #fff;
+  }
+  header h1 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  header p {
+    font-size: 14px;
+    opacity: 0.85;
+    line-height: 1.5;
+  }
+  .location-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.15);
+    padding: 8px 16px;
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 16px;
+    backdrop-filter: blur(8px);
+  }
+
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .section {
+    margin-top: 32px;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+
+  .gear-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .gear-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 16px;
+    border: 1px solid rgba(0,140,101,0.08);
+    text-align: center;
+  }
+  .gear-card .emoji {
+    font-size: 28px;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .gear-card .name {
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .gear-card .note {
+    font-size: 11px;
+    color: var(--ig-ink-3);
+  }
+
+  .settings-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(0,140,101,0.08);
+  }
+  .setting-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0,140,101,0.06);
+  }
+  .setting-row:last-child { border-bottom: none; }
+  .setting-label {
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .setting-value {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig);
+    font-family: var(--font-display);
+  }
+  .copy-btn {
+    background: var(--ig-light);
+    border: none;
+    color: var(--ig);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-body);
+    transition: background 0.2s ease;
+  }
+  .copy-btn:active { background: #d0ece3; }
+  .copy-btn.copied { background: var(--ig); color: #fff; }
+
+  .checklist {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    border: 1px solid rgba(0,140,101,0.08);
+  }
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(0,140,101,0.06);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+  .checklist-item:active { background: var(--ig-surface); }
+  .checklist-item:last-child { border-bottom: none; }
+  .checklist-item input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    accent-color: var(--ig);
+    margin-top: 2px;
+    cursor: pointer;
+  }
+  .checklist-item .text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ig-ink);
+  }
+  .checklist-item .text small {
+    display: block;
+    font-size: 12px;
+    color: var(--ig-ink-3);
+    margin-top: 2px;
+  }
+  .checklist-item.checked .text {
+    text-decoration: line-through;
+    color: var(--ig-ink-3);
+  }
+
+  .room-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 12px;
+    border: 1px solid rgba(0,140,101,0.08);
+  }
+  .room-card h3 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .room-card .time {
+    font-size: 12px;
+    color: var(--ig-ink-3);
+    margin-bottom: 12px;
+  }
+  .room-card ul {
+    list-style: none;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+  }
+  .room-card ul li {
+    padding-left: 16px;
+    position: relative;
+  }
+  .room-card ul li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--ig);
+    font-weight: 600;
+  }
+
+  .tip-box {
+    background: linear-gradient(135deg, #e6f5f0, #f0f9f5);
+    border-radius: 16px;
+    padding: 16px 20px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--ig-ink-2);
+    border: 1px solid rgba(0,140,101,0.1);
+  }
+  .tip-box strong {
+    color: var(--ig-ink);
+    font-weight: 600;
+  }
+
+  .cta-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-top: 1px solid rgba(0,140,101,0.08);
+    padding: 16px 20px 24px;
+    display: flex;
+    gap: 12px;
+    z-index: 100;
+  }
+  .cta-btn {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 14px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: center;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+  .cta-btn:active { transform: scale(0.97); }
+  .cta-btn.primary {
+    background: var(--ig);
+    color: #fff;
+  }
+  .cta-btn.secondary {
+    background: var(--ig-surface);
+    color: var(--ig-ink);
+    border: 1px solid rgba(0,140,101,0.12);
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--ig);
+    z-index: 200;
+    transition: width 0.3s ease;
+  }
+
+  @media (min-width: 480px) {
+    .gear-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar" style="width:0%"></div>
+
+<header>
+  <h1>INITIUM OFFICE 3D SCAN</h1>
+  <p>Shooting script for Great World City<br>1 Kim Seng Promenade #17-10/12</p>
+  <div class="location-pill">📍 West Tower, Level 17</div>
+</header>
+
+<div class="container">
+
+  <!-- GEAR -->
+  <div class="section">
+    <div class="section-label">Gear</div>
+    <div class="gear-grid">
+      <div class="gear-card">
+        <span class="emoji">📱</span>
+        <div class="name">iPhone</div>
+        <div class="note">12 or newer</div>
+      </div>
+      <div class="gear-card">
+        <span class="emoji">🔋</span>
+        <div class="name">Power bank</div>
+        <div class="note">100% before start</div>
+      </div>
+      <div class="gear-card">
+        <span class="emoji">🦶</span>
+        <div class="name">Tripod / gimbal</div>
+        <div class="note">Chest height 1.3m</div>
+      </div>
+      <div class="gear-card">
+        <span class="emoji">💡</span>
+        <div class="name">All lights ON</div>
+        <div class="note">No dark corners</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAMERA SETTINGS -->
+  <div class="section">
+    <div class="section-label">Camera Settings</div>
+    <div class="settings-card">
+      <div class="setting-row">
+        <span class="setting-label">Format</span>
+        <span class="setting-value">
+          4K · 30fps
+          <button class="copy-btn" onclick="copyText(this,'4K 30fps')">Copy</button>
+        </span>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">Stabilisation</span>
+        <span class="setting-value">
+          OFF
+          <button class="copy-btn" onclick="copyText(this,'Turn OFF stabilisation')">Copy</button>
+        </span>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">HDR Video</span>
+        <span class="setting-value">
+          OFF
+          <button class="copy-btn" onclick="copyText(this,'Turn OFF HDR Video')">Copy</button>
+        </span>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">Action Mode</span>
+        <span class="setting-value">
+          OFF
+          <button class="copy-btn" onclick="copyText(this,'Turn OFF Action Mode')">Copy</button>
+        </span>
+      </div>
+      <div class="setting-row">
+        <span class="setting-label">Grid</span>
+        <span class="setting-value">
+          ON
+          <button class="copy-btn" onclick="copyText(this,'Turn ON Grid')">Copy</button>
+        </span>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--ig-ink-3);margin-top:10px;text-align:center;">Tap any Copy button → paste into Notes to send yourself</p>
+  </div>
+
+  <!-- PRE-SHOOT CHECKLIST -->
+  <div class="section">
+    <div class="section-label">Pre-Shoot Checklist</div>
+    <div class="checklist" id="preChecklist">
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text">Clean desks — no confidential papers visible<small>Stack files in drawers or face-down</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text">All lights ON including warm lamps<small>Consistent white balance beats "moody" for AI</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text">Blinds / curtains OPEN<small>Natural light is your friend</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text">Close all doors you don't want in the tour<small>Open the ones you do — leads the AI through</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text">Remove reflective clutter<small>Glasses, mirrors facing wall, glossy black objects</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text">Put phones on silent / Do Not Disturb<small>One vibration = one ruined take</small></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- SHOOTING SCRIPT -->
+  <div class="section">
+    <div class="section-label">Shooting Script</div>
+    <div class="section-title">Room-by-room capture</div>
+
+    <div class="room-card">
+      <h3>🚪 1. Reception / Entry</h3>
+      <div class="time">~2 min · 1 continuous take</div>
+      <ul>
+        <li>Start at corridor facing the INITIUM logo / signage</li>
+        <li>Hold 3 seconds</li>
+        <li>Slow walk toward entrance door</li>
+        <li>Pan left-to-right covering both walls</li>
+        <li>Tilt down to floor mat, up to ceiling lights</li>
+      </ul>
+    </div>
+
+    <div class="room-card">
+      <h3>🛋️ 2. Main Work Area</h3>
+      <div class="time">~3 min · 1 continuous take</div>
+      <ul>
+        <li>Enter from reception, pause at doorway 3 sec</li>
+        <li>Walk perimeter clockwise — stay 1.5m from desks</li>
+        <li>Capture every agent's desk angle briefly</li>
+        <li>Pause at team photo wall / branding for 3 sec</li>
+        <li>End at window side with city view</li>
+      </ul>
+    </div>
+
+    <div class="room-card">
+      <h3>📊 3. Meeting / Discussion Room</h3>
+      <div class="time">~2 min · 1 continuous take</div>
+      <ul>
+        <li>Shoot from doorway looking in</li>
+        <li>Walk around table (either side)</li>
+        <li>Capture screen / projector wall</li>
+        <li>Pause at whiteboard with INITIUM branding</li>
+      </ul>
+    </div>
+
+    <div class="room-card">
+      <h3>🪴 4. Pantry / Break Area</h3>
+      <div class="time">~1.5 min · 1 continuous take</div>
+      <ul>
+        <li>Quick walkthrough — shows "human" side of office</li>
+        <li>Capture counter, fridge, seating nook</li>
+        <li>End with window light if available</li>
+      </ul>
+    </div>
+
+    <div class="room-card">
+      <h3>🪟 5. Corridor / Window Gallery</h3>
+      <div class="time">~1.5 min · 1 continuous take</div>
+      <ul>
+        <li>Walk the full corridor length slowly</li>
+        <li>Pan toward windows at 2–3 points</li>
+        <li>Show Great World City view if visible</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- GOLDEN RULES -->
+  <div class="section">
+    <div class="section-label">Golden Rules</div>
+    <div class="checklist" id="rulesChecklist">
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text"><strong>Single continuous take per room</strong><small>Never stop recording inside a room. If you mess up, restart the room.</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text"><strong>Pan speed: 10–15° per second max</strong><small>Count "one-thousand-one, one-thousand-two" between 15° turns.</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text"><strong>60% overlap between frames</strong><small>Every new frame must share more than half with the previous view.</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text"><strong>Chest height 1.3–1.5m</strong><small>Tripod or steady hands. Not eye-level, not waist-level.</small></span>
+      </label>
+      <label class="checklist-item">
+        <input type="checkbox" onchange="toggleCheck(this)">
+        <span class="text"><strong>No people in frame</strong><small>Ask team to step out or shoot after hours.</small></span>
+      </label>
+    </div>
+  </div>
+
+  <!-- POST-SHOOT -->
+  <div class="section">
+    <div class="section-label">After the Shoot</div>
+    <div class="tip-box">
+      <strong>1.</strong> AirDrop clips to your Mac or upload to Luma AI directly on 5G/WiFi.<br><br>
+      <strong>2.</strong> Upload all 5 clips as one batch in Luma AI (it auto-stitches room transitions).<br><br>
+      <strong>3.</strong> Wait 5–10 min for processing.<br><br>
+      <strong>4.</strong> Export <code>.splat</code> file → SuperSplat cleanup → PlayCanvas embed.<br><br>
+      <strong>5.</strong> Send Hermes the PlayCanvas link → he drops it into virtual-tours.html.
+    </div>
+  </div>
+
+  <!-- TOTAL TIME -->
+  <div class="section" style="text-align:center;margin-top:40px;margin-bottom:40px;">
+    <div style="font-family:var(--font-display);font-size:36px;font-weight:700;color:var(--ig);">~10 min</div>
+    <div style="font-size:14px;color:var(--ig-ink-3);margin-top:4px;">Total shoot time + 15 min setup</div>
+  </div>
+
+</div>
+
+<div class="cta-bar">
+  <a href="virtual-tours.html" class="cta-btn secondary">Back to Tours</a>
+  <a href="new-launches.html" class="cta-btn primary">Done</a>
+</div>
+
+<script>
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const old = btn.textContent;
+      btn.textContent = 'Copied';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = old; btn.classList.remove('copied'); }, 1500);
+    });
+  }
+
+  function toggleCheck(input) {
+    input.closest('.checklist-item').classList.toggle('checked', input.checked);
+    updateProgress();
+  }
+
+  function updateProgress() {
+    const total = document.querySelectorAll('.checklist-item input').length;
+    const checked = document.querySelectorAll('.checklist-item input:checked').length;
+    document.getElementById('progressBar').style.width = (checked / total * 100) + '%';
+  }
+
+  updateProgress();
+</script>
+
+</body>
+</html>

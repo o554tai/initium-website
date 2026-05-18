@@ -15,7 +15,10 @@ from html import unescape
 from xml.etree import ElementTree as ET
 
 import requests
-from bs4 import BeautifulSoup
+try:
+    from bs4 import BeautifulSoup
+except ImportError:
+    BeautifulSoup = None
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(SCRIPT_DIR)
 DATA_FILE = os.path.join(REPO_DIR, "data", "property-news.json")
@@ -155,6 +158,8 @@ def make_excerpt(title: str) -> str:
 
 def extract_article_image(url: str) -> str | None:
     """Fetch article page and extract the hero / Open Graph image."""
+    if BeautifulSoup is None:
+        return None
     try:
         r = requests.get(url, headers={
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
@@ -258,8 +263,8 @@ def classify_articles(articles: list[dict]) -> tuple[list[dict], list[dict]]:
 
 
 def update_blog_html(fresh: list[dict]):
-    # Cap carousel at 20 most recent articles
-    fresh = fresh[:20]
+    # Cap carousel at 50 most recent articles
+    fresh = fresh[:50]
     with open(BLOG_HTML, "r", encoding="utf-8") as f:
         content = f.read()
 
