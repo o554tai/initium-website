@@ -240,13 +240,13 @@ def extract_article_image(url: str) -> str | None:
         og = soup.find("meta", property="og:image")
         if og and og.get("content"):
             img_url = og["content"].strip()
-            if img_url.startswith("http"):
+            if img_url.startswith("http") and not is_generic_image(img_url):
                 return img_url
         # 2. Twitter card image
         tw = soup.find("meta", attrs={"name": "twitter:image"})
         if tw and tw.get("content"):
             img_url = tw["content"].strip()
-            if img_url.startswith("http"):
+            if img_url.startswith("http") and not is_generic_image(img_url):
                 return img_url
         # 3. First substantial image in article body
         for img in soup.find_all("img"):
@@ -262,10 +262,26 @@ def extract_article_image(url: str) -> str | None:
                         continue
                 except ValueError:
                     pass
-            return src
+            if not is_generic_image(src):
+                return src
         return None
     except Exception:
         return None
+
+
+def is_generic_image(url: str) -> bool:
+    """Reject known generic / logo images that aren't real article photos."""
+    if not url:
+        return True
+    u = url.lower()
+    generic_patterns = [
+        "tepcdn.com/public/usr",       # EdgeProp generic logo
+        "googleusercontent.com/J6_coF", # Google News logo
+        "logo",                         # Any explicit logo file
+        "favicon",                      # Favicon
+        "icon",                         # Generic icon
+    ]
+    return any(p in u for p in generic_patterns)
 
 
 def load_articles() -> list[dict]:
@@ -303,7 +319,7 @@ def build_card_html(article: dict) -> str:
     tag = article.get("source_tag", "News")
     # Use cached image if valid, otherwise pick a smart fallback
     img = article.get("image")
-    if not img or "googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrp" in img:
+    if not img or is_generic_image(img):
         img = pick_fallback_image(article)
     date_str = fmt_date(article.get("pub_ts", article.get("fetched_ts", now_ts())))
     url = article.get("url", "#")
@@ -383,7 +399,7 @@ def generate_archive_html(archived: list[dict]):
         excerpt = make_excerpt(title)
         tag = a.get("source_tag", "News")
         img = a.get("image")
-        if not img or "googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrp" in img:
+        if not img or is_generic_image(img):
             img = pick_fallback_image(a)
         date_str = fmt_date(a.get("pub_ts", a.get("fetched_ts", now_ts())))
         url = a.get("url", "#")
@@ -1008,11 +1024,10 @@ def main():
 
     # Enrich articles with hero images (concurrent, skip if already cached)
     print("[6/7] Fetching article images...")
-    # Also filter out known Google logo / generic placeholder images
-    GOOGLE_LOGO_URL = "googleusercontent.com/J6_coFbogxhRI9iM864NL_liGXvsQp2AupsKei7z0cNNfDvGUmWUy20nuUhkREQyrp"
-    need_img = [a for a in all_articles if not a.get("image") or GOOGLE_LOGO_URL in a.get("image", "")]
+    # Filter out generic / placeholder images so they get re-fetched
+    need_img = [a for a in all_articles if not a.get("image") or is_generic_image(a.get("image", ""))]
     for a in need_img:
-        if GOOGLE_LOGO_URL in a.get("image", ""):
+        if is_generic_image(a.get("image", "")):
             a.pop("image", None)
     print(f"      {len(need_img)} articles need images")
     fetched_images = 0
