@@ -1033,10 +1033,6 @@
       panels.forEach(p => {
         p.classList.toggle('active', p.id === 'panel-' + target);
       });
-
-      gsap.from('#panel-' + target + ' .process-step', {
-        x: 20, opacity: 0, duration: 0.5, stagger: 0.1, ease: 'power2.out'
-      });
     });
   });
 
