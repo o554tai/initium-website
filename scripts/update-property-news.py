@@ -97,6 +97,7 @@ def is_property_article(title: str) -> bool:
         "new zealand state farming", "nature credit", "lianhe zaobao",
         "faq: what hikers", "volcano trekking", "insurance",
         "cna homepage", "thai police", "weapons cache",
+        "intellectual property",
     ]
     if any(s in t for s in skip):
         return False
