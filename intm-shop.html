@@ -389,6 +389,31 @@
     object-fit: cover;
     transition: opacity 0.3s ease;
   }
+  .pd-modal-img-wrap .swipe-hint {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.35);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 100px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .pd-modal-img-wrap .swipe-hint { opacity: 1; }
+    .pd-modal-img-wrap.swiped .swipe-hint { opacity: 0; }
+  }
   .pd-modal-body {
     padding: 28px 32px 32px;
   }
@@ -1030,6 +1055,7 @@
     </button>
     <div class="pd-modal-img-wrap">
       <img src="" alt="" id="pdModalImg">
+      <span class="swipe-hint">← Swipe →</span>
     </div>
     <div class="pd-modal-body">
       <div class="pd-modal-name" id="pdModalName"></div>
@@ -1479,16 +1505,25 @@
     let touchStartX = 0;
     let touchStartY = 0;
     let currentSwipeProductId = null;
+    let isInModal = false;
 
     document.addEventListener('touchstart', function(e) {
-      const img = e.target.closest('.product-img img.cardigan-img, #pdModalImg');
-      if (!img) return;
+      // Broader targets: image wrapper for cards, modal wrap for modal
+      const cardWrap = e.target.closest('.product-img');
+      const modalWrap = e.target.closest('.pd-modal-img-wrap');
+      if (!cardWrap && !modalWrap) return;
+
       touchStartX = e.changedTouches[0].screenX;
       touchStartY = e.changedTouches[0].screenY;
-      if (img.id === 'pdModalImg') {
+      isInModal = !!modalWrap;
+
+      if (isInModal) {
         currentSwipeProductId = currentModalProductId;
-      } else if (img.id && img.id.startsWith('img-')) {
-        currentSwipeProductId = img.id.replace('img-', '');
+      } else {
+        const img = cardWrap.querySelector('img.cardigan-img');
+        if (img && img.id && img.id.startsWith('img-')) {
+          currentSwipeProductId = img.id.replace('img-', '');
+        }
       }
     }, { passive: true });
 
@@ -1520,15 +1555,21 @@
       }
       const nextColor = colors[currentIdx];
 
-      if (document.getElementById('pdModalImg') && currentModalProductId === currentSwipeProductId) {
+      if (isInModal && document.getElementById('pdModalImg')) {
         toggleModalColor(nextColor);
       } else {
         toggleCardiganColor(currentSwipeProductId, nextColor);
       }
       // Hide swipe hint after first swipe
-      const cardImg = document.querySelector(`#img-${currentSwipeProductId}`);
-      if (cardImg && cardImg.parentElement) cardImg.parentElement.classList.add('swiped');
+      if (!isInModal) {
+        const cardImg = document.querySelector(`#img-${currentSwipeProductId}`);
+        if (cardImg && cardImg.parentElement) cardImg.parentElement.classList.add('swiped');
+      } else {
+        const modalWrap = document.querySelector('.pd-modal-img-wrap');
+        if (modalWrap) modalWrap.classList.add('swiped');
+      }
       currentSwipeProductId = null;
+      isInModal = false;
     }, { passive: true });
   })();
 
