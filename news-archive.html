@@ -230,8 +230,29 @@
   }
   .blog-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+  }
+  .archive-scroll-container {
+    max-height: 640px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ig-light) transparent;
+  }
+  .archive-scroll-container::-webkit-scrollbar {
+    width: 6px;
+  }
+  .archive-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .archive-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--ig-light);
+    border-radius: 10px;
+  }
+  .archive-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--ig);
   }
   .blog-card {
     background: #fff;
@@ -356,10 +377,14 @@
     nav { padding: 16px 24px; }
     .nav-links { display: none; }
     section { padding: 60px 24px; }
-    .blog-grid { grid-template-columns: 1fr; }
+    .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .archive-scroll-container { max-height: 520px; }
     footer { padding: 48px 24px 24px; }
     .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .blog-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -398,12 +423,13 @@
       </div>
       <div class="archive-count">31 articles</div>
     </div>
-    <div class="archive-search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
-      <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
-    </div>
-    <div class="blog-grid" id="archiveGrid">
+    <div class="archive-scroll-container">
+      <div class="archive-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
+        <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+      </div>
+      <div class="blog-grid" id="archiveGrid">
 
       <a href="https://news.google.com/rss/articles/CBMi9wRBVV95cUxQWXlTLXRWTnhQdGw2d0JUT011dmx0RFJoY2pGc3p4d3RnS3ltZDVlaGRuU01EcndLOXR0UmNhRzVGcnQ3ZUhZbTIyZFdRcVJNU3B2djlYRDgxLXpwLWVtTjNSSG9zVi1BQnBid3N0RkJYaXEybnh6MlNzVU51WG5LYWR5Nmgzb0VtZ3oxSFB4UFY5cVRlbVlRbEcwYzJyOTB3eWlkME1WQ2toakJHRFR2dEpwOXdVRmRlZVZ3RzJSWGx6bm1sb2p5WDAyX3VRdFl5LUdpb0NMR0xva3kwUi1sZGRwMU9tOXVPNl9Tam93TmEwcUZ0THUtZlRHS1B4YWR3WXBlckVKUGVRWW1VVjhZaDhOdzB3WXVMOF9kemhsS1c3bzNJX2ItUWNjZkVNMmNUTElZdEVVNi1XLVJXUWpTbU9qTmRVQ0dIdG91ZFpKQ3MyTk02cDF0dWNJVXplb1lyZnFRcGhTdFdISThlZ29VZDU0WlZSc0FiQWpKenNYQTRnb0xHTGUyVGJoa2hpT2R2cVB2VWwySW1TN201UGtHV1duV3M5Zjc0M19zRWNrN3cxRnpPWldTWHBnWU1jeENpai1SQXQ1bG03LUQ3bWUyNlVkWk9BRHpTSTE5akVQUjM0MTJoLXU3aElqRlNJVUMzZ3MyaTJWTWNvaFp1M1lNZHk4QkFEUWM4VF9CNVkwX3dFU3lBbkxHWHFEblE5YVNqN1ZRbXBXVkk5VXdjck02clpKS21IZ1d5am9SNU1jeFZpcHBZYTJlVEt1OGRJWkg1dzN5UHctVnBPWnlEX3RQT0RjX0JJQThLSl9UcnNtTXhOX2d5T3hR?oc=5" class="blog-card" target="_blank" rel="noopener">
         <div class="blog-thumb">
@@ -777,6 +803,7 @@
         </div>
       </a>
 
+      </div>
     </div>
   </div>
 </section>

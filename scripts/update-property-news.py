@@ -621,8 +621,29 @@ def generate_archive_html(archived: list[dict]):
   }}
   .blog-grid {{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 32px;
+  }}
+  .archive-scroll-container {{
+    max-height: 640px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--ig-light) transparent;
+  }}
+  .archive-scroll-container::-webkit-scrollbar {{
+    width: 6px;
+  }}
+  .archive-scroll-container::-webkit-scrollbar-track {{
+    background: transparent;
+  }}
+  .archive-scroll-container::-webkit-scrollbar-thumb {{
+    background: var(--ig-light);
+    border-radius: 10px;
+  }}
+  .archive-scroll-container::-webkit-scrollbar-thumb:hover {{
+    background: var(--ig);
   }}
   .blog-card {{
     background: #fff;
@@ -747,10 +768,14 @@ def generate_archive_html(archived: list[dict]):
     nav {{ padding: 16px 24px; }}
     .nav-links {{ display: none; }}
     section {{ padding: 60px 24px; }}
-    .blog-grid {{ grid-template-columns: 1fr; }}
+    .blog-grid {{ grid-template-columns: repeat(2, 1fr); gap: 16px; }}
+    .archive-scroll-container {{ max-height: 520px; }}
     footer {{ padding: 48px 24px 24px; }}
     .footer-main {{ grid-template-columns: 1fr 1fr; gap: 32px; }}
     .footer-bottom {{ flex-direction: column; gap: 12px; text-align: center; }}
+  }}
+  @media (max-width: 600px) {{
+    .blog-grid {{ grid-template-columns: 1fr; }}
   }}
 </style>
 </head>
@@ -789,15 +814,17 @@ def generate_archive_html(archived: list[dict]):
       </div>
       <div class="archive-count">{len(archived)} articles</div>
     </div>
-    <div class="archive-search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
-      <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
-    </div>
-    <div class="blog-grid" id="archiveGrid">
+    <div class="archive-scroll-container">
+      <div class="archive-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
+        <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+      </div>
+      <div class="blog-grid" id="archiveGrid">
 
 {archive_grid}
 
+      </div>
     </div>
   </div>
 </section>
