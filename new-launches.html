@@ -1344,7 +1344,7 @@
         launch_date: launchDate,
         cover_image: p.cover_image || ''
       };
-    });
+    }).filter(p => !p.sold_out);
   }
 
   // ── Load projects from scraped JSON ──
