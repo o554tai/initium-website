@@ -356,6 +356,58 @@
             pointer-events: none;
         }
         .template-copied.show { opacity: 1; transform: translateY(0); }
+
+        /* Tour Studio */
+        .tour-card {
+            background: var(--bg-elevated); border: 1px solid var(--border);
+            border-radius: 14px; padding: 18px; transition: border-color 0.2s;
+        }
+        .tour-card:hover { border-color: var(--accent); }
+        .tour-card .tour-header {
+            display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+        }
+        .tour-card .tour-name {
+            font-family: 'Space Grotesk', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text);
+        }
+        .tour-card .tour-status {
+            font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+            padding: 4px 12px; border-radius: 20px;
+        }
+        .tour-status.pending { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .tour-status.approved { background: rgba(34,197,94,0.15); color: var(--success); }
+        .tour-status.rejected { background: rgba(239,68,68,0.15); color: var(--error); }
+        .tour-card .tour-meta {
+            display: flex; gap: 12px; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px; flex-wrap: wrap;
+        }
+        .tour-card .tour-badge-pill {
+            display: inline-block; padding: 3px 10px; border-radius: 6px;
+            background: rgba(99,102,241,0.12); color: var(--accent);
+            font-size: 0.6875rem; font-weight: 600;
+        }
+        .tour-card .tour-preview-iframe {
+            width: 100%; height: 220px; border: none; border-radius: 10px; background: var(--bg);
+            margin-bottom: 10px;
+        }
+        .tour-card .tour-actions {
+            display: flex; gap: 8px; flex-wrap: wrap;
+        }
+        .tour-card .tour-actions a, .tour-card .tour-actions button {
+            padding: 8px 16px; border-radius: 8px; font-size: 0.8125rem; font-weight: 600;
+            text-decoration: none; cursor: pointer; border: none; font-family: inherit;
+        }
+        .tour-card .tour-actions .btn-view {
+            background: var(--accent); color: white;
+        }
+        .tour-card .tour-actions .btn-approve {
+            background: rgba(34,197,94,0.2); color: var(--success);
+        }
+        .tour-card .tour-actions .btn-reject {
+            background: rgba(239,68,68,0.2); color: var(--error);
+        }
+        .tour-card .tour-actions .btn-delete {
+            background: var(--bg); color: var(--text-muted); border: 1px solid var(--border);
+        }
+        .tour-card .tour-actions .btn-delete:hover { color: var(--error); border-color: var(--error); }
     </style>
     <script src="https://js.stripe.com/v3/"></script>
 <script type="application/ld+json">
@@ -481,6 +533,7 @@
             <div class="tabs">
                 <div class="tab active" onclick="switchTab('video')" id="tab-video">🎬 INTM Studio</div>
                 <div class="tab" onclick="switchTab('image')" id="tab-image">🖼️ Image Studio</div>
+                <div class="tab" onclick="switchTab('tours')" id="tab-tours">🌍 Tour Studio</div>
                 <div class="tab" onclick="switchTab('templates')" id="tab-templates">📋 Templates</div>
             </div>
 
@@ -700,6 +753,73 @@
                                 <h4>Virtual Tour Script</h4>
                                 <p>Voiceover script for 60-sec virtual walkthrough with pacing cues.</p>
                                 <div class="template-tags"><span>60 sec</span><span>Script</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tour Studio Panel -->
+            <div class="tab-panel" id="panel-tours">
+                <div class="studio-grid">
+                    <div>
+                        <div class="panel">
+                            <h3><span class="icon">🌍</span> Submit New Tour</h3>
+                            <div class="input-group">
+                                <label>Property Name</label>
+                                <input type="text" id="tourNameInput" placeholder="e.g. Hudson Place Residences">
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label>District / Location</label>
+                                    <input type="text" id="tourDistrictInput" placeholder="e.g. District 05, Media Circle">
+                                </div>
+                                <div class="input-group">
+                                    <label>Badge</label>
+                                    <select id="tourBadgeInput">
+                                        <option value="3D Tour">3D Tour</option>
+                                        <option value="New Launch">New Launch</option>
+                                        <option value="Showflat">Showflat</option>
+                                        <option value="Resale">Resale</option>
+                                        <option value="Rental">Rental</option>
+                                        <option value="Landed">Landed</option>
+                                        <option value="Condo">Condo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Tour URL</label>
+                                <input type="text" id="tourUrlInput" placeholder="Paste Luma AI, Polycam, Sketchfab, PlayCanvas, or Matterport link"
+                                    oninput="detectPlatform()">
+                                <div id="tourPlatformHint" style="margin-top:8px;font-size:0.75rem;color:var(--text-muted);display:none;">🔍 Platform detected: <strong id="tourPlatformName">-</strong></div>
+                            </div>
+                            <div class="input-group">
+                                <label>Notes (optional)</label>
+                                <textarea id="tourNotesInput" placeholder="Unit type, agent name, or special instructions..."></textarea>
+                            </div>
+                            <button class="btn btn-primary" onclick="submitTour()" id="tourSubmitBtn" style="width:100%;">
+                                <span class="spinner" id="tourSubmitSpinner" style="display:none;"></span>
+                                <span id="tourSubmitBtnText">🚀 Submit for Approval</span>
+                            </button>
+                            <div style="margin-top:16px;padding:14px;background:var(--bg-elevated);border-radius:12px;font-size:0.8125rem;color:var(--text-muted);line-height:1.6;">
+                                <strong style="color:var(--text);">ℹ️ Supported platforms:</strong><br>
+                                Luma AI · Polycam · Sketchfab · PlayCanvas · Matterport · SuperSplat · Any iframe URL
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="panel" style="min-height:500px;">
+                            <h3><span class="icon">📋</span> Team Tours</h3>
+                            <!-- Admin controls (hidden unless admin key present) -->
+                            <div id="tourAdminBar" style="display:none;margin-bottom:16px;padding:12px 16px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:12px;">
+                                <span style="font-size:0.8125rem;color:var(--accent);font-weight:600;">🔐 Admin Mode</span>
+                                <span style="font-size:0.75rem;color:var(--text-muted);margin-left:8px;">Approve or reject pending submissions</span>
+                            </div>
+                            <div class="jobs-list" id="toursList">
+                                <div class="empty-state">
+                                    <div class="empty-icon">🌍</div>
+                                    <p>No tours submitted yet. Add your first 3D tour!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1220,7 +1340,175 @@
         }
     }
 
-    // ── Init ──
+    // ══ Tour Studio ══
+    function detectPlatform() {
+        const url = document.getElementById('tourUrlInput').value.trim().toLowerCase();
+        const hint = document.getElementById('tourPlatformHint');
+        const name = document.getElementById('tourPlatformName');
+        if (!url) { hint.style.display = 'none'; return; }
+        let platform = 'Other';
+        if (url.includes('lumalabs.ai') || url.includes('luma.ai')) platform = 'Luma AI';
+        else if (url.includes('polycam')) platform = 'Polycam';
+        else if (url.includes('sketchfab.com')) platform = 'Sketchfab';
+        else if (url.includes('playcanvas.com')) platform = 'PlayCanvas';
+        else if (url.includes('matterport.com')) platform = 'Matterport';
+        else if (url.includes('supersplat')) platform = 'SuperSplat';
+        name.textContent = platform;
+        hint.style.display = 'block';
+    }
+
+    async function submitTour() {
+        const url = document.getElementById('tourUrlInput').value.trim();
+        const name = document.getElementById('tourNameInput').value.trim();
+        const district = document.getElementById('tourDistrictInput').value.trim();
+        const badge = document.getElementById('tourBadgeInput').value;
+        const notes = document.getElementById('tourNotesInput').value.trim();
+
+        if (!url || !name) return toast('Property name and tour URL are required', 'error');
+        if (!url.startsWith('http')) return toast('URL must start with http:// or https://', 'error');
+
+        const btn = document.getElementById('tourSubmitBtn');
+        const spinner = document.getElementById('tourSubmitSpinner');
+        const btnText = document.getElementById('tourSubmitBtnText');
+        btn.disabled = true;
+        spinner.style.display = 'block';
+        btnText.textContent = 'Submitting...';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/tours`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({ url, name, district, badge, notes })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed');
+
+            toast('Tour submitted for approval!', 'success');
+            document.getElementById('tourUrlInput').value = '';
+            document.getElementById('tourNameInput').value = '';
+            document.getElementById('tourDistrictInput').value = '';
+            document.getElementById('tourNotesInput').value = '';
+            document.getElementById('tourPlatformHint').style.display = 'none';
+            loadTours();
+        } catch (e) {
+            toast(e.message, 'error');
+        } finally {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.textContent = '🚀 Submit for Approval';
+        }
+    }
+
+    async function loadTours() {
+        try {
+            const res = await fetch(`${API_BASE}/api/tours`, {
+                headers: { 'X-API-Key': apiKey }
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            renderTours(data.tours || []);
+        } catch (e) { console.error('loadTours error:', e); }
+    }
+
+    function renderTours(tours) {
+        const el = document.getElementById('toursList');
+        if (!tours.length) {
+            el.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">🌍</div>
+                    <p>No tours submitted yet. Add your first 3D tour!</p>
+                </div>`;
+            return;
+        }
+
+        const isAdmin = !!localStorage.getItem('initium_admin_key');
+        if (isAdmin) {
+            document.getElementById('tourAdminBar').style.display = 'block';
+        }
+
+        el.innerHTML = tours.map(t => {
+            const canAdmin = isAdmin && t.status === 'pending';
+            const isOwner = t.submitted_by === document.getElementById('userName').textContent;
+            const showEmbed = t.status === 'approved' || (t.status === 'pending' && (isOwner || isAdmin));
+
+            return `
+                <div class="tour-card" id="tour-${t.id}">
+                    <div class="tour-header">
+                        <div>
+                            <div class="tour-name">${escapeHtml(t.name)}</div>
+                            <div class="tour-meta">
+                                <span class="tour-badge-pill">${escapeHtml(t.badge)}</span>
+                                <span>${escapeHtml(t.platform)}</span>
+                                ${t.district ? `<span>📍 ${escapeHtml(t.district)}</span>` : ''}
+                                <span>👤 ${escapeHtml(t.submitted_by)}</span>
+                            </div>
+                        </div>
+                        <span class="tour-status ${t.status}">${t.status}</span>
+                    </div>
+                    ${showEmbed ? `
+                        <iframe class="tour-preview-iframe" src="${t.embed_url}" loading="lazy"
+                            allow="autoplay; fullscreen; xr-spatial-tracking"
+                            title="${escapeHtml(t.name)}"></iframe>
+                    ` : ''}
+                    ${t.notes ? `<div style="font-size:0.8125rem;color:var(--text-muted);margin-bottom:10px;">${escapeHtml(t.notes)}</div>` : ''}
+                    <div class="tour-actions">
+                        <a href="${t.url}" target="_blank" class="btn-view">Open Tour ↗</a>
+                        ${canAdmin ? `
+                            <button class="btn-approve" onclick="approveTour('${t.id}')">✅ Approve</button>
+                            <button class="btn-reject" onclick="rejectTour('${t.id}')">❌ Reject</button>
+                        ` : ''}
+                        ${(isOwner || isAdmin) ? `<button class="btn-delete" onclick="deleteTour('${t.id}')">🗑️ Delete</button>` : ''}
+                    </div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    async function approveTour(tourId) {
+        const adminKey = localStorage.getItem('initium_admin_key');
+        if (!adminKey) return toast('Admin key required', 'error');
+        try {
+            const res = await fetch(`${API_BASE}/admin/tours/${tourId}/approve`, {
+                method: 'POST',
+                headers: { 'X-Admin-Key': adminKey }
+            });
+            if (!res.ok) throw new Error('Approval failed');
+            toast('Tour approved!', 'success');
+            loadTours();
+        } catch (e) { toast(e.message, 'error'); }
+    }
+
+    async function rejectTour(tourId) {
+        const adminKey = localStorage.getItem('initium_admin_key');
+        if (!adminKey) return toast('Admin key required', 'error');
+        try {
+            const res = await fetch(`${API_BASE}/admin/tours/${tourId}/reject`, {
+                method: 'POST',
+                headers: { 'X-Admin-Key': adminKey }
+            });
+            if (!res.ok) throw new Error('Rejection failed');
+            toast('Tour rejected', 'success');
+            loadTours();
+        } catch (e) { toast(e.message, 'error'); }
+    }
+
+    async function deleteTour(tourId) {
+        if (!confirm('Delete this tour permanently?')) return;
+        try {
+            const res = await fetch(`${API_BASE}/api/tours/${tourId}`, {
+                method: 'DELETE',
+                headers: { 'X-API-Key': apiKey }
+            });
+            if (!res.ok) throw new Error('Delete failed');
+            toast('Tour deleted', 'success');
+            loadTours();
+        } catch (e) { toast(e.message, 'error'); }
+    }
+
+    // ══ Init ══
     loadPricing();
     checkHealth();
     if (apiKey) {
@@ -1229,7 +1517,7 @@
             .then(r => r.ok ? r.json() : Promise.reject())
             .then(d => {
                 document.getElementById('userName').textContent = d.key.name;
-                enterStudio(); loadJobs(); updatePriceLabel();
+                enterStudio(); loadJobs(); loadTours(); updatePriceLabel();
             })
             .catch(() => { localStorage.removeItem('initium_api_key'); });
     } else {

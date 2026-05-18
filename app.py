@@ -77,6 +77,54 @@ MAX_FILE_SIZE = 50 * 1024 * 1024  # 50MB
 
 JOBS_FILE = Path("jobs.json")
 SUBMISSIONS_FILE = Path("submissions.json")
+TOURS_FILE = Path("tours.json")
+
+def _load_tours():
+    if TOURS_FILE.exists():
+        try:
+            with open(TOURS_FILE) as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+
+def _save_tours(tours):
+    with open(TOURS_FILE, "w") as f:
+        json.dump(tours, f, indent=2, default=str)
+
+
+def _detect_platform(url):
+    url = url.lower()
+    if "lumalabs.ai" in url or "luma.ai" in url:
+        return "Luma AI"
+    if "polycam.ai" in url or "polycam" in url:
+        return "Polycam"
+    if "sketchfab.com" in url:
+        return "Sketchfab"
+    if "playcanvas.com" in url:
+        return "PlayCanvas"
+    if "matterport.com" in url:
+        return "Matterport"
+    if "supersplat" in url:
+        return "SuperSplat"
+    return "Other"
+
+
+def _build_embed_iframe(url):
+    """Build an embed iframe src for known platforms."""
+    url = url.strip()
+    if "sketchfab.com" in url:
+        # Convert viewer URL to embed URL
+        if "/embed" not in url:
+            url = url.rstrip("/") + "/embed"
+        return url + "?autostart=0&ui_theme=dark"
+    if "playcanvas.com" in url:
+        if "/embed" not in url:
+            url = url.rstrip("/") + "/embed"
+        return url
+    # Generic fallback: wrap in iframe
+    return url
 
 # Telegram notification config
 TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN", "8838407168:AAEmuWjjoswhuOpi4a-85FfG3GlUhOY9vT8")
@@ -679,6 +727,133 @@ def api_shop_checkout():
         return jsonify({"url": session.url})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+# ═══════════════════════════════════════════════════════════
+# TOUR API (3D Virtual Tours)
+# ═══════════════════════════════════════════════════════════
+
+@app.route("/api/tours", methods=["POST"])
+@require_api_key
+def api_create_tour():
+    """Team member submits a new 3D tour for approval."""
+    data = request.get_json(force=True) or {}
+    url = data.get("url", "").strip()
+    name = data.get("name", "").strip()
+    district = data.get("district", "").strip()
+    badge = data.get("badge", "3D Tour").strip()
+    notes = data.get("notes", "").strip()
+
+    if not url or not name:
+        return jsonify({"error": "url and name are required"}), 400
+
+    if not url.startswith(("http://", "https://")):
+        return jsonify({"error": "url must start with http:// or https://"}), 400
+
+    tours = _load_tours()
+    tour = {
+        "id": str(uuid.uuid4())[:8],
+        "url": url,
+        "embed_url": _build_embed_iframe(url),
+        "platform": _detect_platform(url),
+        "name": name,
+        "district": district,
+        "badge": badge,
+        "notes": notes,
+        "status": "pending",
+        "submitted_by": request.api_key_entry.get("name", "unknown"),
+        "api_key_prefix": request.headers.get("X-API-Key", "")[:12],
+        "created_at": datetime.utcnow().isoformat() + "Z",
+        "approved_at": None,
+        "approved_by": None,
+    }
+    tours.insert(0, tour)
+    _save_tours(tours)
+
+    return jsonify({"tour": tour}), 201
+
+
+@app.route("/api/tours", methods=["GET"])
+@require_api_key
+def api_list_tours():
+    """List tours visible to this team member (all pending + their own + all approved)."""
+    tours = _load_tours()
+    user_key = request.headers.get("X-API-Key", "")
+    user_name = request.api_key_entry.get("name", "")
+
+    # Filter: everyone sees approved + their own submissions + pending (for transparency)
+    visible = []
+    for t in tours:
+        if t.get("status") == "approved":
+            visible.append(t)
+        elif t.get("submitted_by") == user_name:
+            visible.append(t)
+        elif t.get("status") == "pending":
+            visible.append(t)
+
+    return jsonify({"tours": visible})
+
+
+@app.route("/api/tours/public", methods=["GET"])
+def api_public_tours():
+    """Public endpoint: return only approved tours for embedding on virtual-tours.html."""
+    tours = _load_tours()
+    approved = [t for t in tours if t.get("status") == "approved"]
+    return jsonify({"tours": approved})
+
+
+@app.route("/api/tours/<tour_id>", methods=["DELETE"])
+@require_api_key
+def api_delete_tour(tour_id):
+    """Allow submitter or admin to delete a tour."""
+    tours = _load_tours()
+    user_name = request.api_key_entry.get("name", "")
+    user_key = request.headers.get("X-API-Key", "")
+
+    idx = None
+    for i, t in enumerate(tours):
+        if t.get("id") == tour_id:
+            idx = i
+            break
+
+    if idx is None:
+        return jsonify({"error": "Tour not found"}), 404
+
+    # Only submitter or admin can delete
+    is_owner = tours[idx].get("submitted_by") == user_name
+    is_admin = user_key == ADMIN_KEY
+    if not (is_owner or is_admin):
+        return jsonify({"error": "Not authorized"}), 403
+
+    tours.pop(idx)
+    _save_tours(tours)
+    return jsonify({"message": "Tour deleted"})
+
+
+@app.route("/admin/tours/<tour_id>/approve", methods=["POST"])
+@require_admin_key
+def admin_approve_tour(tour_id):
+    tours = _load_tours()
+    for t in tours:
+        if t.get("id") == tour_id:
+            t["status"] = "approved"
+            t["approved_at"] = datetime.utcnow().isoformat() + "Z"
+            t["approved_by"] = "admin"
+            _save_tours(tours)
+            return jsonify({"tour": t})
+    return jsonify({"error": "Tour not found"}), 404
+
+
+@app.route("/admin/tours/<tour_id>/reject", methods=["POST"])
+@require_admin_key
+def admin_reject_tour(tour_id):
+    tours = _load_tours()
+    for t in tours:
+        if t.get("id") == tour_id:
+            t["status"] = "rejected"
+            _save_tours(tours)
+            return jsonify({"tour": t})
+    return jsonify({"error": "Tour not found"}), 404
 
 
 # ═══════════════════════════════════════════════════════════
