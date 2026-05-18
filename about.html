@@ -982,7 +982,7 @@
 
   // Section reveals
   gsap.utils.toArray('section').forEach(sec => {
-    gsap.from(sec.querySelectorAll('.section-label, .section-title, .section-text, .story-content, .pillar-card, .team-card, .culture-tag, .timeline-item'), {
+    gsap.from(sec.querySelectorAll('.section-label, .section-title, .section-text, .story-content, .team-card, .culture-tag, .timeline-item'), {
       y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
       scrollTrigger: { trigger: sec, start: 'top 80%' }
     });
