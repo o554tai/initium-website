@@ -1,7 +1,7 @@
 {
   "source": "singmap.com",
   "total": 327,
-  "scraped_at": "2026-05-18T01:00:28.538348",
+  "scraped_at": "2026-05-18T02:00:51.549937",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1085,8 +1085,8 @@
       "address": "51 , 53 , 55 , 57 Canberra Crescent",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
-      "min_price": 1966300.0,
-      "max_price": 2660542.0,
+      "min_price": 1985963.0,
+      "max_price": 2687147.0,
       "currency": "$",
       "units": "376",
       "completion_date": "Q3/Q4 2028",
