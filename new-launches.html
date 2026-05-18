@@ -635,6 +635,83 @@
     box-shadow: 0 12px 40px rgba(0,140,101,0.2);
   }
 
+  /* 3D Tour banner inside modal */
+  .modal-3d {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: linear-gradient(135deg, var(--ig-light), #f0f9f5);
+    border: 1.5px solid rgba(0,140,101,0.12);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 28px;
+    transition: all 0.3s ease;
+  }
+  .modal-3d:hover {
+    border-color: rgba(0,140,101,0.2);
+    box-shadow: 0 8px 24px rgba(0,140,101,0.08);
+  }
+  .modal-3d-icon {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    border-radius: 12px;
+    background: var(--ig);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+  .modal-3d-icon svg {
+    width: 22px;
+    height: 22px;
+  }
+  .modal-3d-text {
+    flex: 1;
+    min-width: 0;
+  }
+  .modal-3d-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 2px;
+  }
+  .modal-3d-sub {
+    font-size: 12px;
+    color: var(--ig-ink-3);
+    line-height: 1.4;
+  }
+  .modal-3d-btn {
+    padding: 10px 18px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 10px;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+  }
+  .modal-3d-btn:hover {
+    background: var(--ig-dark);
+    transform: translateY(-1px);
+  }
+  @media (max-width: 480px) {
+    .modal-3d {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .modal-3d-btn {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
   /* Enquiry modal (CRM integration) */
   .enquiry-form label {
     display: block;
@@ -1458,6 +1535,14 @@
         <span class="detail-value">${d.value}</span>
       </div>
     `).join('');
+
+    const has3d = ['Hudson Place Residences', 'Dunearn House', 'Thomson Reserve', 'River Green'].includes(p.project_name);
+    const modal3d = document.getElementById('modal3d');
+    if (has3d) {
+      modal3d.style.display = 'flex';
+    } else {
+      modal3d.style.display = 'none';
+    }
 
     document.getElementById('projectModal').classList.add('active');
     document.body.style.overflow = 'hidden';
