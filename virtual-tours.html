@@ -789,7 +789,8 @@
     <div class="section-label">Tour Gallery</div>
     <h2 class="section-title">Featured Properties</h2>
     <p class="section-text">Tap any tour to enter the full immersive experience. These are live 3D environments, not pre-rendered videos.</p>
-    <div class="tour-grid">
+    <div class="tour-grid" id="publicTourGrid">
+      <!-- Static demo + CTA cards -->
       <div class="tour-card">
         <div class="tour-preview">
           <iframe src="https://sketchfab.com/models/1fbb649cd6624f2bb7b7d6e30c6533a5/embed?autostart=0&ui_theme=dark"
@@ -809,26 +810,7 @@
           <a href="https://sketchfab.com/3d-models/modern-apartment-1fbb649cd6624f2bb7b7d6e30c6533a5" class="tour-btn" target="_blank">Enter Tour</a>
         </div>
       </div>
-      <div class="tour-card">
-        <div class="tour-preview">
-          <div class="tour-preview-placeholder">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
-            <p>3D tour placeholder</p>
-            <p style="font-size:12px;margin-top:4px;">Replace iframe src with your SuperSplat / PlayCanvas URL</p>
-          </div>
-          <div class="tour-badge">Showflat</div>
-        </div>
-        <div class="tour-info">
-          <div class="tour-name">Dunearn House</div>
-          <div class="tour-loc">Turf City, District 11</div>
-          <div class="tour-meta">
-            <span>📱 Mobile</span>
-            <span>🎥 3D</span>
-            <span>⚡ 38 MB</span>
-          </div>
-          <a href="#" class="tour-btn">Enter Tour</a>
-        </div>
-      </div>
+      <!-- Dynamic team tours will be injected here -->
       <div class="tour-card" style="border:2px dashed rgba(0,140,101,0.25); background: linear-gradient(135deg, #f7f9f8, #e6f5f0);">
         <div class="tour-preview" style="background: linear-gradient(135deg, #e6f5f0, #d4ede4);">
           <div class="tour-preview-placeholder">
@@ -1013,6 +995,52 @@
     { y: 0, opacity: 1, duration: 1, ease: 'power3.out',
       scrollTrigger: { trigger: '.compare-table', start: 'top 85%', toggleActions: 'play none none none' } }
   );
+
+  // Load approved team tours dynamically
+  (async function loadPublicTours() {
+    try {
+      const res = await fetch('https://initium-video-studio.onrender.com/api/tours/public');
+      if (!res.ok) return;
+      const data = await res.json();
+      const tours = data.tours || [];
+      if (!tours.length) return;
+
+      const grid = document.getElementById('publicTourGrid');
+      // Insert before the last CTA card
+      const ctaCard = grid.lastElementChild;
+
+      tours.forEach(t => {
+        const card = document.createElement('div');
+        card.className = 'tour-card';
+        card.innerHTML = `
+          <div class="tour-preview">
+            <iframe src="${t.embed_url}" loading="lazy"
+              allow="autoplay; fullscreen; xr-spatial-tracking"
+              title="${t.name}"></iframe>
+            <div class="tour-badge">${t.badge}</div>
+          </div>
+          <div class="tour-info">
+            <div class="tour-name">${t.name}</div>
+            <div class="tour-loc">${t.district || t.platform}</div>
+            <div class="tour-meta">
+              <span>📱 Mobile</span>
+              <span>🎥 3D</span>
+              <span>${t.platform}</span>
+            </div>
+            <a href="${t.url}" class="tour-btn" target="_blank">Enter Tour</a>
+          </div>
+        `;
+        grid.insertBefore(card, ctaCard);
+      });
+
+      // Re-run GSAP animation for new cards
+      gsap.fromTo('.tour-card',
+        { y: 60, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+          scrollTrigger: { trigger: '.tour-grid', start: 'top 80%', toggleActions: 'play none none none' } }
+      );
+    } catch (e) { console.log('Public tours load failed:', e); }
+  })();
 </script>
 
 </body>
