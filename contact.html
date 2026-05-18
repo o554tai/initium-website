@@ -537,17 +537,19 @@
     .nav-links {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(247,249,248,0.98);
-      backdrop-filter: blur(30px);
-      -webkit-backdrop-filter: blur(30px);
+      background: #f7f9f8;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       align-items: center;
-      gap: 32px;
+      gap: 28px;
+      padding-top: 100px;
+      padding-bottom: 40px;
       z-index: 999;
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.4s ease;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .nav-links.open {
       display: flex;
@@ -555,9 +557,10 @@
       pointer-events: auto;
     }
     .nav-links a {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 600;
       color: var(--ig-ink);
+      flex-shrink: 0;
     }
     .nav-links a::after { display: none; }
   }
