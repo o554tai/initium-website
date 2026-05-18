@@ -98,14 +98,10 @@ def _detect_platform(url):
     url = url.lower()
     if "lumalabs.ai" in url or "luma.ai" in url:
         return "Luma AI"
-    if "polycam.ai" in url or "polycam" in url:
-        return "Polycam"
     if "sketchfab.com" in url:
         return "Sketchfab"
     if "playcanvas.com" in url:
         return "PlayCanvas"
-    if "matterport.com" in url:
-        return "Matterport"
     if "supersplat" in url:
         return "SuperSplat"
     return "Other"
