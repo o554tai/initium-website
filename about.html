@@ -5,22 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>About INITIUM — Singapore Real Estate Agency & Team</title>
 <meta name="description" content="Learn the story behind INITIUM. From art school to a team of 70+ agents, built on trust, excellence, and the belief that everyone deserves to go higher.">
-<meta name="theme-color" content="#008c65">
+<meta name="theme-color" content="#50C878">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
   :root {
-    --ig: #008c65;
-    --ig-dark: #006b4d;
-    --ig-light: #e6f5f0;
-    --ig-surface: #f7f9f8;
-    --ig-ink: #0a1f17;
-    --ig-ink-2: #4a6359;
-    --ig-ink-3: #8aa89a;
+    --ig: #50C878;
+    --ig-dark: #3DA35F;
+    --ig-light: #E8F5EE;
+    --ig-surface: #F7F8F5;
+    --ig-ink: #1A1A1A;
+    --ig-ink-2: #6B7B6E;
+    --ig-ink-3: #A8B5AC;
+    --font-editorial: 'Playfair Display', serif;
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'DM Sans', sans-serif;
   }
@@ -48,7 +49,7 @@
     background: rgba(247,249,248,0.92);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid rgba(0,140,101,0.08);
+    border-bottom: 1px solid rgba(80,200,120,0.08);
   }
   .nav-logo {
     display: flex;
@@ -199,7 +200,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(10,31,23,0.05), transparent);
+    background: linear-gradient(to top, rgba(26,26,26,0.05), transparent);
   }
   .story-content h2 {
     font-family: var(--font-display);
@@ -219,7 +220,7 @@
     margin-top: 32px;
     padding: 24px 28px;
     border-left: 3px solid var(--ig);
-    background: rgba(0,140,101,0.04);
+    background: rgba(80,200,120,0.04);
     border-radius: 0 16px 16px 0;
   }
   .story-quote p {
@@ -250,7 +251,7 @@
     position: absolute;
     top: -50%; right: -20%;
     width: 80%; height: 120%;
-    background: radial-gradient(ellipse, rgba(0,140,101,0.15) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(80,200,120,0.15) 0%, transparent 70%);
     pointer-events: none;
   }
   .mission-section .section-label { color: var(--ig-light); }
@@ -309,12 +310,12 @@
     background: #fff;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(10,31,23,0.06);
+    box-shadow: 0 8px 32px rgba(26,26,26,0.06);
     transition: transform 0.4s ease, box-shadow 0.4s ease;
   }
   .team-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 60px rgba(10,31,23,0.1);
+    box-shadow: 0 20px 60px rgba(26,26,26,0.1);
   }
   .team-photo {
     height: 220px;
@@ -388,7 +389,7 @@
   .culture-tag {
     padding: 12px 24px;
     background: #fff;
-    border: 1px solid rgba(0,140,101,0.1);
+    border: 1px solid rgba(80,200,120,0.1);
     border-radius: 100px;
     font-family: var(--font-display);
     font-size: 13px;
@@ -643,7 +644,7 @@
     .nav-links {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: #f7f9f8;
+      background: #F7F8F5;
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
@@ -1136,7 +1137,7 @@
   .exit-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(10,31,23,0.6);
+    background: rgba(26,26,26,0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 10000;
@@ -1177,8 +1178,8 @@
     height: 36px;
     border-radius: 50%;
     border: none;
-    background: var(--ig-surface, #f7f9f8);
-    color: var(--ig-ink-2, #4a6359);
+    background: var(--ig-surface, #F7F8F5);
+    color: var(--ig-ink-2, #6B7B6E);
     font-size: 20px;
     line-height: 1;
     cursor: pointer;
@@ -1187,12 +1188,12 @@
     justify-content: center;
     transition: background 0.3s ease;
   }
-  .exit-close:hover { background: var(--ig-light, #e6f5f0); }
+  .exit-close:hover { background: var(--ig-light, #E8F5EE); }
   .exit-icon {
     width: 56px;
     height: 56px;
     border-radius: 16px;
-    background: var(--ig-light, #e6f5f0);
+    background: var(--ig-light, #E8F5EE);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1203,12 +1204,12 @@
     font-family: var(--font-display, 'Space Grotesk', sans-serif);
     font-size: 24px;
     font-weight: 700;
-    color: var(--ig-ink, #0a1f17);
+    color: var(--ig-ink, #1A1A1A);
     margin-bottom: 8px;
   }
   .exit-text {
     font-size: 15px;
-    color: var(--ig-ink-2, #4a6359);
+    color: var(--ig-ink-2, #6B7B6E);
     line-height: 1.6;
     margin-bottom: 28px;
   }
@@ -1219,24 +1220,24 @@
   }
   .exit-form input {
     padding: 14px 18px;
-    border: 1.5px solid rgba(0,140,101,0.15);
+    border: 1.5px solid rgba(80,200,120,0.15);
     border-radius: 12px;
     font-size: 15px;
     font-family: var(--font-body, 'DM Sans', sans-serif);
-    color: var(--ig-ink, #0a1f17);
+    color: var(--ig-ink, #1A1A1A);
     background: #fff;
     transition: border-color 0.3s ease;
     outline: none;
   }
   .exit-form input:focus {
-    border-color: var(--ig, #008c65);
+    border-color: var(--ig, #50C878);
   }
   .exit-form input::placeholder {
-    color: var(--ig-ink-3, #8aa89a);
+    color: var(--ig-ink-3, #A8B5AC);
   }
   .exit-submit {
     padding: 16px;
-    background: var(--ig, #008c65);
+    background: var(--ig, #50C878);
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -1250,12 +1251,12 @@
     margin-top: 4px;
   }
   .exit-submit:hover {
-    background: var(--ig-dark, #006b4d);
+    background: var(--ig-dark, #3DA35F);
     transform: translateY(-1px);
   }
   .exit-privacy {
     font-size: 11px;
-    color: var(--ig-ink-3, #8aa89a);
+    color: var(--ig-ink-3, #A8B5AC);
     margin-top: 16px;
   }
   @media (max-width: 480px) {
@@ -1366,7 +1367,7 @@
     border-radius: 16px;
     padding: 14px 18px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    border: 1px solid rgba(0,140,101,0.1);
+    border: 1px solid rgba(80,200,120,0.1);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -1517,7 +1518,7 @@
     transition: all 0.3s ease;
   }
   .custom-cursor svg path {
-    stroke: var(--ig, #008c65);
+    stroke: var(--ig, #50C878);
     stroke-width: 5;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -1528,7 +1529,7 @@
     transform: translate(-50%, -50%) scale(1.8);
   }
   .custom-cursor.hover svg path {
-    fill: var(--ig, #008c65);
+    fill: var(--ig, #50C878);
   }
   @media (pointer: coarse) {
     .custom-cursor { display: none !important; }

@@ -7,7 +7,7 @@
 <meta name="description" content="A modern real estate team built on trust, systems, and the drive to lift everyone higher. Buy, sell, rent, or explore new launches with INITIUM.">
 <meta name="keywords" content="Singapore real estate, new launch, property agent, condo, HDB, investment, INITIUM">
 <meta name="author" content="INITIUM">
-<meta name="theme-color" content="#008c65">
+<meta name="theme-color" content="#50C878">
 
 
 
@@ -21,18 +21,19 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <style>
   :root {
-    --ig: #008c65;
-    --ig-dark: #006b4d;
-    --ig-light: #e6f5f0;
-    --ig-surface: #f7f9f8;
-    --ig-ink: #0a1f17;
-    --ig-ink-2: #4a6359;
-    --ig-ink-3: #8aa89a;
+    --ig: #50C878;
+    --ig-dark: #3DA35F;
+    --ig-light: #E8F5EE;
+    --ig-surface: #F7F8F5;
+    --ig-ink: #1A1A1A;
+    --ig-ink-2: #6B7B6E;
+    --ig-ink-3: #A8B5AC;
+    --font-editorial: 'Playfair Display', serif;
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'DM Sans', sans-serif;
   }
@@ -60,7 +61,7 @@
     background: rgba(247,249,248,0.92);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid rgba(0,140,101,0.08);
+    border-bottom: 1px solid rgba(80,200,120,0.08);
   }
   .nav-logo {
     display: flex;
@@ -113,7 +114,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    background: var(--ig-surface);
   }
   .hero-particles {
     position: absolute;
@@ -186,7 +187,7 @@
     height: 2px;
     border-radius: 1px;
     background: linear-gradient(90deg, transparent, rgba(212, 234, 234, 0.9), transparent);
-    box-shadow: 0 0 10px 2px rgba(0, 140, 101, 0.4);
+    box-shadow: 0 0 10px 2px rgba(80, 200, 120, 0.4);
     opacity: 0;
     pointer-events: none;
     z-index: 9;
@@ -202,14 +203,13 @@
     opacity: 0;
   }
   .hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(24px, 4vw, 48px);
-    font-weight: 700;
+    font-family: var(--font-editorial);
+    font-size: clamp(36px, 5.5vw, 72px);
+    font-weight: 500;
     line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: var(--ig);
-    margin-bottom: 12px;
-    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 16px;
   }
   .hero-title .line {
     display: inline;
@@ -252,7 +252,7 @@
     background: transparent;
     color: var(--ig);
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0,140,101,0.15);
+    box-shadow: 0 12px 40px rgba(80,200,120,0.15);
   }
   .hero-scroll {
     position: absolute;
@@ -311,12 +311,12 @@
     background: var(--ig);
   }
   .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(32px, 4.5vw, 56px);
-    font-weight: 700;
+    font-family: var(--font-editorial);
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 500;
     line-height: 1.1;
-    letter-spacing: -0.02em;
-    max-width: 600px;
+    letter-spacing: -0.03em;
+    max-width: 700px;
     margin-bottom: 24px;
   }
   .section-text {
@@ -341,7 +341,7 @@
     position: absolute;
     border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 24px 80px rgba(10,31,23,0.14);
+    box-shadow: 0 24px 80px rgba(26,26,26,0.14);
     transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
     will-change: transform;
     backface-visibility: hidden;
@@ -378,7 +378,7 @@
   }
   .stat-card {
     background: rgba(255,255,255,0.7);
-    border: 1px solid rgba(0,140,101,0.08);
+    border: 1px solid rgba(80,200,120,0.08);
     border-radius: 24px;
     padding: 40px 32px;
     text-align: center;
@@ -388,7 +388,7 @@
   }
   .stat-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 20px 60px rgba(0,140,101,0.08);
+    box-shadow: 0 20px 60px rgba(80,200,120,0.08);
   }
   .stat-number {
     font-family: var(--font-display);
@@ -421,7 +421,7 @@
     position: absolute;
     top: -50%; right: -20%;
     width: 80%; height: 120%;
-    background: radial-gradient(ellipse, rgba(0,140,101,0.15) 0%, transparent 70%);
+    background: radial-gradient(ellipse, rgba(80,200,120,0.15) 0%, transparent 70%);
     pointer-events: none;
   }
   .services .section-label { color: var(--ig-light); }
@@ -458,7 +458,7 @@
   .service-icon {
     width: 48px; height: 48px;
     border-radius: 14px;
-    background: rgba(0,140,101,0.2);
+    background: rgba(80,200,120,0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -499,7 +499,7 @@
     background: #fff;
     border-radius: 24px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(10,31,23,0.06);
+    box-shadow: 0 8px 32px rgba(26,26,26,0.06);
     scroll-snap-align: start;
     transition: transform 0.4s ease;
   }
@@ -514,7 +514,7 @@
     content: '';
     position: absolute;
     inset:0;
-    background: linear-gradient(to top, rgba(10,31,23,0.4), transparent 50%);
+    background: linear-gradient(to top, rgba(26,26,26,0.4), transparent 50%);
   }
   .property-badge {
     position: absolute;
@@ -625,9 +625,9 @@
     pointer-events: none;
   }
   .cta-title {
-    font-family: var(--font-display);
-    font-size: clamp(32px, 5vw, 56px);
-    font-weight: 700;
+    font-family: var(--font-editorial);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 500;
     margin-bottom: 20px;
     position: relative;
     z-index: 2;
@@ -767,7 +767,7 @@
   .contact-form textarea,
   .contact-form select {
     padding: 14px 18px;
-    border: 1px solid rgba(0,140,101,0.15);
+    border: 1px solid rgba(80,200,120,0.15);
     border-radius: 14px;
     font-family: var(--font-body);
     font-size: 15px;
@@ -781,7 +781,7 @@
   .contact-form select:focus {
     outline: none;
     border-color: var(--ig);
-    box-shadow: 0 0 0 4px rgba(0,140,101,0.08);
+    box-shadow: 0 0 0 4px rgba(80,200,120,0.08);
   }
   .contact-form textarea {
     grid-column: 1 / -1;
@@ -806,7 +806,7 @@
   .contact-form button:hover {
     background: var(--ig-dark);
     transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0,140,101,0.2);
+    box-shadow: 0 12px 40px rgba(80,200,120,0.2);
   }
   .contact-section {
     max-width: 800px;
@@ -856,7 +856,7 @@
     .nav-links {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: #f7f9f8;
+      background: #F7F8F5;
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
@@ -885,7 +885,7 @@
   }
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
-    section { padding: 80px 24px; }
+    section { padding: 120px 48px; }
     .about-grid { grid-template-columns: 1fr; }
     .about-images { height: 360px; }
     .stats-row { grid-template-columns: 1fr; }
@@ -909,15 +909,15 @@
     background: #fff;
     border-radius: 24px;
     padding: 36px;
-    border: 1px solid rgba(0,140,101,0.08);
+    border: 1px solid rgba(80,200,120,0.08);
     transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     display: flex;
     flex-direction: column;
   }
   .testimonial-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 24px 60px rgba(0,140,101,0.08);
-    border-color: rgba(0,140,101,0.15);
+    box-shadow: 0 24px 60px rgba(80,200,120,0.08);
+    border-color: rgba(80,200,120,0.15);
   }
   .testimonial-stars {
     font-size: 18px;
@@ -964,7 +964,7 @@
   .trust-section {
     padding: 80px 48px;
     background: var(--ig-surface);
-    border-top: 1px solid rgba(0,140,101,0.08);
+    border-top: 1px solid rgba(80,200,120,0.08);
   }
   .trust-grid {
     display: grid;
@@ -1243,7 +1243,7 @@
   </a>
 </div>
 
-<section id="testimonials" style="padding:120px 48px; background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);">
+<section id="testimonials" style="padding:120px 48px; background: var(--ig-surface);">
   <div class="section-inner">
     <div style="text-align:center; margin-bottom:64px;">
       <div class="section-label">Testimonials</div>
@@ -1416,7 +1416,7 @@
     // Phase 3: Ambient living pulse
     .to('.hero-logo-png', {
       scale: 1.015,
-      filter: 'brightness(1.04) drop-shadow(0 0 14px rgba(0,140,101,0.18))',
+      filter: 'brightness(1.04) drop-shadow(0 0 14px rgba(80,200,120,0.18))',
       duration: 2.2,
       ease: 'sine.inOut',
       yoyo: true,
@@ -1645,7 +1645,7 @@
   .exit-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(10,31,23,0.6);
+    background: rgba(26,26,26,0.6);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 10000;
@@ -1686,8 +1686,8 @@
     height: 36px;
     border-radius: 50%;
     border: none;
-    background: var(--ig-surface, #f7f9f8);
-    color: var(--ig-ink-2, #4a6359);
+    background: var(--ig-surface, #F7F8F5);
+    color: var(--ig-ink-2, #6B7B6E);
     font-size: 20px;
     line-height: 1;
     cursor: pointer;
@@ -1696,12 +1696,12 @@
     justify-content: center;
     transition: background 0.3s ease;
   }
-  .exit-close:hover { background: var(--ig-light, #e6f5f0); }
+  .exit-close:hover { background: var(--ig-light, #E8F5EE); }
   .exit-icon {
     width: 56px;
     height: 56px;
     border-radius: 16px;
-    background: var(--ig-light, #e6f5f0);
+    background: var(--ig-light, #E8F5EE);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1712,12 +1712,12 @@
     font-family: var(--font-display, 'Space Grotesk', sans-serif);
     font-size: 24px;
     font-weight: 700;
-    color: var(--ig-ink, #0a1f17);
+    color: var(--ig-ink, #1A1A1A);
     margin-bottom: 8px;
   }
   .exit-text {
     font-size: 15px;
-    color: var(--ig-ink-2, #4a6359);
+    color: var(--ig-ink-2, #6B7B6E);
     line-height: 1.6;
     margin-bottom: 28px;
   }
@@ -1728,24 +1728,24 @@
   }
   .exit-form input {
     padding: 14px 18px;
-    border: 1.5px solid rgba(0,140,101,0.15);
+    border: 1.5px solid rgba(80,200,120,0.15);
     border-radius: 12px;
     font-size: 15px;
     font-family: var(--font-body, 'DM Sans', sans-serif);
-    color: var(--ig-ink, #0a1f17);
+    color: var(--ig-ink, #1A1A1A);
     background: #fff;
     transition: border-color 0.3s ease;
     outline: none;
   }
   .exit-form input:focus {
-    border-color: var(--ig, #008c65);
+    border-color: var(--ig, #50C878);
   }
   .exit-form input::placeholder {
-    color: var(--ig-ink-3, #8aa89a);
+    color: var(--ig-ink-3, #A8B5AC);
   }
   .exit-submit {
     padding: 16px;
-    background: var(--ig, #008c65);
+    background: var(--ig, #50C878);
     color: #fff;
     border: none;
     border-radius: 12px;
@@ -1759,12 +1759,12 @@
     margin-top: 4px;
   }
   .exit-submit:hover {
-    background: var(--ig-dark, #006b4d);
+    background: var(--ig-dark, #3DA35F);
     transform: translateY(-1px);
   }
   .exit-privacy {
     font-size: 11px;
-    color: var(--ig-ink-3, #8aa89a);
+    color: var(--ig-ink-3, #A8B5AC);
     margin-top: 16px;
   }
   @media (max-width: 480px) {
@@ -1875,7 +1875,7 @@
     border-radius: 16px;
     padding: 14px 18px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    border: 1px solid rgba(0,140,101,0.1);
+    border: 1px solid rgba(80,200,120,0.1);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -2026,7 +2026,7 @@
     transition: all 0.3s ease;
   }
   .custom-cursor svg path {
-    stroke: var(--ig, #008c65);
+    stroke: var(--ig, #50C878);
     stroke-width: 5;
     stroke-linecap: round;
     stroke-linejoin: round;
@@ -2037,7 +2037,7 @@
     transform: translate(-50%, -50%) scale(1.8);
   }
   .custom-cursor.hover svg path {
-    fill: var(--ig, #008c65);
+    fill: var(--ig, #50C878);
   }
   @media (pointer: coarse) {
     .custom-cursor { display: none !important; }

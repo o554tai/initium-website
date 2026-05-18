@@ -5,18 +5,19 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Office 3D Scan — INITIUM</title>
-<meta name="theme-color" content="#008c65">
+<meta name="theme-color" content="#50C878">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ig: #008c65;
-    --ig-dark: #006b4d;
-    --ig-light: #e6f5f0;
-    --ig-surface: #f7f9f8;
-    --ig-ink: #0a1f17;
-    --ig-ink-2: #4a6359;
-    --ig-ink-3: #8aa89a;
+    --ig: #50C878;
+    --ig-dark: #3DA35F;
+    --ig-light: #E8F5EE;
+    --ig-surface: #F7F8F5;
+    --ig-ink: #1A1A1A;
+    --ig-ink-2: #6B7B6E;
+    --ig-ink-3: #A8B5AC;
+    --font-editorial: 'Playfair Display', serif;
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'DM Sans', sans-serif;
   }
@@ -96,7 +97,7 @@
     background: #fff;
     border-radius: 16px;
     padding: 16px;
-    border: 1px solid rgba(0,140,101,0.08);
+    border: 1px solid rgba(80,200,120,0.08);
     text-align: center;
   }
   .gear-card .emoji {
@@ -118,14 +119,14 @@
     background: #fff;
     border-radius: 20px;
     padding: 20px;
-    border: 1px solid rgba(0,140,101,0.08);
+    border: 1px solid rgba(80,200,120,0.08);
   }
   .setting-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 12px 0;
-    border-bottom: 1px solid rgba(0,140,101,0.06);
+    border-bottom: 1px solid rgba(80,200,120,0.06);
   }
   .setting-row:last-child { border-bottom: none; }
   .setting-label {
@@ -160,14 +161,14 @@
     background: #fff;
     border-radius: 20px;
     overflow: hidden;
-    border: 1px solid rgba(0,140,101,0.08);
+    border: 1px solid rgba(80,200,120,0.08);
   }
   .checklist-item {
     display: flex;
     align-items: flex-start;
     gap: 14px;
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(0,140,101,0.06);
+    border-bottom: 1px solid rgba(80,200,120,0.06);
     cursor: pointer;
     transition: background 0.2s ease;
   }
@@ -202,7 +203,7 @@
     border-radius: 20px;
     padding: 20px;
     margin-bottom: 12px;
-    border: 1px solid rgba(0,140,101,0.08);
+    border: 1px solid rgba(80,200,120,0.08);
   }
   .room-card h3 {
     font-family: var(--font-display);
@@ -237,13 +238,13 @@
   }
 
   .tip-box {
-    background: linear-gradient(135deg, #e6f5f0, #f0f9f5);
+    background: linear-gradient(135deg, #E8F5EE, #f0f9f5);
     border-radius: 16px;
     padding: 16px 20px;
     font-size: 13px;
     line-height: 1.6;
     color: var(--ig-ink-2);
-    border: 1px solid rgba(0,140,101,0.1);
+    border: 1px solid rgba(80,200,120,0.1);
   }
   .tip-box strong {
     color: var(--ig-ink);
@@ -256,7 +257,7 @@
     left: 0;
     right: 0;
     background: #fff;
-    border-top: 1px solid rgba(0,140,101,0.08);
+    border-top: 1px solid rgba(80,200,120,0.08);
     padding: 16px 20px 24px;
     display: flex;
     gap: 12px;
@@ -284,7 +285,7 @@
   .cta-btn.secondary {
     background: var(--ig-surface);
     color: var(--ig-ink);
-    border: 1px solid rgba(0,140,101,0.12);
+    border: 1px solid rgba(80,200,120,0.12);
   }
 
   .progress-bar {

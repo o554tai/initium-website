@@ -49,7 +49,7 @@
   background: rgba(255,255,255,0.95);
   backdrop-filter: blur(20px) saturate(1.4);
   -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border-top: 1px solid rgba(0,140,101,0.1);
+  border-top: 1px solid rgba(80,200,120,0.1);
   padding: 12px 24px;
   display: flex;
   align-items: center;
@@ -151,7 +151,7 @@
 }
 .property-card:hover {
   transform: translateY(-6px) rotateX(2deg);
-  box-shadow: 0 20px 50px rgba(10,31,23,0.12);
+  box-shadow: 0 20px 50px rgba(26,26,26,0.12);
 }
 
 /* ── 3D Tour Badge ── */
@@ -171,7 +171,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 12px rgba(0,140,101,0.3);
+  box-shadow: 0 4px 12px rgba(80,200,120,0.3);
 }
 .tour-badge-3d::before {
   content: '';
@@ -184,4 +184,119 @@
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.6; transform: scale(0.8); }
+}
+
+
+/* ── Editorial Design System Additions ── */
+
+/* Editorial section labels */
+.editorial-label {
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ig);
+  margin-bottom: 16px;
+}
+
+/* Editorial headlines */
+.editorial-headline {
+  font-family: var(--font-editorial);
+  font-weight: 500;
+  color: var(--ig-ink);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+/* Editorial hero asymmetric layout */
+.editorial-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: 100vh;
+  gap: 64px;
+  padding: 120px 48px 80px;
+  background: var(--ig-surface);
+}
+.editorial-hero-text {
+  max-width: 560px;
+}
+.editorial-hero-text h1 {
+  font-family: var(--font-editorial);
+  font-size: clamp(42px, 5.5vw, 72px);
+  font-weight: 500;
+  line-height: 1.1;
+  color: var(--ig-ink);
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+}
+.editorial-hero-text p {
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--ig-ink-2);
+  margin-bottom: 40px;
+}
+.editorial-hero-media {
+  position: relative;
+  overflow: hidden;
+  border-radius: 4px;
+}
+.editorial-hero-media img {
+  width: 100%;
+  height: 70vh;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 900px) {
+  .editorial-hero {
+    grid-template-columns: 1fr;
+    padding: 100px 24px 60px;
+    gap: 40px;
+  }
+  .editorial-hero-media img { height: 45vh; }
+}
+
+/* Editorial link underline animation */
+.editorial-link {
+  text-decoration: none;
+  color: var(--ig-ink);
+  position: relative;
+  display: inline-block;
+}
+.editorial-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: var(--ig);
+  transition: width 0.5s cubic-bezier(0.16,1,0.3,1);
+}
+.editorial-link:hover::after {
+  width: 100%;
+}
+
+/* Editorial section spacing */
+.editorial-section {
+  padding: 120px 48px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+@media (max-width: 768px) {
+  .editorial-section {
+    padding: 80px 24px;
+  }
+}
+
+/* Editorial image treatment */
+.editorial-img {
+  overflow: hidden;
+  border-radius: 2px;
+}
+.editorial-img img {
+  transition: transform 1.2s cubic-bezier(0.16,1,0.3,1);
+}
+.editorial-img:hover img {
+  transform: scale(1.03);
 }
