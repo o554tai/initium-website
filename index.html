@@ -19,6 +19,7 @@
 <!-- Favicon -->
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="apple-touch-icon" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
 
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
@@ -1042,6 +1043,8 @@
 </script>
 </head>
 <body style="">
+<div class="scroll-progress" id="scrollProgress"></div>
+<div class="page-transition" id="pageTransition"><img src="logo-main.png" alt="INITIUM" class="page-transition-logo"></div>
 
 <nav id="navbar">
   <a href="https://initium.sg/" class="nav-logo">
@@ -1051,17 +1054,21 @@
     <li><a href="about.html">About</a></li>
     <li><a href="services.html">Services</a></li>
     <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="virtual-tours.html">Virtual Tours</a></li>
     <li><a href="team.html">Team</a></li>
     <li><a href="join.html">Join Us</a></li>
     <li><a href="blog.html">Pulse</a></li>
     <li><a href="intm-studio.html">INTM Studio</a></li>
     <li><a href="intm-shop.html">INTM Shop</a></li>
     <li><a href="contact.html">Contact</a></li>  </ul>
-  <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+  <div style="display:flex;align-items:center;gap:8px;">
+    <button class="dark-toggle" id="darkToggle" aria-label="Toggle dark mode" title="Toggle dark mode"></button>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
 </nav>
 
 <header class="hero" id="hero">
@@ -1280,6 +1287,11 @@
 </section>
 </a>
 
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-cta-text">Need help? <strong>We reply within 2 hours, 24/7</strong></span>
+  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." class="sticky-cta-btn" target="_blank">Chat on WhatsApp</a>
+</div>
+
 <footer>
   <div class="footer-main">
     <div class="footer-brand">
@@ -1482,6 +1494,59 @@
         document.body.style.overflow = '';
       }
     });
+  }
+
+  // Scroll Progress Bar
+  const scrollProgress = document.getElementById('scrollProgress');
+  if (scrollProgress) {
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollProgress.style.width = progress + '%';
+    }, { passive: true });
+  }
+
+  // Page Transition on link clicks
+  const pageTransition = document.getElementById('pageTransition');
+  document.querySelectorAll('a[href]').forEach(link => {
+    const href = link.getAttribute('href');
+    if (href && !href.startsWith('#') && !href.startsWith('http') && !href.startsWith('mailto') && !href.startsWith('tel')) {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (pageTransition) pageTransition.classList.add('active');
+        setTimeout(() => { window.location.href = href; }, 500);
+      });
+    }
+  });
+
+  // Dark Mode Toggle
+  const darkToggle = document.getElementById('darkToggle');
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  const savedDark = localStorage.getItem('initium-dark');
+  if (savedDark === 'true' || (!savedDark && prefersDark)) {
+    document.body.classList.add('dark-mode');
+    if (darkToggle) darkToggle.classList.add('dark');
+  }
+  if (darkToggle) {
+    darkToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-mode');
+      darkToggle.classList.toggle('dark', isDark);
+      localStorage.setItem('initium-dark', isDark);
+    });
+  }
+
+  // Sticky CTA Bar
+  const stickyCta = document.getElementById('stickyCta');
+  if (stickyCta) {
+    let ctaShown = false;
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight * 0.8) {
+        if (!ctaShown) { stickyCta.classList.add('visible'); ctaShown = true; }
+      } else {
+        if (ctaShown) { stickyCta.classList.remove('visible'); ctaShown = false; }
+      }
+    }, { passive: true });
   }
 
 </script>

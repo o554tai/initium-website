@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Tours — INITIUM | 3D Property Walkthroughs</title>
+<meta name="description" content="Experience Singapore properties like never before with INITIUM's photorealistic 3D virtual tours. Walk through new launches and resale homes from any device.">
+<meta name="theme-color" content="#008c65">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+  :root {
+    --ig: #008c65;
+    --ig-dark: #006b4d;
+    --ig-light: #e6f5f0;
+    --ig-surface: #f7f9f8;
+    --ig-ink: #0a1f17;
+    --ig-ink-2: #4a6359;
+    --ig-ink-3: #8aa89a;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 80px; width: auto; display: block; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
+
+  /* Mobile Hamburger */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    gap: 5px;
+    padding: 8px;
+    z-index: 1001;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--ig-ink);
+    border-radius: 2px;
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+  .nav-toggle.active span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .nav-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle.active span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  @media (max-width: 900px) {
+    .nav-toggle { display: flex; }
+    .nav-links {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(247,249,248,0.98);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 32px;
+      z-index: 999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .nav-links.open {
+      display: flex;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .nav-links a { font-size: 22px; font-weight: 600; color: var(--ig-ink); }
+    .nav-links a::after { display: none; }
+    nav { padding: 16px 24px; }
+  }
+
+  /* Hero */
+  .vt-hero {
+    position: relative;
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 140px 24px 80px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+  }
+  .vt-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .vt-hero-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ig);
+  }
+  .vt-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ig-ink);
+    max-width: 700px;
+    margin-bottom: 20px;
+  }
+  .vt-hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    color: var(--ig-ink-2);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .vt-hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 36px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    border: 2px solid var(--ig);
+  }
+  .vt-hero-cta:hover {
+    background: transparent;
+    color: var(--ig);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,140,101,0.15);
+  }
+
+  /* Section base */
+  section {
+    position: relative;
+    padding: 100px 48px;
+  }
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ig);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 4.5vw, 56px);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 600px;
+    margin-bottom: 24px;
+  }
+  .section-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    max-width: 540px;
+  }
+
+  /* How It Works */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .step-card {
+    background: #fff;
+    border: 1px solid rgba(0,140,101,0.08);
+    border-radius: 24px;
+    padding: 36px 28px;
+    text-align: center;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .step-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(0,140,101,0.08);
+    border-color: rgba(0,140,101,0.15);
+  }
+  .step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--ig-light);
+    color: var(--ig);
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+  }
+  .step-title {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .step-desc {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+  }
+
+  /* Tour Gallery */
+  .tour-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+    margin-top: 64px;
+  }
+  .tour-card {
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(0,140,101,0.08);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .tour-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,140,101,0.1);
+    border-color: rgba(0,140,101,0.15);
+  }
+  .tour-preview {
+    position: relative;
+    height: 300px;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .tour-preview iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .tour-preview-placeholder {
+    text-align: center;
+    padding: 40px;
+    color: var(--ig-ink-3);
+  }
+  .tour-preview-placeholder svg {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    opacity: 0.4;
+  }
+  .tour-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(8px);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ig);
+    z-index: 2;
+  }
+  .tour-info {
+    padding: 28px;
+  }
+  .tour-name {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .tour-loc {
+    font-size: 14px;
+    color: var(--ig-ink-3);
+    margin-bottom: 16px;
+  }
+  .tour-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--ig-ink-2);
+  }
+  .tour-meta span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .tour-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+  }
+  .tour-btn:hover {
+    background: var(--ig-dark);
+    transform: translateY(-1px);
+  }
+
+  /* Comparison Table */
+  .compare-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 48px;
+    background: #fff;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(0,140,101,0.08);
+  }
+  .compare-table th,
+  .compare-table td {
+    padding: 20px 24px;
+    text-align: left;
+    font-size: 15px;
+  }
+  .compare-table th {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ig-ink-3);
+    background: var(--ig-surface);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .compare-table td {
+    color: var(--ig-ink-2);
+    border-bottom: 1px solid rgba(0,140,101,0.06);
+  }
+  .compare-table tr:last-child td {
+    border-bottom: none;
+  }
+  .compare-table .highlight {
+    color: var(--ig);
+    font-weight: 600;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: linear-gradient(135deg, var(--ig) 0%, var(--ig-dark) 100%);
+    border-radius: 40px;
+    margin: 0 24px 24px;
+    padding: 80px 48px;
+    text-align: center;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute;
+    top: -20%; left: -10%;
+    width: 50%; height: 80%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-section::after {
+    content: '';
+    position: absolute;
+    bottom: -30%; right: -10%;
+    width: 60%; height: 100%;
+    background: radial-gradient(ellipse, rgba(212,234,234,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cta-title {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 56px);
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-text {
+    font-size: 17px;
+    opacity: 0.85;
+    max-width: 520px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 18px 40px;
+    background: #fff;
+    color: var(--ig);
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    position: relative;
+    z-index: 2;
+  }
+  .cta-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--ig-light);
+    padding: 64px 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-col-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }
+  .footer-col a {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-col a:hover { color: var(--ig); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--ig-light);
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-legal {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-legal a {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-legal a:hover { color: var(--ig); }
+
+  /* Sticky CTA */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-top: 1px solid rgba(0,140,101,0.1);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    z-index: 9997;
+    transform: translateY(100%);
+    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .sticky-cta.visible { transform: translateY(0); }
+  .sticky-cta-text { font-size: 14px; font-weight: 500; color: var(--ig-ink); }
+  .sticky-cta-text strong { color: var(--ig); }
+  .sticky-cta-btn {
+    padding: 10px 24px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 100px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  .sticky-cta-btn:hover { background: var(--ig-dark); transform: translateY(-1px); }
+
+  @media (max-width: 900px) {
+    section { padding: 80px 24px; }
+    .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .tour-grid { grid-template-columns: 1fr; }
+    .compare-table th, .compare-table td { padding: 14px 16px; font-size: 13px; }
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+    .cta-section { margin: 0 12px 12px; border-radius: 24px; padding: 60px 24px; }
+    .vt-hero { padding: 120px 24px 60px; }
+  }
+  @media (max-width: 600px) {
+    .steps-grid { grid-template-columns: 1fr; }
+    .sticky-cta { padding: 10px 16px; gap: 10px; }
+    .sticky-cta-text { font-size: 12px; }
+    .sticky-cta-btn { padding: 8px 16px; font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav-crop.png" alt="INITIUM" height="56" style="background:transparent;" loading="lazy">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="blog.html">Pulse</a></li>
+    <li><a href="intm-studio.html">INTM Studio</a></li>
+    <li><a href="intm-shop.html">INTM Shop</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</nav>
+
+<header class="vt-hero">
+  <div class="vt-hero-label">Virtual Tours</div>
+  <h1 class="vt-hero-title">Walk Through Properties Before You Visit</h1>
+  <p class="vt-hero-sub">Photorealistic 3D tours powered by Gaussian Splatting. Experience every corner of a home from your phone, tablet, or desktop — no app download required.</p>
+  <a href="#tours" class="vt-hero-cta">Explore Tours</a>
+</header>
+
+<section id="how">
+  <div class="section-inner">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">From Scan to Screen in 24 Hours</h2>
+    <p class="section-text">Our team captures your property using advanced 3D photon mapping, then delivers a lightweight, shareable tour you can embed anywhere.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-title">Capture</div>
+        <div class="step-desc">We scan the property in 5–8 minutes using an iPhone or professional camera rig. Every angle, every surface.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-title">Process</div>
+        <div class="step-desc">Clean, compress, and optimize the 3D data. Remove floaters, crop to boundaries, reduce file size for mobile.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-title">Publish</div>
+        <div class="step-desc">Host the tour on our CDN. Get a shareable link or an embed code for your listing page.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="step-title">Share</div>
+        <div class="step-desc">Buyers walk through on any device. Pinch to zoom, drag to look around, tap to move forward.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tours" style="background: var(--ig-surface);">
+  <div class="section-inner">
+    <div class="section-label">Tour Gallery</div>
+    <h2 class="section-title">Featured Properties</h2>
+    <p class="section-text">Tap any tour to enter the full immersive experience. These are live 3D environments, not pre-rendered videos.</p>
+    <div class="tour-grid">
+      <div class="tour-card">
+        <div class="tour-preview">
+          <div class="tour-preview-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <p>3D tour placeholder</p>
+            <p style="font-size:12px;margin-top:4px;">Replace iframe src with your SuperSplat / PlayCanvas URL</p>
+          </div>
+          <div class="tour-badge">New Launch</div>
+        </div>
+        <div class="tour-info">
+          <div class="tour-name">Hudson Place Residences</div>
+          <div class="tour-loc">Media Circle, District 05</div>
+          <div class="tour-meta">
+            <span>📱 Mobile</span>
+            <span>🎥 3D</span>
+            <span>⚡ 45 MB</span>
+          </div>
+          <a href="#" class="tour-btn">Enter Tour</a>
+        </div>
+      </div>
+      <div class="tour-card">
+        <div class="tour-preview">
+          <div class="tour-preview-placeholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+            <p>3D tour placeholder</p>
+            <p style="font-size:12px;margin-top:4px;">Replace iframe src with your SuperSplat / PlayCanvas URL</p>
+          </div>
+          <div class="tour-badge">Showflat</div>
+        </div>
+        <div class="tour-info">
+          <div class="tour-name">Dunearn House</div>
+          <div class="tour-loc">Turf City, District 11</div>
+          <div class="tour-meta">
+            <span>📱 Mobile</span>
+            <span>🎥 3D</span>
+            <span>⚡ 38 MB</span>
+          </div>
+          <a href="#" class="tour-btn">Enter Tour</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="compare">
+  <div class="section-inner">
+    <div class="section-label">Why 3D Tours</div>
+    <h2 class="section-title">INITIUM 3D vs Traditional Viewing</h2>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Physical Viewing</th>
+          <th>Video Walkthrough</th>
+          <th class="highlight">INITIUM 3D Tour</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Setup time</td>
+          <td>2–3 days</td>
+          <td>1–2 hours</td>
+          <td class="highlight">5–8 minutes</td>
+        </tr>
+        <tr>
+          <td>Viewer control</td>
+          <td>Full</td>
+          <td>None (linear)</td>
+          <td class="highlight">Full (free roam)</td>
+        </tr>
+        <tr>
+          <td>Mobile friendly</td>
+          <td>N/A</td>
+          <td>Yes</td>
+          <td class="highlight">Yes (60fps)</td>
+        </tr>
+        <tr>
+          <td>Cost per listing</td>
+          <td>$0</td>
+          <td>$300–800</td>
+          <td class="highlight">$0–$150</td>
+        </tr>
+        <tr>
+          <td>Revisit anytime</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td class="highlight">Yes</td>
+        </tr>
+        <tr>
+          <td>Shareable link</td>
+          <td>No</td>
+          <td>Yes</td>
+          <td class="highlight">Yes (embeddable)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="book" class="cta-section">
+  <div class="section-inner" style="position:relative; z-index:2;">
+    <h2 class="cta-title">Ready for Your First 3D Tour?</h2>
+    <p class="cta-text">Book a free scan of your listing or showflat. No commitment, no hidden fees. See the results before you decide.</p>
+    <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%20want%20to%20book%20a%203D%20virtual%20tour%20for%20my%20property." class="cta-btn" target="_blank">Book a Free Scan</a>
+  </div>
+</section>
+
+<div class="sticky-cta" id="stickyCta">
+  <span class="sticky-cta-text">Need help? <strong>We reply within 2 hours, 24/7</strong></span>
+  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%203D%20virtual%20tours." class="sticky-cta-btn" target="_blank">Chat on WhatsApp</a>
+</div>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
+      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">Igniting Journeys</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="new-launches.html">New Launches</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="team.html">Team</a>
+      <a href="join.html">Join Us</a>
+      <a href="blog.html">Blog</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="https://wa.me/6588464814" target="_blank">WhatsApp</a>
+      <a href="https://www.instagram.com/initium.grp" target="_blank">Instagram</a>
+      <a href="mailto:hello@initium.sg">Email</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 INITIUM. Igniting Journeys.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll background
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
+  }, { passive: true });
+
+  // Mobile menu
+  const navToggle = document.querySelector('.nav-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  if (navToggle && navLinks) {
+    navToggle.addEventListener('click', () => {
+      const isOpen = navLinks.classList.toggle('open');
+      navToggle.classList.toggle('active');
+      navToggle.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.classList.remove('active');
+        navToggle.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+  }
+
+  // Sticky CTA
+  const stickyCta = document.getElementById('stickyCta');
+  if (stickyCta) {
+    let ctaShown = false;
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight * 0.8) {
+        if (!ctaShown) { stickyCta.classList.add('visible'); ctaShown = true; }
+      } else {
+        if (ctaShown) { stickyCta.classList.remove('visible'); ctaShown = false; }
+      }
+    }, { passive: true });
+  }
+
+  // GSAP animations
+  gsap.registerPlugin(ScrollTrigger);
+  gsap.from('.step-card', {
+    y: 60, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out',
+    scrollTrigger: { trigger: '.steps-grid', start: 'top 80%' }
+  });
+  gsap.from('.tour-card', {
+    y: 60, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+    scrollTrigger: { trigger: '.tour-grid', start: 'top 80%' }
+  });
+  gsap.from('.compare-table', {
+    y: 40, opacity: 0, duration: 1, ease: 'power3.out',
+    scrollTrigger: { trigger: '.compare-table', start: 'top 85%' }
+  });
+</script>
+
+</body>
+</html>
