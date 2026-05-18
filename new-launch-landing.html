@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exclusive New Launch Preview | INITIUM</title>
+    <meta name="description" content="Get first access to exclusive new launch previews. Limited units available. Register your interest with INITIUM today.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://initium.sg/logo-nav-crop.png">
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR_PIXEL_ID_HERE');
+    fbq('track', 'PageView');
+    </script>
+    <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID_HERE&ev=PageView&noscript=1"/>
+    </noscript>
+    <!-- End Meta Pixel Code -->
+    <style>
+        :root {
+            --emerald: #50C878;
+            --emerald-dark: #3da85e;
+            --emerald-light: #e8f7ed;
+            --black: #0a0a0a;
+            --dark: #1a1a1a;
+            --gray-900: #2d2d2d;
+            --gray-700: #4a4a4a;
+            --gray-500: #6b6b6b;
+            --gray-300: #b0b0b0;
+            --gray-100: #f5f5f5;
+            --white: #ffffff;
+            --success: #22c55e;
+            --warning: #f59e0b;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--dark);
+            background: var(--white);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            transition: all 0.3s ease;
+        }
+        .navbar-inner {
+            max-width: 1200px; margin: 0 auto;
+            padding: 0 24px;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 64px;
+        }
+        .navbar-logo {
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 700; font-size: 18px; color: var(--black);
+        }
+        .navbar-logo img { height: 32px; width: auto; }
+        .navbar-phone {
+            display: flex; align-items: center; gap: 8px;
+            font-weight: 600; font-size: 14px; color: var(--emerald-dark);
+            padding: 8px 16px; border-radius: 8px;
+            background: var(--emerald-light);
+            transition: all 0.2s;
+        }
+        .navbar-phone:hover { background: var(--emerald); color: var(--white); }
+        .navbar-phone svg { width: 16px; height: 16px; }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center;
+            background: linear-gradient(135deg, var(--black) 0%, var(--gray-900) 50%, var(--dark) 100%);
+            position: relative;
+            overflow: hidden;
+            padding: 100px 24px 80px;
+        }
+        .hero::before {
+            content: ''; position: absolute;
+            top: -50%; right: -20%; width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(80,200,120,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center;
+            position: relative; z-index: 2;
+            width: 100%;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(80,200,120,0.15);
+            color: var(--emerald); font-size: 12px; font-weight: 600;
+            text-transform: uppercase; letter-spacing: 1px;
+            padding: 8px 16px; border-radius: 100px;
+            border: 1px solid rgba(80,200,120,0.25);
+            margin-bottom: 24px;
+        }
+        .hero-badge .pulse {
+            width: 8px; height: 8px; background: var(--emerald);
+            border-radius: 50%; animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .hero h1 {
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 800; color: var(--white);
+            line-height: 1.1; letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+        .hero h1 span { color: var(--emerald); }
+        .hero-subtitle {
+            font-size: 18px; color: var(--gray-300);
+            line-height: 1.7; margin-bottom: 32px;
+            max-width: 520px;
+        }
+        .hero-stats {
+            display: flex; gap: 32px; margin-bottom: 32px;
+        }
+        .hero-stat { text-align: left; }
+        .hero-stat-number {
+            font-size: 32px; font-weight: 800; color: var(--emerald);
+            line-height: 1;
+        }
+        .hero-stat-label {
+            font-size: 13px; color: var(--gray-500);
+            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-top: 4px;
+        }
+        .hero-trust {
+            display: flex; align-items: center; gap: 12px;
+            margin-top: 24px;
+        }
+        .hero-trust-avatars {
+            display: flex;
+        }
+        .hero-trust-avatars img {
+            width: 36px; height: 36px; border-radius: 50%;
+            border: 2px solid var(--dark); margin-left: -10px;
+            object-fit: cover;
+        }
+        .hero-trust-avatars img:first-child { margin-left: 0; }
+        .hero-trust-text {
+            font-size: 13px; color: var(--gray-500);
+        }
+        .hero-trust-text strong { color: var(--white); }
+
+        /* ===== FORM CARD ===== */
+        .form-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        .form-card-header {
+            margin-bottom: 24px;
+        }
+        .form-card-header h2 {
+            font-size: 24px; font-weight: 700;
+            color: var(--black); margin-bottom: 6px;
+        }
+        .form-card-header p {
+            font-size: 14px; color: var(--gray-500);
+        }
+        .form-group { margin-bottom: 16px; }
+        .form-group label {
+            display: block; font-size: 13px; font-weight: 600;
+            color: var(--gray-700); margin-bottom: 6px;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%; padding: 14px 16px;
+            border: 1.5px solid var(--gray-300);
+            border-radius: 10px; font-size: 15px;
+            font-family: inherit; color: var(--dark);
+            background: var(--white);
+            transition: all 0.2s;
+            -webkit-appearance: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none; border-color: var(--emerald);
+            box-shadow: 0 0 0 3px rgba(80,200,120,0.15);
+        }
+        .form-group input::placeholder { color: var(--gray-300); }
+        .form-row {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+        }
+        .btn-primary {
+            width: 100%; padding: 16px 24px;
+            background: var(--emerald); color: var(--white);
+            border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 700;
+            font-family: inherit; cursor: pointer;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary:hover {
+            background: var(--emerald-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(80,200,120,0.35);
+        }
+        .btn-primary:active { transform: translateY(0); }
+        .form-note {
+            text-align: center; font-size: 12px;
+            color: var(--gray-500); margin-top: 16px;
+        }
+        .form-note a { color: var(--emerald-dark); text-decoration: underline; }
+        .form-urgency {
+            display: flex; align-items: center; justify-content: center;
+            gap: 8px; margin-top: 16px;
+            font-size: 13px; color: var(--warning);
+            font-weight: 600;
+        }
+
+        /* ===== HIGHLIGHTS ===== */
+        .highlights {
+            padding: 100px 24px;
+            background: var(--gray-100);
+        }
+        .highlights-inner {
+            max-width: 1200px; margin: 0 auto;
+        }
+        .section-header {
+            text-align: center; margin-bottom: 60px;
+        }
+        .section-header h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800; color: var(--black);
+            margin-bottom: 12px;
+        }
+        .section-header p {
+            font-size: 18px; color: var(--gray-500);
+            max-width: 600px; margin: 0 auto;
+        }
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .highlight-card {
+            background: var(--white);
+            border-radius: 16px; padding: 32px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s;
+        }
+        .highlight-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+        .highlight-icon {
+            width: 52px; height: 52px;
+            background: var(--emerald-light);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+        }
+        .highlight-icon svg { width: 24px; height: 24px; color: var(--emerald); }
+        .highlight-card h3 {
+            font-size: 18px; font-weight: 700;
+            color: var(--black); margin-bottom: 8px;
+        }
+        .highlight-card p {
+            font-size: 14px; color: var(--gray-500);
+            line-height: 1.6;
+        }
+
+        /* ===== LOCATION / MAP SECTION ===== */
+        .location {
+            padding: 100px 24px;
+            background: var(--white);
+        }
+        .location-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 60px; align-items: center;
+        }
+        .location-info h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800; color: var(--black);
+            margin-bottom: 16px;
+        }
+        .location-info p {
+            font-size: 16px; color: var(--gray-500);
+            margin-bottom: 24px; line-height: 1.7;
+        }
+        .location-list {
+            list-style: none;
+        }
+        .location-list li {
+            display: flex; align-items: flex-start; gap: 12px;
+            margin-bottom: 16px; font-size: 15px;
+            color: var(--gray-700);
+        }
+        .location-list li svg {
+            width: 20px; height: 20px; color: var(--emerald);
+            flex-shrink: 0; margin-top: 2px;
+        }
+        .location-map {
+            background: var(--gray-100);
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            position: relative;
+        }
+        .location-map iframe {
+            width: 100%; height: 100%; border: 0;
+        }
+
+        /* ===== SOCIAL PROOF ===== */
+        .social-proof {
+            padding: 100px 24px;
+            background: var(--black);
+            color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        .social-proof::before {
+            content: ''; position: absolute;
+            bottom: -30%; left: -10%; width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(80,200,120,0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .social-proof-inner {
+            max-width: 1200px; margin: 0 auto;
+            position: relative; z-index: 2;
+        }
+        .social-proof .section-header h2 { color: var(--white); }
+        .social-proof .section-header p { color: var(--gray-300); }
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px; margin-top: 60px;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; padding: 32px;
+            backdrop-filter: blur(10px);
+        }
+        .testimonial-stars {
+            color: var(--warning); font-size: 18px;
+            margin-bottom: 16px; letter-spacing: 2px;
+        }
+        .testimonial-text {
+            font-size: 15px; color: var(--gray-300);
+            line-height: 1.7; margin-bottom: 20px;
+            font-style: italic;
+        }
+        .testimonial-author {
+            display: flex; align-items: center; gap: 12px;
+        }
+        .testimonial-author img {
+            width: 44px; height: 44px; border-radius: 50%;
+            object-fit: cover;
+        }
+        .testimonial-author-info h4 {
+            font-size: 15px; font-weight: 600; color: var(--white);
+        }
+        .testimonial-author-info p {
+            font-size: 13px; color: var(--gray-500);
+        }
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px; margin-top: 60px;
+            padding-top: 60px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .stats-bar-item { text-align: center; }
+        .stats-bar-item h3 {
+            font-size: 36px; font-weight: 800; color: var(--emerald);
+        }
+        .stats-bar-item p {
+            font-size: 14px; color: var(--gray-500);
+            margin-top: 4px;
+        }
+
+        /* ===== FAQ ===== */
+        .faq {
+            padding: 100px 24px;
+            background: var(--gray-100);
+        }
+        .faq-inner {
+            max-width: 800px; margin: 0 auto;
+        }
+        .faq-list { margin-top: 60px; }
+        .faq-item {
+            background: var(--white);
+            border-radius: 12px; margin-bottom: 12px;
+            border: 1px solid rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        .faq-question {
+            width: 100%; padding: 20px 24px;
+            background: none; border: none;
+            font-family: inherit; font-size: 16px;
+            font-weight: 600; color: var(--dark);
+            text-align: left; cursor: pointer;
+            display: flex; justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        .faq-question:hover { color: var(--emerald-dark); }
+        .faq-question svg {
+            width: 20px; height: 20px;
+            color: var(--gray-500);
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+        .faq-item.active .faq-question svg { transform: rotate(180deg); }
+        .faq-answer {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 24px 20px;
+        }
+        .faq-answer p {
+            font-size: 15px; color: var(--gray-500);
+            line-height: 1.7;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            padding: 100px 24px;
+            background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-dark) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-section::before {
+            content: ''; position: absolute;
+            top: -50%; left: 50%; transform: translateX(-50%);
+            width: 800px; height: 800px;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-inner { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; }
+        .cta-section h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800; color: var(--white);
+            margin-bottom: 16px;
+        }
+        .cta-section p {
+            font-size: 18px; color: rgba(255,255,255,0.85);
+            margin-bottom: 32px;
+        }
+        .btn-white {
+            display: inline-flex; align-items: center; gap: 10px;
+            background: var(--white); color: var(--emerald-dark);
+            padding: 16px 40px; border-radius: 10px;
+            font-size: 16px; font-weight: 700;
+            transition: all 0.2s; border: none;
+            font-family: inherit; cursor: pointer;
+        }
+        .btn-white:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.2);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            padding: 60px 24px 40px;
+            background: var(--black);
+            color: var(--gray-500);
+        }
+        .footer-inner {
+            max-width: 1200px; margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        .footer-brand img { height: 36px; margin-bottom: 16px; }
+        .footer-brand p { font-size: 14px; line-height: 1.7; }
+        .footer-col h4 {
+            font-size: 14px; font-weight: 700;
+            color: var(--white); text-transform: uppercase;
+            letter-spacing: 0.5px; margin-bottom: 16px;
+        }
+        .footer-col a {
+            display: block; font-size: 14px;
+            margin-bottom: 10px; transition: color 0.2s;
+        }
+        .footer-col a:hover { color: var(--emerald); }
+        .footer-bottom {
+            max-width: 1200px; margin: 40px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            display: flex; justify-content: space-between;
+            align-items: center; font-size: 13px;
+        }
+        .footer-bottom a { margin-left: 24px; }
+        .footer-bottom a:hover { color: var(--emerald); }
+
+        /* ===== WHATSAPP FAB ===== */
+        .whatsapp-fab {
+            position: fixed; bottom: 24px; right: 24px;
+            width: 60px; height: 60px;
+            background: #25D366; color: white;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 16px rgba(37,211,102,0.4);
+            z-index: 1000;
+            transition: all 0.3s;
+            animation: fab-bounce 2s infinite;
+        }
+        .whatsapp-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 24px rgba(37,211,102,0.5);
+        }
+        @keyframes fab-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 900px) {
+            .hero-inner { grid-template-columns: 1fr; gap: 40px; }
+            .hero { padding-top: 100px; }
+            .hero-stats { gap: 20px; }
+            .hero-stat-number { font-size: 24px; }
+            .location-inner { grid-template-columns: 1fr; gap: 40px; }
+            .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .footer-inner { grid-template-columns: 1fr 1fr; }
+            .form-card { padding: 28px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            .navbar-inner { height: 56px; }
+            .navbar-logo span { display: none; }
+            .highlights-grid { grid-template-columns: 1fr; }
+            .testimonials { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: 1fr 1fr; }
+            .footer-inner { grid-template-columns: 1fr; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+            .hero-trust { flex-wrap: wrap; }
+            .whatsapp-fab { width: 52px; height: 52px; bottom: 16px; right: 16px; }
+        }
+
+        /* ===== SUCCESS STATE ===== */
+        .form-success {
+            display: none;
+            text-align: center; padding: 40px 20px;
+        }
+        .form-success.active { display: block; }
+        .form-success svg {
+            width: 64px; height: 64px; color: var(--success);
+            margin-bottom: 20px;
+        }
+        .form-success h3 {
+            font-size: 24px; font-weight: 700;
+            color: var(--black); margin-bottom: 8px;
+        }
+        .form-success p {
+            font-size: 15px; color: var(--gray-500);
+            margin-bottom: 24px;
+        }
+        .form-success .btn-primary {
+            width: auto; display: inline-flex;
+            padding: 14px 32px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="navbar-inner">
+        <a href="/" class="navbar-logo">
+            <img src="https://initium.sg/logo-nav-crop.png" alt="INITIUM">
+            <span>INITIUM</span>
+        </a>
+        <a href="https://wa.me/659xxxxxxx?text=Hi%20INITIUM%2C%20I'm%20interested%20in%20the%20new%20launch" class="navbar-phone">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+            Call / WhatsApp
+        </a>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse"></span>
+                VVIP Preview Access
+            </div>
+            <h1>Secure Your <span>VVIP Preview</span> to Singapore's Most Anticipated New Launch</h1>
+            <p class="hero-subtitle">
+                Be the first to view floor plans, pricing, and unit selection — before the public launch.
+                INITIUM clients get priority ballot access.
+            </p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-number">Dxx</div>
+                    <div class="hero-stat-label">Prime District</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">xxx</div>
+                    <div class="hero-stat-label">Units</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-number">99yr</div>
+                    <div class="hero-stat-label">Leasehold</div>
+                </div>
+            </div>
+            <div class="hero-trust">
+                <div class="hero-trust-avatars">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Buyer">
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Buyer">
+                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&h=100&fit=crop&crop=face" alt="Buyer">
+                </div>
+                <p class="hero-trust-text"><strong>127 buyers</strong> registered in the last 7 days</p>
+            </div>
+        </div>
+
+        <div class="form-card">
+            <div id="leadForm">
+                <div class="form-card-header">
+                    <h2>Register Your Interest</h2>
+                    <p>Get first access to pricing, floor plans & showflat preview dates.</p>
+                </div>
+                <form onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Tan" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone (WhatsApp)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+65 9123 4567" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="john@email.com" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="budget">Budget Range</label>
+                            <select id="budget" name="budget" required>
+                                <option value="" disabled selected>Select budget</option>
+                                <option value="1-1.5m">S$1M – S$1.5M</option>
+                                <option value="1.5-2m">S$1.5M – S$2M</option>
+                                <option value="2-3m">S$2M – S$3M</option>
+                                <option value="3-5m">S$3M – S$5M</option>
+                                <option value="5m+">S$5M+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="unitType">Unit Type</label>
+                            <select id="unitType" name="unitType" required>
+                                <option value="" disabled selected>Select type</option>
+                                <option value="1bed">1 Bedroom</option>
+                                <option value="2bed">2 Bedroom</option>
+                                <option value="3bed">3 Bedroom</option>
+                                <option value="4bed">4 Bedroom</option>
+                                <option value="penthouse">Penthouse</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                        Get VVIP Access
+                    </button>
+                    <p class="form-note">
+                        By registering, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms</a>.
+                        No spam. Unsubscribe anytime.
+                    </p>
+                    <div class="form-urgency">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        Preview slots fill fast. Register now to secure yours.
+                    </div>
+                </form>
+            </div>
+            <div class="form-success" id="formSuccess">
+                <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <h3>You're on the List!</h3>
+                <p>We've received your interest. Our team will WhatsApp you within 24 hours with exclusive preview details.</p>
+                <a href="https://wa.me/659xxxxxxx?text=Hi%20INITIUM%2C%20I%20just%20registered%20for%20the%20VVIP%20preview" class="btn-primary">
+                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Chat on WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="highlights">
+    <div class="highlights-inner">
+        <div class="section-header">
+            <h2>Why This Launch Stands Out</h2>
+            <p>Every detail designed for modern urban living in Singapore's most sought-after district.</p>
+        </div>
+        <div class="highlights-grid">
+            <div class="highlight-card">
+                <div class="highlight-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                </div>
+                <h3>Prime Location</h3>
+                <p>Minutes from MRT, top schools, and major shopping districts. Future capital appreciation backed by URA master plan.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                </div>
+                <h3>Thoughtful Design</h3>
+                <p>Renowned architect with award-winning portfolio. Efficient layouts, premium finishes, and smart home integration.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                </div>
+                <h3>Strong Entry Price</h3>
+                <p>Competitive psf pricing compared to surrounding resale and recent launches. Early buyers capture the best units.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+                <h3>Trusted Developer</h3>
+                <p>Track record of on-time delivery and quality construction. Previous projects achieved 15–25% capital appreciation.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <h3>VVIP First Access</h3>
+                <p>INITIUM registered buyers get priority ballot before public launch. Best floor plans and views go to early registrants.</p>
+            </div>
+            <div class="highlight-card">
+                <div class="highlight-icon">
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                </div>
+                <h3>Full-Service Support</h3>
+                <p>From ABSD calculation to mortgage advisory and solicitor referrals. We handle the complexity so you don't have to.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location">
+    <div class="location-inner">
+        <div class="location-info">
+            <h2>Location That Works for You</h2>
+            <p>Connectivity, convenience, and lifestyle — all within reach. This is more than an address; it's a strategic asset.</p>
+            <ul class="location-list">
+                <li>
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span><strong>3 min walk</strong> to nearest MRT station</span>
+                </li>
+                <li>
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span><strong>Top primary schools</strong> within 1km radius</span>
+                </li>
+                <li>
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span><strong>Major shopping malls</strong> & supermarkets nearby</span>
+                </li>
+                <li>
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span><strong>Expressway access</strong> to CBD in under 15 minutes</span>
+                </li>
+                <li>
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+                    <span><strong>Upcoming URA transformation</strong> plans in the precinct</span>
+                </li>
+            </ul>
+        </div>
+        <div class="location-map">
+            <!-- Replace with actual Google Maps embed for the specific project -->
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8!2d103.85!3d1.35!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMcKwMjEnMDAiTiAxMDPCsDUxJzAwIkU!5e0!3m2!1sen!2ssg!4v1600000000000!5m2!1sen!2ssg" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- SOCIAL PROOF -->
+<section class="social-proof">
+    <div class="social-proof-inner">
+        <div class="section-header">
+            <h2>Trusted by Property Buyers</h2>
+            <p>Real buyers. Real results. INITIUM has helped hundreds secure their ideal property at launch prices.</p>
+        </div>
+        <div class="testimonials">
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"Got my unit at launch price thanks to the VVIP access. The team handled everything from ABSD to loan advisory. Couldn't have done it without them."</p>
+                <div class="testimonial-author">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face" alt="Client">
+                    <div class="testimonial-author-info">
+                        <h4>Jason L.</h4>
+                        <p>Bought 3-bed unit at 2024 launch</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"The preview access meant I got to choose a high-floor unit before the public even knew the pricing. Already seeing paper gains."</p>
+                <div class="testimonial-author">
+                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face" alt="Client">
+                    <div class="testimonial-author-info">
+                        <h4>Sarah T.</h4>
+                        <p>Investor, 2 properties with INITIUM</p>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-stars">★★★★★</div>
+                <p class="testimonial-text">"First-time buyer and had no clue about the process. They explained every step, got me the best unit for my budget, and even referred a great lawyer."</p>
+                <div class="testimonial-author">
+                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face" alt="Client">
+                    <div class="testimonial-author-info">
+                        <h4>Michael C.</h4>
+                        <p>First-time buyer, 2-bed unit</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="stats-bar">
+            <div class="stats-bar-item">
+                <h3>S$2.1B+</h3>
+                <p>Property Value Sold</p>
+            </div>
+            <div class="stats-bar-item">
+                <h3>500+</h3>
+                <p>Happy Buyers</p>
+            </div>
+            <div class="stats-bar-item">
+                <h3>70+</h3>
+                <p>Agents Nationwide</p>
+            </div>
+            <div class="stats-bar-item">
+                <h3>4.9/5</h3>
+                <p>Client Satisfaction</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq">
+    <div class="faq-inner">
+        <div class="section-header">
+            <h2>Frequently Asked Questions</h2>
+            <p>Everything you need to know about registering for the VVIP preview.</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item active">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Is there any fee to register for the VVIP preview?
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>No, registration is completely free. There is no obligation to purchase. You will receive exclusive access to floor plans, pricing, and showflat preview dates before the public launch.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    When will the showflat preview take place?
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>VVIP previews typically happen 1–2 weeks before the public launch. Exact dates are shared exclusively with registered buyers via WhatsApp once confirmed by the developer.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    What do I need to bring to the preview?
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Bring your NRIC or passport for registration, and a copy of your In-Principle Approval (IPA) from the bank if you plan to make a booking. We can help you secure an IPA before the preview.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    Can I buy as a foreigner or PR?
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>Yes, both PRs and foreigners can purchase. Different stamp duty rates apply (ABSD for foreigners is 60%, PRs pay 5% for first property). We provide full advisory on your specific situation.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFaq(this)">
+                    How is INITIUM different from other agencies?
+                    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+                </button>
+                <div class="faq-answer">
+                    <p>INITIUM is a collective of 70+ agents with direct developer relationships. We get priority ballot access, have in-house mortgage advisory, and our buyers consistently secure better units at launch prices.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="register">
+    <div class="cta-inner">
+        <h2>Don't Miss the Launch</h2>
+        <p>The best units, floor plans, and pricing go to those who register first. Join 127 buyers who've already secured their VVIP slot.</p>
+        <a href="#" class="btn-white" onclick="scrollToForm(); return false;">
+            Register Now — It's Free
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="https://initium.sg/logo-nav-crop.png" alt="INITIUM">
+            <p>A collective of top-performing property consultants in Singapore. We don't just sell homes — we build legacies.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <a href="/about.html">About</a>
+            <a href="/team.html">Our Team</a>
+            <a href="/join.html">Join Us</a>
+        </div>
+        <div class="footer-col">
+            <h4>Services</h4>
+            <a href="/services.html">Buy</a>
+            <a href="/services.html">Sell</a>
+            <a href="/services.html">Rent</a>
+        </div>
+        <div class="footer-col">
+            <h4>Legal</h4>
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 INITIUM. All rights reserved.</span>
+        <div>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+        </div>
+    </div>
+</footer>
+
+<!-- WHATSAPP FAB -->
+<a href="https://wa.me/659xxxxxxx?text=Hi%20INITIUM%2C%20I'm%20interested%20in%20the%20new%20launch" class="whatsapp-fab" aria-label="Chat on WhatsApp">
+    <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<script>
+    // Form handling
+    function handleSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+        const values = Object.fromEntries(data.entries());
+
+        // Track Meta Pixel Lead event
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Lead', {
+                content_name: 'New Launch VVIP Registration',
+                currency: 'SGD',
+                value: 0.00
+            });
+        }
+
+        // Track Microsoft UET conversion (if installed)
+        if (typeof window.uetq !== 'undefined') {
+            window.uetq.push('event', 'submit_lead_form', {});
+        }
+
+        // TODO: Replace with your actual form submission endpoint
+        // Options:
+        // 1. Google Sheets + Apps Script (free)
+        // 2. Formspree (free tier)
+        // 3. Airtable (free tier)
+        // 4. Email via your backend
+        console.log('Form submitted:', values);
+
+        // Show success state
+        document.getElementById('leadForm').style.display = 'none';
+        document.getElementById('formSuccess').classList.add('active');
+
+        // Send WhatsApp notification (optional - server-side recommended)
+        // const msg = `New VVIP Registration:%0AName: ${values.firstName} ${values.lastName}%0APhone: ${values.phone}%0AEmail: ${values.email}%0ABudget: ${values.budget}%0AUnit: ${values.unitType}`;
+        // fetch(`https://api.callmebot.com/whatsapp.php?phone=YOUR_NUMBER&text=${msg}&apikey=YOUR_KEY`);
+
+        return false;
+    }
+
+    // FAQ toggle
+    function toggleFaq(btn) {
+        const item = btn.parentElement;
+        const isActive = item.classList.contains('active');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+        if (!isActive) item.classList.add('active');
+    }
+
+    // Smooth scroll to form
+    function scrollToForm() {
+        document.querySelector('.form-card').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const nav = document.querySelector('.navbar');
+        if (window.scrollY > 50) {
+            nav.style.boxShadow = '0 2px 20px rgba(0,0,0,0.08)';
+        } else {
+            nav.style.boxShadow = 'none';
+        }
+    });
+
+    // Update phone number placeholders
+    // Replace 659xxxxxxx with your actual WhatsApp number everywhere in this file
+</script>
+
+</body>
+</html>
