@@ -2,68 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://initium.sg/</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://initium.sg/about.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://initium.sg/services.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://initium.sg/new-launches.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://initium.sg/team.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://initium.sg/join.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://initium.sg/contact.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://initium.sg/blog.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://initium.sg/article-first-condo.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://initium.sg/article-new-vs-resale.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://initium.sg/video-studio.html</loc>
-    <lastmod>2026-05-17</lastmod>
+    <loc>https://initium.sg/intm-shop.html</loc>
+    <lastmod>2026-05-18</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://initium.sg/intm-studio.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://initium.sg/virtual-tours.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://initium.sg/news-archive.html</loc>
+    <lastmod>2026-05-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>
