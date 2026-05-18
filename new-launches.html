@@ -1614,7 +1614,7 @@
     });
 
     gsap.utils.toArray('section').forEach(sec => {
-      gsap.from(sec.querySelectorAll('.section-label, .section-title, .filter-btn, .project-card'), {
+      gsap.from(sec.querySelectorAll('.section-label, .section-title, .project-card'), {
         y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
         scrollTrigger: { trigger: sec, start: 'top 80%' }
       });
