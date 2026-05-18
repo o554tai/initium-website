@@ -426,21 +426,22 @@ def generate_archive_html(archived: list[dict]):
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Property News Archive — INITIUM</title>
 <meta name="description" content="Archived property news from The Straits Times, CNA, and EdgeProp.">
-<meta name="theme-color" content="#008c65">
+<meta name="theme-color" content="#50C878">
 <link rel="canonical" href="https://initium.sg/news-archive.html">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {{
-    --ig: #008c65;
-    --ig-dark: #006b4d;
-    --ig-light: #e6f5f0;
-    --ig-surface: #f7f9f8;
-    --ig-ink: #0a1f17;
-    --ig-ink-2: #4a6359;
-    --ig-ink-3: #8aa89a;
+    --ig: #50C878;
+    --ig-dark: #3DA35F;
+    --ig-light: #E8F5EE;
+    --ig-surface: #F7F8F5;
+    --ig-ink: #1A1A1A;
+    --ig-ink-2: #6B7B6E;
+    --ig-ink-3: #A8B5AC;
+    --font-editorial: 'Playfair Display', serif;
     --font-display: 'Space Grotesk', sans-serif;
     --font-body: 'DM Sans', sans-serif;
   }}
