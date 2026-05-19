@@ -28,7 +28,15 @@ BRIEFS_FILE = Path("briefs.json")
 # ── PostgreSQL helpers ──
 
 def _pg_conn():
-    return psycopg2.connect(DATABASE_URL, sslmode="require")
+    # Try sslmode=require first, fallback to default if that fails
+    # (Supabase pooler sometimes needs different SSL handling)
+    try:
+        return psycopg2.connect(DATABASE_URL, sslmode="require")
+    except psycopg2.OperationalError as e:
+        err_str = str(e)
+        if "sslmode" in err_str.lower() or "ssl" in err_str.lower() or "certificate" in err_str.lower():
+            return psycopg2.connect(DATABASE_URL)
+        raise
 
 
 def _ensure_tables():

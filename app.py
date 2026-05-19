@@ -1239,6 +1239,34 @@ def ops_delete_brief(brief_id):
     return jsonify({"error": "Brief not found"}), 404
 
 
+@app.route("/ops/dbtest", methods=["GET"])
+@require_admin_key
+def ops_dbtest():
+    """Diagnostic: test DB connection and return raw error if any."""
+    import traceback
+    result = {
+        "database_url_set": bool(db.DATABASE_URL),
+        "use_pg": db.USE_PG,
+        "url_host": db.DATABASE_URL.split("@")[1].split(":")[0] if "@" in db.DATABASE_URL else None,
+    }
+    if not db.USE_PG:
+        result["status"] = "skipped — no DATABASE_URL or psycopg2 missing"
+        return jsonify(result), 200
+    try:
+        conn = db._pg_conn()
+        with conn.cursor() as cur:
+            cur.execute("SELECT 1")
+            cur.fetchone()
+        conn.close()
+        result["status"] = "connected"
+        return jsonify(result), 200
+    except Exception as e:
+        result["status"] = "failed"
+        result["error"] = str(e)
+        result["traceback"] = traceback.format_exc()
+        return jsonify(result), 500
+
+
 @app.route("/ops/stats", methods=["GET"])
 @require_admin_key
 def ops_stats():
