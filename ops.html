@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>INITIUM Ops Hub</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f5f5f5;
+    --text2: #a0a0a0;
+    --accent: #50C878;
+    --accent-dim: rgba(80,200,120,0.15);
+    --danger: #ff4444;
+    --radius: 14px;
+    --radius-sm: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; overflow: hidden; }
+
+  /* Top bar */
+  .topbar { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; z-index: 100; }
+  .topbar h1 { font-size: 17px; font-weight: 700; letter-spacing: 0.5px; }
+  .topbar .key-btn { font-size: 12px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; }
+
+  /* Tabs */
+  .tabs { position: fixed; top: 56px; left: 0; right: 0; height: 48px; background: var(--surface); border-bottom: 1px solid var(--border); display: flex; z-index: 100; }
+  .tab { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: var(--text2); cursor: pointer; position: relative; }
+  .tab.active { color: var(--accent); }
+  .tab.active::after { content: ''; position: absolute; bottom: 0; left: 20%; right: 20%; height: 2px; background: var(--accent); border-radius: 2px 2px 0 0; }
+
+  /* Content area */
+  .content { position: fixed; top: 104px; left: 0; right: 0; bottom: 0; overflow-y: auto; padding: 16px; padding-bottom: 100px; -webkit-overflow-scrolling: touch; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; }
+  .stat-card .num { font-size: 32px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-card .label { font-size: 12px; color: var(--text2); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  /* Section header */
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 12px; }
+  .section-header h2 { font-size: 18px; font-weight: 700; }
+  .btn-primary { background: var(--accent); color: #000; border: none; padding: 10px 18px; border-radius: var(--radius-sm); font-size: 14px; font-weight: 700; cursor: pointer; }
+  .btn-primary:active { opacity: 0.8; }
+
+  /* Search */
+  .search-box { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 15px; margin-bottom: 12px; outline: none; }
+  .search-box::placeholder { color: #555; }
+
+  /* Cards */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .card-title { font-size: 16px; font-weight: 700; }
+  .badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .badge-lead { background: rgba(255,170,0,0.15); color: #ffaa00; }
+  .badge-met { background: rgba(80,200,120,0.15); color: var(--accent); }
+  .badge-signed { background: rgba(0,150,255,0.15); color: #0096ff; }
+  .badge-active { background: rgba(80,200,120,0.15); color: var(--accent); }
+  .badge-closed { background: rgba(100,100,100,0.2); color: #888; }
+  .badge-lost { background: rgba(255,68,68,0.15); color: var(--danger); }
+  .badge-default { background: var(--accent-dim); color: var(--accent); }
+
+  .card-row { font-size: 13px; color: var(--text2); margin-top: 4px; display: flex; gap: 6px; }
+  .card-row strong { color: var(--text); min-width: 50px; }
+  .card-notes { font-size: 13px; color: var(--text2); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.4; }
+  .card-actions { display: flex; gap: 10px; margin-top: 12px; }
+  .card-actions button { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; }
+  .card-actions .btn-edit { border-color: var(--accent); color: var(--accent); }
+  .card-actions .btn-delete { border-color: var(--danger); color: var(--danger); }
+
+  /* Empty state */
+  .empty { text-align: center; padding: 40px 20px; color: var(--text2); font-size: 14px; }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: flex-end; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet { background: var(--surface); width: 100%; max-height: 85vh; border-radius: var(--radius) var(--radius) 0 0; padding: 20px 16px 40px; overflow-y: auto; transform: translateY(100%); transition: transform 0.25s ease; }
+  .modal-overlay.open .modal-sheet { transform: translateY(0); }
+  .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .modal-head h3 { font-size: 18px; }
+  .modal-close { font-size: 24px; color: var(--text2); background: none; border: none; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 15px; outline: none; }
+  .form-group textarea { min-height: 80px; resize: vertical; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .btn-submit { width: 100%; background: var(--accent); color: #000; border: none; padding: 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; margin-top: 4px; }
+  .btn-submit:active { opacity: 0.85; }
+
+  /* Auth screen */
+  .auth-screen { position: fixed; inset: 0; background: var(--bg); z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+  .auth-screen h2 { font-size: 22px; margin-bottom: 8px; }
+  .auth-screen p { color: var(--text2); font-size: 14px; margin-bottom: 24px; text-align: center; }
+  .auth-screen input { width: 100%; max-width: 320px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; color: var(--text); font-size: 16px; outline: none; margin-bottom: 12px; }
+  .auth-screen input:focus { border-color: var(--accent); }
+  .auth-screen button { width: 100%; max-width: 320px; background: var(--accent); color: #000; border: none; padding: 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; }
+
+  /* Toast */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--surface2); color: var(--text); padding: 12px 20px; border-radius: var(--radius-sm); font-size: 14px; border: 1px solid var(--border); z-index: 250; opacity: 0; transition: all 0.3s ease; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+</head>
+<body>
+
+<!-- Auth -->
+<div class="auth-screen" id="authScreen">
+  <h2>INITIUM Ops Hub</h2>
+  <p>Enter your admin key to access the dashboard.</p>
+  <input type="password" id="authInput" placeholder="X-Admin-Key">
+  <button onclick="doAuth()">Unlock</button>
+</div>
+
+<!-- Topbar -->
+<div class="topbar" id="topbar" style="display:none;">
+  <h1>INITIUM OPS</h1>
+  <div class="key-btn" onclick="showAuth()">Key</div>
+</div>
+
+<!-- Tabs -->
+<div class="tabs" id="tabs" style="display:none;">
+  <div class="tab active" onclick="switchTab('recruits')" id="tab-recruits">Recruits</div>
+  <div class="tab" onclick="switchTab('briefs')" id="tab-briefs">Briefs</div>
+</div>
+
+<!-- Content -->
+<div class="content" id="content" style="display:none;">
+  <!-- Recruits -->
+  <div id="view-recruits">
+    <div class="stats">
+      <div class="stat-card"><div class="num" id="stat-recruits-total">0</div><div class="label">Total</div></div>
+      <div class="stat-card"><div class="num" id="stat-recruits-lead">0</div><div class="label">Leads</div></div>
+    </div>
+    <div class="section-header"><h2>Recruit Pipeline</h2><button class="btn-primary" onclick="openModal('recruit')">+ Add</button></div>
+    <input type="text" class="search-box" id="search-recruits" placeholder="Search name, division, leader..." oninput="renderRecruits()">
+    <div id="list-recruits"></div>
+  </div>
+
+  <!-- Briefs -->
+  <div id="view-briefs" style="display:none;">
+    <div class="stats">
+      <div class="stat-card"><div class="num" id="stat-briefs-total">0</div><div class="label">Total</div></div>
+      <div class="stat-card"><div class="num" id="stat-briefs-active">0</div><div class="label">Active</div></div>
+    </div>
+    <div class="section-header"><h2>Client Briefs</h2><button class="btn-primary" onclick="openModal('brief')">+ Add</button></div>
+    <input type="text" class="search-box" id="search-briefs" placeholder="Search client, property, agent..." oninput="renderBriefs()">
+    <div id="list-briefs"></div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-sheet">
+    <div class="modal-head"><h3 id="modalTitle">Add</h3><button class="modal-close" onclick="closeModal()">&times;</button></div>
+    <div id="modalBody"></div>
+    <button class="btn-submit" id="modalSubmit" onclick="submitForm()">Save</button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = 'https://initium-video-studio.onrender.com';
+let adminKey = sessionStorage.getItem('initium_admin_key') || '';
+let currentTab = 'recruits';
+let recruits = [];
+let briefs = [];
+let editingId = null;
+let editingType = null;
+
+async function api(path, opts={}) {
+  const res = await fetch(API_BASE + path, {
+    ...opts,
+    headers: {
+      'X-Admin-Key': adminKey,
+      'Content-Type': 'application/json',
+      ...(opts.headers||{})
+    }
+  });
+  if (res.status === 401 || res.status === 403) { showAuth(); throw new Error('Auth failed'); }
+  if (!res.ok) { const t = await res.text(); throw new Error(t); }
+  return res.json();
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+function doAuth() {
+  const val = document.getElementById('authInput').value.trim();
+  if (!val) return;
+  adminKey = val;
+  sessionStorage.setItem('initium_admin_key', adminKey);
+  init();
+}
+function showAuth() {
+  document.getElementById('authScreen').style.display = 'flex';
+  document.getElementById('topbar').style.display = 'none';
+  document.getElementById('tabs').style.display = 'none';
+  document.getElementById('content').style.display = 'none';
+}
+function init() {
+  document.getElementById('authScreen').style.display = 'none';
+  document.getElementById('topbar').style.display = 'flex';
+  document.getElementById('tabs').style.display = 'flex';
+  document.getElementById('content').style.display = 'block';
+  loadAll();
+}
+
+async function loadAll() {
+  try {
+    const [r, b, s] = await Promise.all([
+      api('/ops/recruits'),
+      api('/ops/briefs'),
+      api('/ops/stats')
+    ]);
+    recruits = r.recruits || [];
+    briefs = b.briefs || [];
+    updateStats(s);
+    renderRecruits();
+    renderBriefs();
+  } catch(e) { toast('Load failed: ' + e.message); }
+}
+
+function updateStats(s) {
+  document.getElementById('stat-recruits-total').textContent = s.recruits?.total || 0;
+  document.getElementById('stat-recruits-lead').textContent = s.recruits?.by_status?.lead || 0;
+  document.getElementById('stat-briefs-total').textContent = s.briefs?.total || 0;
+  document.getElementById('stat-briefs-active').textContent = s.briefs?.by_status?.active || 0;
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('tab-recruits').classList.toggle('active', tab==='recruits');
+  document.getElementById('tab-briefs').classList.toggle('active', tab==='briefs');
+  document.getElementById('view-recruits').style.display = tab==='recruits' ? 'block' : 'none';
+  document.getElementById('view-briefs').style.display = tab==='briefs' ? 'block' : 'none';
+}
+
+function badgeClass(status) {
+  const map = { lead:'badge-lead', met:'badge-met', signed:'badge-signed', active:'badge-active', closed:'badge-closed', lost:'badge-lost' };
+  return map[status] || 'badge-default';
+}
+
+function renderRecruits() {
+  const q = document.getElementById('search-recruits').value.toLowerCase();
+  const list = recruits.filter(r =>
+    !q || [r.name, r.division, r.leader, r.source, r.notes].some(v => (v||'').toLowerCase().includes(q))
+  );
+  const el = document.getElementById('list-recruits');
+  if (!list.length) { el.innerHTML = '<div class="empty">No recruits yet. Tap + Add to start.</div>'; return; }
+  el.innerHTML = list.map(r => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">${esc(r.name)}</div>
+        <div class="badge ${badgeClass(r.status)}">${r.status||'lead'}</div>
+      </div>
+      <div class="card-row"><strong>Div</strong> ${esc(r.division||'-')}</div>
+      <div class="card-row"><strong>Lead</strong> ${esc(r.leader||'-')}</div>
+      <div class="card-row"><strong>From</strong> ${esc(r.source||'-')}</div>
+      <div class="card-row"><strong>Contact</strong> ${esc(r.contact||'-')}</div>
+      ${r.notes ? `<div class="card-notes">${esc(r.notes)}</div>` : ''}
+      <div class="card-actions">
+        <button class="btn-edit" onclick="editRecruit('${r.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteRecruit('${r.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderBriefs() {
+  const q = document.getElementById('search-briefs').value.toLowerCase();
+  const list = briefs.filter(b =>
+    !q || [b.client_name, b.property, b.agent_name, b.area, b.notes].some(v => (v||'').toLowerCase().includes(q))
+  );
+  const el = document.getElementById('list-briefs');
+  if (!list.length) { el.innerHTML = '<div class="empty">No briefs yet. Tap + Add to start.</div>'; return; }
+  el.innerHTML = list.map(b => `
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">${esc(b.client_name)}</div>
+        <div class="badge ${badgeClass(b.status)}">${b.status||'active'}</div>
+      </div>
+      <div class="card-row"><strong>Prop</strong> ${esc(b.property||'-')}</div>
+      <div class="card-row"><strong>Area</strong> ${esc(b.area||'-')}</div>
+      <div class="card-row"><strong>Date</strong> ${esc(b.viewing_date||'-')}</div>
+      <div class="card-row"><strong>Agent</strong> ${esc(b.agent_name||'-')}</div>
+      <div class="card-row"><strong>Contact</strong> ${esc(b.contact||'-')}</div>
+      ${b.notes ? `<div class="card-notes">${esc(b.notes)}</div>` : ''}
+      <div class="card-actions">
+        <button class="btn-edit" onclick="editBrief('${b.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteBrief('${b.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function openModal(type, id=null) {
+  editingType = type;
+  editingId = id;
+  const isEdit = !!id;
+  const body = document.getElementById('modalBody');
+  if (type === 'recruit') {
+    const r = isEdit ? recruits.find(x=>x.id===id)||{} : {};
+    document.getElementById('modalTitle').textContent = isEdit ? 'Edit Recruit' : 'Add Recruit';
+    body.innerHTML = `
+      <div class="form-group"><label>Name *</label><input id="f-r-name" value="${esc(r.name||'')}"></div>
+      <div class="form-group"><label>Contact</label><input id="f-r-contact" value="${esc(r.contact||'')}"></div>
+      <div class="form-group"><label>Source</label><input id="f-r-source" value="${esc(r.source||'')}" placeholder="e.g. Instagram DM, referral..."></div>
+      <div class="form-group"><label>Status</label>
+        <select id="f-r-status">
+          <option value="lead" ${(r.status||'lead')==='lead'?'selected':''}>Lead</option>
+          <option value="met" ${r.status==='met'?'selected':''}>Met</option>
+          <option value="signed" ${r.status==='signed'?'selected':''}>Signed</option>
+          <option value="active" ${r.status==='active'?'selected':''}>Active</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Division</label><input id="f-r-division" value="${esc(r.division||'')}" placeholder="e.g. William, Grace, New..."></div>
+      <div class="form-group"><label>Leader</label><input id="f-r-leader" value="${esc(r.leader||'')}" placeholder="e.g. William, Grace, You..."></div>
+      <div class="form-group"><label>Notes</label><textarea id="f-r-notes">${esc(r.notes||'')}</textarea></div>
+    `;
+  } else {
+    const b = isEdit ? briefs.find(x=>x.id===id)||{} : {};
+    document.getElementById('modalTitle').textContent = isEdit ? 'Edit Brief' : 'Add Brief';
+    body.innerHTML = `
+      <div class="form-group"><label>Client Name *</label><input id="f-b-client" value="${esc(b.client_name||'')}"></div>
+      <div class="form-group"><label>Contact</label><input id="f-b-contact" value="${esc(b.contact||'')}"></div>
+      <div class="form-group"><label>Property</label><input id="f-b-property" value="${esc(b.property||'')}" placeholder="e.g. Lentor Modern"></div>
+      <div class="form-group"><label>Area</label><input id="f-b-area" value="${esc(b.area||'')}" placeholder="e.g. District 26"></div>
+      <div class="form-group"><label>Viewing Date</label><input type="date" id="f-b-date" value="${esc(b.viewing_date||'')}"></div>
+      <div class="form-group"><label>Agent</label><input id="f-b-agent" value="${esc(b.agent_name||'')}" placeholder="e.g. Ainsley"></div>
+      <div class="form-group"><label>Status</label>
+        <select id="f-b-status">
+          <option value="active" ${(b.status||'active')==='active'?'selected':''}>Active</option>
+          <option value="closed" ${b.status==='closed'?'selected':''}>Closed</option>
+          <option value="lost" ${b.status==='lost'?'selected':''}>Lost</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Notes</label><textarea id="f-b-notes">${esc(b.notes||'')}</textarea></div>
+    `;
+  }
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); editingId = null; }
+
+async function submitForm() {
+  try {
+    if (editingType === 'recruit') {
+      const payload = {
+        name: document.getElementById('f-r-name').value.trim(),
+        contact: document.getElementById('f-r-contact').value.trim(),
+        source: document.getElementById('f-r-source').value.trim(),
+        status: document.getElementById('f-r-status').value,
+        division: document.getElementById('f-r-division').value.trim(),
+        leader: document.getElementById('f-r-leader').value.trim(),
+        notes: document.getElementById('f-r-notes').value.trim(),
+      };
+      if (!payload.name) { toast('Name is required'); return; }
+      if (editingId) {
+        await api('/ops/recruits/' + editingId, { method: 'PUT', body: JSON.stringify(payload) });
+        toast('Recruit updated');
+      } else {
+        await api('/ops/recruits', { method: 'POST', body: JSON.stringify(payload) });
+        toast('Recruit added');
+      }
+    } else {
+      const payload = {
+        client_name: document.getElementById('f-b-client').value.trim(),
+        contact: document.getElementById('f-b-contact').value.trim(),
+        property: document.getElementById('f-b-property').value.trim(),
+        area: document.getElementById('f-b-area').value.trim(),
+        viewing_date: document.getElementById('f-b-date').value,
+        agent_name: document.getElementById('f-b-agent').value.trim(),
+        status: document.getElementById('f-b-status').value,
+        notes: document.getElementById('f-b-notes').value.trim(),
+      };
+      if (!payload.client_name) { toast('Client name is required'); return; }
+      if (editingId) {
+        await api('/ops/briefs/' + editingId, { method: 'PUT', body: JSON.stringify(payload) });
+        toast('Brief updated');
+      } else {
+        await api('/ops/briefs', { method: 'POST', body: JSON.stringify(payload) });
+        toast('Brief added');
+      }
+    }
+    closeModal();
+    await loadAll();
+  } catch(e) { toast(e.message); }
+}
+
+function editRecruit(id) { openModal('recruit', id); }
+function editBrief(id) { openModal('brief', id); }
+
+async function deleteRecruit(id) {
+  if (!confirm('Delete this recruit?')) return;
+  await api('/ops/recruits/' + id, { method: 'DELETE' });
+  toast('Deleted'); await loadAll();
+}
+async function deleteBrief(id) {
+  if (!confirm('Delete this brief?')) return;
+  await api('/ops/briefs/' + id, { method: 'DELETE' });
+  toast('Deleted'); await loadAll();
+}
+
+// Init
+if (adminKey) init();
+</script>
+</body>
+</html>
