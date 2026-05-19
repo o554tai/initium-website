@@ -1035,6 +1035,15 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             });
         }
 
+        // Track Google Ads conversion
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'conversion', {
+                'send_to': 'AW-REPLACE_WITH_GOOGLE_ADS_ID/REPLACE_WITH_GOOGLE_ADS_LABEL',
+                'value': 1.0,
+                'currency': 'SGD'
+            });
+        }
+
         // Submit to backend
         fetch('https://initium-backend.onrender.com/api/lead', {
             method: 'POST',

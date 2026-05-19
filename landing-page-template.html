@@ -166,6 +166,13 @@ function handleSubmit(e) {
   if (typeof gtag !== 'undefined') {
     gtag('event', 'generate_lead', { currency: 'SGD', value: 0.00, project: '{{PROJECT_NAME}}' });
   }
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'conversion', {
+      'send_to': 'AW-REPLACE_WITH_GOOGLE_ADS_ID/REPLACE_WITH_GOOGLE_ADS_LABEL',
+      'value': 1.0,
+      'currency': 'SGD'
+    });
+  }
 
   fetch('https://initium-backend.onrender.com/api/lead', {
     method: 'POST',

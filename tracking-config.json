@@ -1,6 +1,8 @@
 {
   "meta_pixel_id": "REPLACE_WITH_META_PIXEL_ID",
   "ga4_measurement_id": "REPLACE_WITH_GA4_ID",
+  "google_ads_conversion_id": "REPLACE_WITH_GOOGLE_ADS_CONVERSION_ID",
+  "google_ads_conversion_label": "REPLACE_WITH_GOOGLE_ADS_CONVERSION_LABEL",
   "domain": "initium.sg",
   "whatsapp_number": "6588464814"
 }
