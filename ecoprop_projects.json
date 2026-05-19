@@ -1,7 +1,7 @@
 {
   "source": "singmap.com",
   "total": 327,
-  "scraped_at": "2026-05-19T06:00:23.723635",
+  "scraped_at": "2026-05-19T07:00:52.547552",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -10,7 +10,7 @@
       "address": "10 Evelyn Road",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 1425090.0,
+      "min_price": 1578855.0,
       "max_price": 3391875.0,
       "currency": "$",
       "units": "56",
