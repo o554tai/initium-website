@@ -168,7 +168,7 @@
 
   /* ── 11. Staggered grid reveals (only where disabled/no GSAP) ── */
   function initGridReveals() {
-    const grids = ['.service-grid', '.property-grid', '.testimonial-grid', '.agent-grid', '.value-grid', '.process-grid', '.launch-grid', '.blog-grid', '.news-grid', '.shop-grid'];
+    const grids = ['.service-grid', '.property-grid', '.testimonial-grid', '.agent-grid', '.value-grid', '.process-grid', '.launch-grid', '.blog-grid', '.news-grid'];
     grids.forEach(selector => {
       document.querySelectorAll(selector).forEach(grid => {
         if (isAnimated(grid) || grid.dataset.gridRevealed) return;
