@@ -1055,6 +1055,74 @@ def contact_submit():
     }), 201
 
 
+@app.route("/api/lead", methods=["POST"])
+def lead_capture():
+    """Receive lead from PPC landing pages. Optimized for Meta + Google Ads tracking."""
+    data = request.get_json(silent=True) or {}
+
+    required = ["name", "email", "phone"]
+    missing = [f for f in required if not data.get(f)]
+    if missing:
+        return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
+
+    # UTM parameter capture for attribution
+    utm = {
+        "source": data.get("utm_source", "").strip(),
+        "medium": data.get("utm_medium", "").strip(),
+        "campaign": data.get("utm_campaign", "").strip(),
+        "content": data.get("utm_content", "").strip(),
+        "term": data.get("utm_term", "").strip(),
+        "fbclid": data.get("fbclid", "").strip(),
+        "gclid": data.get("gclid", "").strip(),
+    }
+
+    lead = {
+        "id": str(uuid.uuid4())[:8],
+        "type": "landing_page",
+        "name": data.get("name", "").strip(),
+        "email": data.get("email", "").strip(),
+        "phone": data.get("phone", "").strip(),
+        "project": data.get("project", "").strip() or "General",
+        "budget": data.get("budget", "").strip(),
+        "unit_type": data.get("unitType", "").strip(),
+        "message": data.get("message", "").strip(),
+        "page_url": data.get("pageUrl", "").strip(),
+        "utm": utm,
+        "timestamp": datetime.utcnow().isoformat() + "Z",
+        "ip": request.headers.get("X-Forwarded-For", request.remote_addr),
+        "user_agent": request.headers.get("User-Agent", ""),
+    }
+
+    leads = _load_leads()
+    leads.insert(0, lead)
+    _save_leads(leads)
+
+    # Also mirror to submissions for unified inbox
+    submission = {
+        "id": lead["id"],
+        "name": lead["name"],
+        "mobile": lead["phone"],
+        "email": lead["email"],
+        "enquiryType": "New Launch VVIP",
+        "district": "",
+        "message": f"Budget: {lead['budget']} | Unit: {lead['unit_type']} | Project: {lead['project']}",
+        "project": lead["project"],
+        "timestamp": lead["timestamp"],
+        "source": f"landing_page | utm: {utm['source']}/{utm['medium']}/{utm['campaign']}",
+    }
+    subs = _load_submissions()
+    subs.insert(0, submission)
+    _save_submissions(subs)
+
+    _send_telegram_notification(submission)
+
+    return jsonify({
+        "success": True,
+        "id": lead["id"],
+        "message": "Registration confirmed. We will contact you within 2 hours."
+    }), 201
+
+
 @app.route("/admin/submissions", methods=["GET"])
 @require_admin_key
 def admin_list_submissions():
@@ -1279,6 +1347,175 @@ def ops_stats():
         "leads": {"total": len(leads), "by_status": dict(lead_status)},
         "briefs": {"total": len(briefs), "by_status": dict(brief_status)},
     })
+
+
+# ═══════════════════════════════════════════════════════════
+# WEBHOOK — Lead Auto-Capture (Meta / Direct)
+# ═══════════════════════════════════════════════════════════
+
+META_PAGE_TOKEN = os.environ.get("META_PAGE_TOKEN", "")
+WEBHOOK_SECRET = os.environ.get("WEBHOOK_SECRET", "")
+
+
+def _verify_webhook_secret():
+    """Check token query param or header against WEBHOOK_SECRET."""
+    if not WEBHOOK_SECRET:
+        return True  # No secret configured = open (warn in logs)
+    token = request.args.get("token", "").strip()
+    if not token:
+        token = request.headers.get("X-Webhook-Token", "").strip()
+    return token == WEBHOOK_SECRET
+
+
+def _meta_fetch_lead(leadgen_id: str):
+    """Fetch lead details from Meta Graph API."""
+    if not META_PAGE_TOKEN:
+        return None
+    url = f"https://graph.facebook.com/v18.0/{leadgen_id}?access_token={urllib.parse.quote(META_PAGE_TOKEN)}"
+    try:
+        req = urllib.request.Request(url, method="GET")
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode("utf-8"))
+            return data
+    except Exception as e:
+        print(f"[META] Failed to fetch lead {leadgen_id}: {e}")
+        return None
+
+
+def _map_meta_fields(field_data: list) -> dict:
+    """Map Meta lead form fields to our lead schema."""
+    mapping = {
+        "full_name": "client_name",
+        "first_name": "client_name",
+        "last_name": "client_name",
+        "name": "client_name",
+        "email": "contact",
+        "phone_number": "contact",
+        "work_email": "contact",
+        "city": "area",
+        "district": "area",
+        "preferred_location": "area",
+        "budget": "budget",
+        "price_range": "budget",
+        "property_type": "notes",
+        "bedrooms": "notes",
+        "message": "notes",
+    }
+    result = {}
+    extras = []
+    for item in field_data:
+        name = item.get("name", "").lower().replace(" ", "_")
+        values = item.get("values", [])
+        val = values[0] if values else ""
+        our_key = mapping.get(name)
+        if our_key:
+            if our_key == "client_name" and our_key in result:
+                result[our_key] += " " + val
+            else:
+                result[our_key] = val
+        else:
+            extras.append(f"{name}: {val}")
+    if extras:
+        result["notes"] = (result.get("notes", "") + "\n" + "\n".join(extras)).strip()
+    return result
+
+
+def _create_lead_from_data(data: dict, source_tag: str = "webhook") -> dict:
+    """Create a lead entry from mapped data."""
+    lead = {
+        "id": str(uuid.uuid4())[:8],
+        "client_name": data.get("client_name", "Unknown").strip() or "Unknown",
+        "contact": data.get("contact", "").strip(),
+        "source": data.get("source", source_tag).strip(),
+        "enquiry_type": data.get("enquiry_type", "buy").strip().lower(),
+        "status": "new",
+        "agent_name": data.get("agent_name", "").strip(),
+        "budget": data.get("budget", "").strip(),
+        "area": data.get("area", "").strip(),
+        "notes": data.get("notes", "").strip(),
+        "created_at": datetime.utcnow().isoformat() + "Z",
+        "updated_at": datetime.utcnow().isoformat() + "Z",
+    }
+    leads = _load_leads()
+    leads.insert(0, lead)
+    _save_leads(leads)
+    return lead
+
+
+@app.route("/ops/webhook/lead", methods=["GET", "POST"])
+def ops_webhook_lead():
+    """
+    Public webhook for auto-capturing leads.
+    - GET: Meta webhook verification (hub.challenge)
+    - POST: Receive lead data directly or via Meta leadgen_id
+    """
+    # GET = Meta webhook subscription verification
+    if request.method == "GET":
+        mode = request.args.get("hub.mode", "")
+        challenge = request.args.get("hub.challenge", "")
+        verify_token = request.args.get("hub.verify_token", "")
+        if mode == "subscribe":
+            # If WEBHOOK_SECRET is set, verify_token must match
+            if WEBHOOK_SECRET and verify_token != WEBHOOK_SECRET:
+                return "Forbidden", 403
+            return challenge, 200
+        return "OK", 200
+
+    # POST = lead data incoming
+    if not _verify_webhook_secret():
+        return jsonify({"error": "Invalid webhook token"}), 403
+
+    payload = request.get_json(force=True) or {}
+    source_tag = "webhook"
+    created = []
+
+    # --- Case A: Meta leadgen webhook format ---
+    if payload.get("object") == "page" and "entry" in payload:
+        for entry in payload.get("entry", []):
+            for change in entry.get("changes", []):
+                if change.get("field") == "leadgen":
+                    value = change.get("value", {})
+                    leadgen_id = value.get("leadgen_id")
+                    if leadgen_id and META_PAGE_TOKEN:
+                        meta_lead = _meta_fetch_lead(leadgen_id)
+                        if meta_lead:
+                            field_data = meta_lead.get("field_data", [])
+                            mapped = _map_meta_fields(field_data)
+                            mapped["source"] = "Meta Ad"
+                            lead = _create_lead_from_data(mapped, "Meta Ad")
+                            created.append(lead["id"])
+                    elif leadgen_id:
+                        # No token - store a placeholder lead
+                        placeholder = {
+                            "client_name": "Meta Lead (pending fetch)",
+                            "contact": f"leadgen_id:{leadgen_id}",
+                            "source": "Meta Ad",
+                            "notes": f"leadgen_id={leadgen_id}, page_id={value.get('page_id')}, form_id={value.get('form_id')}",
+                        }
+                        lead = _create_lead_from_data(placeholder, "Meta Ad")
+                        created.append(lead["id"])
+        return jsonify({"message": "Processed", "created": created}), 201
+
+    # --- Case B: Direct JSON POST (Zapier, Make, custom form, etc.) ---
+    # Support both single object and array
+    items = payload if isinstance(payload, list) else [payload]
+    for item in items:
+        mapped = {
+            "client_name": item.get("client_name", item.get("name", item.get("full_name", ""))).strip(),
+            "contact": item.get("contact", item.get("email", item.get("phone", item.get("phone_number", "")))).strip(),
+            "source": item.get("source", source_tag).strip(),
+            "enquiry_type": item.get("enquiry_type", item.get("type", "buy")).strip().lower(),
+            "agent_name": item.get("agent_name", "").strip(),
+            "budget": item.get("budget", "").strip(),
+            "area": item.get("area", item.get("location", "")).strip(),
+            "notes": item.get("notes", item.get("message", "")).strip(),
+        }
+        if not mapped["client_name"]:
+            continue
+        lead = _create_lead_from_data(mapped, mapped.get("source", source_tag))
+        created.append(lead["id"])
+
+    return jsonify({"message": "Created", "count": len(created), "ids": created}), 201
 
 
 # ═══════════════════════════════════════════════════════════
