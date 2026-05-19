@@ -34,6 +34,7 @@
       title.innerHTML = '';
       const wrap = document.createElement('span');
       wrap.style.display = 'inline-block';
+      wrap.style.whiteSpace = 'nowrap';
       text.split('').forEach(ch => {
         const span = document.createElement('span');
         span.textContent = ch === ' ' ? '\u00A0' : ch;
