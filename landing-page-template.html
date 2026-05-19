@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{PROJECT_NAME}} | VVIP Preview Access | INITIUM</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'REPLACE_WITH_META_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=REPLACE_WITH_META_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=REPLACE_WITH_GA4_ID"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
+</script>
+<!-- End Google tag -->
+<meta name="description" content="Get VVIP preview access to {{PROJECT_NAME}}. Register with INITIUM for first access to pricing, floor plans & showflat dates.">
+<link rel="icon" type="image/png" href="https://initium.sg/logo-nav-crop.png">
+<style>
+  :root { --emerald: #50C878; --emerald-dark: #3da85e; --black: #0a0a0a; --dark: #1a1a1a; --gray-500: #6b6b6b; --white: #fff; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Inter', -apple-system, sans-serif; color: var(--dark); line-height:1.6; }
+  .hero { background: linear-gradient(135deg, var(--black) 0%, var(--dark) 100%); color: var(--white); padding: 80px 24px; text-align:center; }
+  .hero h1 { font-size: clamp(28px, 5vw, 48px); font-weight: 700; margin-bottom: 16px; }
+  .hero p { color: #b0b0b0; font-size: 1.1rem; max-width: 600px; margin: 0 auto 32px; }
+  .badge { display:inline-block; background: var(--emerald); color: var(--black); padding: 6px 16px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 20px; }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px; }
+  .form-card { background: var(--white); border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 40px; margin-top: -60px; position: relative; z-index: 2; }
+  .form-group { margin-bottom: 20px; }
+  label { display:block; font-size: 0.85rem; font-weight: 500; margin-bottom: 6px; color: var(--dark); }
+  input, select, textarea { width:100%; padding: 12px 14px; border: 1px solid #e0e0e0; border-radius: 8px; font-size: 1rem; font-family: inherit; }
+  input:focus, select:focus, textarea:focus { outline:none; border-color: var(--emerald); }
+  button[type="submit"] { width:100%; padding: 16px; background: var(--emerald); color: var(--black); border:none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+  button[type="submit"]:hover { background: var(--emerald-dark); }
+  .success { display:none; text-align:center; padding: 40px; }
+  .success.active { display:block; }
+  .success h2 { color: var(--emerald); margin-bottom: 12px; }
+  .features { display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin: 48px 0; }
+  .feature { text-align:center; }
+  .feature h3 { font-size: 1rem; margin-bottom: 6px; }
+  .feature p { font-size: 0.9rem; color: var(--gray-500); }
+  footer { text-align:center; padding: 40px 24px; font-size: 0.85rem; color: var(--gray-500); border-top: 1px solid #eee; }
+  footer a { color: var(--emerald); text-decoration: none; }
+  .whatsapp-fab { position:fixed; bottom:24px; right:24px; width:56px; height:56px; background:#25d366; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.15); z-index:999; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="badge">New Launch • {{DISTRICT}}</div>
+  <h1>{{PROJECT_NAME}}</h1>
+  <p>{{TAGLINE}}</p>
+</section>
+
+<div class="container">
+  <div class="form-card">
+    <form id="leadForm" onsubmit="return handleSubmit(event)">
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input type="text" name="name" required placeholder="Your full name">
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" name="email" required placeholder="you@email.com">
+      </div>
+      <div class="form-group">
+        <label>Phone *</label>
+        <input type="tel" name="phone" required placeholder="+65 8123 4567">
+      </div>
+      <div class="form-group">
+        <label>Budget Range</label>
+        <select name="budget">
+          <option value="">Select budget</option>
+          <option value="Below $1M">Below $1M</option>
+          <option value="$1M – $1.5M">$1M – $1.5M</option>
+          <option value="$1.5M – $2.5M">$1.5M – $2.5M</option>
+          <option value="$2.5M – $4M">$2.5M – $4M</option>
+          <option value="Above $4M">Above $4M</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Unit Type Interest</label>
+        <select name="unitType">
+          <option value="">Select unit type</option>
+          <option value="1-Bedroom">1-Bedroom</option>
+          <option value="2-Bedroom">2-Bedroom</option>
+          <option value="3-Bedroom">3-Bedroom</option>
+          <option value="4-Bedroom">4-Bedroom</option>
+          <option value="Penthouse">Penthouse</option>
+        </select>
+      </div>
+      <button type="submit">Register for VVIP Access</button>
+      <p style="font-size:0.8rem; color:var(--gray-500); margin-top:12px; text-align:center;">
+        By registering, you agree to our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms-of-service.html">Terms</a>.
+      </p>
+    </form>
+    <div class="success" id="formSuccess">
+      <h2>✅ Registration Confirmed</h2>
+      <p>We will contact you within 2 hours with VVIP preview details.</p>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="feature">
+      <h3>🔑 First Access</h3>
+      <p>Floor plans & pricing before public release</p>
+    </div>
+    <div class="feature">
+      <h3>🏠 Priority Selection</h3>
+      <p>Secure your preferred unit early</p>
+    </div>
+    <div class="feature">
+      <h3>💬 Direct Line</h3>
+      <p>WhatsApp our team anytime</p>
+    </div>
+  </div>
+</div>
+
+<a href="https://wa.me/6588464814" class="whatsapp-fab" aria-label="Chat on WhatsApp">
+  <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<footer>
+  <p>© 2026 INITIUM. <a href="/privacy-policy.html">Privacy</a> · <a href="/terms-of-service.html">Terms</a></p>
+</footer>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = new FormData(form);
+  const urlParams = new URLSearchParams(window.location.search);
+  const payload = {
+    name: data.get("name"),
+    email: data.get("email"),
+    phone: data.get("phone"),
+    project: "{{PROJECT_NAME}}",
+    budget: data.get("budget"),
+    unitType: data.get("unitType"),
+    pageUrl: window.location.href,
+    utm_source: urlParams.get("utm_source") || "",
+    utm_medium: urlParams.get("utm_medium") || "",
+    utm_campaign: urlParams.get("utm_campaign") || "",
+    fbclid: urlParams.get("fbclid") || "",
+    gclid: urlParams.get("gclid") || "",
+  };
+
+  if (typeof fbq !== 'undefined') {
+    fbq('track', 'Lead', { content_name: '{{PROJECT_NAME}} VVIP', currency: 'SGD', value: 0.00 });
+  }
+  if (typeof gtag !== 'undefined') {
+    gtag('event', 'generate_lead', { currency: 'SGD', value: 0.00, project: '{{PROJECT_NAME}}' });
+  }
+
+  fetch('/api/lead', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (res.success) {
+      form.style.display = 'none';
+      document.getElementById('formSuccess').classList.add('active');
+    } else {
+      alert('Error: ' + (res.error || 'Please try again.'));
+    }
+  })
+  .catch(() => {
+    form.style.display = 'none';
+    document.getElementById('formSuccess').classList.add('active');
+  });
+  return false;
+}
+</script>
+</body>
+</html>

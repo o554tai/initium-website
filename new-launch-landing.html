@@ -4,29 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thomson Reserve | VVIP Preview Access | INITIUM</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', 'REPLACE_WITH_META_PIXEL_ID');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=REPLACE_WITH_META_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
+<!-- End Meta Pixel Code -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=REPLACE_WITH_GA4_ID"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
+</script>
+<!-- End Google tag -->
+
+
+
+
     <meta name="description" content="Get VVIP preview access to Thomson Reserve new launch. Register with INITIUM for first access to pricing, floor plans & showflat dates. Limited units.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="https://initium.sg/logo-nav-crop.png">
-    <!-- Meta Pixel Code -->
-    <script>
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', 'REPLACE_WITH_YOUR_META_PIXEL_ID');
-    fbq('track', 'PageView');
-    </script>
-    <noscript>
-    <img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=REPLACE_WITH_YOUR_META_PIXEL_ID&ev=PageView&noscript=1"/>
-    </noscript>
-    <!-- End Meta Pixel Code -->
+    
     <style>
         :root {
             --emerald: #50C878;
@@ -695,7 +707,7 @@
                         Get VVIP Access
                     </button>
                     <p class="form-note">
-                        By registering, you agree to our <a href="#">Privacy Policy</a> and <a href="#">Terms</a>.
+                        By registering, you agree to our <a href="/privacy-policy.html">Privacy Policy</a> and <a href="/terms-of-service.html">Terms</a>.
                         No spam. Unsubscribe anytime.
                     </p>
                     <div class="form-urgency">
@@ -959,8 +971,8 @@
         </div>
         <div class="footer-col">
             <h4>Legal</h4>
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
+            <a href="/privacy-policy.html">Privacy Policy</a>
+            <a href="/terms-of-service.html">Terms of Service</a>
         </div>
     </div>
     <div class="footer-bottom">
@@ -985,35 +997,65 @@
         const data = new FormData(form);
         const values = Object.fromEntries(data.entries());
 
+        // UTM capture from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const payload = {
+            name: values.firstName + " " + values.lastName,
+            email: values.email,
+            phone: values.phone,
+            project: "Thomson Reserve",
+            budget: values.budget,
+            unitType: values.unitType,
+            message: values.message || "",
+            pageUrl: window.location.href,
+            utm_source: urlParams.get("utm_source") || "",
+            utm_medium: urlParams.get("utm_medium") || "",
+            utm_campaign: urlParams.get("utm_campaign") || "",
+            utm_content: urlParams.get("utm_content") || "",
+            utm_term: urlParams.get("utm_term") || "",
+            fbclid: urlParams.get("fbclid") || "",
+            gclid: urlParams.get("gclid") || "",
+        };
+
         // Track Meta Pixel Lead event
         if (typeof fbq !== 'undefined') {
             fbq('track', 'Lead', {
-                content_name: 'New Launch VVIP Registration',
+                content_name: 'Thomson Reserve VVIP Registration',
                 currency: 'SGD',
                 value: 0.00
             });
         }
 
-        // Track Microsoft UET conversion (if installed)
-        if (typeof window.uetq !== 'undefined') {
-            window.uetq.push('event', 'submit_lead_form', {});
+        // Track GA4 conversion
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'generate_lead', {
+                currency: 'SGD',
+                value: 0.00,
+                project: 'Thomson Reserve'
+            });
         }
 
-        // TODO: Replace with your actual form submission endpoint
-        // Options:
-        // 1. Google Sheets + Apps Script (free)
-        // 2. Formspree (free tier)
-        // 3. Airtable (free tier)
-        // 4. Email via your backend
-        console.log('Form submitted:', values);
-
-        // Show success state
-        document.getElementById('leadForm').style.display = 'none';
-        document.getElementById('formSuccess').classList.add('active');
-
-        // Send WhatsApp notification (optional - server-side recommended)
-        // const msg = `New VVIP Registration:%0AName: ${values.firstName} ${values.lastName}%0APhone: ${values.phone}%0AEmail: ${values.email}%0ABudget: ${values.budget}%0AUnit: ${values.unitType}`;
-        // fetch(`https://api.callmebot.com/whatsapp.php?phone=YOUR_NUMBER&text=${msg}&apikey=YOUR_KEY`);
+        // Submit to backend
+        fetch('/api/lead', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        })
+        .then(r => r.json())
+        .then(res => {
+            if (res.success) {
+                document.getElementById('leadForm').style.display = 'none';
+                document.getElementById('formSuccess').classList.add('active');
+            } else {
+                alert('Something went wrong: ' + (res.error || 'Please try again.'));
+            }
+        })
+        .catch(err => {
+            console.error(err);
+            // Still show success UI so user isn't blocked
+            document.getElementById('leadForm').style.display = 'none';
+            document.getElementById('formSuccess').classList.add('active');
+        });
 
         return false;
     }
