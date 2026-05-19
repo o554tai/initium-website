@@ -155,6 +155,8 @@
     letter-spacing: -0.04em;
     color: var(--ig-ink);
     margin-bottom: 24px;
+    word-break: keep-all;
+    overflow-wrap: normal;
   }
   .hero-title .line {
     display: inline;
@@ -162,6 +164,12 @@
   .hero-title .line-inner {
     display: inline;
     transform: translateY(110%);
+  }
+  @media (max-width: 600px) {
+    .hero-title {
+      font-size: clamp(28px, 10vw, 48px);
+      line-height: 1.1;
+    }
   }
   .hero-sub {
     font-size: clamp(18px, 2.2vw, 24px);
