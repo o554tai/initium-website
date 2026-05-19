@@ -36,6 +36,7 @@ from auth import (
     list_team_keys,
     record_usage,
 )
+import db
 from seedance import (
     submit_task,
     get_task_status,
@@ -158,56 +159,6 @@ def _load_submissions():
 def _save_submissions(subs):
     with open(SUBMISSIONS_FILE, "w") as f:
         json.dump(subs, f, indent=2, default=str)
-
-
-RECRUITS_FILE = Path("recruits.json")
-BRIEFS_FILE = Path("briefs.json")
-LEADS_FILE = Path("leads.json")
-
-
-def _load_recruits():
-    if RECRUITS_FILE.exists():
-        try:
-            with open(RECRUITS_FILE) as f:
-                return json.load(f)
-        except:
-            return []
-    return []
-
-
-def _save_recruits(recruits):
-    with open(RECRUITS_FILE, "w") as f:
-        json.dump(recruits, f, indent=2, default=str)
-
-
-def _load_briefs():
-    if BRIEFS_FILE.exists():
-        try:
-            with open(BRIEFS_FILE) as f:
-                return json.load(f)
-        except:
-            return []
-    return []
-
-
-def _save_briefs(briefs):
-    with open(BRIEFS_FILE, "w") as f:
-        json.dump(briefs, f, indent=2, default=str)
-
-
-def _load_leads():
-    if LEADS_FILE.exists():
-        try:
-            with open(LEADS_FILE) as f:
-                return json.load(f)
-        except:
-            return []
-    return []
-
-
-def _save_leads(leads):
-    with open(LEADS_FILE, "w") as f:
-        json.dump(leads, f, indent=2, default=str)
 
 
 _load_jobs()
@@ -1093,9 +1044,9 @@ def lead_capture():
         "user_agent": request.headers.get("User-Agent", ""),
     }
 
-    leads = _load_leads()
+    leads = db.load_leads()
     leads.insert(0, lead)
-    _save_leads(leads)
+    db.save_lead(lead)
 
     # Also mirror to submissions for unified inbox
     submission = {
@@ -1174,16 +1125,10 @@ def serve_image(filename):
 @require_admin_key
 def ops_list_leads():
     """List all leads with optional status/type filter."""
-    leads = _load_leads()
-    status_filter = request.args.get("status", "").strip().lower()
-    type_filter = request.args.get("type", "").strip().lower()
-    agent_filter = request.args.get("agent", "").strip().lower()
-    if status_filter:
-        leads = [l for l in leads if l.get("status", "").lower() == status_filter]
-    if type_filter:
-        leads = [l for l in leads if l.get("enquiry_type", "").lower() == type_filter]
-    if agent_filter:
-        leads = [l for l in leads if agent_filter in (l.get("agent_name") or "").lower()]
+    status_filter = request.args.get("status", "").strip().lower() or None
+    type_filter = request.args.get("type", "").strip().lower() or None
+    agent_filter = request.args.get("agent", "").strip().lower() or None
+    leads = db.load_leads(status=status_filter, enquiry_type=type_filter, agent=agent_filter)
     return jsonify({"count": len(leads), "leads": leads})
 
 
@@ -1196,8 +1141,7 @@ def ops_create_lead():
     if not client_name:
         return jsonify({"error": "client_name is required"}), 400
 
-    lead = {
-        "id": str(uuid.uuid4())[:8],
+    lead = db.save_lead({
         "client_name": client_name,
         "contact": data.get("contact", "").strip(),
         "source": data.get("source", "").strip(),
@@ -1207,50 +1151,33 @@ def ops_create_lead():
         "budget": data.get("budget", "").strip(),
         "area": data.get("area", "").strip(),
         "notes": data.get("notes", "").strip(),
-        "created_at": datetime.utcnow().isoformat() + "Z",
-        "updated_at": datetime.utcnow().isoformat() + "Z",
-    }
-    leads = _load_leads()
-    leads.insert(0, lead)
-    _save_leads(leads)
+    })
     return jsonify({"lead": lead}), 201
 
 
 @app.route("/ops/leads/<lead_id>", methods=["GET"])
 @require_admin_key
 def ops_get_lead(lead_id):
-    leads = _load_leads()
-    for l in leads:
-        if l.get("id") == lead_id:
-            return jsonify({"lead": l})
+    lead = db.get_lead(lead_id)
+    if lead:
+        return jsonify({"lead": lead})
     return jsonify({"error": "Lead not found"}), 404
 
 
 @app.route("/ops/leads/<lead_id>", methods=["PUT"])
 @require_admin_key
 def ops_update_lead(lead_id):
-    leads = _load_leads()
-    for l in leads:
-        if l.get("id") == lead_id:
-            data = request.get_json(force=True) or {}
-            for key in ["client_name", "contact", "source", "enquiry_type", "status", "agent_name", "budget", "area", "notes"]:
-                if key in data:
-                    l[key] = str(data[key]).strip()
-            l["updated_at"] = datetime.utcnow().isoformat() + "Z"
-            _save_leads(leads)
-            return jsonify({"lead": l})
+    lead = db.update_lead(lead_id, request.get_json(force=True) or {})
+    if lead:
+        return jsonify({"lead": lead})
     return jsonify({"error": "Lead not found"}), 404
 
 
 @app.route("/ops/leads/<lead_id>", methods=["DELETE"])
 @require_admin_key
 def ops_delete_lead(lead_id):
-    leads = _load_leads()
-    for i, l in enumerate(leads):
-        if l.get("id") == lead_id:
-            leads.pop(i)
-            _save_leads(leads)
-            return jsonify({"message": "Lead deleted"})
+    if db.delete_lead(lead_id):
+        return jsonify({"message": "Lead deleted"})
     return jsonify({"error": "Lead not found"}), 404
 
 
@@ -1258,13 +1185,9 @@ def ops_delete_lead(lead_id):
 @require_admin_key
 def ops_list_briefs():
     """List all client briefs with optional status filter."""
-    briefs = _load_briefs()
-    status_filter = request.args.get("status", "").strip().lower()
-    agent_filter = request.args.get("agent", "").strip().lower()
-    if status_filter:
-        briefs = [b for b in briefs if b.get("status", "").lower() == status_filter]
-    if agent_filter:
-        briefs = [b for b in briefs if agent_filter in (b.get("agent_name") or "").lower()]
+    status_filter = request.args.get("status", "").strip().lower() or None
+    agent_filter = request.args.get("agent", "").strip().lower() or None
+    briefs = db.load_briefs(status=status_filter, agent=agent_filter)
     return jsonify({"count": len(briefs), "briefs": briefs})
 
 
@@ -1277,8 +1200,7 @@ def ops_create_brief():
     if not client_name:
         return jsonify({"error": "client_name is required"}), 400
 
-    brief = {
-        "id": str(uuid.uuid4())[:8],
+    brief = db.save_brief({
         "client_name": client_name,
         "contact": data.get("contact", "").strip(),
         "property": data.get("property", "").strip(),
@@ -1287,50 +1209,33 @@ def ops_create_brief():
         "agent_name": data.get("agent_name", "").strip(),
         "status": data.get("status", "active").strip().lower(),
         "notes": data.get("notes", "").strip(),
-        "created_at": datetime.utcnow().isoformat() + "Z",
-        "updated_at": datetime.utcnow().isoformat() + "Z",
-    }
-    briefs = _load_briefs()
-    briefs.insert(0, brief)
-    _save_briefs(briefs)
+    })
     return jsonify({"brief": brief}), 201
 
 
 @app.route("/ops/briefs/<brief_id>", methods=["GET"])
 @require_admin_key
 def ops_get_brief(brief_id):
-    briefs = _load_briefs()
-    for b in briefs:
-        if b.get("id") == brief_id:
-            return jsonify({"brief": b})
+    brief = db.get_brief(brief_id)
+    if brief:
+        return jsonify({"brief": brief})
     return jsonify({"error": "Brief not found"}), 404
 
 
 @app.route("/ops/briefs/<brief_id>", methods=["PUT"])
 @require_admin_key
 def ops_update_brief(brief_id):
-    briefs = _load_briefs()
-    for b in briefs:
-        if b.get("id") == brief_id:
-            data = request.get_json(force=True) or {}
-            for key in ["client_name", "contact", "property", "area", "viewing_date", "agent_name", "status", "notes"]:
-                if key in data:
-                    b[key] = str(data[key]).strip()
-            b["updated_at"] = datetime.utcnow().isoformat() + "Z"
-            _save_briefs(briefs)
-            return jsonify({"brief": b})
+    brief = db.update_brief(brief_id, request.get_json(force=True) or {})
+    if brief:
+        return jsonify({"brief": brief})
     return jsonify({"error": "Brief not found"}), 404
 
 
 @app.route("/ops/briefs/<brief_id>", methods=["DELETE"])
 @require_admin_key
 def ops_delete_brief(brief_id):
-    briefs = _load_briefs()
-    for i, b in enumerate(briefs):
-        if b.get("id") == brief_id:
-            briefs.pop(i)
-            _save_briefs(briefs)
-            return jsonify({"message": "Brief deleted"})
+    if db.delete_brief(brief_id):
+        return jsonify({"message": "Brief deleted"})
     return jsonify({"error": "Brief not found"}), 404
 
 
@@ -1338,14 +1243,9 @@ def ops_delete_brief(brief_id):
 @require_admin_key
 def ops_stats():
     """Quick stats for the ops hub."""
-    leads = _load_leads()
-    briefs = _load_briefs()
-    from collections import Counter
-    lead_status = Counter(l.get("status", "unknown") for l in leads)
-    brief_status = Counter(b.get("status", "unknown") for b in briefs)
     return jsonify({
-        "leads": {"total": len(leads), "by_status": dict(lead_status)},
-        "briefs": {"total": len(briefs), "by_status": dict(brief_status)},
+        "leads": db.lead_stats(),
+        "briefs": db.brief_stats(),
     })
 
 
@@ -1422,8 +1322,7 @@ def _map_meta_fields(field_data: list) -> dict:
 
 def _create_lead_from_data(data: dict, source_tag: str = "webhook") -> dict:
     """Create a lead entry from mapped data."""
-    lead = {
-        "id": str(uuid.uuid4())[:8],
+    return db.save_lead({
         "client_name": data.get("client_name", "Unknown").strip() or "Unknown",
         "contact": data.get("contact", "").strip(),
         "source": data.get("source", source_tag).strip(),
@@ -1433,13 +1332,7 @@ def _create_lead_from_data(data: dict, source_tag: str = "webhook") -> dict:
         "budget": data.get("budget", "").strip(),
         "area": data.get("area", "").strip(),
         "notes": data.get("notes", "").strip(),
-        "created_at": datetime.utcnow().isoformat() + "Z",
-        "updated_at": datetime.utcnow().isoformat() + "Z",
-    }
-    leads = _load_leads()
-    leads.insert(0, lead)
-    _save_leads(leads)
-    return lead
+    })
 
 
 @app.route("/ops/webhook/lead", methods=["GET", "POST"])
