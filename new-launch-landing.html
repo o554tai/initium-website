@@ -1036,7 +1036,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         }
 
         // Submit to backend
-        fetch('/api/lead', {
+        fetch('https://initium-backend.onrender.com/api/lead', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

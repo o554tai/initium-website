@@ -167,7 +167,7 @@ function handleSubmit(e) {
     gtag('event', 'generate_lead', { currency: 'SGD', value: 0.00, project: '{{PROJECT_NAME}}' });
   }
 
-  fetch('/api/lead', {
+  fetch('https://initium-backend.onrender.com/api/lead', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(payload)
