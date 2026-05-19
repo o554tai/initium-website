@@ -8,18 +8,11 @@ import os
 import re
 import subprocess
 import sys
-import time
-import hashlib
-from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from html import unescape
 from xml.etree import ElementTree as ET
 
 import requests
-try:
-    from bs4 import BeautifulSoup
-except ImportError:
-    BeautifulSoup = None
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(SCRIPT_DIR)
@@ -27,42 +20,13 @@ DATA_FILE = os.path.join(REPO_DIR, "data", "property-news.json")
 BLOG_HTML = os.path.join(REPO_DIR, "blog.html")
 ARCHIVE_HTML = os.path.join(REPO_DIR, "news-archive.html")
 
-# Pool of fallback images per source (rotated so cards don't all look identical)
-SOURCE_IMAGE_POOLS = {
-    "ST": [
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop",
-    ],
-    "CNA": [
-        "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600047509358-9c977f0e600c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600585154363-67ebad380241?w=600&h=400&fit=crop",
-    ],
-    "EdgeProp": [
-        "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&h=400&fit=crop",
-        "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=600&h=400&fit=crop",
-    ],
+# Source brand logos — used as card thumbnails since article hero images
+# are blocked by paywalls / bot protection.
+SOURCE_LOGOS = {
+    "ST": "https://www.straitstimes.com/assets/ST-logo-default-aoeSLh4S.png",
+    "CNA": "https://www.channelnewsasia.com/sites/default/themes/mc_cna_theme/images/logo.svg",
+    "EdgeProp": "https://sg.tepcdn.com/public/usr/8bua27/d55c0b-Logo.png",
 }
-
-# Keyword → image mapping for more relevant fallbacks
-KEYWORD_IMAGES = [
-    (r'\bhdb\b', "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop"),
-    (r'\bcondo\b|\bcondominium\b', "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=600&h=400&fit=crop"),
-    (r'\blanded\b|\bshophouse\b', "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop"),
-    (r'\brental\b|\btenancy\b|\blease\b', "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?w=600&h=400&fit=crop"),
-    (r'\blaunch\b|\bnew home\b', "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop"),
-    (r'\bupgrade\b|\bupgrading\b|\bhip\b|\bimprovement\b', "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=400&fit=crop"),
-    (r'\babsd\b|\btax\b|\bcooling measure\b|\bmortgage\b|\bstamp duty\b', "https://images.unsplash.com/photo-1600047509358-9c977f0e600c?w=600&h=400&fit=crop"),
-    (r'\bcollective sale\b|\ben bloc\b|\benbloc\b', "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&h=400&fit=crop"),
-]
 
 HOURS_FRESH = 48
 DAYS_KEEP = 7  # Prune articles older than this
@@ -77,17 +41,10 @@ def fmt_date(ts: float) -> str:
     return dt.strftime("%a, %d %b %Y")
 
 
-def pick_fallback_image(article: dict) -> str:
-    """Pick a relevant fallback image based on article title keywords."""
-    title = article.get("title", "").lower()
-    for pattern, img_url in KEYWORD_IMAGES:
-        if re.search(pattern, title):
-            return img_url
-    # Rotate through source pool based on article hash for variety
+def pick_source_logo(article: dict) -> str:
+    """Return the source brand logo for the article card thumbnail."""
     tag = article.get("source_tag", "ST")
-    pool = SOURCE_IMAGE_POOLS.get(tag, SOURCE_IMAGE_POOLS["ST"])
-    h = int(hashlib.md5(article.get("url", "").encode()).hexdigest(), 16)
-    return pool[h % len(pool)]
+    return SOURCE_LOGOS.get(tag, SOURCE_LOGOS["ST"])
 
 
 def fetch_google_news_rss(query: str) -> list[dict]:
@@ -220,76 +177,6 @@ def make_excerpt(title: str) -> str:
     return title
 
 
-def extract_article_image(url: str) -> str | None:
-    """Fetch article page and extract the hero / Open Graph image."""
-    if BeautifulSoup is None:
-        return None
-    try:
-        r = requests.get(url, headers={
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
-            "Accept-Language": "en-SG,en;q=0.9",
-            "Accept-Encoding": "gzip, deflate, br",
-            "DNT": "1",
-            "Connection": "keep-alive",
-            "Upgrade-Insecure-Requests": "1",
-            "Sec-Fetch-Dest": "document",
-            "Sec-Fetch-Mode": "navigate",
-            "Sec-Fetch-Site": "none",
-            "Sec-Fetch-User": "?1",
-            "Cache-Control": "max-age=0",
-        }, timeout=12, allow_redirects=True)
-        if r.status_code != 200:
-            return None
-        soup = BeautifulSoup(r.content, "html.parser")
-        # 1. Open Graph image (most reliable)
-        og = soup.find("meta", property="og:image")
-        if og and og.get("content"):
-            img_url = og["content"].strip()
-            if img_url.startswith("http") and not is_generic_image(img_url):
-                return img_url
-        # 2. Twitter card image
-        tw = soup.find("meta", attrs={"name": "twitter:image"})
-        if tw and tw.get("content"):
-            img_url = tw["content"].strip()
-            if img_url.startswith("http") and not is_generic_image(img_url):
-                return img_url
-        # 3. First substantial image in article body
-        for img in soup.find_all("img"):
-            src = img.get("src") or img.get("data-src") or ""
-            if not src.startswith("http"):
-                continue
-            # Skip tiny icons / tracking pixels
-            w = img.get("width") or ""
-            h = img.get("height") or ""
-            if w and h:
-                try:
-                    if int(w) < 200 or int(h) < 120:
-                        continue
-                except ValueError:
-                    pass
-            if not is_generic_image(src):
-                return src
-        return None
-    except Exception:
-        return None
-
-
-def is_generic_image(url: str) -> bool:
-    """Reject known generic / logo images that aren't real article photos."""
-    if not url:
-        return True
-    u = url.lower()
-    generic_patterns = [
-        "tepcdn.com/public/usr",       # EdgeProp generic logo
-        "googleusercontent.com/j6_cof", # Google News logo
-        "logo",                         # Any explicit logo file
-        "favicon",                      # Favicon
-        "icon",                         # Generic icon
-    ]
-    return any(p in u for p in generic_patterns)
-
-
 def load_articles() -> list[dict]:
     if not os.path.exists(DATA_FILE):
         return []
@@ -323,16 +210,13 @@ def build_card_html(article: dict) -> str:
     display_title = title if len(title) < 90 else title[:87] + "..."
     excerpt = make_excerpt(title)
     tag = article.get("source_tag", "News")
-    # Use cached image if valid, otherwise pick a smart fallback
-    img = article.get("image")
-    if not img or is_generic_image(img):
-        img = pick_fallback_image(article)
+    img = pick_source_logo(article)
     date_str = fmt_date(article.get("pub_ts", article.get("fetched_ts", now_ts())))
     url = article.get("url", "#")
     return (
         f'      <a href="{url}" class="blog-card" target="_blank" rel="noopener">\n'
         f'        <div class="blog-thumb">\n'
-        f'          <img src="{img}" alt="{tag} property news" loading="lazy">\n'
+        f'          <img src="{img}" alt="{tag} property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">\n'
         f'        </div>\n'
         f'        <div class="blog-content">\n'
         f'          <span class="blog-tag">{tag}</span>\n'
@@ -404,15 +288,13 @@ def generate_archive_html(archived: list[dict]):
         display_title = title if len(title) < 90 else title[:87] + "..."
         excerpt = make_excerpt(title)
         tag = a.get("source_tag", "News")
-        img = a.get("image")
-        if not img or is_generic_image(img):
-            img = pick_fallback_image(a)
+        img = pick_source_logo(a)
         date_str = fmt_date(a.get("pub_ts", a.get("fetched_ts", now_ts())))
         url = a.get("url", "#")
         cards.append(
             f'      <a href="{url}" class="blog-card" target="_blank" rel="noopener">\n'
             f'        <div class="blog-thumb">\n'
-            f'          <img src="{img}" alt="{tag} property news" loading="lazy">\n'
+            f'          <img src="{img}" alt="{tag} property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">\n'
             f'        </div>\n'
             f'        <div class="blog-content">\n'
             f'          <span class="blog-tag">{tag}</span>\n'
@@ -1026,39 +908,15 @@ def main():
     print(f"\n      Total unique articles: {len(all_articles)}")
 
     # Prune articles older than 7 days
-    print("[5/7] Pruning old articles...")
+    print("[5/6] Pruning old articles...")
     all_articles = prune_old_articles(all_articles)
-
-    # Enrich articles with hero images (concurrent, skip if already cached)
-    print("[6/7] Fetching article images...")
-    # Filter out generic / placeholder images so they get re-fetched
-    need_img = [a for a in all_articles if not a.get("image") or is_generic_image(a.get("image", ""))]
-    for a in need_img:
-        if is_generic_image(a.get("image", "")):
-            a.pop("image", None)
-    print(f"      {len(need_img)} articles need images")
-    fetched_images = 0
-
-    def _fetch_one(a):
-        img = extract_article_image(a["url"])
-        if img:
-            a["image"] = img
-        return img is not None
-
-    with ThreadPoolExecutor(max_workers=6) as ex:
-        futures = {ex.submit(_fetch_one, a): a for a in need_img}
-        for future in as_completed(futures):
-            if future.result():
-                fetched_images += 1
-
-    print(f"      {fetched_images} images fetched")
 
     # Classify by PUBLICATION date
     fresh, archived = classify_articles(all_articles)
     print(f"      Fresh (<48h): {len(fresh)}")
     print(f"      Archived (≥48h): {len(archived)}")
 
-    print("[7/7] Regenerating pages...")
+    print("[6/6] Regenerating pages...")
     ok1 = update_blog_html(fresh)
     ok2 = generate_archive_html(archived)
     save_articles(all_articles)
@@ -1067,7 +925,7 @@ def main():
     if not ok2:
         print("      WARNING: archive.html generation failed")
 
-    print("[8/8] Deploying...")
+    print("[7/7] Deploying...")
     if git_deploy():
         print("\nDone. Deployed successfully.")
     else:
