@@ -25,7 +25,7 @@ ARCHIVE_HTML = os.path.join(REPO_DIR, "news-archive.html")
 SOURCE_LOGOS = {
     "ST": "https://www.straitstimes.com/assets/ST-logo-default-aoeSLh4S.png",
     "CNA": "https://www.channelnewsasia.com/sites/default/themes/mc_cna_theme/images/logo.svg",
-    "EdgeProp": "https://sg.tepcdn.com/public/usr/8bua27/d55c0b-Logo.png",
+    "EdgeProp": "https://sg.tepcdn.com/public/usr/dluzx5/4f70fe-Edgeprop-Logo.jpg",
 }
 
 HOURS_FRESH = 48
