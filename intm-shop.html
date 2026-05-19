@@ -201,6 +201,15 @@
     color: var(--ig-ink);
     margin-bottom: 20px;
     max-width: 700px;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+  @media (max-width: 600px) {
+    .page-hero-title {
+      font-size: clamp(28px, 9vw, 40px);
+      line-height: 1.15;
+      max-width: 100%;
+    }
   }
   .page-hero-sub {
     font-size: clamp(16px, 2vw, 20px);
