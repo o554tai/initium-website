@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-19T09:00:57.810921+00:00",
+  "scraped_at": "2026-05-19T10:00:24.209085+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -585,8 +585,8 @@
       "address": "380 Jalan Besar",
       "property_type": "Commercial",
       "tenure": "Freehold",
-      "min_price": 2128000.0,
-      "max_price": 19044600.0,
+      "min_price": 2319520.0,
+      "max_price": 20758614.0,
       "currency": "$",
       "units": "167",
       "completion_date": "",
