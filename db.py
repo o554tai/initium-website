@@ -7,8 +7,10 @@ Uses PostgreSQL when DATABASE_URL is set, otherwise falls back to JSON files.
 import os
 import json
 import uuid
+import socket
 from datetime import datetime
 from pathlib import Path
+from urllib.parse import urlparse
 
 # Try PostgreSQL
 try:
@@ -18,7 +20,7 @@ try:
 except ImportError:
     HAS_PG = False
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "")
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 USE_PG = HAS_PG and DATABASE_URL
 
 # JSON fallback paths
@@ -27,16 +29,101 @@ BRIEFS_FILE = Path("briefs.json")
 
 # ── PostgreSQL helpers ──
 
-def _pg_conn():
-    # Try sslmode=require first, fallback to default if that fails
-    # (Supabase pooler sometimes needs different SSL handling)
+def _parse_pg_url(url):
+    """Parse postgresql:// URL into components."""
+    parsed = urlparse(url)
+    user = parsed.username or "postgres"
+    password = parsed.password or ""
+    host = parsed.hostname or ""
+    port = parsed.port or 5432
+    dbname = parsed.path.lstrip("/") or "postgres"
+    return user, password, host, port, dbname
+
+
+def _has_ipv4(hostname):
+    """Check if hostname has an IPv4 A record."""
     try:
-        return psycopg2.connect(DATABASE_URL, sslmode="require")
-    except psycopg2.OperationalError as e:
-        err_str = str(e)
-        if "sslmode" in err_str.lower() or "ssl" in err_str.lower() or "certificate" in err_str.lower():
-            return psycopg2.connect(DATABASE_URL)
-        raise
+        socket.getaddrinfo(hostname, None, socket.AF_INET, socket.SOCK_STREAM)
+        return True
+    except socket.gaierror:
+        return False
+
+
+def _pg_conn():
+    """Connect to PostgreSQL with automatic IPv6/IPv4 and pooler fallback."""
+    user, password, host, port, dbname = _parse_pg_url(DATABASE_URL)
+
+    # Strategy 1: direct connection (works if host has IPv4)
+    if _has_ipv4(host):
+        try:
+            return psycopg2.connect(
+                host=host, port=port, database=dbname,
+                user=user, password=password, sslmode="require"
+            )
+        except psycopg2.OperationalError:
+            pass
+
+    # Strategy 2: IPv6-only host — route through Supabase regional pooler
+    # The pooler needs SNI (original hostname) for tenant routing.
+    if host.startswith("db.") and not _has_ipv4(host):
+        project_ref = host.replace("db.", "").replace(".supabase.co", "")
+        pooler_hosts = [
+            "aws-0-ap-southeast-1.pooler.supabase.com",
+            "ap-southeast-1.pooler.supabase.com",
+        ]
+
+        # Try session pooler (port 5432) with project-ref in username
+        for pooler_host in pooler_hosts:
+            try:
+                pooler_ip = socket.gethostbyname(pooler_host)
+            except Exception:
+                continue
+
+            # Format: postgres.project-ref
+            pooler_user = f"postgres.{project_ref}"
+            try:
+                return psycopg2.connect(
+                    hostaddr=pooler_ip,
+                    host=host,  # SNI / SSL verification
+                    port=5432,
+                    database=dbname,
+                    user=pooler_user,
+                    password=password,
+                    sslmode="require"
+                )
+            except psycopg2.OperationalError:
+                pass
+
+            # Try transaction pooler (port 6543)
+            try:
+                return psycopg2.connect(
+                    hostaddr=pooler_ip,
+                    host=host,
+                    port=6543,
+                    database=dbname,
+                    user=pooler_user,
+                    password=password,
+                    sslmode="require"
+                )
+            except psycopg2.OperationalError:
+                pass
+
+            # Some pooler configs accept just "postgres" as user on port 6543
+            try:
+                return psycopg2.connect(
+                    hostaddr=pooler_ip,
+                    host=host,
+                    port=6543,
+                    database=dbname,
+                    user="postgres",
+                    password=password,
+                    sslmode="require"
+                )
+            except psycopg2.OperationalError:
+                pass
+
+    # Strategy 3: last resort — try original URL as-is
+    return psycopg2.connect(DATABASE_URL, sslmode="require")
 
 
 def _ensure_tables():
