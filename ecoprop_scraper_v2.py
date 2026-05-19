@@ -12,14 +12,13 @@ import sys
 import time
 import hashlib
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 import requests
 
 # Paths
 OUTPUT_FILE = Path("/home/hermes/initium-website/ecoprop_projects.json")
 CACHE_FILE = Path("/home/hermes/ecoprop_projects.json")
-LOCK_FILE = Path("/tmp/ecoprop_scraper.lock")
 
 # The API blocks short/robot User-Agents. Must use full browser UA.
 HEADERS = {
@@ -31,22 +30,6 @@ HEADERS = {
 }
 
 API_URL = "https://api.singmap.com/c-api/project/queryProjectList"
-
-
-def acquire_lock():
-    if LOCK_FILE.exists():
-        pid = LOCK_FILE.read_text().strip()
-        try:
-            os.kill(int(pid), 0)
-            print(f"[{datetime.now()}] Another scraper instance running (PID {pid}). Exiting.")
-            sys.exit(0)
-        except (OSError, ValueError):
-            pass
-    LOCK_FILE.write_text(str(os.getpid()))
-
-
-def release_lock():
-    LOCK_FILE.unlink(missing_ok=True)
 
 
 def generate_api_signature(params):
@@ -160,7 +143,7 @@ def save_and_commit(projects):
     output = {
         'source': 'ecoprop.com',
         'total': len(projects),
-        'scraped_at': datetime.utcnow().isoformat(),
+        'scraped_at': datetime.now(timezone.utc).isoformat(),
         'projects': projects,
     }
 
@@ -188,22 +171,17 @@ def save_and_commit(projects):
 
 
 def main():
-    acquire_lock()
-    try:
-        print(f"[{datetime.now()}] Starting EcoProp scraper...")
+    print(f"[{datetime.now()}] Starting EcoProp scraper...")
 
-        raw_projects = fetch_via_api()
-        if raw_projects is not None:
-            projects = clean_projects(raw_projects)
-            save_and_commit(projects)
-            print(f"[{datetime.now()}] SUCCESS: {len(projects)} projects")
-            return 0
+    raw_projects = fetch_via_api()
+    if raw_projects is not None:
+        projects = clean_projects(raw_projects)
+        save_and_commit(projects)
+        print(f"[{datetime.now()}] SUCCESS: {len(projects)} projects")
+        return 0
 
-        print(f"[{datetime.now()}] FAILED - keeping existing data")
-        return 1
-
-    finally:
-        release_lock()
+    print(f"[{datetime.now()}] FAILED - keeping existing data")
+    return 1
 
 
 if __name__ == '__main__':

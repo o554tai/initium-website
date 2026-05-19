@@ -11,7 +11,7 @@ import sys
 import time
 import hashlib
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 
 import requests
 
@@ -139,7 +139,7 @@ def save_and_commit(projects):
     output = {
         'source': 'singmap.com',
         'total': len(projects),
-        'scraped_at': datetime.utcnow().isoformat(),
+        'scraped_at': datetime.now(timezone.utc).isoformat(),
         'projects': projects,
     }
 
