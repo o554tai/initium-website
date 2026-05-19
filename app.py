@@ -162,6 +162,7 @@ def _save_submissions(subs):
 
 RECRUITS_FILE = Path("recruits.json")
 BRIEFS_FILE = Path("briefs.json")
+LEADS_FILE = Path("leads.json")
 
 
 def _load_recruits():
@@ -192,6 +193,21 @@ def _load_briefs():
 def _save_briefs(briefs):
     with open(BRIEFS_FILE, "w") as f:
         json.dump(briefs, f, indent=2, default=str)
+
+
+def _load_leads():
+    if LEADS_FILE.exists():
+        try:
+            with open(LEADS_FILE) as f:
+                return json.load(f)
+        except:
+            return []
+    return []
+
+
+def _save_leads(leads):
+    with open(LEADS_FILE, "w") as f:
+        json.dump(leads, f, indent=2, default=str)
 
 
 _load_jobs()
@@ -1083,86 +1099,91 @@ def serve_image(filename):
 
 
 # ═══════════════════════════════════════════════════════════
-# OPS HUB — Recruit Tracker & Client Brief
+# OPS HUB — Lead Database & Client Brief
 # ═══════════════════════════════════════════════════════════
 
-@app.route("/ops/recruits", methods=["GET"])
+@app.route("/ops/leads", methods=["GET"])
 @require_admin_key
-def ops_list_recruits():
-    """List all recruits with optional status filter."""
-    recruits = _load_recruits()
+def ops_list_leads():
+    """List all leads with optional status/type filter."""
+    leads = _load_leads()
     status_filter = request.args.get("status", "").strip().lower()
-    division_filter = request.args.get("division", "").strip().lower()
+    type_filter = request.args.get("type", "").strip().lower()
+    agent_filter = request.args.get("agent", "").strip().lower()
     if status_filter:
-        recruits = [r for r in recruits if r.get("status", "").lower() == status_filter]
-    if division_filter:
-        recruits = [r for r in recruits if division_filter in (r.get("division") or "").lower()]
-    return jsonify({"count": len(recruits), "recruits": recruits})
+        leads = [l for l in leads if l.get("status", "").lower() == status_filter]
+    if type_filter:
+        leads = [l for l in leads if l.get("enquiry_type", "").lower() == type_filter]
+    if agent_filter:
+        leads = [l for l in leads if agent_filter in (l.get("agent_name") or "").lower()]
+    return jsonify({"count": len(leads), "leads": leads})
 
 
-@app.route("/ops/recruits", methods=["POST"])
+@app.route("/ops/leads", methods=["POST"])
 @require_admin_key
-def ops_create_recruit():
-    """Add a new recruit to the pipeline."""
+def ops_create_lead():
+    """Add a new lead to the database."""
     data = request.get_json(force=True) or {}
-    name = data.get("name", "").strip()
-    if not name:
-        return jsonify({"error": "name is required"}), 400
+    client_name = data.get("client_name", "").strip()
+    if not client_name:
+        return jsonify({"error": "client_name is required"}), 400
 
-    recruit = {
+    lead = {
         "id": str(uuid.uuid4())[:8],
-        "name": name,
+        "client_name": client_name,
         "contact": data.get("contact", "").strip(),
         "source": data.get("source", "").strip(),
-        "status": data.get("status", "lead").strip().lower(),
-        "division": data.get("division", "").strip(),
-        "leader": data.get("leader", "").strip(),
+        "enquiry_type": data.get("enquiry_type", "buy").strip().lower(),
+        "status": data.get("status", "new").strip().lower(),
+        "agent_name": data.get("agent_name", "").strip(),
+        "budget": data.get("budget", "").strip(),
+        "area": data.get("area", "").strip(),
         "notes": data.get("notes", "").strip(),
         "created_at": datetime.utcnow().isoformat() + "Z",
         "updated_at": datetime.utcnow().isoformat() + "Z",
     }
-    recruits = _load_recruits()
-    recruits.insert(0, recruit)
-    _save_recruits(recruits)
-    return jsonify({"recruit": recruit}), 201
+    leads = _load_leads()
+    leads.insert(0, lead)
+    _save_leads(leads)
+    return jsonify({"lead": lead}), 201
 
 
-@app.route("/ops/recruits/<recruit_id>", methods=["GET"])
+@app.route("/ops/leads/<lead_id>", methods=["GET"])
 @require_admin_key
-def ops_get_recruit(recruit_id):
-    recruits = _load_recruits()
-    for r in recruits:
-        if r.get("id") == recruit_id:
-            return jsonify({"recruit": r})
-    return jsonify({"error": "Recruit not found"}), 404
+def ops_get_lead(lead_id):
+    leads = _load_leads()
+    for l in leads:
+        if l.get("id") == lead_id:
+            return jsonify({"lead": l})
+    return jsonify({"error": "Lead not found"}), 404
 
 
-@app.route("/ops/recruits/<recruit_id>", methods=["PUT"])
+@app.route("/ops/leads/<lead_id>", methods=["PUT"])
 @require_admin_key
-def ops_update_recruit(recruit_id):
-    recruits = _load_recruits()
-    for r in recruits:
-        if r.get("id") == recruit_id:
+def ops_update_lead(lead_id):
+    leads = _load_leads()
+    for l in leads:
+        if l.get("id") == lead_id:
             data = request.get_json(force=True) or {}
-            for key in ["name", "contact", "source", "status", "division", "leader", "notes"]:
+            for key in ["client_name", "contact", "source", "enquiry_type", "status", "agent_name", "budget", "area", "notes"]:
                 if key in data:
-                    r[key] = str(data[key]).strip()
-            r["updated_at"] = datetime.utcnow().isoformat() + "Z"
-            _save_recruits(recruits)
-            return jsonify({"recruit": r})
-    return jsonify({"error": "Recruit not found"}), 404
+                    l[key] = str(data[key]).strip()
+            l["updated_at"] = datetime.utcnow().isoformat() + "Z"
+            _save_leads(leads)
+            return jsonify({"lead": l})
+    return jsonify({"error": "Lead not found"}), 404
 
 
-@app.route("/ops/recruits/<recruit_id>", methods=["DELETE"])
+@app.route("/ops/leads/<lead_id>", methods=["DELETE"])
 @require_admin_key
-def ops_delete_recruit(recruit_id):
-    recruits = _load_recruits()
-    for i, r in enumerate(recruits):
-        if r.get("id") == recruit_id:
-            recruits.pop(i)
-            _save_recruits(recruits)
-            return jsonify({"message": "Recruit deleted"})
-    return jsonify({"error": "Recruit not found"}), 404
+def ops_delete_lead(lead_id):
+    leads = _load_leads()
+    for i, l in enumerate(leads):
+        if l.get("id") == lead_id:
+            leads.pop(i)
+            _save_leads(leads)
+            return jsonify({"message": "Lead deleted"})
+    return jsonify({"error": "Lead not found"}), 404
 
 
 @app.route("/ops/briefs", methods=["GET"])
@@ -1249,13 +1270,13 @@ def ops_delete_brief(brief_id):
 @require_admin_key
 def ops_stats():
     """Quick stats for the ops hub."""
-    recruits = _load_recruits()
+    leads = _load_leads()
     briefs = _load_briefs()
     from collections import Counter
-    recruit_status = Counter(r.get("status", "unknown") for r in recruits)
+    lead_status = Counter(l.get("status", "unknown") for l in leads)
     brief_status = Counter(b.get("status", "unknown") for b in briefs)
     return jsonify({
-        "recruits": {"total": len(recruits), "by_status": dict(recruit_status)},
+        "leads": {"total": len(leads), "by_status": dict(lead_status)},
         "briefs": {"total": len(briefs), "by_status": dict(brief_status)},
     })
 
