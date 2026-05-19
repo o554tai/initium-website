@@ -282,7 +282,7 @@ def is_generic_image(url: str) -> bool:
     u = url.lower()
     generic_patterns = [
         "tepcdn.com/public/usr",       # EdgeProp generic logo
-        "googleusercontent.com/J6_coF", # Google News logo
+        "googleusercontent.com/j6_cof", # Google News logo
         "logo",                         # Any explicit logo file
         "favicon",                      # Favicon
         "icon",                         # Generic icon
