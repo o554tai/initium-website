@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-20T02:00:57.818272+00:00",
+  "scraped_at": "2026-05-20T03:00:24.549843+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1760,8 +1760,8 @@
       "address": "10, 12 Clementi Avenue 1\n",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 1397000.0,
-      "max_price": 4595000.0,
+      "min_price": 1404000.0,
+      "max_price": 4609000.0,
       "currency": "$",
       "units": "501",
       "completion_date": "Q1 2028",
