@@ -671,7 +671,7 @@ def api_create_payment_intent():
                 "duration": str(duration),
                 "api_key": request.headers.get("X-API-Key", "")[:12],
             },
-            automatic_payment_methods={"enabled": True},
+            payment_method_types=["paynow"],
         )
         return jsonify({
             "client_secret": intent.client_secret,
@@ -720,10 +720,38 @@ def api_shop_checkout():
             success_url="https://initium.sg/intm-shop.html?status=success",
             cancel_url="https://initium.sg/intm-shop.html?status=cancel",
             shipping_address_collection={"allowed_countries": ["SG"]},
+            payment_method_types=["paynow"],
         )
         return jsonify({"url": session.url})
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+
+@app.route("/webhook/stripe", methods=["POST"])
+def stripe_webhook():
+    """Handle async PayNow confirmations and failures."""
+    payload = request.get_data(as_text=True)
+    sig_header = request.headers.get("Stripe-Signature")
+    endpoint_secret = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
+
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+    except ValueError:
+        return jsonify({"error": "Invalid payload"}), 400
+    except stripe.error.SignatureVerificationError:
+        return jsonify({"error": "Invalid signature"}), 400
+
+    intent = event["data"]["object"]
+
+    if event["type"] == "payment_intent.succeeded":
+        print(f"[Stripe] Payment succeeded: {intent['id']} amount={intent['amount']}")
+        # TODO: fulfill order (send video, email receipt, update DB)
+
+    elif event["type"] == "payment_intent.payment_failed":
+        err = intent.get("last_payment_error", {})
+        print(f"[Stripe] Payment failed: {intent['id']} reason={err.get('message', 'unknown')}")
+
+    return jsonify({"status": "ok"}), 200
 
 
 # ═══════════════════════════════════════════════════════════
