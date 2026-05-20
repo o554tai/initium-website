@@ -252,7 +252,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     text-transform: uppercase;
     color: var(--ig);
     margin-bottom: 20px;
-    display: inline-flex;
+    display: flex;
+    justify-content: center;
     align-items: center;
     gap: 12px;
   }
@@ -271,12 +272,14 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     letter-spacing: -0.02em;
     max-width: 700px;
     margin-bottom: 24px;
+    text-align: center;
   }
   .section-text {
     font-size: 17px;
     line-height: 1.7;
     color: var(--ig-ink-2);
     max-width: 540px;
+    text-align: center;
   }
 
   /* About */
@@ -285,6 +288,12 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     grid-template-columns: 1fr 1fr;
     gap: 64px;
     align-items: center;
+  }
+  .about-text .section-title,
+  .about-text .section-text,
+  .about-text .section-label {
+    text-align: left;
+    justify-content: flex-start;
   }
   .about-images {
     position: relative;
@@ -379,8 +388,12 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   }
   .services .section-label { color: var(--ig-light); }
   .services .section-label::before { background: var(--ig-light); }
-  .services .section-title { color: #fff; max-width: 500px; }
-  .services .section-text { color: rgba(255,255,255,0.7); }
+  .services .section-title { color: #fff; max-width: 500px;
+    text-align: center;
+  }
+  .services .section-text { color: rgba(255,255,255,0.7);
+    text-align: center;
+  }
   .service-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -767,6 +780,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   }
   .contact-section .section-text {
     margin: 0 auto 32px;
+    text-align: center;
   }
 
   /* Mobile Hamburger */
