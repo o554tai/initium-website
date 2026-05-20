@@ -1532,6 +1532,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 
     // ══ Init ══
     loadPricing();
+    handlePaymentReturn();
     checkHealth();
     if (apiKey) {
         // Auto-login if key stored
@@ -1549,8 +1550,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     <!-- Payment Modal -->
     <div id="paymentModal" style="display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center;">
         <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:420px; margin:20px;">
-            <h3 style="margin:0 0 4px; font-size:1.1rem;">Complete Payment</h3>
-            <p id="paymentDesc" style="margin:0 0 20px; color:var(--text-muted); font-size:0.85rem;">Pay to generate your video</p>
+            <h3 style="margin:0 0 4px; font-size:1.1rem;">Pay with PayNow</h3>
+            <p id="paymentDesc" style="margin:0 0 20px; color:var(--text-muted); font-size:0.85rem;">Scan the QR code with your banking app after confirming</p>
 
             <div style="background:var(--bg-elevated); border-radius:10px; padding:14px; margin-bottom:16px;">
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
