@@ -1244,26 +1244,15 @@ def ops_delete_brief(brief_id):
 def ops_dbtest():
     """Diagnostic: test DB connection and return raw error if any."""
     import traceback
+    status = db.db_status()
     result = {
-        "database_url_set": bool(db.DATABASE_URL),
-        "use_pg": db.USE_PG,
-        "url_host": db.DATABASE_URL.split("@")[1].split(":")[0] if "@" in db.DATABASE_URL else None,
+        "supabase_url_set": bool(db.SUPABASE_URL),
+        "use_rest": db.USE_REST,
+        "status": status,
     }
-    if not db.USE_PG:
-        result["status"] = "skipped — no DATABASE_URL or psycopg2 missing"
+    if status.get("connected"):
         return jsonify(result), 200
-    try:
-        conn = db._pg_conn()
-        with conn.cursor() as cur:
-            cur.execute("SELECT 1")
-            cur.fetchone()
-        conn.close()
-        result["status"] = "connected"
-        return jsonify(result), 200
-    except Exception as e:
-        result["status"] = "failed"
-        result["error"] = str(e)
-        result["traceback"] = traceback.format_exc()
+    else:
         return jsonify(result), 500
 
 
