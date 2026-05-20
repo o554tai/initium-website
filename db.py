@@ -1,467 +1,279 @@
 #!/usr/bin/env python3
 """
 INITIUM Ops Hub — Database layer
-Uses PostgreSQL when DATABASE_URL is set, otherwise falls back to JSON files.
-"""
+Uses Supabase REST API when SUPABASE_URL + SUPABASE_SERVICE_KEY are set.
+Falls back to local JSON files if env vars are missing.
 
+This bypasses all IPv6 / pooler / psycopg2 connection issues entirely.
+"""
 import os
 import json
 import uuid
-import socket
+import requests
 from datetime import datetime
 from pathlib import Path
-from urllib.parse import urlparse
 
-# Try PostgreSQL
-try:
-    import psycopg2
-    from psycopg2.extras import RealDictCursor
-    HAS_PG = True
-except ImportError:
-    HAS_PG = False
+# ── Config ──────────────────────────────────────────────────────────────────
+SUPABASE_URL = (os.environ.get("SUPABASE_URL") or "").rstrip("/")
+SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or ""
+USE_REST = bool(SUPABASE_URL and SUPABASE_KEY)
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
-USE_PG = HAS_PG and DATABASE_URL
+HEADERS = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": f"Bearer {SUPABASE_KEY}",
+    "Content-Type": "application/json",
+    "Prefer": "return=representation",
+}
 
-# JSON fallback paths
-LEADS_FILE = Path("leads.json")
-BRIEFS_FILE = Path("briefs.json")
-
-# ── PostgreSQL helpers ──
-
-def _parse_pg_url(url):
-    """Parse postgresql:// URL into components."""
-    parsed = urlparse(url)
-    user = parsed.username or "postgres"
-    password = parsed.password or ""
-    host = parsed.hostname or ""
-    port = parsed.port or 5432
-    dbname = parsed.path.lstrip("/") or "postgres"
-    return user, password, host, port, dbname
+# ── JSON fallback paths ─────────────────────────────────────────────────────
+BASE_DIR = Path(__file__).parent
+LEADS_JSON = BASE_DIR / "leads.json"
+BRIEFS_JSON = BASE_DIR / "briefs.json"
 
 
-def _has_ipv4(hostname):
-    """Check if hostname has an IPv4 A record."""
-    try:
-        socket.getaddrinfo(hostname, None, socket.AF_INET, socket.SOCK_STREAM)
+def _load_json(path):
+    if path.exists():
+        with open(path, "r") as f:
+            return json.load(f)
+    return []
+
+
+def _save_json(path, data):
+    with open(path, "w") as f:
+        json.dump(data, f, indent=2)
+
+
+# ── REST helpers ────────────────────────────────────────────────────────────
+def _rest_get(table, params=None):
+    url = f"{SUPABASE_URL}/rest/v1/{table}"
+    r = requests.get(url, headers=HEADERS, params=params, timeout=20)
+    r.raise_for_status()
+    return r.json()
+
+
+def _rest_post(table, payload):
+    url = f"{SUPABASE_URL}/rest/v1/{table}"
+    r = requests.post(url, headers=HEADERS, json=payload, timeout=20)
+    r.raise_for_status()
+    return r.json()
+
+
+def _rest_patch(table, row_id, payload):
+    url = f"{SUPABASE_URL}/rest/v1/{table}?id=eq.{row_id}"
+    r = requests.patch(url, headers=HEADERS, json=payload, timeout=20)
+    r.raise_for_status()
+    return r.json()
+
+
+def _rest_delete(table, row_id):
+    url = f"{SUPABASE_URL}/rest/v1/{table}?id=eq.{row_id}"
+    r = requests.delete(url, headers=HEADERS, timeout=20)
+    r.raise_for_status()
+    return True
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+#  LEADS
+# ═════════════════════════════════════════════════════════════════════════════
+
+def save_lead(data: dict) -> str:
+    lead_id = data.get("id") or str(uuid.uuid4())
+    now = datetime.utcnow().isoformat()
+    payload = {
+        "id": lead_id,
+        "client_name": data.get("client_name", ""),
+        "contact": data.get("contact", ""),
+        "source": data.get("source", ""),
+        "enquiry_type": data.get("enquiry_type", ""),
+        "status": data.get("status", "new"),
+        "budget": data.get("budget", ""),
+        "area": data.get("area", ""),
+        "agent_name": data.get("agent_name", ""),
+        "notes": data.get("notes", ""),
+        "created_at": data.get("created_at") or now,
+        "updated_at": now,
+    }
+
+    if USE_REST:
+        try:
+            _rest_post("ops_leads", payload)
+            return lead_id
+        except requests.HTTPError as e:
+            if e.response.status_code == 409:
+                _rest_patch("ops_leads", lead_id, payload)
+                return lead_id
+            raise
+    else:
+        leads = _load_json(LEADS_JSON)
+        leads.append(payload)
+        _save_json(LEADS_JSON, leads)
+        return lead_id
+
+
+def load_leads() -> list:
+    if USE_REST:
+        try:
+            return _rest_get("ops_leads", {"select": "*", "order": "created_at.desc"})
+        except Exception:
+            return []
+    else:
+        return _load_json(LEADS_JSON)
+
+
+def get_lead(lead_id: str) -> dict | None:
+    if USE_REST:
+        try:
+            rows = _rest_get("ops_leads", {"id": f"eq.{lead_id}"})
+            return rows[0] if rows else None
+        except Exception:
+            return None
+    else:
+        for l in _load_json(LEADS_JSON):
+            if l.get("id") == lead_id:
+                return l
+        return None
+
+
+def update_lead(lead_id: str, data: dict) -> bool:
+    now = datetime.utcnow().isoformat()
+    payload = {k: v for k, v in data.items() if k != "id"}
+    payload["updated_at"] = now
+
+    if USE_REST:
+        _rest_patch("ops_leads", lead_id, payload)
         return True
-    except socket.gaierror:
+    else:
+        leads = _load_json(LEADS_JSON)
+        for i, l in enumerate(leads):
+            if l.get("id") == lead_id:
+                leads[i].update(payload)
+                _save_json(LEADS_JSON, leads)
+                return True
         return False
 
 
-def _pg_conn():
-    """Connect to PostgreSQL with automatic IPv6/IPv4 and pooler fallback."""
-    user, password, host, port, dbname = _parse_pg_url(DATABASE_URL)
-
-    # Strategy 1: direct connection (works if host has IPv4)
-    if _has_ipv4(host):
-        try:
-            return psycopg2.connect(
-                host=host, port=port, database=dbname,
-                user=user, password=password, sslmode="require"
-            )
-        except psycopg2.OperationalError:
-            pass
-
-    # Strategy 2: IPv6-only host — route through Supabase regional pooler
-    # The pooler needs SNI (original hostname) for tenant routing.
-    if host.startswith("db.") and not _has_ipv4(host):
-        project_ref = host.replace("db.", "").replace(".supabase.co", "")
-        pooler_hosts = [
-            "aws-0-ap-southeast-1.pooler.supabase.com",
-            "ap-southeast-1.pooler.supabase.com",
-        ]
-
-        # Try session pooler (port 5432) with project-ref in username
-        for pooler_host in pooler_hosts:
-            try:
-                pooler_ip = socket.gethostbyname(pooler_host)
-            except Exception:
-                continue
-
-            # Format: postgres.project-ref
-            pooler_user = f"postgres.{project_ref}"
-            try:
-                return psycopg2.connect(
-                    hostaddr=pooler_ip,
-                    host=host,  # SNI / SSL verification
-                    port=5432,
-                    database=dbname,
-                    user=pooler_user,
-                    password=password,
-                    sslmode="require"
-                )
-            except psycopg2.OperationalError:
-                pass
-
-            # Try transaction pooler (port 6543)
-            try:
-                return psycopg2.connect(
-                    hostaddr=pooler_ip,
-                    host=host,
-                    port=6543,
-                    database=dbname,
-                    user=pooler_user,
-                    password=password,
-                    sslmode="require"
-                )
-            except psycopg2.OperationalError:
-                pass
-
-            # Some pooler configs accept just "postgres" as user on port 6543
-            try:
-                return psycopg2.connect(
-                    hostaddr=pooler_ip,
-                    host=host,
-                    port=6543,
-                    database=dbname,
-                    user="postgres",
-                    password=password,
-                    sslmode="require"
-                )
-            except psycopg2.OperationalError:
-                pass
-
-    # Strategy 3: last resort — try original URL as-is
-    return psycopg2.connect(DATABASE_URL, sslmode="require")
-
-
-def _ensure_tables():
-    if not USE_PG:
-        return
-    create_sql = """
-    CREATE TABLE IF NOT EXISTS ops_leads (
-        id TEXT PRIMARY KEY,
-        client_name TEXT NOT NULL,
-        contact TEXT,
-        source TEXT,
-        enquiry_type TEXT DEFAULT 'buy',
-        status TEXT DEFAULT 'new',
-        agent_name TEXT,
-        budget TEXT,
-        area TEXT,
-        notes TEXT,
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        updated_at TIMESTAMPTZ DEFAULT NOW()
-    );
-    CREATE TABLE IF NOT EXISTS ops_briefs (
-        id TEXT PRIMARY KEY,
-        client_name TEXT NOT NULL,
-        contact TEXT,
-        property TEXT,
-        area TEXT,
-        viewing_date TEXT,
-        agent_name TEXT,
-        status TEXT DEFAULT 'active',
-        notes TEXT,
-        created_at TIMESTAMPTZ DEFAULT NOW(),
-        updated_at TIMESTAMPTZ DEFAULT NOW()
-    );
-    """
-    with _pg_conn() as conn:
-        with conn.cursor() as cur:
-            cur.execute(create_sql)
-        conn.commit()
-
-
-def _row_to_dict(row):
-    return dict(row) if row else None
-
-
-# ── Leads ──
-
-def load_leads(status=None, enquiry_type=None, agent=None):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                q = "SELECT * FROM ops_leads WHERE 1=1"
-                params = []
-                if status:
-                    q += " AND status = %s"
-                    params.append(status.lower())
-                if enquiry_type:
-                    q += " AND enquiry_type = %s"
-                    params.append(enquiry_type.lower())
-                if agent:
-                    q += " AND LOWER(agent_name) LIKE %s"
-                    params.append(f"%{agent.lower()}%")
-                q += " ORDER BY created_at DESC"
-                cur.execute(q, params)
-                return [_row_to_dict(r) for r in cur.fetchall()]
-    # JSON fallback
-    if LEADS_FILE.exists():
-        try:
-            with open(LEADS_FILE) as f:
-                return json.load(f)
-        except:
-            return []
-    return []
-
-
-def save_lead(data: dict):
-    data["id"] = data.get("id") or str(uuid.uuid4())[:8]
-    data.setdefault("created_at", datetime.utcnow().isoformat() + "Z")
-    data.setdefault("updated_at", datetime.utcnow().isoformat() + "Z")
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor() as cur:
-                cur.execute("""
-                    INSERT INTO ops_leads (id, client_name, contact, source, enquiry_type, status, agent_name, budget, area, notes, created_at, updated_at)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (id) DO UPDATE SET
-                        client_name = EXCLUDED.client_name,
-                        contact = EXCLUDED.contact,
-                        source = EXCLUDED.source,
-                        enquiry_type = EXCLUDED.enquiry_type,
-                        status = EXCLUDED.status,
-                        agent_name = EXCLUDED.agent_name,
-                        budget = EXCLUDED.budget,
-                        area = EXCLUDED.area,
-                        notes = EXCLUDED.notes,
-                        updated_at = NOW()
-                """, (
-                    data["id"], data.get("client_name", ""), data.get("contact", ""),
-                    data.get("source", ""), data.get("enquiry_type", "buy"),
-                    data.get("status", "new"), data.get("agent_name", ""),
-                    data.get("budget", ""), data.get("area", ""), data.get("notes", ""),
-                    data["created_at"], data["updated_at"]
-                ))
-            conn.commit()
-        return data
-    # JSON fallback
-    leads = load_leads()
-    for i, l in enumerate(leads):
-        if l.get("id") == data["id"]:
-            leads[i] = data
-            break
+def delete_lead(lead_id: str) -> bool:
+    if USE_REST:
+        _rest_delete("ops_leads", lead_id)
+        return True
     else:
-        leads.insert(0, data)
-    with open(LEADS_FILE, "w") as f:
-        json.dump(leads, f, indent=2, default=str)
-    return data
+        leads = _load_json(LEADS_JSON)
+        leads = [l for l in leads if l.get("id") != lead_id]
+        _save_json(LEADS_JSON, leads)
+        return True
 
 
-def get_lead(lead_id):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                cur.execute("SELECT * FROM ops_leads WHERE id = %s", (lead_id,))
-                return _row_to_dict(cur.fetchone())
-    for l in load_leads():
-        if l.get("id") == lead_id:
-            return l
-    return None
-
-
-def update_lead(lead_id, data: dict):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor() as cur:
-                sets = []
-                params = []
-                for key in ["client_name", "contact", "source", "enquiry_type", "status", "agent_name", "budget", "area", "notes"]:
-                    if key in data:
-                        sets.append(f"{key} = %s")
-                        params.append(str(data[key]).strip())
-                if not sets:
-                    return get_lead(lead_id)
-                sets.append("updated_at = NOW()")
-                q = f"UPDATE ops_leads SET {', '.join(sets)} WHERE id = %s"
-                params.append(lead_id)
-                cur.execute(q, params)
-            conn.commit()
-        return get_lead(lead_id)
+def lead_stats() -> dict:
     leads = load_leads()
+    statuses = {}
     for l in leads:
-        if l.get("id") == lead_id:
-            for key in ["client_name", "contact", "source", "enquiry_type", "status", "agent_name", "budget", "area", "notes"]:
-                if key in data:
-                    l[key] = str(data[key]).strip()
-            l["updated_at"] = datetime.utcnow().isoformat() + "Z"
-            with open(LEADS_FILE, "w") as f:
-                json.dump(leads, f, indent=2, default=str)
-            return l
-    return None
+        s = l.get("status", "unknown")
+        statuses[s] = statuses.get(s, 0) + 1
+    return {"total": len(leads), "by_status": statuses}
 
 
-def delete_lead(lead_id):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor() as cur:
-                cur.execute("DELETE FROM ops_leads WHERE id = %s", (lead_id,))
-            conn.commit()
-        return True
-    leads = load_leads()
-    for i, l in enumerate(leads):
-        if l.get("id") == lead_id:
-            leads.pop(i)
-            with open(LEADS_FILE, "w") as f:
-                json.dump(leads, f, indent=2, default=str)
-            return True
-    return False
+# ═════════════════════════════════════════════════════════════════════════════
+#  BRIEFS
+# ═════════════════════════════════════════════════════════════════════════════
 
+def save_brief(data: dict) -> str:
+    brief_id = data.get("id") or str(uuid.uuid4())
+    now = datetime.utcnow().isoformat()
+    payload = {
+        "id": brief_id,
+        "title": data.get("title", ""),
+        "content": data.get("content", ""),
+        "client_name": data.get("client_name", ""),
+        "property_address": data.get("property_address", ""),
+        "status": data.get("status", "draft"),
+        "agent_name": data.get("agent_name", ""),
+        "created_at": data.get("created_at") or now,
+        "updated_at": now,
+    }
 
-def lead_stats():
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                cur.execute("SELECT status, COUNT(*) AS cnt FROM ops_leads GROUP BY status")
-                rows = cur.fetchall()
-                total = sum(r["cnt"] for r in rows)
-                return {"total": total, "by_status": {r["status"]: r["cnt"] for r in rows}}
-    from collections import Counter
-    leads = load_leads()
-    c = Counter(l.get("status", "unknown") for l in leads)
-    return {"total": len(leads), "by_status": dict(c)}
-
-
-# ── Briefs ──
-
-def load_briefs(status=None, agent=None):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                q = "SELECT * FROM ops_briefs WHERE 1=1"
-                params = []
-                if status:
-                    q += " AND status = %s"
-                    params.append(status.lower())
-                if agent:
-                    q += " AND LOWER(agent_name) LIKE %s"
-                    params.append(f"%{agent.lower()}%")
-                q += " ORDER BY created_at DESC"
-                cur.execute(q, params)
-                return [_row_to_dict(r) for r in cur.fetchall()]
-    if BRIEFS_FILE.exists():
+    if USE_REST:
         try:
-            with open(BRIEFS_FILE) as f:
-                return json.load(f)
-        except:
-            return []
-    return []
-
-
-def save_brief(data: dict):
-    data["id"] = data.get("id") or str(uuid.uuid4())[:8]
-    data.setdefault("created_at", datetime.utcnow().isoformat() + "Z")
-    data.setdefault("updated_at", datetime.utcnow().isoformat() + "Z")
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor() as cur:
-                cur.execute("""
-                    INSERT INTO ops_briefs (id, client_name, contact, property, area, viewing_date, agent_name, status, notes, created_at, updated_at)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-                    ON CONFLICT (id) DO UPDATE SET
-                        client_name = EXCLUDED.client_name,
-                        contact = EXCLUDED.contact,
-                        property = EXCLUDED.property,
-                        area = EXCLUDED.area,
-                        viewing_date = EXCLUDED.viewing_date,
-                        agent_name = EXCLUDED.agent_name,
-                        status = EXCLUDED.status,
-                        notes = EXCLUDED.notes,
-                        updated_at = NOW()
-                """, (
-                    data["id"], data.get("client_name", ""), data.get("contact", ""),
-                    data.get("property", ""), data.get("area", ""), data.get("viewing_date", ""),
-                    data.get("agent_name", ""), data.get("status", "active"), data.get("notes", ""),
-                    data["created_at"], data["updated_at"]
-                ))
-            conn.commit()
-        return data
-    briefs = load_briefs()
-    for i, b in enumerate(briefs):
-        if b.get("id") == data["id"]:
-            briefs[i] = data
-            break
+            _rest_post("ops_briefs", payload)
+            return brief_id
+        except requests.HTTPError as e:
+            if e.response.status_code == 409:
+                _rest_patch("ops_briefs", brief_id, payload)
+                return brief_id
+            raise
     else:
-        briefs.insert(0, data)
-    with open(BRIEFS_FILE, "w") as f:
-        json.dump(briefs, f, indent=2, default=str)
-    return data
+        briefs = _load_json(BRIEFS_JSON)
+        briefs.append(payload)
+        _save_json(BRIEFS_JSON, briefs)
+        return brief_id
 
 
-def get_brief(brief_id):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                cur.execute("SELECT * FROM ops_briefs WHERE id = %s", (brief_id,))
-                return _row_to_dict(cur.fetchone())
-    for b in load_briefs():
-        if b.get("id") == brief_id:
-            return b
-    return None
+def load_briefs() -> list:
+    if USE_REST:
+        try:
+            return _rest_get("ops_briefs", {"select": "*", "order": "created_at.desc"})
+        except Exception:
+            return []
+    else:
+        return _load_json(BRIEFS_JSON)
 
 
-def update_brief(brief_id, data: dict):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor() as cur:
-                sets = []
-                params = []
-                for key in ["client_name", "contact", "property", "area", "viewing_date", "agent_name", "status", "notes"]:
-                    if key in data:
-                        sets.append(f"{key} = %s")
-                        params.append(str(data[key]).strip())
-                if not sets:
-                    return get_brief(brief_id)
-                sets.append("updated_at = NOW()")
-                q = f"UPDATE ops_briefs SET {', '.join(sets)} WHERE id = %s"
-                params.append(brief_id)
-                cur.execute(q, params)
-            conn.commit()
-        return get_brief(brief_id)
-    briefs = load_briefs()
-    for b in briefs:
-        if b.get("id") == brief_id:
-            for key in ["client_name", "contact", "property", "area", "viewing_date", "agent_name", "status", "notes"]:
-                if key in data:
-                    b[key] = str(data[key]).strip()
-            b["updated_at"] = datetime.utcnow().isoformat() + "Z"
-            with open(BRIEFS_FILE, "w") as f:
-                json.dump(briefs, f, indent=2, default=str)
-            return b
-    return None
+def get_brief(brief_id: str) -> dict | None:
+    if USE_REST:
+        try:
+            rows = _rest_get("ops_briefs", {"id": f"eq.{brief_id}"})
+            return rows[0] if rows else None
+        except Exception:
+            return None
+    else:
+        for b in _load_json(BRIEFS_JSON):
+            if b.get("id") == brief_id:
+                return b
+        return None
 
 
-def delete_brief(brief_id):
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor() as cur:
-                cur.execute("DELETE FROM ops_briefs WHERE id = %s", (brief_id,))
-            conn.commit()
+def update_brief(brief_id: str, data: dict) -> bool:
+    now = datetime.utcnow().isoformat()
+    payload = {k: v for k, v in data.items() if k != "id"}
+    payload["updated_at"] = now
+
+    if USE_REST:
+        _rest_patch("ops_briefs", brief_id, payload)
         return True
-    briefs = load_briefs()
-    for i, b in enumerate(briefs):
-        if b.get("id") == brief_id:
-            briefs.pop(i)
-            with open(BRIEFS_FILE, "w") as f:
-                json.dump(briefs, f, indent=2, default=str)
-            return True
-    return False
+    else:
+        briefs = _load_json(BRIEFS_JSON)
+        for i, b in enumerate(briefs):
+            if b.get("id") == brief_id:
+                briefs[i].update(payload)
+                _save_json(BRIEFS_JSON, briefs)
+                return True
+        return False
 
 
-def brief_stats():
-    if USE_PG:
-        _ensure_tables()
-        with _pg_conn() as conn:
-            with conn.cursor(cursor_factory=RealDictCursor) as cur:
-                cur.execute("SELECT status, COUNT(*) AS cnt FROM ops_briefs GROUP BY status")
-                rows = cur.fetchall()
-                total = sum(r["cnt"] for r in rows)
-                return {"total": total, "by_status": {r["status"]: r["cnt"] for r in rows}}
-    from collections import Counter
+def delete_brief(brief_id: str) -> bool:
+    if USE_REST:
+        _rest_delete("ops_briefs", brief_id)
+        return True
+    else:
+        briefs = _load_json(BRIEFS_JSON)
+        briefs = [b for b in briefs if b.get("id") != brief_id]
+        _save_json(BRIEFS_JSON, briefs)
+        return True
+
+
+def brief_stats() -> dict:
     briefs = load_briefs()
-    c = Counter(b.get("status", "unknown") for b in briefs)
-    return {"total": len(briefs), "by_status": dict(c)}
+    return {"total": len(briefs)}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+#  Health check
+# ═════════════════════════════════════════════════════════════════════════════
+
+def db_status() -> dict:
+    if not USE_REST:
+        return {"mode": "json", "connected": True, "message": "Using JSON fallback"}
+    try:
+        _rest_get("ops_leads", {"select": "id", "limit": 1})
+        return {"mode": "supabase_rest", "connected": True, "url": SUPABASE_URL}
+    except Exception as e:
+        return {"mode": "supabase_rest", "connected": False, "error": str(e)}
