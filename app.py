@@ -1125,10 +1125,16 @@ def serve_image(filename):
 @require_admin_key
 def ops_list_leads():
     """List all leads with optional status/type filter."""
+    leads = db.load_leads()
     status_filter = request.args.get("status", "").strip().lower() or None
     type_filter = request.args.get("type", "").strip().lower() or None
     agent_filter = request.args.get("agent", "").strip().lower() or None
-    leads = db.load_leads(status=status_filter, enquiry_type=type_filter, agent=agent_filter)
+    if status_filter:
+        leads = [l for l in leads if l.get("status", "").lower() == status_filter]
+    if type_filter:
+        leads = [l for l in leads if l.get("enquiry_type", "").lower() == type_filter]
+    if agent_filter:
+        leads = [l for l in leads if l.get("agent_name", "").lower() == agent_filter]
     return jsonify({"count": len(leads), "leads": leads})
 
 
@@ -1185,9 +1191,13 @@ def ops_delete_lead(lead_id):
 @require_admin_key
 def ops_list_briefs():
     """List all client briefs with optional status filter."""
+    briefs = db.load_briefs()
     status_filter = request.args.get("status", "").strip().lower() or None
     agent_filter = request.args.get("agent", "").strip().lower() or None
-    briefs = db.load_briefs(status=status_filter, agent=agent_filter)
+    if status_filter:
+        briefs = [b for b in briefs if b.get("status", "").lower() == status_filter]
+    if agent_filter:
+        briefs = [b for b in briefs if b.get("agent_name", "").lower() == agent_filter]
     return jsonify({"count": len(briefs), "briefs": briefs})
 
 
