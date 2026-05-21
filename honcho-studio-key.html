@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM Studio Key — Honcho</title>
+<style>
+  body { background:#0a0a0f; color:#e2e2e8; font-family:-apple-system,BlinkMacSystemFont,sans-serif; display:flex; align-items:center; justify-content:center; min-height:100vh; margin:0; padding:20px; }
+  .card { background:#1a1a24; border:1px solid rgba(255,255,255,0.06); border-radius:20px; padding:32px; max-width:400px; width:100%; text-align:center; }
+  h1 { font-size:1.25rem; margin-bottom:8px; }
+  p { color:#6b6b7b; font-size:0.875rem; margin-bottom:24px; }
+  .key-box { background:#12121a; border:1px solid rgba(255,255,255,0.08); border-radius:12px; padding:16px; font-family:monospace; font-size:0.8125rem; word-break:break-all; color:#fff; margin-bottom:16px; user-select:all; -webkit-user-select:all; }
+  .btn { width:100%; padding:14px; border:none; border-radius:12px; background:linear-gradient(135deg,#6366f1,#c084fc); color:#fff; font-size:0.9375rem; font-weight:600; cursor:pointer; }
+  .btn:active { transform:scale(0.98); }
+  .done { color:#22c55e; font-size:0.875rem; margin-top:12px; display:none; }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>🔐 INTM Studio Key</h1>
+  <p>Tap the key to select, then copy. Or tap the button below.</p>
+  <div class="key-box" id="key" onclick="selectAll()">initium-J9hvgjbXKzyJtImRXjf_zlYSUg45v0JS</div>
+  <button class="btn" onclick="copyKey()">Copy to Clipboard</button>
+  <div class="done" id="done">✓ Copied! Paste into Studio and tap Unlock.</div>
+</div>
+<script>
+function selectAll(){ const k=document.getElementById('key'); const r=document.createRange(); r.selectNodeContents(k); const s=window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+function copyKey(){ navigator.clipboard.writeText('initium-J9hvgjbXKzyJtImRXjf_zlYSUg45v0JS').then(()=>{ document.getElementById('done').style.display='block'; selectAll(); }); }
+</script>
+</body>
+</html>
