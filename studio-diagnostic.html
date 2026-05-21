@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Studio Diagnostic — INITIUM</title>
+<style>
+  body { background:#0a0a0f; color:#e2e2e8; font-family:-apple-system,BlinkMacSystemFont,sans-serif; padding:24px; max-width:500px; margin:0 auto; }
+  h1 { font-size:1.25rem; margin-bottom:4px; }
+  .subtitle { color:#6b6b7b; font-size:0.875rem; margin-bottom:24px; }
+  .card { background:#1a1a24; border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:20px; margin-bottom:16px; }
+  .label { font-size:0.75rem; color:#6b6b7b; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:8px; }
+  input { width:100%; padding:12px 14px; background:#12121a; border:1px solid rgba(255,255,255,0.08); border-radius:10px; color:#fff; font-size:0.9375rem; font-family:monospace; outline:none; }
+  input:focus { border-color:#6366f1; }
+  .btn { width:100%; padding:14px; border:none; border-radius:10px; background:linear-gradient(135deg,#6366f1,#c084fc); color:#fff; font-size:0.9375rem; font-weight:600; cursor:pointer; margin-top:12px; }
+  .btn:disabled { opacity:0.5; cursor:not-allowed; }
+  .result { margin-top:12px; padding:12px; border-radius:10px; font-size:0.8125rem; font-family:monospace; word-break:break-all; line-height:1.5; }
+  .result.ok { background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.3); color:#22c55e; }
+  .result.fail { background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#ef4444; }
+  .result.info { background:rgba(99,102,241,0.1); border:1px solid rgba(99,102,241,0.3); color:#818cf8; }
+  .hint { font-size:0.8125rem; color:#6b6b7b; margin-top:8px; }
+</style>
+</head>
+<body>
+<h1>🔧 Studio Diagnostic</h1>
+<p class="subtitle">Find out exactly why the key is failing.</p>
+
+<div class="card">
+  <div class="label">API Key (type or paste)</div>
+  <input type="text" id="keyInput" placeholder="initium-..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+  <button class="btn" id="testBtn" onclick="runTest()">Test Key</button>
+  <div id="result"></div>
+  <p class="hint">💡 Tip: If you use a password manager, it may be filling an <em>old</em> key. Type manually or use the copy page.</p>
+</div>
+
+<div class="card">
+  <div class="label">Network Test</div>
+  <button class="btn" onclick="pingBackend()">Ping Backend</button>
+  <div id="pingResult"></div>
+</div>
+
+<script>
+const API_BASE = 'https://initium-video-studio.onrender.com';
+
+async function runTest() {
+  const key = document.getElementById('keyInput').value.trim();
+  const btn = document.getElementById('testBtn');
+  const out = document.getElementById('result');
+  if (!key) { out.innerHTML = '<div class="result fail">Enter a key first.</div>'; return; }
+
+  btn.disabled = true; btn.textContent = 'Testing...';
+  out.innerHTML = '';
+
+  try {
+    const t0 = performance.now();
+    const res = await fetch(`${API_BASE}/api/me`, {
+      headers: { 'X-API-Key': key },
+      // Ensure no cached response
+      cache: 'no-store'
+    });
+    const t1 = performance.now();
+    const body = await res.text();
+
+    if (res.ok) {
+      out.innerHTML = `<div class="result ok">✅ VALID KEY<br>Latency: ${Math.round(t1-t0)}ms<br>Name: ${JSON.parse(body).key.name}</div>`;
+    } else {
+      out.innerHTML = `<div class="result fail">❌ HTTP ${res.status} ${res.statusText}<br>Body: ${body}</div>`;
+    }
+  } catch (err) {
+    out.innerHTML = `<div class="result fail">❌ NETWORK ERROR (not an auth error)<br>Type: ${err.name}<br>Message: ${err.message}<br><br><strong>Common causes:</strong><br>• iCloud Private Relay ON<br>• Content blocker / ad blocker<br>• VPN or DNS filter blocking .onrender.com<br>• Corporate / public WiFi blocking domain</div>`;
+  }
+
+  btn.disabled = false; btn.textContent = 'Test Key';
+}
+
+async function pingBackend() {
+  const out = document.getElementById('pingResult');
+  out.innerHTML = '<div class="result info">Pinging...</div>';
+  try {
+    const t0 = performance.now();
+    const res = await fetch(`${API_BASE}/api/pricing`, { cache: 'no-store' });
+    const t1 = performance.now();
+    if (res.ok) {
+      out.innerHTML = `<div class="result ok">✅ Backend reachable<br>Latency: ${Math.round(t1-t0)}ms</div>`;
+    } else {
+      out.innerHTML = `<div class="result fail">❌ Backend returned HTTP ${res.status}</div>`;
+    }
+  } catch (err) {
+    out.innerHTML = `<div class="result fail">❌ Cannot reach backend<br>${err.name}: ${err.message}</div>`;
+  }
+}
+</script>
+</body>
+</html>

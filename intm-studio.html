@@ -549,8 +549,11 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             <p>Contact your admin (Hermes Honcho) to get a team API key.</p>
             <div class="input-group">
                 <label>API Key</label>
-                <input type="password" id="apiKeyInput" placeholder="initium-xxxxxxxx..."
+                <input type="text" id="apiKeyInput" placeholder="initium-xxxxxxxx..."
+                    autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     onkeydown="if(event.key==='Enter')login()">
+                <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px;">
+                    ⚠️ If you saved an old key in iCloud Keychain, Safari may autofill it. Use the copy-to-clipboard page to paste cleanly.</p>
             </div>
             <button class="btn btn-primary" onclick="login()" id="loginBtn" style="width:100%;">
                 Unlock Studio
@@ -880,7 +883,12 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             toast(`Welcome, ${data.key.name}!`, 'success');
             loadJobs();
         } catch (e) {
-            toast('Invalid API key. Contact admin.', 'error');
+            let msg = 'Invalid API key. Contact admin.';
+            if (e.name === 'TypeError' || e.message.includes('fetch')) {
+                msg = 'Network blocked. Check iCloud Private Relay, content blockers, or VPN.';
+            }
+            toast(msg, 'error');
+            console.error('Login error:', e);
         } finally {
             btn.disabled = false; btn.textContent = 'Unlock Studio';
         }
@@ -1542,7 +1550,10 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                 document.getElementById('userName').textContent = d.key.name;
                 enterStudio(); loadJobs(); loadTours(); updatePriceLabel();
             })
-            .catch(() => { localStorage.removeItem('initium_api_key'); });
+            .catch((e) => {
+                console.error('Auto-login failed:', e);
+                localStorage.removeItem('initium_api_key');
+            });
     } else {
         updatePriceLabel();
     }
