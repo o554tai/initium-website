@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-21T08:00:33.847876+00:00",
+  "scraped_at": "2026-05-21T09:01:02.156500+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2885,7 +2885,7 @@
       "address": "Flora Drive",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 1557000.0,
+      "min_price": 1581000.0,
       "max_price": 2765000.0,
       "currency": "$",
       "units": "276",
@@ -4985,7 +4985,7 @@
       "address": "70 , 72 Margaret Drive",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
-      "min_price": 1793000.0,
+      "min_price": 1817000.0,
       "max_price": 1902000.0,
       "currency": "$",
       "units": "462",
