@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTM Studio — API Keys</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: #0f1115;
+    color: #e4e6eb;
+    min-height: 100vh;
+    padding: 32px 20px;
+  }
+  .container {
+    max-width: 560px;
+    margin: 0 auto;
+  }
+  header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+  .logo {
+    display: inline-block;
+    background: rgba(80,200,120,0.12);
+    color: #50C878;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    padding: 8px 18px;
+    border-radius: 20px;
+    margin-bottom: 14px;
+  }
+  h1 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
+  .sub { color: #8b909e; font-size: 14px; }
+  .key-row {
+    background: #1a1d24;
+    border: 1px solid #2a2e3a;
+    border-radius: 14px;
+    padding: 18px 20px;
+    margin-bottom: 14px;
+  }
+  .key-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .name { font-size: 16px; font-weight: 700; }
+  .role {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 4px 10px;
+    border-radius: 10px;
+    background: rgba(80,200,120,0.10);
+    color: #50C878;
+  }
+  .key-box {
+    background: #12141a;
+    border: 1px dashed #3a3f4d;
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 12.5px;
+    color: #c5c8d4;
+    word-break: break-all;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    user-select: all;
+  }
+  .copy-btn {
+    width: 100%;
+    background: #50C878;
+    color: #0f1115;
+    border: none;
+    border-radius: 10px;
+    padding: 11px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.08s, opacity 0.15s;
+  }
+  .copy-btn:active { transform: scale(0.97); }
+  .copy-btn.copied { background: #2a2e3a; color: #50C878; }
+  .divider {
+    height: 1px;
+    background: #2a2e3a;
+    margin: 22px 0 18px;
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">INTM Studio</div>
+      <h1>API Keys</h1>
+      <div class="sub">Tap any button to copy to clipboard</div>
+    </header>
+
+    <div class="key-row">
+      <div class="key-header">
+        <div class="name">Tasso</div>
+        <div class="role">Honcho</div>
+      </div>
+      <div class="key-box" id="key-tasso">initium-J9hvgjbXKzyJtImRXjf_zlYSUg45v0JS</div>
+      <button class="copy-btn" onclick="copyKey('key-tasso', this)">Copy Key</button>
+    </div>
+
+    <div class="key-row">
+      <div class="key-header">
+        <div class="name">Admin</div>
+        <div class="role">Master</div>
+      </div>
+      <div class="key-box" id="key-admin">initium-admin-HcoKqXpjM0JadpP2b8HsIF5Cf-qfiaJS</div>
+      <button class="copy-btn" onclick="copyKey('key-admin', this)">Copy Key</button>
+    </div>
+
+    <div class="key-row">
+      <div class="key-header">
+        <div class="name">Ainsley</div>
+        <div class="role">Big 4</div>
+      </div>
+      <div class="key-box" id="key-ainsley">initium-KyZldve2JKseI4iVULp6CpcEusUHjKwQ</div>
+      <button class="copy-btn" onclick="copyKey('key-ainsley', this)">Copy Key</button>
+    </div>
+
+    <div class="key-row">
+      <div class="key-header">
+        <div class="name">Damien Ong</div>
+        <div class="role">Agent</div>
+      </div>
+      <div class="key-box" id="key-damien">initium-bBbeDN43jALdQsUET1wLLxkTjeYRp8su</div>
+      <button class="copy-btn" onclick="copyKey('key-damien', this)">Copy Key</button>
+    </div>
+
+    <div class="key-row">
+      <div class="key-header">
+        <div class="name">Ching Chia</div>
+        <div class="role">Agent</div>
+      </div>
+      <div class="key-box" id="key-chingchia">initium-1vJGkIqIgrmgJQ22ZXC2JJCvwXVH5xD0D3Xo0aaR</div>
+      <button class="copy-btn" onclick="copyKey('key-chingchia', this)">Copy Key</button>
+    </div>
+  </div>
+
+  <script>
+    function copyKey(id, btn) {
+      const key = document.getElementById(id).innerText;
+
+      function flashCopied() {
+        const original = btn.innerText;
+        btn.innerText = 'Copied \u2713';
+        btn.classList.add('copied');
+        setTimeout(() => { btn.innerText = original; btn.classList.remove('copied'); }, 1800);
+      }
+
+      function fallbackCopy(text) {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        try {
+          document.execCommand('copy');
+          flashCopied();
+        } catch (e) {
+          btn.innerText = 'Copy failed';
+          setTimeout(() => { btn.innerText = 'Copy Key'; }, 2000);
+        }
+        document.body.removeChild(ta);
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(key).then(flashCopied).catch(() => fallbackCopy(key));
+      } else {
+        fallbackCopy(key);
+      }
+    }
+  </script>
+</body>
+</html>
