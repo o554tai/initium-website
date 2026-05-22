@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-22T15:01:00.783417+00:00",
+  "scraped_at": "2026-05-22T16:00:29.069997+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2835,7 +2835,7 @@
       "address": "21 Lorong K,Telok Kurau",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 4042800.0,
+      "min_price": 2847800.0,
       "max_price": 4042800.0,
       "currency": "$",
       "units": "19",
