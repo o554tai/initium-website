@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-25T09:01:06.197508+00:00",
+  "scraped_at": "2026-05-25T10:00:25.002122+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3157,7 +3157,7 @@
       "project_name": "Lentor Gardens Residences 伦多花园",
       "district": "D26",
       "location": "D26 - Mandai / Upper Thomson",
-      "address": "Lentor Garden",
+      "address": "66, 68, 70, 72, 74, 76, 78 Lentor Garden",
       "property_type": "Mixed Developments",
       "tenure": "99 Years",
       "min_price": 0,
