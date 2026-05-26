@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-26T02:01:05.207176+00:00",
+  "scraped_at": "2026-05-26T03:00:22.712607+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -664,8 +664,8 @@
       "max_price": 5506000.0,
       "currency": "$",
       "units": "107",
-      "completion_date": "",
-      "expected_top": "Dec 2028",
+      "completion_date": "Q4 2027",
+      "expected_top": "Q4 2027",
       "launch_date": [
         2025,
         6,
@@ -1264,8 +1264,8 @@
       "max_price": 3512900.0,
       "currency": "$",
       "units": "916",
-      "completion_date": "",
-      "expected_top": "Dec 2028",
+      "completion_date": "Q4 2027",
+      "expected_top": "Q4 2027",
       "launch_date": [
         2024,
         11,
@@ -2214,8 +2214,8 @@
       "max_price": 8341000.0,
       "currency": "$",
       "units": "1008",
-      "completion_date": " 3Q 2026",
-      "expected_top": " 3Q 2026",
+      "completion_date": "Q2 2026",
+      "expected_top": "Q2 2026",
       "launch_date": [
         2023,
         7,
@@ -7139,8 +7139,8 @@
       "max_price": 2880000.0,
       "currency": "$",
       "units": "23",
-      "completion_date": "1H 2026",
-      "expected_top": "1H 2026",
+      "completion_date": "Q3 2026",
+      "expected_top": "Q3 2026",
       "launch_date": [
         2023,
         9,
@@ -7964,8 +7964,8 @@
       "max_price": 7837000.0,
       "currency": "$",
       "units": "180",
-      "completion_date": "30 June 2027",
-      "expected_top": "30 June 2027",
+      "completion_date": "Q4 2026",
+      "expected_top": "Q4 2026",
       "launch_date": [
         2023,
         11,
