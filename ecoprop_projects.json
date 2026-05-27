@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-27T03:00:32.641381+00:00",
+  "scraped_at": "2026-05-27T04:00:49.874070+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2535,7 +2535,7 @@
       "address": "18 , 20 Media Circle (Queenstown planning)",
       "property_type": "Mixed Developments",
       "tenure": "99 years",
-      "min_price": 1656000.0,
+      "min_price": 1663000.0,
       "max_price": 5944000.0,
       "currency": "$",
       "units": "327",
