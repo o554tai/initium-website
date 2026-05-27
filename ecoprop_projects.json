@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-27T08:00:39.930671+00:00",
+  "scraped_at": "2026-05-27T09:00:56.871312+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -985,7 +985,7 @@
       "address": "61, 65, 63 Media Circle Road",
       "property_type": "Mixed Developments",
       "tenure": "99 Years",
-      "min_price": 1731000.0,
+      "min_price": 1762000.0,
       "max_price": 5212000.0,
       "currency": "$",
       "units": "358",
