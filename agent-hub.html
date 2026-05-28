@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>INITIUM Agent Hub</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f5f5f5;
+    --text2: #a0a0a0;
+    --accent: #50C878;
+    --accent-dim: rgba(80,200,120,0.15);
+    --danger: #ff4444;
+    --radius: 14px;
+    --radius-sm: 10px;
+    --topbar-h: 52px;
+    --nav-h: 60px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; overflow: hidden; }
+
+  /* Auth gate */
+  .auth-gate { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; z-index: 500; }
+  .auth-gate .logo { width: 64px; height: 64px; margin-bottom: 20px; }
+  .auth-gate .logo svg { width: 100%; height: 100%; }
+  .auth-gate h1 { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 6px; text-align: center; }
+  .auth-gate p { color: var(--text2); font-size: 14px; margin-bottom: 28px; text-align: center; }
+  .auth-gate .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 100%; max-width: 360px; }
+  .auth-gate input { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; color: var(--text); font-size: 15px; outline: none; margin-bottom: 16px; }
+  .auth-gate input:focus { border-color: var(--accent); }
+  .auth-gate .btn { width: 100%; background: var(--accent); color: #000; border: none; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; }
+  .auth-gate .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .auth-gate .error { color: var(--danger); font-size: 13px; margin-top: 12px; text-align: center; display: none; }
+  .auth-gate .error.show { display: block; }
+  .auth-gate .footer { margin-top: 20px; font-size: 12px; color: var(--text2); text-align: center; }
+  .auth-gate .footer a { color: var(--accent); text-decoration: none; }
+
+  /* App layout */
+  #app { display: flex; flex-direction: column; height: 100vh; }
+  .topbar { height: var(--topbar-h); background: var(--surface); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; flex-shrink: 0; }
+  .topbar .brand { display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 15px; letter-spacing: 0.5px; }
+  .topbar .brand svg { width: 28px; height: 28px; border-radius: 8px; }
+  .topbar .actions { display: flex; align-items: center; gap: 10px; }
+  .topbar .user { font-size: 12px; color: var(--text2); background: var(--surface2); border: 1px solid var(--border); padding: 5px 12px; border-radius: 20px; max-width: 140px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .topbar .btn-icon { background: none; border: none; color: var(--text2); font-size: 18px; cursor: pointer; padding: 4px; }
+
+  .content { flex: 1; overflow: hidden; position: relative; }
+  .tab-view { position: absolute; inset: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; display: none; }
+  .tab-view.active { display: block; }
+
+  /* Studio iframe */
+  #tab-studio iframe { width: 100%; height: 100%; border: none; display: block; }
+
+  /* Bottom nav */
+  .bottom-nav { height: var(--nav-h); background: var(--surface); border-top: 1px solid var(--border); display: flex; flex-shrink: 0; }
+  .nav-btn { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; background: none; border: none; color: var(--text2); font-size: 11px; font-weight: 600; letter-spacing: 0.3px; cursor: pointer; position: relative; }
+  .nav-btn .icon { font-size: 20px; line-height: 1; }
+  .nav-btn.active { color: var(--accent); }
+  .nav-btn.active::before { content: ''; position: absolute; top: 0; left: 25%; right: 25%; height: 2px; background: var(--accent); border-radius: 0 0 2px 2px; }
+
+  /* CRM styles (adapted from ops.html) */
+  .crm-wrap { padding: 16px; padding-bottom: 24px; }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; }
+  .stat-card .num { font-size: 28px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .stat-card .label { font-size: 11px; color: var(--text2); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 12px; }
+  .section-header h2 { font-size: 17px; font-weight: 700; }
+  .btn-primary { background: var(--accent); color: #000; border: none; padding: 10px 16px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 700; cursor: pointer; }
+  .btn-primary:active { opacity: 0.8; }
+  .search-box { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 15px; margin-bottom: 12px; outline: none; }
+  .search-box::placeholder { color: #555; }
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 10px; }
+  .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+  .card-title { font-size: 15px; font-weight: 700; }
+  .badge { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.3px; }
+  .badge-new { background: rgba(255,170,0,0.15); color: #ffaa00; }
+  .badge-contacted { background: rgba(0,150,255,0.15); color: #0096ff; }
+  .badge-viewing { background: rgba(155,89,182,0.15); color: #9b59b6; }
+  .badge-offer { background: rgba(80,200,120,0.15); color: var(--accent); }
+  .badge-closed { background: rgba(100,100,100,0.2); color: #888; }
+  .badge-lost { background: rgba(255,68,68,0.15); color: var(--danger); }
+  .badge-active { background: rgba(80,200,120,0.15); color: var(--accent); }
+  .badge-default { background: var(--accent-dim); color: var(--accent); }
+  .card-row { font-size: 13px; color: var(--text2); margin-top: 4px; display: flex; gap: 6px; }
+  .card-row strong { color: var(--text); min-width: 55px; }
+  .card-notes { font-size: 13px; color: var(--text2); margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); line-height: 1.4; }
+  .card-actions { display: flex; gap: 10px; margin-top: 12px; }
+  .card-actions button { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 13px; font-weight: 600; cursor: pointer; }
+  .card-actions .btn-edit { border-color: var(--accent); color: var(--accent); }
+  .card-actions .btn-delete { border-color: var(--danger); color: var(--danger); }
+  .empty { text-align: center; padding: 40px 20px; color: var(--text2); font-size: 14px; }
+
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 200; display: none; align-items: flex-end; justify-content: center; }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet { background: var(--surface); width: 100%; max-height: 85vh; border-radius: var(--radius) var(--radius) 0 0; padding: 20px 16px 40px; overflow-y: auto; transform: translateY(100%); transition: transform 0.25s ease; }
+  .modal-overlay.open .modal-sheet { transform: translateY(0); }
+  .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .modal-head h3 { font-size: 18px; }
+  .modal-close { font-size: 24px; color: var(--text2); background: none; border: none; }
+  .form-group { margin-bottom: 14px; }
+  .form-group label { display: block; font-size: 12px; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .form-group input, .form-group select, .form-group textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 12px 14px; color: var(--text); font-size: 15px; outline: none; }
+  .form-group textarea { min-height: 80px; resize: vertical; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
+  .btn-submit { width: 100%; background: var(--accent); color: #000; border: none; padding: 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; margin-top: 4px; }
+  .btn-submit:active { opacity: 0.85; }
+
+  .crm-tabs { display: flex; gap: 8px; margin-bottom: 12px; }
+  .crm-tab { flex: 1; padding: 10px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); color: var(--text2); font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; }
+  .crm-tab.active { background: var(--accent); color: #000; border-color: var(--accent); }
+  .crm-view { display: none; }
+  .crm-view.active { display: block; }
+
+  .toast { position: fixed; bottom: calc(var(--nav-h) + 12px); left: 50%; transform: translateX(-50%) translateY(100px); background: var(--surface2); color: var(--text); padding: 12px 20px; border-radius: var(--radius-sm); font-size: 14px; border: 1px solid var(--border); z-index: 250; opacity: 0; transition: all 0.3s ease; }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  /* Tools grid */
+  .tools-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 16px; }
+  .tool-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px; text-align: center; text-decoration: none; color: var(--text); }
+  .tool-card .icon { font-size: 28px; margin-bottom: 10px; }
+  .tool-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .tool-card p { font-size: 12px; color: var(--text2); }
+  .tool-card:active { border-color: var(--accent); }
+
+  @media (min-width: 600px) {
+    .tools-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- AUTH GATE -->
+<div class="auth-gate" id="authGate">
+  <div class="logo">
+    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" rx="20" fill="#50C878"/><path d="M30 70V30h8v32h24V30h8v40H30z" fill="#000"/></svg>
+  </div>
+  <h1>Agent Hub</h1>
+  <p>Enter your API key to access studio, CRM & tools.</p>
+  <div class="card">
+    <input type="password" id="keyInput" placeholder="initium-xxxxxxxx..." autocomplete="off">
+    <button class="btn" id="loginBtn" onclick="doLogin()">Enter Hub</button>
+    <div class="error" id="errorBox">Invalid key. Please check and try again.</div>
+  </div>
+  <p class="footer"><a href="/">Back to initium.sg</a></p>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none;">
+  <div class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="20" fill="#50C878"/><path d="M30 70V30h8v32h24V30h8v40H30z" fill="#000"/></svg>
+      Agent Hub
+    </div>
+    <div class="actions">
+      <div class="user" id="userName">...</div>
+      <button class="btn-icon" onclick="logout()" title="Logout">&#x2715;</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- Studio -->
+    <div id="tab-studio" class="tab-view active">
+      <iframe src="intm-studio.html" title="INTM Studio"></iframe>
+    </div>
+
+    <!-- CRM -->
+    <div id="tab-crm" class="tab-view">
+      <div class="crm-wrap">
+        <div class="crm-tabs">
+          <div class="crm-tab active" onclick="switchCrm('leads')" id="crm-tab-leads">Leads</div>
+          <div class="crm-tab" onclick="switchCrm('briefs')" id="crm-tab-briefs">Briefs</div>
+        </div>
+
+        <div id="crm-leads" class="crm-view active">
+          <div class="stats">
+            <div class="stat-card"><div class="num" id="stat-leads-total">0</div><div class="label">Total</div></div>
+            <div class="stat-card"><div class="num" id="stat-leads-new">0</div><div class="label">New</div></div>
+          </div>
+          <div class="section-header"><h2>My Leads</h2><button class="btn-primary" onclick="openModal('lead')">+ Add</button></div>
+          <input type="text" class="search-box" id="search-leads" placeholder="Search client, area..." oninput="renderLeads()">
+          <div id="list-leads"></div>
+        </div>
+
+        <div id="crm-briefs" class="crm-view">
+          <div class="stats">
+            <div class="stat-card"><div class="num" id="stat-briefs-total">0</div><div class="label">Total</div></div>
+            <div class="stat-card"><div class="num" id="stat-briefs-active">0</div><div class="label">Active</div></div>
+          </div>
+          <div class="section-header"><h2>My Briefs</h2><button class="btn-primary" onclick="openModal('brief')">+ Add</button></div>
+          <input type="text" class="search-box" id="search-briefs" placeholder="Search client, property..." oninput="renderBriefs()">
+          <div id="list-briefs"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div id="tab-tools" class="tab-view">
+      <div class="tools-grid">
+        <a class="tool-card" href="social-templates.html" target="_blank">
+          <div class="icon">&#128247;</div>
+          <h3>Social Templates</h3>
+          <p>Instagram, Stories, Reels assets</p>
+        </a>
+        <a class="tool-card" href="guidelines.html" target="_blank">
+          <div class="icon">&#128220;</div>
+          <h3>Brand Guide</h3>
+          <p>Logo, colors, voice rules</p>
+        </a>
+        <a class="tool-card" href="/api-keys/index.html" target="_blank">
+          <div class="icon">&#128273;</div>
+          <h3>API Keys</h3>
+          <p>Manage team access keys</p>
+        </a>
+        <a class="tool-card" href="ops.html" target="_blank">
+          <div class="icon">&#128202;</div>
+          <h3>Ops Dashboard</h3>
+          <p>Full admin CRM view</p>
+        </a>
+        <a class="tool-card" href="3d-tour-workflow.md" target="_blank">
+          <div class="icon">&#127758;</div>
+          <h3>3D Tour Guide</h3>
+          <p>Workflow & best practices</p>
+        </a>
+        <a class="tool-card" href="virtual-tours.html" target="_blank">
+          <div class="icon">&#127909;</div>
+          <h3>Virtual Tours</h3>
+          <p>Published 3D showcases</p>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-btn active" onclick="switchTab(this,'studio')">
+      <span class="icon">&#127909;</span>
+      <span>Studio</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab(this,'crm')">
+      <span class="icon">&#128101;</span>
+      <span>CRM</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab(this,'tools')">
+      <span class="icon">&#128295;</span>
+      <span>Tools</span>
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal-sheet">
+    <div class="modal-head"><h3 id="modalTitle">Add</h3><button class="modal-close" onclick="closeModal()">&times;</button></div>
+    <div id="modalBody"></div>
+    <button class="btn-submit" id="modalSubmit" onclick="submitForm()">Save</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const API_BASE = 'https://initium-video-studio.onrender.com';
+let apiKey = localStorage.getItem('initium_api_key') || '';
+let agentName = localStorage.getItem('initium_agent_name') || '';
+let crmTab = 'leads';
+let leads = [];
+let briefs = [];
+let editingId = null;
+let editingType = null;
+
+const keyInput = document.getElementById('keyInput');
+const loginBtn = document.getElementById('loginBtn');
+const errorBox = document.getElementById('errorBox');
+
+keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const key = keyInput.value.trim();
+  if (!key) return;
+  errorBox.classList.remove('show');
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Checking...';
+  try {
+    const res = await fetch(`${API_BASE}/api/me`, { headers: { 'X-API-Key': key } });
+    if (!res.ok) throw new Error('invalid');
+    const data = await res.json();
+    apiKey = key;
+    agentName = data.key?.name || 'Agent';
+    localStorage.setItem('initium_api_key', apiKey);
+    localStorage.setItem('initium_agent_name', agentName);
+    enterApp();
+  } catch (err) {
+    errorBox.classList.add('show');
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Enter Hub';
+  }
+}
+
+function enterApp() {
+  document.getElementById('authGate').style.display = 'none';
+  document.getElementById('app').style.display = 'flex';
+  document.getElementById('userName').textContent = agentName;
+  loadCrm();
+}
+
+function logout() {
+  localStorage.removeItem('initium_api_key');
+  localStorage.removeItem('initium_agent_name');
+  location.reload();
+}
+
+// Auto-login
+(async function init() {
+  if (!apiKey) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/me`, { headers: { 'X-API-Key': apiKey } });
+    if (!res.ok) throw new Error('invalid');
+    const data = await res.json();
+    agentName = data.key?.name || agentName;
+    enterApp();
+  } catch (e) {
+    document.getElementById('authGate').style.display = 'flex';
+  }
+})();
+
+// Tab switching
+function switchTab(btn, tab) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + tab).classList.add('active');
+}
+
+function switchCrm(tab) {
+  crmTab = tab;
+  document.querySelectorAll('.crm-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.crm-view').forEach(v => v.classList.remove('active'));
+  document.getElementById('crm-tab-' + tab).classList.add('active');
+  document.getElementById('crm-' + tab).classList.add('active');
+}
+
+// CRM API
+async function api(path, opts={}) {
+  const res = await fetch(API_BASE + path, {
+    ...opts,
+    headers: { 'X-API-Key': apiKey, 'Content-Type': 'application/json', ...(opts.headers||{}) }
+  });
+  if (res.status === 401) { toast('Session expired. Log in again.'); logout(); throw new Error('auth'); }
+  if (!res.ok) { const t = await res.text(); throw new Error(t); }
+  return res.json();
+}
+
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+async function loadCrm() {
+  try {
+    const [l, b, s] = await Promise.all([
+      api('/api/my/leads'),
+      api('/api/my/briefs'),
+      api('/api/my/stats')
+    ]);
+    leads = l.leads || [];
+    briefs = b.briefs || [];
+    updateStats(s);
+    renderLeads();
+    renderBriefs();
+  } catch(e) { toast('CRM load failed'); }
+}
+
+function updateStats(s) {
+  document.getElementById('stat-leads-total').textContent = s.leads?.total || 0;
+  document.getElementById('stat-leads-new').textContent = s.leads?.by_status?.new || 0;
+  document.getElementById('stat-briefs-total').textContent = s.briefs?.total || 0;
+  document.getElementById('stat-briefs-active').textContent = s.briefs?.by_status?.active || 0;
+}
+
+function badgeClass(status) {
+  const map = { new:'badge-new', contacted:'badge-contacted', viewing:'badge-viewing', offer:'badge-offer', closed:'badge-closed', lost:'badge-lost', active:'badge-active' };
+  return map[status] || 'badge-default';
+}
+
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+
+function renderLeads() {
+  const q = document.getElementById('search-leads').value.toLowerCase();
+  const list = leads.filter(l => !q || [l.client_name, l.area, l.source, l.budget, l.notes].some(v => (v||'').toLowerCase().includes(q)));
+  const el = document.getElementById('list-leads');
+  if (!list.length) { el.innerHTML = '<div class="empty">No leads yet. Tap + Add to start.</div>'; return; }
+  el.innerHTML = list.map(l => `
+    <div class="card">
+      <div class="card-header"><div class="card-title">${esc(l.client_name)}</div><div class="badge ${badgeClass(l.status)}">${l.status||'new'}</div></div>
+      <div class="card-row"><strong>Type</strong> ${esc(l.enquiry_type||'-')}</div>
+      <div class="card-row"><strong>Area</strong> ${esc(l.area||'-')}</div>
+      <div class="card-row"><strong>Budget</strong> ${esc(l.budget||'-')}</div>
+      <div class="card-row"><strong>Source</strong> ${esc(l.source||'-')}</div>
+      <div class="card-row"><strong>Contact</strong> ${esc(l.contact||'-')}</div>
+      ${l.notes ? `<div class="card-notes">${esc(l.notes)}</div>` : ''}
+      <div class="card-actions">
+        <button class="btn-edit" onclick="editLead('${l.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteLead('${l.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function renderBriefs() {
+  const q = document.getElementById('search-briefs').value.toLowerCase();
+  const list = briefs.filter(b => !q || [b.client_name, b.property, b.area, b.notes].some(v => (v||'').toLowerCase().includes(q)));
+  const el = document.getElementById('list-briefs');
+  if (!list.length) { el.innerHTML = '<div class="empty">No briefs yet. Tap + Add to start.</div>'; return; }
+  el.innerHTML = list.map(b => `
+    <div class="card">
+      <div class="card-header"><div class="card-title">${esc(b.client_name)}</div><div class="badge ${badgeClass(b.status)}">${b.status||'active'}</div></div>
+      <div class="card-row"><strong>Prop</strong> ${esc(b.property||'-')}</div>
+      <div class="card-row"><strong>Area</strong> ${esc(b.area||'-')}</div>
+      <div class="card-row"><strong>Date</strong> ${esc(b.viewing_date||'-')}</div>
+      <div class="card-row"><strong>Contact</strong> ${esc(b.contact||'-')}</div>
+      ${b.notes ? `<div class="card-notes">${esc(b.notes)}</div>` : ''}
+      <div class="card-actions">
+        <button class="btn-edit" onclick="editBrief('${b.id}')">Edit</button>
+        <button class="btn-delete" onclick="deleteBrief('${b.id}')">Delete</button>
+      </div>
+    </div>`).join('');
+}
+
+function openModal(type, id=null) {
+  editingType = type; editingId = id;
+  const isEdit = !!id;
+  const body = document.getElementById('modalBody');
+  if (type === 'lead') {
+    const l = isEdit ? leads.find(x=>x.id===id)||{} : {};
+    document.getElementById('modalTitle').textContent = isEdit ? 'Edit Lead' : 'Add Lead';
+    body.innerHTML = `
+      <div class="form-group"><label>Client Name *</label><input id="f-l-client" value="${esc(l.client_name||'')}"></div>
+      <div class="form-group"><label>Contact</label><input id="f-l-contact" value="${esc(l.contact||'')}"></div>
+      <div class="form-group"><label>Source</label><input id="f-l-source" value="${esc(l.source||'')}" placeholder="e.g. Instagram DM, referral..."></div>
+      <div class="form-group"><label>Type</label>
+        <select id="f-l-type">
+          <option value="buy" ${(l.enquiry_type||'buy')==='buy'?'selected':''}>Buy</option>
+          <option value="sell" ${l.enquiry_type==='sell'?'selected':''}>Sell</option>
+          <option value="rent" ${l.enquiry_type==='rent'?'selected':''}>Rent</option>
+          <option value="invest" ${l.enquiry_type==='invest'?'selected':''}>Invest</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="f-l-status">
+          <option value="new" ${(l.status||'new')==='new'?'selected':''}>New</option>
+          <option value="contacted" ${l.status==='contacted'?'selected':''}>Contacted</option>
+          <option value="viewing" ${l.status==='viewing'?'selected':''}>Viewing</option>
+          <option value="offer" ${l.status==='offer'?'selected':''}>Offer</option>
+          <option value="closed" ${l.status==='closed'?'selected':''}>Closed</option>
+          <option value="lost" ${l.status==='lost'?'selected':''}>Lost</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Budget</label><input id="f-l-budget" value="${esc(l.budget||'')}" placeholder="e.g. 2.5M"></div>
+      <div class="form-group"><label>Area</label><input id="f-l-area" value="${esc(l.area||'')}" placeholder="e.g. District 26, Lentor..."></div>
+      <div class="form-group"><label>Notes</label><textarea id="f-l-notes">${esc(l.notes||'')}</textarea></div>
+    `;
+  } else {
+    const b = isEdit ? briefs.find(x=>x.id===id)||{} : {};
+    document.getElementById('modalTitle').textContent = isEdit ? 'Edit Brief' : 'Add Brief';
+    body.innerHTML = `
+      <div class="form-group"><label>Client Name *</label><input id="f-b-client" value="${esc(b.client_name||'')}"></div>
+      <div class="form-group"><label>Contact</label><input id="f-b-contact" value="${esc(b.contact||'')}"></div>
+      <div class="form-group"><label>Property</label><input id="f-b-property" value="${esc(b.property||'')}" placeholder="e.g. Lentor Modern"></div>
+      <div class="form-group"><label>Area</label><input id="f-b-area" value="${esc(b.area||'')}" placeholder="e.g. District 26"></div>
+      <div class="form-group"><label>Viewing Date</label><input type="date" id="f-b-date" value="${esc(b.viewing_date||'')}"></div>
+      <div class="form-group"><label>Status</label>
+        <select id="f-b-status">
+          <option value="active" ${(b.status||'active')==='active'?'selected':''}>Active</option>
+          <option value="closed" ${b.status==='closed'?'selected':''}>Closed</option>
+          <option value="lost" ${b.status==='lost'?'selected':''}>Lost</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Notes</label><textarea id="f-b-notes">${esc(b.notes||'')}</textarea></div>
+    `;
+  }
+  document.getElementById('modal').classList.add('open');
+}
+function closeModal() { document.getElementById('modal').classList.remove('open'); editingId = null; }
+
+async function submitForm() {
+  try {
+    if (editingType === 'lead') {
+      const payload = {
+        client_name: document.getElementById('f-l-client').value.trim(),
+        contact: document.getElementById('f-l-contact').value.trim(),
+        source: document.getElementById('f-l-source').value.trim(),
+        enquiry_type: document.getElementById('f-l-type').value,
+        status: document.getElementById('f-l-status').value,
+        budget: document.getElementById('f-l-budget').value.trim(),
+        area: document.getElementById('f-l-area').value.trim(),
+        notes: document.getElementById('f-l-notes').value.trim(),
+      };
+      if (!payload.client_name) { toast('Client name required'); return; }
+      if (editingId) {
+        await api('/api/my/leads/' + editingId, { method: 'PUT', body: JSON.stringify(payload) });
+        toast('Lead updated');
+      } else {
+        await api('/api/my/leads', { method: 'POST', body: JSON.stringify(payload) });
+        toast('Lead added');
+      }
+    } else {
+      const payload = {
+        client_name: document.getElementById('f-b-client').value.trim(),
+        contact: document.getElementById('f-b-contact').value.trim(),
+        property: document.getElementById('f-b-property').value.trim(),
+        area: document.getElementById('f-b-area').value.trim(),
+        viewing_date: document.getElementById('f-b-date').value,
+        status: document.getElementById('f-b-status').value,
+        notes: document.getElementById('f-b-notes').value.trim(),
+      };
+      if (!payload.client_name) { toast('Client name required'); return; }
+      if (editingId) {
+        await api('/api/my/briefs/' + editingId, { method: 'PUT', body: JSON.stringify(payload) });
+        toast('Brief updated');
+      } else {
+        await api('/api/my/briefs', { method: 'POST', body: JSON.stringify(payload) });
+        toast('Brief added');
+      }
+    }
+    closeModal();
+    await loadCrm();
+  } catch(e) { toast(e.message || 'Error'); }
+}
+
+function editLead(id) { openModal('lead', id); }
+function editBrief(id) { openModal('brief', id); }
+
+async function deleteLead(id) {
+  if (!confirm('Delete this lead?')) return;
+  await api('/api/my/leads/' + id, { method: 'DELETE' });
+  toast('Deleted'); await loadCrm();
+}
+async function deleteBrief(id) {
+  if (!confirm('Delete this brief?')) return;
+  await api('/api/my/briefs/' + id, { method: 'DELETE' });
+  toast('Deleted'); await loadCrm();
+}
+</script>
+</body>
+</html>

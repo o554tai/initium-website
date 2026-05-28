@@ -1305,6 +1305,167 @@ def ops_stats():
 
 
 # ═══════════════════════════════════════════════════════════
+# AGENT SELF-SERVICE CRM (scoped to logged-in agent)
+# ═══════════════════════════════════════════════════════════
+
+def _my_name():
+    return request.api_key_entry.get("name", "") if hasattr(request, "api_key_entry") else ""
+
+
+@app.route("/api/my/leads", methods=["GET"])
+@require_api_key
+def api_my_leads():
+    leads = db.load_leads()
+    name = _my_name()
+    leads = [l for l in leads if l.get("agent_name", "").lower() == name.lower()]
+    status_filter = request.args.get("status", "").strip().lower() or None
+    type_filter = request.args.get("type", "").strip().lower() or None
+    if status_filter:
+        leads = [l for l in leads if l.get("status", "").lower() == status_filter]
+    if type_filter:
+        leads = [l for l in leads if l.get("enquiry_type", "").lower() == type_filter]
+    return jsonify({"count": len(leads), "leads": leads})
+
+
+@app.route("/api/my/leads", methods=["POST"])
+@require_api_key
+def api_my_create_lead():
+    data = request.get_json(force=True) or {}
+    client_name = data.get("client_name", "").strip()
+    if not client_name:
+        return jsonify({"error": "client_name is required"}), 400
+    lead = db.save_lead({
+        "client_name": client_name,
+        "contact": data.get("contact", "").strip(),
+        "source": data.get("source", "").strip(),
+        "enquiry_type": data.get("enquiry_type", "buy").strip().lower(),
+        "status": data.get("status", "new").strip().lower(),
+        "agent_name": _my_name(),
+        "budget": data.get("budget", "").strip(),
+        "area": data.get("area", "").strip(),
+        "notes": data.get("notes", "").strip(),
+    })
+    return jsonify({"lead": lead}), 201
+
+
+@app.route("/api/my/leads/<lead_id>", methods=["GET"])
+@require_api_key
+def api_my_get_lead(lead_id):
+    lead = db.get_lead(lead_id)
+    if not lead or lead.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Lead not found"}), 404
+    return jsonify({"lead": lead})
+
+
+@app.route("/api/my/leads/<lead_id>", methods=["PUT"])
+@require_api_key
+def api_my_update_lead(lead_id):
+    lead = db.get_lead(lead_id)
+    if not lead or lead.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Lead not found"}), 404
+    data = request.get_json(force=True) or {}
+    data.pop("agent_name", None)
+    lead = db.update_lead(lead_id, data)
+    if lead:
+        return jsonify({"lead": lead})
+    return jsonify({"error": "Lead not found"}), 404
+
+
+@app.route("/api/my/leads/<lead_id>", methods=["DELETE"])
+@require_api_key
+def api_my_delete_lead(lead_id):
+    lead = db.get_lead(lead_id)
+    if not lead or lead.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Lead not found"}), 404
+    if db.delete_lead(lead_id):
+        return jsonify({"message": "Lead deleted"})
+    return jsonify({"error": "Lead not found"}), 404
+
+
+@app.route("/api/my/briefs", methods=["GET"])
+@require_api_key
+def api_my_briefs():
+    briefs = db.load_briefs()
+    name = _my_name()
+    briefs = [b for b in briefs if b.get("agent_name", "").lower() == name.lower()]
+    status_filter = request.args.get("status", "").strip().lower() or None
+    if status_filter:
+        briefs = [b for b in briefs if b.get("status", "").lower() == status_filter]
+    return jsonify({"count": len(briefs), "briefs": briefs})
+
+
+@app.route("/api/my/briefs", methods=["POST"])
+@require_api_key
+def api_my_create_brief():
+    data = request.get_json(force=True) or {}
+    client_name = data.get("client_name", "").strip()
+    if not client_name:
+        return jsonify({"error": "client_name is required"}), 400
+    brief = db.save_brief({
+        "client_name": client_name,
+        "contact": data.get("contact", "").strip(),
+        "property": data.get("property", "").strip(),
+        "area": data.get("area", "").strip(),
+        "viewing_date": data.get("viewing_date", "").strip(),
+        "agent_name": _my_name(),
+        "status": data.get("status", "active").strip().lower(),
+        "notes": data.get("notes", "").strip(),
+    })
+    return jsonify({"brief": brief}), 201
+
+
+@app.route("/api/my/briefs/<brief_id>", methods=["GET"])
+@require_api_key
+def api_my_get_brief(brief_id):
+    brief = db.get_brief(brief_id)
+    if not brief or brief.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Brief not found"}), 404
+    return jsonify({"brief": brief})
+
+
+@app.route("/api/my/briefs/<brief_id>", methods=["PUT"])
+@require_api_key
+def api_my_update_brief(brief_id):
+    brief = db.get_brief(brief_id)
+    if not brief or brief.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Brief not found"}), 404
+    data = request.get_json(force=True) or {}
+    data.pop("agent_name", None)
+    brief = db.update_brief(brief_id, data)
+    if brief:
+        return jsonify({"brief": brief})
+    return jsonify({"error": "Brief not found"}), 404
+
+
+@app.route("/api/my/briefs/<brief_id>", methods=["DELETE"])
+@require_api_key
+def api_my_delete_brief(brief_id):
+    brief = db.get_brief(brief_id)
+    if not brief or brief.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Brief not found"}), 404
+    if db.delete_brief(brief_id):
+        return jsonify({"message": "Brief deleted"})
+    return jsonify({"error": "Brief not found"}), 404
+
+
+@app.route("/api/my/stats", methods=["GET"])
+@require_api_key
+def api_my_stats():
+    leads = db.load_leads()
+    briefs = db.load_briefs()
+    name = _my_name()
+    my_leads = [l for l in leads if l.get("agent_name", "").lower() == name.lower()]
+    my_briefs = [b for b in briefs if b.get("agent_name", "").lower() == name.lower()]
+    from collections import Counter
+    lead_statuses = Counter(l.get("status", "new") for l in my_leads)
+    brief_statuses = Counter(b.get("status", "active") for b in my_briefs)
+    return jsonify({
+        "leads": {"total": len(my_leads), "by_status": dict(lead_statuses)},
+        "briefs": {"total": len(my_briefs), "by_status": dict(brief_statuses)}
+    })
+
+
+# ═══════════════════════════════════════════════════════════
 # WEBHOOK — Lead Auto-Capture (Meta / Direct)
 # ═══════════════════════════════════════════════════════════
 
