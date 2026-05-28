@@ -166,16 +166,6 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     display: block;
     opacity: 0.9;
   }
-  .hero-label {
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ig);
-    margin-bottom: 24px;
-    opacity: 0;
-  }
   .hero-title {
     font-family: var(--font-editorial);
     font-size: clamp(48px, 8vw, 96px);
@@ -1023,6 +1013,14 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   ]
 }
 </script>
+<noscript>
+  <style>
+    .hero-sub, .hero-cta, .service-card, .property-card, .stat-number, .testimonial-card, .section-title, .section-text {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  </style>
+</noscript>
 </head>
 <body style="">
 <div class="scroll-progress" id="scrollProgress"></div>
@@ -1365,25 +1363,37 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     })
 
     // Text reveals — 3D character stagger
-    .from('.line-inner', {
+    .fromTo('.line-inner', {
       y: '110%',
       rotateX: -75,
-      opacity: 0,
+      opacity: 0
+    }, {
+      y: '0%',
+      rotateX: 0,
+      opacity: 1,
       duration: 1.0,
       stagger: 0.08,
       ease: 'power4.out'
     }, 0.9)
-    .from('.hero-sub', {
+    .fromTo('.hero-sub', {
       y: 40,
       rotateX: 20,
-      opacity: 0,
+      opacity: 0
+    }, {
+      y: 0,
+      rotateX: 0,
+      opacity: 1,
       duration: 0.8,
       ease: 'power3.out'
     }, 1.2)
-    .from('.hero-cta', {
+    .fromTo('.hero-cta', {
       y: 30,
       rotateX: 15,
-      opacity: 0,
+      opacity: 0
+    }, {
+      y: 0,
+      rotateX: 0,
+      opacity: 1,
       duration: 0.7,
       ease: 'power3.out'
     }, 1.5);
@@ -1418,76 +1428,100 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     const target = parseInt(stat.dataset.target);
     const suffix = stat.dataset.suffix || '';
     const obj = { val: 0 };
-    gsap.from(stat, {
+    gsap.fromTo(stat, {
       rotateX: 90,
-      opacity: 0,
+      opacity: 0
+    }, {
+      rotateX: 0,
+      opacity: 1,
       duration: 0.6,
       ease: 'power2.out',
-      scrollTrigger: { trigger: stat, start: 'top 85%' }
+      scrollTrigger: { trigger: stat, start: 'top 85%', toggleActions: 'play none none none' }
     });
     gsap.to(obj, {
       val: target,
       duration: 2,
       snap: { val: 1 },
       ease: 'power2.out',
-      scrollTrigger: { trigger: stat, start: 'top 85%' },
+      scrollTrigger: { trigger: stat, start: 'top 85%', toggleActions: 'play none none none' },
       onUpdate: () => { stat.textContent = Math.round(obj.val) + suffix; }
     });
   });
 
   // Service cards — 3D staggered rise
-  gsap.from('.service-card', {
+  gsap.fromTo('.service-card', {
     y: 80,
     rotateX: 25,
-    opacity: 0,
+    opacity: 0
+  }, {
+    y: 0,
+    rotateX: 0,
+    opacity: 1,
     duration: 0.9,
     stagger: 0.12,
     ease: 'power3.out',
-    scrollTrigger: { trigger: '.service-grid', start: 'top 85%' }
+    scrollTrigger: { trigger: '.service-grid', start: 'top 85%', toggleActions: 'play none none none' }
   });
 
   // Property cards — 3D slide in
-  gsap.from('.property-card', {
+  gsap.fromTo('.property-card', {
     x: 80,
     rotateY: -15,
-    opacity: 0,
+    opacity: 0
+  }, {
+    x: 0,
+    rotateY: 0,
+    opacity: 1,
     duration: 0.9,
     stagger: 0.1,
     ease: 'power3.out',
-    scrollTrigger: { trigger: '.properties-scroll', start: 'top 85%' }
+    scrollTrigger: { trigger: '.properties-scroll', start: 'top 85%', toggleActions: 'play none none none' }
   });
 
   // Testimonial — 3D depth fade
-  gsap.from('.testimonial-quote', {
+  gsap.fromTo('.testimonial-card', {
     y: 50,
     rotateX: 15,
-    opacity: 0,
+    opacity: 0
+  }, {
+    y: 0,
+    rotateX: 0,
+    opacity: 1,
     duration: 1,
+    stagger: 0.15,
     ease: 'power3.out',
-    scrollTrigger: { trigger: '.testimonial', start: 'top 80%' }
+    scrollTrigger: { trigger: '.testimonials-grid', start: 'top 80%', toggleActions: 'play none none none' }
   });
 
   // CTA — 3D perspective stagger
-  gsap.from('.cta-section .section-inner > *', {
+  gsap.fromTo('.cta-section .section-inner > *', {
     y: 50,
     rotateX: 18,
-    opacity: 0,
+    opacity: 0
+  }, {
+    y: 0,
+    rotateX: 0,
+    opacity: 1,
     duration: 0.9,
     stagger: 0.15,
     ease: 'power3.out',
-    scrollTrigger: { trigger: '.cta-section', start: 'top 75%' }
+    scrollTrigger: { trigger: '.cta-section', start: 'top 75%', toggleActions: 'play none none none' }
   });
 
   // Section reveals — 3D for titles and text
   document.querySelectorAll('.section-title, .section-text').forEach((el, i) => {
-    gsap.from(el, {
+    gsap.fromTo(el, {
       y: 40,
       rotateX: 12,
-      opacity: 0,
+      opacity: 0
+    }, {
+      y: 0,
+      rotateX: 0,
+      opacity: 1,
       duration: 1,
       delay: (i % 3) * 0.1,
       ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 85%' }
+      scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
     });
   });
 
