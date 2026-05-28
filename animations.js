@@ -44,9 +44,11 @@
         wrap.appendChild(span);
       });
       title.appendChild(wrap);
-      gsap.from(wrap.children, {
+      gsap.fromTo(wrap.children, {
+        rotateX: -85, y: 50, opacity: 0
+      }, {
         scrollTrigger: { trigger: title, start: 'top 90%', toggleActions: 'play none none none' },
-        rotateX: -85, y: 50, opacity: 0, duration: 0.9, stagger: 0.025, ease: 'power3.out',
+        rotateX: 0, y: 0, opacity: 1, duration: 0.9, stagger: 0.025, ease: 'power3.out',
       });
     });
   }
@@ -57,9 +59,11 @@
     document.querySelectorAll(selectors).forEach((el, i) => {
       if (el.dataset.revealed || isAnimated(el)) return;
       el.dataset.revealed = '1';
-      gsap.from(el, {
+      gsap.fromTo(el, {
+        y: 50, rotateX: 10, opacity: 0
+      }, {
         scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-        y: 50, rotateX: 10, opacity: 0, duration: 1, delay: (i % 3) * 0.1, ease: 'power3.out',
+        y: 0, rotateX: 0, opacity: 1, duration: 1, delay: (i % 3) * 0.1, ease: 'power3.out',
       });
     });
   }
@@ -70,9 +74,11 @@
     blocks.forEach((el, i) => {
       if (el.dataset.revealed || isAnimated(el)) return;
       el.dataset.revealed = '1';
-      gsap.from(el, {
+      gsap.fromTo(el, {
+        y: 40, rotateX: 8, opacity: 0
+      }, {
         scrollTrigger: { trigger: el, start: 'top 90%', toggleActions: 'play none none none' },
-        y: 40, rotateX: 8, opacity: 0, duration: 0.9, delay: (i % 4) * 0.08, ease: 'power3.out',
+        y: 0, rotateX: 0, opacity: 1, duration: 0.9, delay: (i % 4) * 0.08, ease: 'power3.out',
       });
     });
   }
@@ -174,10 +180,13 @@
       document.querySelectorAll(selector).forEach(grid => {
         if (isAnimated(grid) || grid.dataset.gridRevealed) return;
         grid.dataset.gridRevealed = '1';
-        const items = grid.children;
-        gsap.from(items, {
-          scrollTrigger: { trigger: grid, start: 'top 85%' },
-          y: 60, rotateX: 12, opacity: 0, duration: 0.9, stagger: 0.1, ease: 'power3.out',
+        const items = Array.from(grid.children).filter(item => !isAnimated(item));
+        if (!items.length) return;
+        gsap.fromTo(items, {
+          y: 60, rotateX: 12, opacity: 0
+        }, {
+          scrollTrigger: { trigger: grid, start: 'top 85%', toggleActions: 'play none none none' },
+          y: 0, rotateX: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out',
         });
       });
     });
@@ -199,9 +208,11 @@
     document.querySelectorAll('.cta-section').forEach(cta => {
       if (isAnimated(cta)) return;
       const children = cta.querySelectorAll('.section-title, .section-text, .cta-btn');
-      gsap.from(children, {
-        scrollTrigger: { trigger: cta, start: 'top 80%' },
-        y: 50, rotateX: 15, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out',
+      gsap.fromTo(children, {
+        y: 50, rotateX: 15, opacity: 0
+      }, {
+        scrollTrigger: { trigger: cta, start: 'top 80%', toggleActions: 'play none none none' },
+        y: 0, rotateX: 0, opacity: 1, duration: 1, stagger: 0.15, ease: 'power3.out',
       });
     });
   }
