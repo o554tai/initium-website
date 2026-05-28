@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM — Hero Logo Animation Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #F7F8F5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  /* ── Hero recreation ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #F7F8F5;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 800px;
+    padding: 0 24px;
+  }
+
+  /* ── Logo icon container ── */
+  .hero-icon {
+    margin-bottom: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: clamp(80px, 12vw, 140px);
+    height: clamp(80px, 12vw, 140px);
+  }
+  .hero-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    opacity: 0;
+  }
+
+  /* ── SVG stroke overlay ── */
+  .hero-logo-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .hero-logo-svg path {
+    fill: none;
+    stroke: #50C878;
+    stroke-width: 14;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .hero-logo-svg .spark {
+    fill: #fff;
+    stroke: #50C878;
+    stroke-width: 3;
+    opacity: 0;
+    transform-origin: center;
+    transform: scale(0);
+  }
+  .hero-logo-svg .spark-glow {
+    fill: rgba(80,200,120,0.35);
+    filter: blur(6px);
+    opacity: 0;
+    transform-origin: center;
+    transform: scale(0);
+  }
+
+  /* ── Hero text ── */
+  .hero-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #50C878;
+    margin-bottom: 24px;
+    opacity: 0;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 6vw, 72px);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #1A1A1A;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+  .hero-title .line-inner {
+    display: inline-block;
+    transform: translateY(110%);
+  }
+  .hero-sub {
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 400;
+    color: #6B7B6E;
+    max-width: 540px;
+    margin: 0 auto 40px;
+    line-height: 1.6;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .hero-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 40px;
+    background: #50C878;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    border: 1.5px solid #50C878;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .hero-cta:hover {
+    background: transparent;
+    color: #50C878;
+  }
+
+  /* ── Replay button ── */
+  .controls {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  button {
+    background: transparent;
+    border: 1px solid #50C878;
+    color: #50C878;
+    padding: 10px 28px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  button:hover { background: #50C878; color: #F7F8F5; }
+
+  /* ── Particle atmosphere ── */
+  .particle {
+    position: absolute;
+    width: 3px; height: 3px;
+    background: #50C878;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    filter: blur(1px);
+  }
+</style>
+</head>
+<body>
+
+<div class="controls">
+  <button onclick="playHero()">Replay Animation</button>
+</div>
+
+<header class="hero" id="hero">
+  <div class="hero-content">
+    <div class="hero-icon" id="heroIcon">
+      <img class="hero-logo-png" id="heroPng" src="logo-nav.png" alt="INITIUM">
+
+      <svg class="hero-logo-svg" id="heroSvg" viewBox="0 0 570 650" preserveAspectRatio="xMidYMid meet">
+        <!-- Emerald stroke paths tracing the INITIUM mountain icon -->
+        <path id="hstroke-left"    d="M229,429 L295,352" />
+        <path id="hstroke-peak"    d="M327,270 L374,201 L430,278" />
+        <path id="hstroke-valley"  d="M327,352 L380,423 L430,340" />
+        <path id="hstroke-right"   d="M431,338 L444,317 L532,449" />
+        <path id="hstroke-chevron" d="M345,185 L374,148 L403,185" />
+
+        <!-- Spark glow behind circle -->
+        <circle id="hspark-glow" class="spark-glow" cx="310" cy="345" r="18" />
+        <!-- The ignition dot / circle in the logo -->
+        <circle id="hspark" class="spark" cx="310" cy="345" r="10" />
+      </svg>
+
+      <!-- Floating particles -->
+      <div class="particle" style="top:10%; left:20%;"></div>
+      <div class="particle" style="top:30%; left:75%; width:4px; height:4px;"></div>
+      <div class="particle" style="top:60%; left:15%;"></div>
+      <div class="particle" style="top:75%; left:70%; width:2px; height:2px;"></div>
+      <div class="particle" style="top:45%; left:50%;"></div>
+    </div>
+
+    <div class="hero-label" id="heroLabel">Singapore Real Estate</div>
+    <h1 class="hero-title" id="heroTitle">
+      <span class="line"><span class="line-inner">Igniting Journeys</span></span>
+    </h1>
+    <p class="hero-sub" id="heroSub">Where every property story begins with clarity, confidence, and a partner who rises with you.</p>
+    <a href="#" class="hero-cta" id="heroCta">Begin Your Journey</a>
+  </div>
+</header>
+
+<script>
+function playHero() {
+  const png   = document.getElementById('heroPng');
+  const svg   = document.getElementById('heroSvg');
+  const label = document.getElementById('heroLabel');
+  const title = document.querySelector('#heroTitle .line-inner');
+  const sub   = document.getElementById('heroSub');
+  const cta   = document.getElementById('heroCta');
+  const particles = document.querySelectorAll('.particle');
+
+  // ── Reset everything ──
+  gsap.killTweensOf([png, svg, label, title, sub, cta, ...particles]);
+  gsap.set(png,   { opacity: 0, scale: 0.88, filter: 'brightness(0.25) blur(6px)' });
+  gsap.set(svg,   { opacity: 1 });
+  gsap.set(label, { opacity: 0, y: 0 });
+  gsap.set(title, { y: '110%', rotateX: -75, opacity: 0 });
+  gsap.set(sub,   { opacity: 0, y: 20, rotateX: 20 });
+  gsap.set(cta,   { opacity: 0, y: 20, rotateX: 15 });
+  gsap.set(particles, { opacity: 0, y: 0, scale: 0 });
+
+  // Pre-compute stroke lengths
+  document.querySelectorAll('#heroSvg path').forEach(path => {
+    const len = path.getTotalLength();
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+  });
+  gsap.set('#hspark, #hspark-glow', { scale: 0, opacity: 0 });
+
+  const tl = gsap.timeline({ delay: 0.2 });
+
+  // ═══════════════════════════════════════
+  // PHASE 1: STROKE DRAW (0.2s – 1.8s)
+  // ═══════════════════════════════════════
+  tl.to('#hstroke-left',    { strokeDashoffset: 0, duration: 0.6, ease: 'power2.inOut' })
+    .to('#hstroke-peak',    { strokeDashoffset: 0, duration: 0.7, ease: 'power2.inOut' }, '-=0.32')
+    .to('#hstroke-valley',  { strokeDashoffset: 0, duration: 0.7, ease: 'power2.inOut' }, '-=0.42')
+    .to('#hstroke-right',   { strokeDashoffset: 0, duration: 0.8, ease: 'power2.inOut' }, '-=0.52')
+    .to('#hstroke-chevron', { strokeDashoffset: 0, duration: 0.5, ease: 'power2.inOut' }, '-=0.55');
+
+  // ═══════════════════════════════════════
+  // PHASE 2: SPARK IGNITES (1.4s)
+  // ═══════════════════════════════════════
+  tl.to('#hspark-glow', { scale: 1.4, opacity: 1, duration: 0.35, ease: 'power2.out' }, '-=0.2')
+    .to('#hspark',       { scale: 1,   opacity: 1, duration: 0.25, ease: 'back.out(2.5)' }, '<');
+
+  // ═══════════════════════════════════════
+  // PHASE 3: FLASH TO SOLID LOGO (1.7s – 2.6s)
+  // ═══════════════════════════════════════
+  // Bright flash on PNG while SVG fades
+  tl.to(png, {
+    opacity: 1,
+    scale: 1,
+    filter: 'brightness(1.35) blur(0px)',
+    duration: 0.7,
+    ease: 'power3.out'
+  }, '-=0.15')
+  .to(svg, {
+    opacity: 0,
+    duration: 0.35,
+    ease: 'power2.in'
+  }, '<')
+  .to('#hspark-glow', {
+    scale: 2.5,
+    opacity: 0,
+    duration: 0.5,
+    ease: 'power2.out'
+  }, '<');
+
+  // Settle brightness
+  tl.to(png, {
+    filter: 'brightness(1.05) blur(0px)',
+    duration: 0.5,
+    ease: 'power1.out'
+  });
+
+  // ═══════════════════════════════════════
+  // PHASE 4: AMBIENT PULSE (loops forever)
+  // ═══════════════════════════════════════
+  tl.to(png, {
+    scale: 1.012,
+    filter: 'brightness(1.04) drop-shadow(0 0 12px rgba(80,200,120,0.16))',
+    duration: 2.2,
+    ease: 'sine.inOut',
+    yoyo: true,
+    repeat: -1
+  });
+
+  // ═══════════════════════════════════════
+  // PHASE 5: TEXT REVEALS (staggered)
+  // ═══════════════════════════════════════
+  tl.to(label, {
+    opacity: 1,
+    duration: 0.6,
+    ease: 'power2.out'
+  }, 1.6);
+
+  tl.to(title, {
+    y: '0%',
+    rotateX: 0,
+    opacity: 1,
+    duration: 1.0,
+    ease: 'power4.out'
+  }, 1.8);
+
+  tl.to(sub, {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    duration: 0.8,
+    ease: 'power3.out'
+  }, 2.1);
+
+  tl.to(cta, {
+    opacity: 1,
+    y: 0,
+    rotateX: 0,
+    duration: 0.7,
+    ease: 'power3.out'
+  }, 2.4);
+
+  // ═══════════════════════════════════════
+  // PHASE 6: FLOATING PARTICLES (subtle)
+  // ═══════════════════════════════════════
+  particles.forEach((p, i) => {
+    gsap.to(p, {
+      opacity: 0.6,
+      y: -30 - (i * 10),
+      scale: 1,
+      duration: 2 + i * 0.4,
+      delay: 1.5 + i * 0.15,
+      ease: 'sine.out',
+      yoyo: true,
+      repeat: -1
+    });
+  });
+}
+
+window.addEventListener('load', playHero);
+</script>
+
+</body>
+</html>
