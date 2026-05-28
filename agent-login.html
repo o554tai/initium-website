@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>INITIUM Agent Login</title>
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface2: #1e1e1e;
+    --border: #2a2a2a;
+    --text: #f5f5f5;
+    --text2: #a0a0a0;
+    --accent: #50C878;
+    --accent-dim: rgba(80,200,120,0.15);
+    --danger: #ff4444;
+    --radius: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+  body { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
+
+  .logo { width: 64px; height: 64px; margin-bottom: 24px; }
+  .logo svg { width: 100%; height: 100%; }
+
+  h1 { font-size: 22px; font-weight: 800; letter-spacing: 0.5px; margin-bottom: 6px; text-align: center; }
+  .sub { color: var(--text2); font-size: 14px; margin-bottom: 32px; text-align: center; }
+
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; width: 100%; max-width: 360px; }
+
+  label { display: block; font-size: 12px; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+  input[type="password"], input[type="text"] {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 12px;
+    padding: 14px 16px; color: var(--text); font-size: 15px; outline: none; margin-bottom: 16px;
+  }
+  input:focus { border-color: var(--accent); }
+
+  .btn {
+    width: 100%; background: var(--accent); color: #000; border: none; padding: 14px;
+    border-radius: 12px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn:active { opacity: 0.85; }
+
+  .error { color: var(--danger); font-size: 13px; margin-top: 12px; text-align: center; display: none; }
+  .error.show { display: block; }
+
+  .footer { margin-top: 24px; font-size: 12px; color: var(--text2); text-align: center; }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  .spinner {
+    width: 16px; height: 16px; border: 2px solid rgba(0,0,0,0.3); border-top-color: #000;
+    border-radius: 50%; animation: spin 0.6s linear infinite; display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<div class="logo">
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" rx="20" fill="#50C878"/>
+    <path d="M30 70V30h8v32h24V30h8v40H30z" fill="#000"/>
+  </svg>
+</div>
+
+<h1>Agent Portal</h1>
+<p class="sub">Enter your API key to access your hub.</p>
+
+<div class="card">
+  <label>API Key</label>
+  <input type="password" id="keyInput" placeholder="initium-xxxxxxxx..." autocomplete="off">
+  <button class="btn" id="loginBtn" onclick="doLogin()">
+    <span class="spinner" id="spinner"></span>
+    <span id="btnText">Enter Hub</span>
+  </button>
+  <div class="error" id="errorBox">Invalid key. Please check and try again.</div>
+</div>
+
+<p class="footer">Need a key? Ask your team lead.<br><a href="/">Back to initium.sg</a></p>
+
+<script>
+const API_BASE = 'https://initium-video-studio.onrender.com';
+const keyInput = document.getElementById('keyInput');
+const loginBtn = document.getElementById('loginBtn');
+const btnText = document.getElementById('btnText');
+const spinner = document.getElementById('spinner');
+const errorBox = document.getElementById('errorBox');
+
+keyInput.addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+async function doLogin() {
+  const key = keyInput.value.trim();
+  if (!key) return;
+
+  errorBox.classList.remove('show');
+  loginBtn.disabled = true;
+  btnText.textContent = 'Checking...';
+  spinner.style.display = 'block';
+
+  try {
+    const res = await fetch(`${API_BASE}/api/me`, {
+      headers: { 'X-API-Key': key }
+    });
+    if (!res.ok) throw new Error('invalid');
+    const data = await res.json();
+    const name = data.key?.name || 'Agent';
+
+    localStorage.setItem('initium_api_key', key);
+    localStorage.setItem('initium_agent_name', name);
+    window.location.href = '/agent-hub.html';
+  } catch (err) {
+    errorBox.classList.add('show');
+    loginBtn.disabled = false;
+    btnText.textContent = 'Enter Hub';
+    spinner.style.display = 'none';
+  }
+}
+
+// Auto-redirect if already logged in
+(function() {
+  const saved = localStorage.getItem('initium_api_key');
+  if (saved) {
+    fetch(`${API_BASE}/api/me`, { headers: { 'X-API-Key': saved } })
+      .then(r => { if (r.ok) window.location.href = '/agent-hub.html'; })
+      .catch(() => {});
+  }
+})();
+</script>
+</body>
+</html>
