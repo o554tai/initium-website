@@ -925,11 +925,7 @@ def main():
     if not ok2:
         print("      WARNING: archive.html generation failed")
 
-    print("[7/7] Deploying...")
-    if git_deploy():
-        print("\nDone. Deployed successfully.")
-    else:
-        print("\nGit deploy had issues.")
+    print("[7/7] Done. Changes left uncommitted (daily pusher handles sync).")
 
 
 if __name__ == "__main__":
