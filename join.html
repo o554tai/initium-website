@@ -772,9 +772,11 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 
   gsap.registerPlugin(ScrollTrigger);
   gsap.utils.toArray('.why-card').forEach((card, i) => {
-    gsap.from(card, {
+    gsap.fromTo(card, {
+      y: 50, rotateX: 16, opacity: 0
+    }, {
       scrollTrigger: { trigger: card, start: 'top 85%', toggleActions: 'play none none none' },
-      y: 50, rotateX: 16, opacity: 0, duration: 0.8, delay: i * 0.1, ease: 'power3.out'
+      y: 0, rotateX: 0, opacity: 1, duration: 0.8, delay: i * 0.1, ease: 'power3.out'
     });
   });
 
