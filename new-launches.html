@@ -459,6 +459,37 @@
     'Mixed Developments': 'Condo',
   };
 
+  const districtNames = {
+    'D01': 'D1 - Boat Quay / Raffles Place',
+    'D02': 'D2 - Chinatown / Tanjong Pagar',
+    'D03': 'D3 - Alexandra / Commonwealth',
+    'D04': 'D4 - Harbourfront / Telok Blangah',
+    'D05': 'D5 - Buona Vista / West Coast',
+    'D06': 'D6 - City Hall / Clarke Quay',
+    'D07': 'D7 - Beach Road / Bugis / Rochor',
+    'D08': 'D8 - Farrer Park / Serangoon Road',
+    'D09': 'D9 - Orchard / River Valley',
+    'D10': 'D10 - Tanglin / Holland',
+    'D11': 'D11 - Newton / Novena',
+    'D12': 'D12 - Balestier / Toa Payoh',
+    'D13': 'D13 - Macpherson / Potong Pasir',
+    'D14': 'D14 - Eunos / Geylang / Paya Lebar',
+    'D15': 'D15 - East Coast / Marine Parade',
+    'D16': 'D16 - Bedok / Upper East Coast',
+    'D17': 'D17 - Loyang / Changi',
+    'D18': 'D18 - Pasir Ris / Tampines',
+    'D19': 'D19 - Hougang / Punggol / Sengkang',
+    'D20': 'D20 - Ang Mo Kio / Bishan / Thomson',
+    'D21': 'D21 - Clementi / Upper Bukit Timah',
+    'D22': 'D22 - Boon Lay / Jurong / Tuas',
+    'D23': 'D23 - Bukit Batok / Bukit Panjang',
+    'D24': 'D24 - Choa Chu Kang / Tengah',
+    'D25': 'D25 - Admiralty / Woodlands',
+    'D26': 'D26 - Mandai / Upper Thomson',
+    'D27': 'D27 - Sembawang / Yishun',
+    'D28': 'D28 - Seletar / Yio Chu Kang',
+  };
+
   function getProjectType(pt) {
     return typeMap[pt] || 'Condo';
   }
@@ -494,7 +525,7 @@
     districts.forEach(d => {
       const opt = document.createElement('option');
       opt.value = d;
-      opt.textContent = d;
+      opt.textContent = districtNames[d] || d;
       select.appendChild(opt);
     });
   }
@@ -530,7 +561,7 @@
           </div>
           <div class="project-info">
             <div class="project-name">${p.project_name || ''}</div>
-            <div class="project-loc">${p.location || p.district || ''}</div>
+            <div class="project-loc">${districtNames[p.district] || p.location || p.district || ''}</div>
             <div class="project-meta">
               <span class="project-meta-item"><strong>${p.property_type || ''}</strong></span>
               <span class="project-meta-item">${p.tenure || ''}</span>
