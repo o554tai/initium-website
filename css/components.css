@@ -220,9 +220,12 @@
 
 .footer-links {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5) var(--space-8);
+  flex-wrap: nowrap;
+  gap: var(--space-6) var(--space-8);
+  overflow-x: auto;
+  scrollbar-width: none;
 }
+.footer-links::-webkit-scrollbar { display: none; }
 
 .footer-link {
   display: flex;
