@@ -82,70 +82,53 @@
   </script>
 
   <style>
-    /* Hero */
+    /* Hero — video background with text overlay */
     .hero {
+      position: relative;
       min-height: 100vh;
       display: flex;
       align-items: center;
-      background: var(--surface);
-      padding: var(--space-16) var(--page-pad-x);
-      position: relative;
       overflow: hidden;
     }
-    .hero-inner {
-      display: grid;
-      grid-template-columns: 1.1fr 1fr;
-      gap: var(--space-12);
-      align-items: center;
-      width: 100%;
-      max-width: var(--container-max);
-      margin: 0 auto;
+    .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
     }
-    .hero-label {
-      margin-bottom: var(--space-4);
-    }
-    .hero-headline {
-      margin-bottom: var(--space-6);
-    }
-    .hero-body {
-      color: var(--text-secondary);
-      max-width: 480px;
-      margin-bottom: var(--space-8);
-    }
-    .hero-image {
-      position: relative;
-      height: 70vh;
-      min-height: 480px;
-      overflow: hidden;
-      border-radius: var(--radius-sm);
-    }
-    .hero-image video,
-    .hero-image img {
+    .hero-video-bg video,
+    .hero-video-bg img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    .hero-image::before {
-      content: '';
+    .hero-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(to top, rgba(26,26,26,0.3), transparent 50%);
-      border-radius: var(--radius-sm);
+      background: linear-gradient(90deg, rgba(26,26,26,0.75) 0%, rgba(26,26,26,0.4) 60%, rgba(26,26,26,0.2) 100%);
       z-index: 1;
       pointer-events: none;
     }
-
-    @media (max-width: 768px) {
-      .hero-inner {
-        grid-template-columns: 1fr;
-        gap: var(--space-8);
-      }
-      .hero-image {
-        height: 50vh;
-        min-height: 320px;
-        order: -1;
-      }
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      max-width: var(--container-max);
+      margin: 0 auto;
+      padding: var(--space-16) var(--page-pad-x);
+    }
+    .hero-label {
+      margin-bottom: var(--space-4);
+      color: var(--accent);
+    }
+    .hero-headline {
+      margin-bottom: var(--space-6);
+      color: var(--white);
+    }
+    .hero-body {
+      color: rgba(255,255,255,0.75);
+      max-width: 480px;
+      margin-bottom: var(--space-8);
     }
 
     /* About section */
@@ -533,17 +516,18 @@
 
 <!-- Hero -->
 <section class="hero">
+  <div class="hero-video-bg">
+    <video autoplay muted loop playsinline poster="assets/images/hero-property.jpg">
+      <source src="assets/videos/hero-cinematic.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
   <div class="hero-inner">
     <div class="reveal">
       <div class="label hero-label">Singapore Real Estate</div>
       <h1 class="headline-xl hero-headline">Igniting<br>Journeys</h1>
       <p class="body-lg hero-body">Where every property story begins with clarity, confidence, and a partner who rises with you.</p>
       <a href="contact.html" class="btn btn-primary btn-lg">Begin Your Journey</a>
-    </div>
-    <div class="hero-image reveal" data-stagger="2">
-      <video autoplay muted loop playsinline poster="assets/images/hero-property.jpg">
-        <source src="assets/videos/hero-cinematic.mp4" type="video/mp4">
-      </video>
     </div>
   </div>
 </section>
