@@ -337,7 +337,6 @@
       <option value="Freehold">Freehold</option>
       <option value="99-Year">99-Year</option>
       <option value="999-Year">999-Year</option>
-      <option value="Leasehold">Leasehold</option>
     </select>
     <div class="filter-pills" id="typePills">
       <button class="filter-pill active" data-type="">All</button>
@@ -599,8 +598,7 @@
       const matchTenure = !tenure ||
         pTenure === tenure.toLowerCase() ||
         (tenure === '99-Year' && pTenure.includes('99')) ||
-        (tenure === '999-Year' && pTenure.includes('999')) ||
-        (tenure === 'Leasehold' && pTenure.includes('lease'));
+        (tenure === '999-Year' && pTenure.includes('999'));
 
       const pType = getProjectType(p.property_type);
       const matchType = !type || pType === type;
