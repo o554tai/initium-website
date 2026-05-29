@@ -162,6 +162,9 @@
       transition: transform var(--transition-base), box-shadow var(--transition-base);
       cursor: pointer;
       scroll-snap-align: start;
+      text-decoration: none;
+      color: inherit;
+      display: block;
     }
     .project-card:hover {
       transform: translateY(-4px);
@@ -237,6 +240,22 @@
     .project-price.po-eq {
       color: var(--text-tertiary);
       font-weight: 500;
+    }
+    .project-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-top: var(--space-4);
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: gap var(--transition-fast);
+    }
+    .project-card:hover .project-cta {
+      gap: var(--space-3);
     }
     @media (max-width: 768px) {
       .project-card { flex: 0 0 280px; }
@@ -504,7 +523,7 @@
       const badgeText = p.sold_out ? 'Sold Out' : type;
 
       return `
-        <article class="project-card" data-name="${(p.project_name||'').toLowerCase()}" data-district="${p.district||''}" data-type="${type}" data-tenure="${(p.tenure||'').toLowerCase()}">
+        <a href="contact.html" class="project-card" data-name="${(p.project_name||'').toLowerCase()}" data-district="${p.district||''}" data-type="${type}" data-tenure="${(p.tenure||'').toLowerCase()}">
           <div class="project-img">
             <img src="${p.cover_image || ''}" alt="${p.project_name || ''}" loading="lazy" onerror="this.style.display='none'">
             <span class="project-badge ${soldClass}">${badgeText}</span>
@@ -517,8 +536,9 @@
               <span class="project-meta-item">${p.tenure || ''}</span>
             </div>
             <div class="project-price ${isPOE ? 'po-eq' : ''}">${priceText}</div>
+            <span class="project-cta">Enquire <span style="font-size:1.2em;">&rarr;</span></span>
           </div>
-        </article>
+        </a>
       `;
     }).join('');
 
