@@ -209,8 +209,8 @@
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
-  gap: var(--space-12);
+  grid-template-columns: 1fr 2fr;
+  gap: var(--space-8);
 }
 
 .footer-nav {
