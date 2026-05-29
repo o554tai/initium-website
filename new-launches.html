@@ -27,15 +27,46 @@
   <style>
     /* Page hero */
     .page-hero {
-      background: var(--surface);
-      padding: var(--space-20) var(--page-pad-x) var(--space-12);
+      position: relative;
+      min-height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
       text-align: center;
     }
+    .page-hero .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .page-hero .hero-video-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .page-hero .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(26,26,26,0.75) 0%, rgba(26,26,26,0.55) 60%, rgba(26,26,26,0.45) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .page-hero .container {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-20) var(--page-pad-x) var(--space-16);
+    }
+    .page-hero .label {
+      color: var(--accent);
+    }
     .page-hero .headline-xl {
+      color: var(--white);
       margin-bottom: var(--space-4);
     }
     .page-hero .body-lg {
-      color: var(--text-secondary);
+      color: rgba(255,255,255,0.75);
       max-width: 560px;
       margin: 0 auto;
     }
@@ -315,6 +346,12 @@
 
 <!-- Hero -->
 <section class="page-hero">
+  <div class="hero-video-bg">
+    <video autoplay muted loop playsinline poster="assets/images/hero-property.jpg">
+      <source src="assets/videos/hero-cinematic.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
   <div class="container">
     <div class="label reveal">New Launches</div>
     <h1 class="headline-xl reveal">Every Launch. Zero Guesswork.</h1>
