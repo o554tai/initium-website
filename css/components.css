@@ -99,6 +99,7 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--dark);
+  margin-left: calc(var(--page-pad-x) * -1);
 }
 
 .nav-logo span {
