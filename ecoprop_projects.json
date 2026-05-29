@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-05-29T15:00:47.513218+00:00",
+  "scraped_at": "2026-05-29T16:00:07.878863+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1185,7 +1185,7 @@
       "address": "320 Serangoon Road",
       "property_type": "Commercial",
       "tenure": "Freehold",
-      "min_price": 14305000.0,
+      "min_price": 14304000.0,
       "max_price": 14886000.0,
       "currency": "$",
       "units": "231",
