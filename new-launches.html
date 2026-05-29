@@ -136,25 +136,32 @@
       .filter-count { margin-left: 0; }
     }
 
-    /* Projects grid */
+    /* Projects carousel */
     .projects-section {
       padding: var(--space-10) var(--page-pad-x) var(--space-16);
       background: var(--surface);
     }
     .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-6);
-      max-width: var(--container-max);
-      margin: 0 auto;
+      display: flex;
+      gap: var(--space-5);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: var(--space-4);
+      margin-right: calc(var(--page-pad-x) * -1);
+      padding-right: var(--page-pad-x);
     }
+    .projects-grid::-webkit-scrollbar { display: none; }
     .project-card {
+      flex: 0 0 320px;
       background: var(--white);
       border-radius: var(--radius-sm);
       overflow: hidden;
       box-shadow: var(--shadow-sm);
       transition: transform var(--transition-base), box-shadow var(--transition-base);
       cursor: pointer;
+      scroll-snap-align: start;
     }
     .project-card:hover {
       transform: translateY(-4px);
@@ -162,7 +169,7 @@
     }
     .project-img {
       position: relative;
-      height: 260px;
+      height: 400px;
       overflow: hidden;
       background: linear-gradient(135deg, var(--surface), var(--surface-warm));
     }
@@ -174,7 +181,7 @@
       transition: transform var(--transition-slow);
     }
     .project-card:hover .project-img img {
-      transform: scale(1.05);
+      transform: scale(1.03);
     }
     .project-badge {
       position: absolute;
@@ -231,12 +238,15 @@
       color: var(--text-tertiary);
       font-weight: 500;
     }
-    @media (max-width: 1024px) {
-      .projects-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 768px) {
+      .project-card { flex: 0 0 280px; }
+      .project-img { height: 340px; }
     }
-    @media (max-width: 640px) {
-      .projects-grid { grid-template-columns: 1fr; }
-      .project-img { height: 220px; }
+
+    /* Load more */
+    .load-more-wrap {
+      text-align: center;
+      margin-top: var(--space-8);
     }
 
     /* Empty state */
@@ -244,6 +254,7 @@
       text-align: center;
       padding: var(--space-16) 0;
       color: var(--text-secondary);
+      width: 100%;
     }
     .projects-empty h3 {
       font-family: var(--font-display);
@@ -256,6 +267,7 @@
       text-align: center;
       padding: var(--space-16) 0;
       color: var(--text-tertiary);
+      width: 100%;
     }
   </style>
 </head>
@@ -323,6 +335,9 @@
 <section class="projects-section">
   <div class="projects-grid" id="projectsGrid">
     <div class="projects-loading">Loading projects...</div>
+  </div>
+  <div class="load-more-wrap" id="loadMoreWrap" style="display:none;">
+    <button class="btn btn-outline" id="loadMoreBtn">Load More</button>
   </div>
 </section>
 
@@ -407,6 +422,7 @@
   /* ========== Data & State ========== */
   let allProjects = [];
   let filteredProjects = [];
+  let displayCount = 6;
 
   const typeMap = {
     'Residential Highrise': 'Condo',
@@ -468,15 +484,19 @@
   function renderProjects(projects) {
     const grid = document.getElementById('projectsGrid');
     const count = document.getElementById('resultCount');
+    const loadMoreWrap = document.getElementById('loadMoreWrap');
 
-    count.textContent = `Showing ${projects.length} of ${allProjects.length} projects`;
+    count.textContent = `Showing ${Math.min(displayCount, projects.length)} of ${projects.length} projects`;
 
     if (projects.length === 0) {
       grid.innerHTML = '<div class="projects-empty"><h3>No projects found</h3><p>Try adjusting your filters.</p></div>';
+      loadMoreWrap.style.display = 'none';
       return;
     }
 
-    grid.innerHTML = projects.map(p => {
+    const toShow = projects.slice(0, displayCount);
+
+    grid.innerHTML = toShow.map(p => {
       const priceText = formatPrice(p.min_price, p.max_price, p.currency || '$');
       const isPOE = priceText === 'Price on enquiry';
       const type = getProjectType(p.property_type);
@@ -501,10 +521,14 @@
         </article>
       `;
     }).join('');
+
+    loadMoreWrap.style.display = displayCount < projects.length ? 'block' : 'none';
   }
 
   /* ========== Filter Logic ========== */
   function applyFilters() {
+    displayCount = 6; // reset pagination on filter change
+
     const query = document.getElementById('searchInput').value.toLowerCase().trim();
     const district = document.getElementById('districtFilter').value;
     const tenure = document.getElementById('tenureFilter').value;
@@ -547,6 +571,11 @@
       e.target.classList.add('active');
       applyFilters();
     }
+  });
+
+  document.getElementById('loadMoreBtn').addEventListener('click', () => {
+    displayCount += 6;
+    renderProjects(filteredProjects);
   });
 
   function debounce(fn, wait) {
