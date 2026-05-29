@@ -523,7 +523,7 @@
       const badgeText = p.sold_out ? 'Sold Out' : type;
 
       return `
-        <a href="contact.html" class="project-card" data-name="${(p.project_name||'').toLowerCase()}" data-district="${p.district||''}" data-type="${type}" data-tenure="${(p.tenure||'').toLowerCase()}">
+        <a href="contact.html?project=${encodeURIComponent(p.project_name || '')}&source=new-launches" class="project-card" data-name="${(p.project_name||'').toLowerCase()}" data-district="${p.district||''}" data-type="${type}" data-tenure="${(p.tenure||'').toLowerCase()}">
           <div class="project-img">
             <img src="${p.cover_image || ''}" alt="${p.project_name || ''}" loading="lazy" onerror="this.style.display='none'">
             <span class="project-badge ${soldClass}">${badgeText}</span>
