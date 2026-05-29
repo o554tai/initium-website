@@ -166,69 +166,7 @@
       object-fit: cover;
       display: block;
     }
-    /* Testimonials */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-6);
-    }
-    .testimonial-card {
-      background: var(--white);
-      border-radius: var(--radius-sm);
-      padding: var(--space-8);
-      border: 1px solid rgba(0,0,0,0.06);
-      transition: transform var(--transition-base), box-shadow var(--transition-base);
-      display: flex;
-      flex-direction: column;
-    }
-    .testimonial-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: rgba(80,200,120,0.15);
-    }
-    .testimonial-stars {
-      font-size: var(--text-lg);
-      color: #f5a623;
-      letter-spacing: 2px;
-      margin-bottom: var(--space-4);
-    }
-    .testimonial-text {
-      font-size: var(--text-base);
-      line-height: 1.7;
-      color: var(--text-secondary);
-      margin-bottom: var(--space-6);
-      flex: 1;
-    }
-    .testimonial-author-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
-    }
-    .testimonial-avatar {
-      width: 44px; height: 44px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 700;
-      color: var(--white);
-      flex-shrink: 0;
-    }
-    .testimonial-name {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 600;
-    }
-    .testimonial-role {
-      font-size: var(--text-sm);
-      color: var(--text-tertiary);
-    }
-    @media (max-width: 768px) {
-      .testimonials-grid { grid-template-columns: 1fr; }
-    }
-
+    /* ========== Service Panels ========== */
     @media (max-width: 768px) {
       .service-grid {
         grid-template-columns: 1fr;
@@ -545,53 +483,8 @@
         </div>
       </div>
     </div>
+</div>
 
-  </div>
-</section>
-
-<!-- Social Proof -->
-<section class="section" style="background: var(--surface-warm);">
-  <div class="container">
-    <div class="text-center" style="max-width: 640px; margin: 0 auto;">
-      <div class="label reveal">Testimonials</div>
-      <h2 class="headline-md reveal">Trusted by 500+ clients since 2021</h2>
-    </div>
-    <div class="testimonials-grid" style="margin-top: var(--space-10);">
-      <div class="testimonial-card reveal">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Tasso made our first home purchase completely stress-free. He explained every step and negotiated a price we didn't think was possible."</p>
-        <div class="testimonial-author-row">
-          <div class="testimonial-avatar" style="background: var(--accent);">JL</div>
-          <div>
-            <div class="testimonial-name">Jason Lim</div>
-            <div class="testimonial-role">Bought a 4-room HDB, Tampines</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card reveal">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Sold above valuation in 3 weeks. The staging advice and marketing reach were next level. INITIUM delivers on every promise."</p>
-        <div class="testimonial-author-row">
-          <div class="testimonial-avatar" style="background: var(--accent-dark);">ST</div>
-          <div>
-            <div class="testimonial-name">Sarah Tan</div>
-            <div class="testimonial-role">Sold a condo, Katong</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card reveal">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"We got our dream unit at a new launch because of INITIUM's ballot strategy. Without them, we would have missed it entirely."</p>
-        <div class="testimonial-author-row">
-          <div class="testimonial-avatar" style="background: var(--accent);">AK</div>
-          <div>
-            <div class="testimonial-name">Ahmad & Kelly</div>
-            <div class="testimonial-role">New launch buyers, Bukit Timah</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </section>
 
 <!-- Why INITIUM -->
