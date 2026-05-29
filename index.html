@@ -203,7 +203,40 @@
       color: var(--text-secondary);
     }
     @media (max-width: 768px) {
-      .stats-row { grid-template-columns: 1fr; }
+      .stats-row {
+        display: flex;
+        gap: 0;
+        background: var(--surface-warm);
+        border-radius: var(--radius-sm);
+        padding: var(--space-6) 0;
+        margin-top: var(--space-8);
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .stats-row::-webkit-scrollbar { display: none; }
+      .stat-card {
+        flex: 1 0 33.333%;
+        min-width: 100px;
+        background: transparent;
+        border: none;
+        border-top: 2px solid var(--accent);
+        border-radius: 0;
+        padding: var(--space-4) var(--space-2);
+        scroll-snap-align: start;
+      }
+      .stat-card:not(:last-child) {
+        border-right: 1px solid rgba(0,0,0,0.06);
+      }
+      .stat-card .stat-number {
+        font-size: var(--text-3xl);
+        margin-bottom: var(--space-1);
+      }
+      .stat-card .stat-label {
+        font-size: var(--text-xs);
+        letter-spacing: 0.02em;
+      }
     }
 
     /* Services dark section */
