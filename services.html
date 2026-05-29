@@ -1,1725 +1,633 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Property Services — Buy, Sell, Rent & New Launches | INITIUM Singapore</title>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', 'REPLACE_WITH_META_PIXEL_ID');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=REPLACE_WITH_META_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
-<!-- End Meta Pixel Code -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=REPLACE_WITH_GA4_ID"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
-</script>
-<!-- End Google tag -->
-
-
-
-
-<meta name="description" content="Buy, sell, rent, or explore new launches with INITIUM. Four specialised services, one trusted partner.">
-<meta name="theme-color" content="#50C878">
-<link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="animations.js"></script>
-<style>
-  :root {
-    --ig: #50C878;
-    --ig-dark: #3DA35F;
-    --ig-light: #E8F5EE;
-    --ig-surface: #F7F8F5;
-    --ig-ink: #1A1A1A;
-    --ig-ink-2: #6B7B6E;
-    --ig-ink-3: #A8B5AC;
-    --font-editorial: 'Playfair Display', serif;
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font-body);
-    color: var(--ig-ink);
-    background: var(--ig-surface);
-    overflow-x: hidden;
-  }
-
-  /* Navigation */
-  nav {
-    position: fixed;
-    top:0; left:0; right:0;
-    z-index: 1000;
-    padding: 24px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease;
-  }
-  nav.scrolled {
-    background: rgba(247,249,248,0.92);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid rgba(80,200,120,0.08);
-  }
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 1.5px;
-    color: var(--ig);
-    text-decoration: none;
-  }
-  .nav-logo img { height: 80px; width: auto; display: block; }
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-  }
-  .nav-links a {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    color: var(--ig-ink-2);
-    position: relative;
-    padding-bottom: 4px;
-    transition: color 0.3s ease;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom:0; left:0;
-    width: 0; height: 1.5px;
-    background: var(--ig);
-    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .nav-links a:hover { color: var(--ig); }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-links a.active { color: var(--ig); }
-  .nav-links a.active::after { width: 100%; }
-
-  /* Page Hero */
-  .page-hero {
-    position: relative;
-    min-height: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 140px 24px 48px;
-    background: var(--ig-surface);
-    overflow: hidden;
-  }
-  .page-hero-label {
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ig);
-    margin-bottom: 24px;
-  }
-  .page-hero-title {
-    font-family: var(--font-editorial);
-    font-size: clamp(40px, 6vw, 72px);
-    font-weight: 500;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    color: var(--ig-ink);
-    margin-bottom: 20px;
-    max-width: 700px;
-  }
-  .page-hero-sub {
-    font-size: clamp(16px, 2vw, 20px);
-    font-weight: 400;
-    color: var(--ig-ink-2);
-    max-width: 520px;
-    line-height: 1.7;
-  }
-
-  /* Section base */
-  section {
-    position: relative;
-    padding: 120px 48px;
-  }
-  .section-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .section-label {
-    font-family: var(--font-display);
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ig);
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 32px;
-    height: 1px;
-    background: var(--ig);
-  }
-  .section-title {
-    font-family: var(--font-editorial);
-    font-size: clamp(36px, 4.5vw, 64px);
-    font-weight: 500;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    max-width: 700px;
-    margin-bottom: 24px;
-    text-align: center;
-  }
-  .section-text {
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--ig-ink-2);
-    max-width: 540px;
-    text-align: center;
-  }
-
-  /* Service Tabs */
-  .service-tabs {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 64px;
-    width: 100%;
-    max-width: 520px;
-  }
-  .service-tab {
-    flex: 1;
-    min-width: 0;
-    padding: 12px 10px;
-    background: var(--ig);
-    border: 2px solid var(--ig);
-    border-radius: 100px;
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    text-align: center;
-  }
-  .service-tab:hover {
-    background: #3DA35F;
-    border-color: #3DA35F;
-    transform: translateY(-1px);
-  }
-  .service-tab.active {
-    background: #fff;
-    color: var(--ig);
-    border-color: var(--ig);
-    box-shadow: 0 4px 14px rgba(80, 200, 120, 0.30);
-  }
-
-  /* Service Panel */
-  .service-panel {
-    display: none;
-  }
-  .service-panel.active {
-    display: block;
-  }
-  .service-detail {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
-  }
-  .service-visual {
-    position: relative;
-    height: 480px;
-    border-radius: 24px;
-    overflow: hidden;
-    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .service-visual::before {
-    content: attr(data-icon);
-    font-family: var(--font-display);
-    font-size: 120px;
-    font-weight: 700;
-    color: var(--ig);
-    opacity: 0.12;
-  }
-  .service-content h3 {
-    font-family: var(--font-editorial);
-    font-size: clamp(28px, 3vw, 40px);
-    font-weight: 500;
-    margin-bottom: 20px;
-    color: var(--ig-ink);
-  }
-  .service-content p {
-    font-size: 16px;
-    line-height: 1.8;
-    color: var(--ig-ink-2);
-    margin-bottom: 32px;
-  }
-
-  /* Process Steps */
-  .process-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-  }
-  .process-step {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    padding: 24px;
-    background: #fff;
-    border-radius: 16px;
-    border: 1px solid rgba(80,200,120,0.08);
-    transition: all 0.3s ease;
-  }
-  .process-step:hover {
-    border-color: rgba(80,200,120,0.2);
-    transform: translateX(4px);
-  }
-  .step-number {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: var(--ig);
-    color: #fff;
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-  }
-  .step-content h4 {
-    font-family: var(--font-display);
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 6px;
-    color: var(--ig-ink);
-  }
-  .step-content p {
-    font-size: 14px;
-    line-height: 1.7;
-    color: var(--ig-ink-2);
-    margin: 0;
-  }
-
-  /* Service CTA */
-  .service-cta {
-    margin-top: 40px;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 16px 36px;
-    background: var(--ig);
-    color: #fff;
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 100px;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .service-cta:hover {
-    background: var(--ig-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(80,200,120,0.2);
-  }
-
-  /* Why INITIUM */
-  .why-section {
-    background: var(--ig-ink);
-    color: #fff;
-    border-radius: 40px;
-    margin: 0 24px;
-    overflow: hidden;
-    position: relative;
-  }
-  .why-section::before {
-    content: '';
-    position: absolute;
-    top: -50%; right: -20%;
-    width: 80%; height: 120%;
-    background: radial-gradient(ellipse, rgba(80,200,120,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .why-section .section-label { color: var(--ig-light); }
-  .why-section .section-label::before { background: var(--ig-light); }
-  .why-section .section-title { color: #fff;
-    text-align: center;
-  }
-  .why-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 32px;
-    margin-top: 64px;
-  }
-  .why-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 24px;
-    padding: 40px 32px;
-    text-align: center;
-    backdrop-filter: blur(20px);
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .why-card:hover {
-    background: rgba(255,255,255,0.08);
-    transform: translateY(-4px);
-  }
-  .why-icon {
-    width: 56px; height: 56px;
-    border-radius: 16px;
-    background: rgba(80,200,120,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 24px;
-  }
-  .why-title {
-    font-family: var(--font-display);
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 12px;
-    color: #fff;
-  }
-  .why-desc {
-    font-size: 14px;
-    line-height: 1.7;
-    color: rgba(255,255,255,0.6);
-  }
-
-  /* CTA Section */
-  .cta-section {
-    background: var(--ig);
-    border-radius: 40px;
-    margin: 0 24px 80px;
-    padding: 50px 48px;
-    text-align: center;
-    color: #fff;
-    position: relative;
-    overflow: hidden;
-  }
-  .cta-section::before {
-    content: '';
-    position: absolute;
-    top: -20%; left: -10%;
-    width: 50%; height: 80%;
-    background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .cta-title {
-    font-family: var(--font-editorial);
-    font-size: clamp(36px, 5vw, 64px);
-    font-weight: 500;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 2;
-  }
-  .cta-text {
-    font-size: 17px;
-    opacity: 0.85;
-    max-width: 480px;
-    margin: 0 auto 40px;
-    position: relative;
-    z-index: 2;
-  }
-  .cta-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    padding: 18px 40px;
-    background: #fff;
-    color: var(--ig);
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-radius: 100px;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-    position: relative;
-    z-index: 2;
-  }
-  .cta-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.15);
-  }
-
-  /* Footer */
-  footer {
-    border-top: 1px solid var(--ig-light);
-    padding: 64px 48px 32px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .footer-main {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
-    margin-bottom: 48px;
-  }
-  .footer-col {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .footer-col-title {
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ig-ink);
-    margin-bottom: 4px;
-  }
-  .footer-col a {
-    font-size: 14px;
-    color: var(--ig-ink-2);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .footer-col a:hover { color: var(--ig); }
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 24px;
-    border-top: 1px solid var(--ig-light);
-  }
-  .footer-legal {
-    display: flex;
-    gap: 24px;
-  }
-  .footer-legal a {
-    font-size: 13px;
-    color: var(--ig-ink-3);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .footer-legal a:hover { color: var(--ig); }  .footer-socials {
-    display: flex;
-    gap: 12px;
-    margin-top: 16px;
-  }
-  .footer-socials a {
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: var(--ig-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ig);
-    transition: all 0.3s ease;
-  }
-  .footer-socials a:hover {
-    background: var(--ig);
-    color: #fff;
-    transform: translateY(-2px);
-  }
-  .footer-socials svg {
-    width: 18px;
-    height: 18px;
-  }
-  .footer-copy {
-    font-size: 13px;
-    color: var(--ig-ink-3);
-  }
-  .footer-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-  }
-  .footer-links a {
-    font-size: 13px;
-    color: var(--ig-ink-2);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .footer-links a:hover { color: var(--ig); }
-
-  /* Mobile Hamburger */
-  .nav-toggle {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 44px;
-    height: 44px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    gap: 5px;
-    padding: 8px;
-    z-index: 1001;
-  }
-  .nav-toggle span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--ig-ink);
-    border-radius: 2px;
-    transition: all 0.3s ease;
-    transform-origin: center;
-  }
-  .nav-toggle.active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
-  }
-  .nav-toggle.active span:nth-child(2) {
-    opacity: 0;
-  }
-  .nav-toggle.active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
-  }
-
-  @media (max-width: 900px) {
-    .nav-toggle { display: flex; }
-    .nav-links {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: #F7F8F5;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 28px;
-      padding-top: 100px;
-      padding-bottom: 40px;
-      z-index: 999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    .nav-links.open {
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Services — Buy, Sell, Rent & New Launches | INITIUM</title>
+  <meta name="description" content="Buy, sell, rent, or explore new launches with INITIUM. Four specialised services, one trusted partner.">
+  <meta name="theme-color" content="#50C878">
+  <link rel="canonical" href="https://initium.sg/services.html">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    /* Page hero */
+    .page-hero {
+      position: relative;
+      min-height: 60vh;
       display: flex;
-      opacity: 1;
-      pointer-events: auto;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      text-align: center;
     }
-    .nav-links a {
-      font-size: 20px;
+    .page-hero .hero-video-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .page-hero .hero-video-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .page-hero .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(26,26,26,0.75) 0%, rgba(26,26,26,0.55) 60%, rgba(26,26,26,0.45) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .page-hero .container {
+      position: relative;
+      z-index: 2;
+      padding: var(--space-20) var(--page-pad-x) var(--space-16);
+    }
+    .page-hero .label {
+      color: var(--accent);
+      font-size: var(--text-sm);
       font-weight: 600;
-      color: var(--ig-ink);
+      letter-spacing: 0.16em;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.4);
+    }
+    .page-hero .headline-xl {
+      color: var(--white);
+      margin-bottom: var(--space-4);
+    }
+    .page-hero .body-lg {
+      color: rgba(255,255,255,0.75);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* Service tabs */
+    .services-tabs {
+      display: flex;
+      justify-content: center;
+      gap: var(--space-2);
+      margin-bottom: var(--space-12);
+      flex-wrap: wrap;
+    }
+    .service-tab {
+      padding: var(--space-3) var(--space-6);
+      border: 1px solid rgba(0,0,0,0.1);
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--white);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+    .service-tab:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+    .service-tab.active {
+      background: var(--accent);
+      color: var(--white);
+      border-color: var(--accent);
+    }
+
+    /* Service content */
+    .service-panel {
+      display: none;
+    }
+    .service-panel.active {
+      display: block;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+    .service-text .label {
+      color: var(--accent);
+      margin-bottom: var(--space-4);
+    }
+    .service-text .headline-md {
+      margin-bottom: var(--space-4);
+    }
+    .service-text .body-lg {
+      color: var(--text-secondary);
+      margin-bottom: var(--space-8);
+    }
+    .process-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .process-item {
+      display: flex;
+      gap: var(--space-4);
+    }
+    .process-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: var(--text-sm);
       flex-shrink: 0;
     }
-    .nav-links a::after { display: none; }
-  }
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    section { padding: 80px 24px; }
-    .service-detail { grid-template-columns: 1fr; gap: 40px; }
-    .service-visual { height: 300px; }
-    .why-grid { grid-template-columns: 1fr; }
-    .why-section, .cta-section { margin: 0 12px; border-radius: 24px; }
-    footer { padding: 48px 24px 24px; }
-    .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-    .service-tabs { max-width: 100%; gap: 6px; }
-    .service-tab { font-size: 11px; padding: 8px 4px; }
-  }
-</style>
-  <link rel="canonical" href="services.html">
+    .process-body h4 {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-weight: 600;
+      margin-bottom: var(--space-1);
+    }
+    .process-body p {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    .service-img {
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+    }
+    .service-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 768px) {
+      .service-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-8);
+      }
+      .service-img { order: -1; height: 280px; }
+    }
 
-<meta property="og:title" content="Property Services — Buy, Sell, Rent & New Launches | INITIUM Singapore">
-<meta property="og:description" content="Buy, sell, rent, or explore new launches with INITIUM. Four specialised services, one trusted partner.">
-<meta property="og:image" content="https://initium.sg/og-image.jpg">
-<meta property="og:url" content="https://initium.sg/services.html">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="INITIUM">
-<meta property="og:locale" content="en_SG">
-<meta name="geo.region" content="SG">
-<meta name="geo.placename" content="Singapore">
-<meta name="ICBM" content="1.2936, 103.8318">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Property Services — Buy, Sell, Rent & New Launches | INITIUM Singapore">
-<meta name="twitter:description" content="Buy, sell, rent, or explore new launches with INITIUM. Four specialised services, one trusted partner.">
-<meta name="twitter:image" content="https://initium.sg/og-image.jpg">
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "name": "INITIUM",
-      "alternateName": "INITIUM Singapore Real Estate",
-      "url": "https://initium.sg",
-      "logo": "https://initium.sg/logo-nav-crop.png",
-      "description": "A modern real estate team built on trust, systems, and the drive to lift everyone higher.",
-      "sameAs": [
-        "https://instagram.com/initium.sg"
-      ]
-    },
-    {
-      "@type": "RealEstateAgent",
-      "name": "INITIUM",
-      "image": "https://initium.sg/logo-nav-crop.png",
-      "url": "https://initium.sg",
-      "telephone": "+6588464814",
-      "email": "hello@initium.sg",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1 Kim Seng Promenade #17-10/12, Great World City, West Tower",
-        "addressLocality": "Singapore",
-        "postalCode": "237994",
-        "addressCountry": "SG"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "1.2936",
-        "longitude": "103.8318"
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "opens": "00:00",
-        "closes": "23:59"
-      },
-      "priceRange": "$$$"
+    /* Why section */
+    .why-section {
+      background: var(--dark);
+      color: var(--text-on-dark);
     }
-  ]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://initium.sg/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "Services",
-      "item": "https://initium.sg/services.html"
+    .why-section .label { color: var(--accent-light); }
+    .why-section .headline-md { color: var(--white); }
+    .why-section .body-lg { color: var(--text-on-dark-muted); }
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-5);
+      margin-top: var(--space-12);
     }
-  ]
-}
-</script>
+    .why-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius-sm);
+      padding: var(--space-8) var(--space-6);
+      transition: all var(--transition-base);
+    }
+    .why-card:hover {
+      background: rgba(255,255,255,0.08);
+      transform: translateY(-4px);
+      border-color: rgba(255,255,255,0.15);
+    }
+    .why-icon {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-sm);
+      background: rgba(80,200,120,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: var(--space-5);
+    }
+    .why-icon svg {
+      width: 22px; height: 22px;
+      stroke: var(--white);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .why-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: var(--space-3);
+    }
+    .why-desc {
+      font-size: var(--text-sm);
+      line-height: 1.7;
+      color: rgba(255,255,255,0.6);
+    }
+    @media (max-width: 1024px) {
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .why-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<nav id="navbar">
-  <a href="index.html" class="nav-logo">
-    <img src="logo-nav-crop.png" alt="INITIUM" height="56" style="background:transparent;" loading="lazy">
-  </a>
-  <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="new-launches.html">New Launches</a></li>
-    <li><a href="services.html" class="active">Services</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="team.html">Team</a></li>
-    <li><a href="blog.html">Pulse</a></li>
-    <li><a href="contact.html">Contact</a></li>
-  </ul>
-  <button class="nav-toggle" aria-label="Menu" aria-expanded="false">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">INITI<span>U</span>M</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link" data-page="index">Home</a>
+      <a href="new-launches.html" class="nav-link" data-page="new-launches">New Launches</a>
+      <a href="services.html" class="nav-link" data-page="services">Services</a>
+      <a href="about.html" class="nav-link" data-page="about">About</a>
+      <a href="team.html" class="nav-link" data-page="team">Team</a>
+      <a href="blog.html" class="nav-link" data-page="blog">Pulse</a>
+      <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+    </div>
+  </div>
 </nav>
+<div style="height:64px;"></div>
 
-<header class="page-hero">
-  <div class="page-hero-label">What We Do</div>
-  <h1 class="page-hero-title">Four Ways We Serve</h1>
-  <p class="page-hero-sub">Every property journey is different. We have built specialised tracks for each one.</p>
-</header>
 
-<section id="services">
-  <div class="section-inner">
-    <div class="service-tabs">
+<!-- Hero -->
+<section class="page-hero">
+  <div class="hero-video-bg">
+    <video autoplay muted loop playsinline poster="assets/images/hero-property.jpg">
+      <source src="assets/videos/hero-cinematic.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="container">
+    <div class="label reveal">What We Do</div>
+    <h1 class="headline-xl reveal">Four Ways We Serve</h1>
+    <p class="body-lg reveal">Every property journey is different. We have built specialised tracks for each one.</p>
+  </div>
+</section>
+
+<!-- Services Tabs -->
+<section class="section" style="padding-bottom: 0;">
+  <div class="container">
+    <div class="services-tabs" id="serviceTabs">
       <button class="service-tab active" data-service="buy">Buy</button>
       <button class="service-tab" data-service="sell">Sell</button>
       <button class="service-tab" data-service="rent">Rent</button>
-      <button class="service-tab" data-service="newlaunch">Launch</button>
+      <button class="service-tab" data-service="launch">Launch</button>
     </div>
+  </div>
+</section>
 
+<!-- Service Panels -->
+<section class="section" style="padding-top: var(--space-10);">
+  <div class="container">
+
+    <!-- Buy -->
     <div class="service-panel active" id="panel-buy">
-      <div class="service-detail">
-        <div class="service-visual"><img src="images/service-buy.jpg" alt="Handing over keys to new home" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"></div>
-        <div class="service-content">
-          <h3>Buy Your Next Home</h3>
-          <p>From first-timer to seasoned investor, we guide you through every step with market intelligence, negotiation muscle, and a network that opens doors.</p>
-          <div class="process-steps">
-            <div class="process-step">
-              <div class="step-number">1</div>
-              <div class="step-content">
+      <div class="service-grid">
+        <div class="service-text">
+          <div class="label">Buy Your Next Home</div>
+          <h2 class="headline-md">From first-timer to seasoned investor</h2>
+          <p class="body-lg">We guide you through every step with market intelligence, negotiation muscle, and a network that opens doors.</p>
+          <div class="process-list">
+            <div class="process-item">
+              <div class="process-num">1</div>
+              <div class="process-body">
                 <h4>Discovery Call</h4>
-                <p>We listen to your goals, budget, timeline, and non-negotiables.</p>
+                <p>We map your goals, timeline, and budget to a clear search strategy.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">2</div>
-              <div class="step-content">
+            <div class="process-item">
+              <div class="process-num">2</div>
+              <div class="process-body">
                 <h4>Curated Shortlist</h4>
-                <p>We filter the market and present only properties that match your brief.</p>
+                <p>Only properties that fit your criteria — no time wasted on mismatches.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h4>Viewing &amp; Analysis</h4>
-                <p>We arrange viewings and provide comparative market analysis for each option.</p>
+            <div class="process-item">
+              <div class="process-num">3</div>
+              <div class="process-body">
+                <h4>Viewing & Analysis</h4>
+                <p>On-site with you, assessing value, condition, and future resale potential.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">4</div>
-              <div class="step-content">
-                <h4>Negotiate &amp; Close</h4>
-                <p>We negotiate the best terms and guide you through paperwork to completion.</p>
+            <div class="process-item">
+              <div class="process-num">4</div>
+              <div class="process-body">
+                <h4>Negotiate & Close</h4>
+                <p>We fight for the best price and terms, then handle the paperwork.</p>
               </div>
             </div>
           </div>
-          <a href="contact.html?type=buy" class="service-cta">Start Buying</a>
+          <div style="margin-top: var(--space-8);">
+            <a href="contact.html" class="btn btn-primary">Start Buying</a>
+          </div>
+        </div>
+        <div class="service-img">
+          <img src="assets/images/hero-property.jpg" alt="Buying a home with INITIUM" loading="lazy">
         </div>
       </div>
     </div>
 
+    <!-- Sell -->
     <div class="service-panel" id="panel-sell">
-      <div class="service-detail">
-        <div class="service-visual"><img src="images/service-sell.jpg" alt="Selling a home" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"></div>
-        <div class="service-content">
-          <h3>Sell With Confidence</h3>
-          <p>Get the best price in the shortest time. Our marketing reach, staging advice, and pricing strategy put your property in front of the right buyers.</p>
-          <div class="process-steps">
-            <div class="process-step">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h4>Property Assessment</h4>
-                <p>We evaluate your property and recommend staging or improvement tips.</p>
+      <div class="service-grid">
+        <div class="service-text">
+          <div class="label">Sell With Confidence</div>
+          <h2 class="headline-md">Get the best price in the shortest time</h2>
+          <p class="body-lg">Our marketing reach, staging advice, and pricing strategy put your property in front of the right buyers.</p>
+          <div class="process-list">
+            <div class="process-item">
+              <div class="process-num">1</div>
+              <div class="process-body">
+                <h4>Valuation & Positioning</h4>
+                <p>Data-driven pricing based on recent transactions and market velocity.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h4>Pricing Strategy</h4>
-                <p>Data-driven pricing based on recent transactions and market trends.</p>
+            <div class="process-item">
+              <div class="process-num">2</div>
+              <div class="process-body">
+                <h4>Staging & Presentation</h4>
+                <p>Professional photography, virtual tours, and listing copy that sells.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h4>Market &amp; Showcase</h4>
-                <p>Professional photography, listing syndication, and open house management.</p>
+            <div class="process-item">
+              <div class="process-num">3</div>
+              <div class="process-body">
+                <h4>Targeted Marketing</h4>
+                <p>Multi-channel exposure to our database of qualified buyers and agents.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">4</div>
-              <div class="step-content">
-                <h4>Negotiate &amp; Handover</h4>
-                <p>We handle offers, counter-offers, and guide you through the legal process.</p>
+            <div class="process-item">
+              <div class="process-num">4</div>
+              <div class="process-body">
+                <h4>Negotiate & Close</h4>
+                <p>We manage offers, counter-offers, and the entire transaction end-to-end.</p>
               </div>
             </div>
           </div>
-          <a href="contact.html?type=sell" class="service-cta">Start Selling</a>
+          <div style="margin-top: var(--space-8);">
+            <a href="contact.html" class="btn btn-primary">Start Selling</a>
+          </div>
+        </div>
+        <div class="service-img">
+          <img src="assets/images/hero-property.jpg" alt="Selling with INITIUM" loading="lazy">
         </div>
       </div>
     </div>
 
+    <!-- Rent -->
     <div class="service-panel" id="panel-rent">
-      <div class="service-detail">
-        <div class="service-visual"><img src="images/service-rent.jpg" alt="Renting a home" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"></div>
-        <div class="service-content">
-          <h3>Rent or Lease</h3>
-          <p>Tenants find their ideal space. Landlords secure reliable tenants. We handle the matchmaking, paperwork, and ongoing support.</p>
-          <div class="process-steps">
-            <div class="process-step">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h4>Requirements Match</h4>
-                <p>We understand budget, location, lease term, and lifestyle needs.</p>
+      <div class="service-grid">
+        <div class="service-text">
+          <div class="label">Rent or Lease</div>
+          <h2 class="headline-md">The right match, fast</h2>
+          <p class="body-lg">Tenants find their ideal space. Landlords secure reliable tenants. We handle the matchmaking, paperwork, and ongoing support.</p>
+          <div class="process-list">
+            <div class="process-item">
+              <div class="process-num">1</div>
+              <div class="process-body">
+                <h4>Requirement Brief</h4>
+                <p>Budget, location, move-in date — we lock in the non-negotiables.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h4>Viewing Coordination</h4>
-                <p>We schedule and accompany viewings, answering questions on the spot.</p>
+            <div class="process-item">
+              <div class="process-num">2</div>
+              <div class="process-body">
+                <h4>Curated Viewings</h4>
+                <p>Only units that match. We coordinate schedules and accompany you.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h4>Application &amp; Screening</h4>
-                <p>Tenancy application support for tenants; tenant screening for landlords.</p>
+            <div class="process-item">
+              <div class="process-num">3</div>
+              <div class="process-body">
+                <h4>Tenancy Agreement</h4>
+                <p>We draft, review, and ensure both parties are protected.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">4</div>
-              <div class="step-content">
-                <h4>Lease &amp; Handover</h4>
-                <p>We draft, review, and execute the tenancy agreement. Smooth handover guaranteed.</p>
+            <div class="process-item">
+              <div class="process-num">4</div>
+              <div class="process-body">
+                <h4>Move-in & Handover</h4>
+                <p>Inventory check, utility setup, and a smooth transition.</p>
               </div>
             </div>
           </div>
-          <a href="contact.html?type=rent" class="service-cta">Start Renting</a>
+          <div style="margin-top: var(--space-8);">
+            <a href="contact.html" class="btn btn-primary">Find a Rental</a>
+          </div>
+        </div>
+        <div class="service-img">
+          <img src="assets/images/hero-property.jpg" alt="Renting with INITIUM" loading="lazy">
         </div>
       </div>
     </div>
 
-    <div class="service-panel" id="panel-newlaunch">
-      <div class="service-detail">
-        <div class="service-visual"><img src="images/service-newlaunch.jpg" alt="New launch development" style="width:100%;height:100%;object-fit:cover;border-radius:24px;"></div>
-        <div class="service-content">
-          <h3>New Launch Advisory</h3>
-          <p>Get first access, insider pricing, and unit selection strategy for Singapore's hottest new developments. We represent your interests, not the developer's.</p>
-          <div class="process-steps">
-            <div class="process-step">
-              <div class="step-number">1</div>
-              <div class="step-content">
-                <h4>Project Briefing</h4>
-                <p>We walk you through floor plans, pricing, and developer track record.</p>
+    <!-- Launch -->
+    <div class="service-panel" id="panel-launch">
+      <div class="service-grid">
+        <div class="service-text">
+          <div class="label">New Launch Advisory</div>
+          <h2 class="headline-md">First access, insider pricing</h2>
+          <p class="body-lg">Get unit selection strategy for Singapore's hottest new developments. We represent your interests, not the developer's.</p>
+          <div class="process-list">
+            <div class="process-item">
+              <div class="process-num">1</div>
+              <div class="process-body">
+                <h4>Launch Pipeline</h4>
+                <p>Early access to upcoming projects before they hit the open market.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">2</div>
-              <div class="step-content">
-                <h4>Ballot &amp; Unit Selection</h4>
-                <p>Priority queue strategy and unit scoring based on your preferences.</p>
+            <div class="process-item">
+              <div class="process-num">2</div>
+              <div class="process-body">
+                <h4>Unit Analysis</h4>
+                <p>Floor-plan intelligence, stack analysis, and price-per-sqft benchmarking.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">3</div>
-              <div class="step-content">
-                <h4>Booking &amp; OTP</h4>
-                <p>We guide you through the Option-to-Purchase process and payment timeline.</p>
+            <div class="process-item">
+              <div class="process-num">3</div>
+              <div class="process-body">
+                <h4>Balloting Strategy</h4>
+                <p>Priority queue positioning and unit selection tactics.</p>
               </div>
             </div>
-            <div class="process-step">
-              <div class="step-number">4</div>
-              <div class="step-content">
-                <h4>Progress &amp; Completion</h4>
-                <p>Stay updated on construction progress through to key collection day.</p>
+            <div class="process-item">
+              <div class="process-num">4</div>
+              <div class="process-body">
+                <h4>Post-Purchase Support</h4>
+                <p>Progress updates, defect inspection, and resale planning.</p>
               </div>
             </div>
           </div>
-          <a href="services.html" class="service-cta">View New Launches</a>
+          <div style="margin-top: var(--space-8);">
+            <a href="new-launches.html" class="btn btn-primary">View New Launches</a>
+          </div>
+        </div>
+        <div class="service-img">
+          <img src="assets/images/hero-property.jpg" alt="New launch advisory with INITIUM" loading="lazy">
         </div>
       </div>
     </div>
+
   </div>
 </section>
 
-<section class="why-section">
-  <div class="section-inner">
-    <div class="section-label">Why INITIUM</div>
-    <h2 class="section-title">The Difference Is in the Details</h2>
+<!-- Why INITIUM -->
+<section class="section why-section">
+  <div class="container">
+    <div class="text-center" style="max-width: 640px; margin: 0 auto;">
+      <div class="label reveal">Why INITIUM</div>
+      <h2 class="headline-md reveal">The Difference Is in the Details</h2>
+      <p class="body-lg reveal">Four pillars that separate us from every other agency in Singapore.</p>
+    </div>
     <div class="why-grid">
-      <div class="why-card">
-        <div class="why-icon">📊</div>
-        <div class="why-title">Market Intelligence</div>
-        <div class="why-desc">Real-time data, transaction histories, and district trend analysis inform every recommendation.</div>
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="why-title">Systems-Driven</div>
+        <p class="why-desc">Every client gets a structured process. No guesswork, no dropped balls.</p>
       </div>
-      <div class="why-card">
-        <div class="why-icon">🤝</div>
-        <div class="why-title">Buyer Advocacy</div>
-        <div class="why-desc">We negotiate as if it were our own money. No pressure, no rush — just your best outcome.</div>
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="why-title">Speed</div>
+        <p class="why-desc">We reply within 2 hours, 24/7. In property, timing is everything.</p>
       </div>
-      <div class="why-card">
-        <div class="why-icon">⚡</div>
-        <div class="why-title">24/7 Response</div>
-        <div class="why-desc">Property moves fast. We move faster. Reply within 2 hours, any time of day.</div>
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="why-title">Network</div>
+        <p class="why-desc">70+ agents, developer relationships, and off-market opportunities.</p>
+      </div>
+      <div class="why-card reveal">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="why-title">Transparency</div>
+        <p class="why-desc">No hidden fees, no inflated quotes. Every number is backed by data.</p>
       </div>
     </div>
   </div>
 </section>
 
-<section id="testimonials" style="padding:120px 48px; background: var(--ig-surface);">
-  <div class="section-inner">
-    <div style="text-align:center; margin-bottom:64px;">
-      <div class="section-label">Testimonials</div>
-      <h2 class="section-title" style="max-width:500px; margin:0 auto;">Words From Our Clients</h2>
-    </div>
-    <div class="testimonials-grid">
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"INITIUM didn't just sell me a unit. They gave me a strategy, a timeline, and the confidence to make the biggest purchase of my life."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar" style="background:linear-gradient(135deg,var(--ig),var(--ig-dark));">JL</div>
-          <div>
-            <div class="testimonial-name">John Lee</div>
-            <div class="testimonial-role">First-time Buyer, Parktown Residences</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"We interviewed three agencies before listing. INITIUM's marketing plan was the only one that actually felt like they understood our home's value. Sold above valuation in one week."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#6b4d00,#8c6500);">TJ</div>
-          <div>
-            <div class="testimonial-name">Chia TJ</div>
-            <div class="testimonial-role">Seller, Nyon</div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-card">
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"As Singaporeans living overseas, we needed someone we could trust remotely. They handled everything — analysis, negotiation, tenant sourcing — and sent us video updates every step of the way."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar" style="background:linear-gradient(135deg,#4d006b,#65008c);">JS</div>
-          <div>
-            <div class="testimonial-name">Justin and Sam</div>
-            <div class="testimonial-role">Investor, Australia</div>
-          </div>
-        </div>
-      </div>
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="headline-md reveal">Let's Begin.</h2>
+    <p class="body-lg reveal">Whether buying, selling, or exploring new launches, our team is here to guide you with clarity and confidence.</p>
+    <div class="reveal">
+      <a href="contact.html" class="btn btn-primary btn-lg">Get in Touch</a>
+      <a href="new-launches.html" class="btn btn-outline-light btn-lg" style="margin-left:var(--space-4);">Browse New Launches</a>
     </div>
   </div>
 </section>
 
-<div style="text-align:center;padding:60px 24px;">
-  <h2 style="font-family:var(--font-display);font-size:clamp(28px,4vw,48px);font-weight:700;color:var(--ig);margin-bottom:16px;letter-spacing:-0.02em;">Not Sure Where to Start?</h2>
-  <p style="font-family:var(--font-body);font-size:16px;color:var(--ig-ink-2);max-width:560px;margin:0 auto 32px;line-height:1.6;">Tell us your situation and we will point you to the right track — no obligation, no pressure.</p>
-  <a href="contact.html" style="display:inline-block;max-width:360px;width:100%;padding:16px 48px;background:#fff;color:var(--ig);font-family:var(--font-display);font-size:15px;font-weight:600;letter-spacing:0.04em;text-decoration:none;border:2px solid var(--ig);border-radius:100px;text-align:center;transition:all 0.3s ease;">
-    Initiate Your Free Consultation
-  </a>
-</div>
-
-<footer>
-  <div class="footer-main">
-    <div class="footer-brand">
-      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
-      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">Igniting Journeys</p>
-      <div class="footer-socials">
-        <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" aria-label="Instagram">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="Facebook">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="TikTok">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.08 1.04-1.25 1.77-.04.18-.06.37-.06.55 0 .24.03.48.1.71.29.87 1.03 1.56 1.92 1.77.73.17 1.52.04 2.15-.4.63-.42 1.05-1.1 1.17-1.83.05-.33.04-.67.04-1.01V.02z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="LinkedIn">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-        </a>
-        <a href="#" target="_blank" aria-label="YouTube">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-        </a>
-        <a href="https://wa.me/6588464814" target="_blank" aria-label="WhatsApp">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        </a>
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">INITI<span>U</span>M</div>
+        <p class="footer-desc">Built on trust, systems, and the drive to lift everyone higher. Singapore, since 2010.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.facebook.com/Initiumsg/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.5c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-heading">Quick Links</div>
+        <div class="footer-links">
+          <a href="new-launches.html" class="footer-link">
+            <span class="footer-link-title">New Launches</span>
+            <span class="footer-link-desc">Early access to Singapore's latest developments</span>
+          </a>
+          <a href="services.html" class="footer-link">
+            <span class="footer-link-title">Services</span>
+            <span class="footer-link-desc">Buy, sell, invest with precision</span>
+          </a>
+          <a href="about.html" class="footer-link">
+            <span class="footer-link-title">About</span>
+            <span class="footer-link-desc">The team behind the standard</span>
+          </a>
+          <a href="team.html" class="footer-link">
+            <span class="footer-link-title">Team</span>
+            <span class="footer-link-desc">Meet 70+ agents across Singapore</span>
+          </a>
+          <a href="pulse.html" class="footer-link">
+            <span class="footer-link-title">Pulse</span>
+            <span class="footer-link-desc">Market insights and property stories</span>
+          </a>
+          <a href="contact.html" class="footer-link">
+            <span class="footer-link-title">Contact</span>
+            <span class="footer-link-desc">Start a conversation</span>
+          </a>
+          <a href="intm-shop.html" class="footer-link">
+            <span class="footer-link-title">INTM Shop</span>
+            <span class="footer-link-desc">Branded merchandise and tools</span>
+          </a>
+        </div>
       </div>
     </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Explore</div>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="services.html">Services</a>
-      <a href="services.html">New Launches</a>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Company</div>
-      <a href="team.html">Team</a>
-      <a href="contact.html">Join Us</a>
-      <a href="index.html">Pulse</a>
-      <a href="contact.html">Contact</a>
-    </div>
-    <div class="footer-col">
-      <div class="footer-col-title">Connect</div>
-      <a href="https://wa.me/6588464814" target="_blank">WhatsApp</a>
-      <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank">Instagram</a>
-      <a href="mailto:hello@initium.sg">Email</a>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <div class="footer-copy">© 2026 INITIUM. Igniting Journeys.</div>
-    <div class="footer-legal">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
+    <div class="footer-bottom">
+      <span>&copy; 2026 INITIUM. All rights reserved.</span>
+      <span>CEA Licence No: L3010858B</span>
     </div>
   </div>
 </footer>
 
+
+<script src="js/nav.js"></script>
 <script>
-  // Nav scroll effect
-  ScrollTrigger.create({
-    start: 'top -80',
-    onUpdate: (self) => {
-      document.getElementById('navbar').classList.toggle('scrolled', self.progress > 0);
-    }
-  });
-
-  // Section reveals
-  gsap.utils.toArray('section').forEach(sec => {
-    gsap.fromTo(sec.querySelectorAll('.section-label, .section-title, .section-text'), {
-      y: 50, rotateX: 14, opacity: 0
-    }, {
-      y: 0, rotateX: 0, opacity: 1, duration: 0.9, stagger: 0.1, ease: 'power3.out',
-      scrollTrigger: { trigger: sec, start: 'top 80%', toggleActions: 'play none none none' }
-    });
-  });
-
-  // Service tabs
+  /* ========== Tab Switching ========== */
   const tabs = document.querySelectorAll('.service-tab');
   const panels = document.querySelectorAll('.service-panel');
 
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      const target = tab.dataset.service;
+      const service = tab.dataset.service;
 
       tabs.forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
 
-      panels.forEach(p => {
-        p.classList.toggle('active', p.id === 'panel-' + target);
-      });
+      panels.forEach(p => p.classList.remove('active'));
+      document.getElementById('panel-' + service).classList.add('active');
     });
   });
 
-  // Mobile menu toggle
-  const navToggle = document.querySelector('.nav-toggle');
-  const navLinks = document.querySelector('.nav-links');
-  if (navToggle && navLinks) {
-    navToggle.addEventListener('click', () => {
-      const isOpen = navLinks.classList.toggle('open');
-      navToggle.classList.toggle('active');
-      navToggle.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navLinks.classList.remove('open');
-        navToggle.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
-      });
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && navLinks.classList.contains('open')) {
-        navLinks.classList.remove('open');
-        navToggle.classList.remove('active');
-        navToggle.setAttribute('aria-expanded', 'false');
-        document.body.style.overflow = '';
+  /* ========== Scroll Reveal ========== */
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        io.unobserve(entry.target);
       }
     });
-  }
-
-</script>
-
-
-<!-- WhatsApp Floating Chat -->
-<style>
-  .wa-float {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-    transition: all 0.3s ease;
-  }
-  .wa-float:hover {
-    transform: translateY(-2px);
-  }
-  .wa-float:hover .wa-bubble {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  .wa-bubble {
-    background: #fff;
-    color: #1a1a1a;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 10px 16px;
-    border-radius: 16px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    white-space: nowrap;
-    opacity: 0;
-    transform: translateX(10px);
-    transition: all 0.3s ease;
-    pointer-events: none;
-  }
-  .wa-btn {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: #25D366;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 16px rgba(37,211,102,0.4);
-    animation: wa-pulse 2s infinite;
-  }
-  .wa-btn svg {
-    width: 28px;
-    height: 28px;
-    fill: #fff;
-  }
-  @keyframes wa-pulse {
-    0% { box-shadow: 0 4px 16px rgba(37,211,102,0.4); }
-    50% { box-shadow: 0 4px 24px rgba(37,211,102,0.6); }
-    100% { box-shadow: 0 4px 16px rgba(37,211,102,0.4); }
-  }
-  @media (max-width: 900px) {
-    .wa-float { bottom: 16px; right: 16px; }
-    .wa-bubble { display: none; }
-    .wa-btn { width: 52px; height: 52px; }
-    .wa-btn svg { width: 26px; height: 26px; }
-  }
-</style>
-<a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." 
-   class="wa-float" 
-   target="_blank" 
-   rel="noopener"
-   aria-label="Chat on WhatsApp">
-  <span class="wa-bubble">Chat with us</span>
-  <div class="wa-btn">
-    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.008-.57-.008-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-    </svg>
-  </div>
-</a>
-
-
-<!-- Exit-Intent Lead Capture -->
-<style>
-  .exit-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(26,26,26,0.6);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
-  }
-  .exit-overlay.show {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-  .exit-modal {
-    background: #fff;
-    border-radius: 28px;
-    padding: 48px 40px 40px;
-    max-width: 420px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    transform: translateY(20px);
-    transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
-    box-shadow: 0 32px 80px rgba(0,0,0,0.2);
-  }
-  .exit-overlay.show .exit-modal {
-    transform: translateY(0);
-  }
-  .exit-close {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    border: none;
-    background: var(--ig-surface, #F7F8F5);
-    color: var(--ig-ink-2, #6B7B6E);
-    font-size: 20px;
-    line-height: 1;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s ease;
-  }
-  .exit-close:hover { background: var(--ig-light, #E8F5EE); }
-  .exit-icon {
-    width: 56px;
-    height: 56px;
-    border-radius: 16px;
-    background: var(--ig-light, #E8F5EE);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 20px;
-    font-size: 28px;
-  }
-  .exit-title {
-    font-family: var(--font-display, 'Space Grotesk', sans-serif);
-    font-size: 24px;
-    font-weight: 700;
-    color: var(--ig-ink, #1A1A1A);
-    margin-bottom: 8px;
-  }
-  .exit-text {
-    font-size: 15px;
-    color: var(--ig-ink-2, #6B7B6E);
-    line-height: 1.6;
-    margin-bottom: 28px;
-  }
-  .exit-form {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .exit-form input {
-    padding: 14px 18px;
-    border: 1.5px solid rgba(80,200,120,0.15);
-    border-radius: 12px;
-    font-size: 15px;
-    font-family: var(--font-body, 'DM Sans', sans-serif);
-    color: var(--ig-ink, #1A1A1A);
-    background: #fff;
-    transition: border-color 0.3s ease;
-    outline: none;
-  }
-  .exit-form input:focus {
-    border-color: var(--ig, #50C878);
-  }
-  .exit-form input::placeholder {
-    color: var(--ig-ink-3, #A8B5AC);
-  }
-  .exit-submit {
-    padding: 16px;
-    background: var(--ig, #50C878);
-    color: #fff;
-    border: none;
-    border-radius: 12px;
-    font-family: var(--font-display, 'Space Grotesk', sans-serif);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 4px;
-  }
-  .exit-submit:hover {
-    background: var(--ig-dark, #3DA35F);
-    transform: translateY(-1px);
-  }
-  .exit-privacy {
-    font-size: 11px;
-    color: var(--ig-ink-3, #A8B5AC);
-    margin-top: 16px;
-  }
-  /* Testimonials Grid */
-  .testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 28px;
-  }
-  .testimonial-card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 36px;
-    border: 1px solid rgba(80,200,120,0.08);
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
-    display: flex;
-    flex-direction: column;
-  }
-  .testimonial-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 60px rgba(80,200,120,0.08);
-    border-color: rgba(80,200,120,0.15);
-  }
-  .testimonial-stars {
-    font-size: 18px;
-    color: #f5a623;
-    letter-spacing: 2px;
-    margin-bottom: 16px;
-  }
-  .testimonial-text {
-    font-size: 16px;
-    line-height: 1.7;
-    color: var(--ig-ink-2);
-    margin-bottom: 24px;
-    flex: 1;
-  }
-  .testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-  .testimonial-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
-  }
-  .testimonial-name {
-    font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--ig-ink);
-  }
-  .testimonial-role {
-    font-size: 13px;
-    color: var(--ig-ink-3);
-  }
-  @media (max-width: 900px) {
-    .testimonials-grid { grid-template-columns: 1fr; }
-    #testimonials { padding: 80px 24px !important; }
-  }
-  @media (max-width: 480px) {
-    .testimonials-grid { grid-template-columns: 1fr; }
-    #testimonials { padding: 80px 24px !important; }
-    .exit-modal { padding: 36px 24px 32px; border-radius: 20px; }
-    .exit-title { font-size: 20px; }
-  }
-</style>
-<div class="exit-overlay" id="exitPopup">
-  <div class="exit-modal">
-    <button class="exit-close" id="exitClose" aria-label="Close">&times;</button>
-    <div class="exit-icon">💬</div>
-    <div class="exit-title">Before You Go...</div>
-    <div class="exit-text">Get a free property valuation or new launch brief sent to your WhatsApp. No spam, just value.</div>
-    <form class="exit-form" id="exitForm">
-      <input type="text" id="exitName" placeholder="Your name" required>
-      <input type="email" id="exitEmail" placeholder="Email address" required>
-      <input type="tel" id="exitPhone" placeholder="Phone number" required>
-      <button type="submit" class="exit-submit">Send to WhatsApp</button>
-    </form>
-    <div class="exit-privacy">We respect your privacy. Unsubscribe anytime.</div>
-  </div>
-</div>
-<script>
-(function() {
-  var popup = document.getElementById('exitPopup');
-  var closeBtn = document.getElementById('exitClose');
-  var form = document.getElementById('exitForm');
-  var shownKey = 'exitPopupShown';
-  var hasShown = false;
-
-  function showPopup() {
-    if (hasShown || sessionStorage.getItem(shownKey)) return;
-    hasShown = true;
-    sessionStorage.setItem(shownKey, '1');
-    popup.classList.add('show');
-  }
-
-  function hidePopup() {
-    popup.classList.remove('show');
-  }
-
-  // Desktop: detect mouse leaving the document (any direction)
-  document.addEventListener('mouseout', function(e) {
-    if (e.relatedTarget === null || e.toElement === null) {
-      showPopup();
-    }
-  });
-
-  // Desktop fallback: mouseleave on html element
-  document.documentElement.addEventListener('mouseleave', function(e) {
-    showPopup();
-  });
-
-  // Mobile: scroll back to top after scrolling down
-  var maxScroll = 0;
-  var scrollTimer;
-  window.addEventListener('scroll', function() {
-    clearTimeout(scrollTimer);
-    scrollTimer = setTimeout(function() {
-      var current = window.scrollY;
-      if (current > maxScroll) maxScroll = current;
-      if (maxScroll > 400 && current < 100) {
-        showPopup();
-      }
-    }, 150);
-  }, { passive: true });
-
-  // Time-based fallback: show after 10 seconds
-  setTimeout(function() {
-    showPopup();
-  }, 10000);
-
-  closeBtn.addEventListener('click', hidePopup);
-  popup.addEventListener('click', function(e) {
-    if (e.target === popup) hidePopup();
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') hidePopup();
-  });
-
-  form.addEventListener('submit', function(e) {
-    e.preventDefault();
-    var name = document.getElementById('exitName').value.trim();
-    var email = document.getElementById('exitEmail').value.trim();
-    var phone = document.getElementById('exitPhone').value.trim();
-    var msg = encodeURIComponent(
-      'Hi INITIUM,\n\n' +
-      'Name: ' + name + '\n' +
-      'Email: ' + email + '\n' +
-      'Phone: ' + phone + '\n\n' +
-      'I am interested in your services. Please contact me.'
-    );
-    window.open('https://wa.me/6588464814?text=' + msg, '_blank');
-    hidePopup();
-  });
-})();
-</script>
-
-
-<!-- Social Proof Widget -->
-<style>
-  .social-toast {
-    position: fixed;
-    bottom: 100px;
-    left: 24px;
-    z-index: 9998;
-    background: #fff;
-    border-radius: 16px;
-    padding: 14px 18px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    border: 1px solid rgba(80,200,120,0.1);
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    max-width: 340px;
-    transform: translateY(20px);
-    opacity: 0;
-    pointer-events: none;
-    transition: all 0.5s cubic-bezier(0.16,1,0.3,1);
-  }
-  .social-toast.show {
-    transform: translateY(0);
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .social-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--ig), var(--ig-dark));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--font-display);
-    font-size: 13px;
-    font-weight: 700;
-    color: #fff;
-    flex-shrink: 0;
-  }
-  .social-text {
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--ig-ink);
-  }
-  .social-text strong {
-    font-weight: 600;
-    color: var(--ig-ink);
-  }
-  .social-time {
-    font-size: 11px;
-    color: var(--ig-ink-3);
-    margin-top: 2px;
-  }
-  .social-close {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-    border: none;
-    background: transparent;
-    color: var(--ig-ink-3);
-    font-size: 16px;
-    line-height: 1;
-    cursor: pointer;
-    opacity: 0.6;
-    transition: opacity 0.2s;
-    padding: 0;
-  }
-  .social-close:hover { opacity: 1; }
-  @media (max-width: 480px) {
-    .social-toast {
-      left: 12px;
-      right: 12px;
-      max-width: none;
-      bottom: 88px;
-    }
-  }
-</style>
-<div class="social-toast" id="socialToast">
-  <button class="social-close" id="socialClose" aria-label="Close">&times;</button>
-  <div class="social-avatar" id="socialAvatar">JL</div>
-  <div>
-    <div class="social-text" id="socialText"><strong>Jason Lim</strong> from Tampines just enquired about <strong>Parktown Residences</strong></div>
-    <div class="social-time" id="socialTime">2 minutes ago</div>
-  </div>
-</div>
-<script>
-(function() {
-  var toast = document.getElementById('socialToast');
-  var closeBtn = document.getElementById('socialClose');
-  var avatar = document.getElementById('socialAvatar');
-  var text = document.getElementById('socialText');
-  var time = document.getElementById('socialTime');
-  var hidden = false;
-
-  var messages = [
-    { name: 'Jason Lim', loc: 'Tampines', action: 'enquired about', target: 'Parktown Residences', time: '2 minutes ago', initials: 'JL' },
-    { name: 'Sarah Tan', loc: 'Katong', action: 'requested a viewing for', target: 'Continuum', time: '5 minutes ago', initials: 'ST' },
-    { name: 'Raj K.', loc: 'Jurong', action: 'downloaded the brochure for', target: 'Terra Hill', time: '8 minutes ago', initials: 'RK' },
-    { name: 'Michelle W.', loc: 'Bishan', action: 'scheduled a consultation for', target: 'selling her unit', time: '12 minutes ago', initials: 'MW' },
-    { name: 'David Chen', loc: 'Toa Payoh', action: 'requested a valuation for', target: 'District 12', time: '15 minutes ago', initials: 'DC' },
-    { name: 'Amirah S.', loc: 'Punggol', action: 'enquired about', target: 'Hougang Central GLS', time: '18 minutes ago', initials: 'AS' },
-    { name: 'Kevin Ong', loc: 'Bukit Timah', action: 'booked a VVIP preview for', target: 'Dunearn House', time: '22 minutes ago', initials: 'KO' },
-    { name: 'Pris Ngoh.', loc: 'Serangoon', action: 'requested a viewing for', target: 'Thomson Reserve', time: '25 minutes ago', initials: 'PN' },
-    { name: 'Doris Low.', loc: 'Novena', action: 'requested a viewing for', target: 'River Green', time: '25 minutes ago', initials: 'DL' }
-  ];
-
-  var idx = 0;
-
-  function showToast() {
-    if (hidden) return;
-    var m = messages[idx];
-    avatar.textContent = m.initials;
-    text.innerHTML = '<strong>' + m.name + '</strong> from ' + m.loc + ' ' + m.action + ' <strong>' + m.target + '</strong>';
-    time.textContent = m.time;
-    toast.classList.add('show');
-    idx = (idx + 1) % messages.length;
-  }
-
-  function hideToast() {
-    toast.classList.remove('show');
-  }
-
-  closeBtn.addEventListener('click', function() {
-    hidden = true;
-    hideToast();
-  });
-
-    // Show first after 18 seconds, then cycle every 48 seconds
-  setTimeout(function() {
-    showToast();
-    setInterval(function() {
-      hideToast();
-      setTimeout(showToast, 800);
-    }, 48000);
-  }, 18000);
-})();
-</script>
-
-
-<!-- Custom Cursor -->
-<style>
-  .custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-    z-index: 99999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.3s ease;
-  }
-  .custom-cursor svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    transition: all 0.3s ease;
-  }
-  .custom-cursor svg path {
-    stroke: var(--ig, #50C878);
-    stroke-width: 5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-    transition: all 0.3s ease;
-  }
-  .custom-cursor.hover {
-    transform: translate(-50%, -50%) scale(1.8);
-  }
-  .custom-cursor.hover svg path {
-    fill: var(--ig, #50C878);
-  }
-  @media (pointer: coarse) {
-    .custom-cursor { display: none !important; }
-  }
-</style>
-<div class="custom-cursor" id="customCursor">
-  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path d="M35 25 L45 15 L55 25"/>
-    <path d="M30 50 L45 72 L65 42 L88 82"/>
-  </svg>
-</div>
-<script>
-(function() {
-  var cursor = document.getElementById('customCursor');
-  var mouseX = 0, mouseY = 0;
-  var cursorX = 0, cursorY = 0;
-
-  document.addEventListener('mousemove', function(e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animate() {
-    cursorX += (mouseX - cursorX) * 0.15;
-    cursorY += (mouseY - cursorY) * 0.15;
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  var hoverTargets = 'a, button, .service-tab, .property-card, .blog-card, .testimonial-card, .team-card, .why-card, .social-toast, .exit-close, .exit-submit, .nav-toggle';
-  document.querySelectorAll(hoverTargets).forEach(function(el) {
-    el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
-    el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
-  });
-})();
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
 </script>
 
 </body>
