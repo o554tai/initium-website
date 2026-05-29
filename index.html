@@ -121,9 +121,18 @@
       margin-bottom: var(--space-4);
       color: var(--accent);
     }
+    .hero-logo {
+      height: clamp(100px, 12vw, 160px);
+      width: auto;
+      margin-bottom: var(--space-6);
+      display: block;
+      filter: brightness(0) invert(1);
+      margin-left: -2px;
+    }
     .hero-headline {
       margin-bottom: var(--space-6);
       color: var(--white);
+      margin-left: -2px;
     }
     .hero-body {
       color: rgba(255,255,255,0.75);
@@ -524,7 +533,7 @@
   <div class="hero-overlay"></div>
   <div class="hero-inner">
     <div class="reveal">
-      <img src="assets/images/logo-nav-crop.png" alt="INITIUM" class="hero-logo" style="height: clamp(100px, 12vw, 160px); width: auto; margin-bottom: var(--space-6); display: block; filter: brightness(0) invert(1);">
+      <img src="assets/images/logo-nav-crop.png" alt="INITIUM" class="hero-logo">
       <h1 class="headline-xl hero-headline">Igniting<br>Journeys</h1>
       <p class="body-lg hero-body">Where every property story begins with clarity, confidence, and a partner who rises with you.</p>
       <a href="contact.html" class="btn btn-primary btn-lg">Begin Your Journey</a>
