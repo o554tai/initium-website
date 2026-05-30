@@ -236,44 +236,29 @@ def generate_character_variations(
 # REPLICATE FACE-SWAP (character identity lock)
 # ═══════════════════════════════════════════════════════════
 
-REPLICATE_API_TOKEN = os.environ.get("REPLICATE_API_TOKEN", "")
 REPLICATE_BASE_URL = "https://api.replicate.com/v1"
 
 REPLICATE_HEADERS = lambda: {
-    "Authorization": f"Token {REPLICATE_API_TOKEN}",
+    "Authorization": f"Token {os.environ.get('REPLICATE_API_TOKEN', '')}",
     "Content-Type": "application/json",
-    "Prefer": "wait",  # synchronous when possible
+    "Prefer": "wait",
 }
 
 
-def _upload_to_replicate(file_path: str) -> str:
-    """Upload a local file to Replicate's temporary storage and return a serveable URL."""
-    if not REPLICATE_API_TOKEN:
-        raise RuntimeError("REPLICATE_API_TOKEN not configured")
-
-    # Replicate accepts direct file uploads via their uploads endpoint
-    url = "https://api.replicate.com/v1/files"
-    with open(file_path, "rb") as f:
-        resp = requests.post(
-            url,
-            headers={"Authorization": f"Token {REPLICATE_API_TOKEN}"},
-            files={"content": (Path(file_path).name, f)},
-            timeout=60,
-        )
-    resp.raise_for_status()
-    data = resp.json()
-    # The returned URL is a presigned URL that replicate models can read
-    return data.get("urls", {}).get("get", "")
-
-
 def _resolve_image_for_replicate(image: str) -> str:
-    """Return a URL Replicate can fetch — upload local files if needed."""
-    if image.startswith(("http://", "https://")):
+    """Return a URL or base64 data URI that Replicate can fetch."""
+    if image.startswith(("http://", "https://", "data:")):
         return image
     path = Path(image)
     if not path.exists():
         raise FileNotFoundError(f"Image not found: {image}")
-    return _upload_to_replicate(image)
+    # Convert local file to base64 data URI — Replicate models accept these
+    ext = path.suffix.lower().replace(".", "")
+    if ext == "jpg":
+        ext = "jpeg"
+    with open(path, "rb") as f:
+        data = base64.b64encode(f.read()).decode()
+    return f"data:image/{ext};base64,{data}"
 
 
 def face_swap(
@@ -292,7 +277,7 @@ def face_swap(
     Returns:
         {"url": <result URL>, "provider": "replicate"}
     """
-    if not REPLICATE_API_TOKEN:
+    if not os.environ.get("REPLICATE_API_TOKEN"):
         raise RuntimeError("REPLICATE_API_TOKEN not configured. Get one at replicate.com/account/api-tokens")
 
     source_url = _resolve_image_for_replicate(source_face)
@@ -324,7 +309,7 @@ def face_swap(
         time.sleep(1)
         poll = requests.get(
             f"{REPLICATE_BASE_URL}/predictions/{pred_id}",
-            headers={"Authorization": f"Token {REPLICATE_API_TOKEN}"},
+            headers={"Authorization": f"Token {os.environ.get('REPLICATE_API_TOKEN', '')}"},
             timeout=30,
         )
         poll.raise_for_status()

@@ -404,12 +404,19 @@
       position: relative;
       background: var(--surface-warm);
       min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .profile-modal-photo img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: center 15%;
+    }
+    .profile-modal-photo .team-photo-initial {
+      font-size: var(--text-8xl);
+      opacity: 0.4;
     }
     .profile-modal-body {
       padding: var(--space-10);
@@ -847,7 +854,7 @@
     <h2 class="about-title reveal" style="margin: 0 auto var(--space-6);">They Show Up.</h2>
     <p class="about-text reveal" style="margin: 0 auto;">Not because it's in a job description. Because your timeline doesn't wait, your questions don't sleep, and your deal deserves someone who actually answers the phone.</p>
     <div class="team-grid">
-      <div class="team-card reveal">
+      <div class="team-card reveal" data-profile="ainsley" style="cursor: pointer;">
         <div class="team-photo">
           <img src="assets/images/ainsley.jpg" alt="Ainsley Chong">
         </div>
@@ -855,9 +862,10 @@
           <div class="team-name">Ainsley Chong</div>
           <div class="team-role">Planning & Execution</div>
           <div class="team-bio">The person who makes sure every launch, every campaign, and every team initiative actually happens — and happens well.</div>
+          <span class="team-readmore">Read profile</span>
         </div>
       </div>
-      <div class="team-card reveal">
+      <div class="team-card reveal" data-profile="grace" style="cursor: pointer;">
         <div class="team-photo">
           <div class="team-photo-initial">G</div>
         </div>
@@ -865,9 +873,10 @@
           <div class="team-name">Grace Yong</div>
           <div class="team-role">Events & Culture</div>
           <div class="team-bio">Grace builds the moments that bind the team together. From town halls to client appreciation events, she makes INITIUM feel like family.</div>
+          <span class="team-readmore">Read profile</span>
         </div>
       </div>
-      <div class="team-card reveal" data-modal="kesang" style="cursor: pointer;">
+      <div class="team-card reveal" data-profile="kesang" style="cursor: pointer;">
         <div class="team-photo">
           <img src="assets/images/kesang.jpg" alt="Kesang">
         </div>
@@ -878,7 +887,7 @@
           <span class="team-readmore">Read profile</span>
         </div>
       </div>
-      <div class="team-card reveal">
+      <div class="team-card reveal" data-profile="william" style="cursor: pointer;">
         <div class="team-photo">
           <div class="team-photo-initial">W</div>
         </div>
@@ -886,6 +895,7 @@
           <div class="team-name">William Tan</div>
           <div class="team-role">Top Producer & Team Lead</div>
           <div class="team-bio">Leads INITIUM's largest sub-team and still answers his phone. He proves that growing big does not mean caring less.</div>
+          <span class="team-readmore">Read profile</span>
         </div>
       </div>
     </div>
@@ -896,32 +906,14 @@
 <div class="profile-modal" id="profileModal">
   <div class="profile-modal-inner">
     <button class="profile-modal-close" onclick="closeProfileModal()" aria-label="Close profile">×</button>
-    <div class="profile-modal-photo">
-      <img src="assets/images/kesang.jpg" alt="Kesang Labattu">
+    <div class="profile-modal-photo" id="modalPhoto">
+      <img src="" alt="" id="modalPhotoImg">
     </div>
     <div class="profile-modal-body">
-      <div class="profile-modal-name">Kesang Labattu</div>
-      <div class="profile-modal-role">Real Estate Strategist & Mentor</div>
-      <div class="profile-modal-stats">
-        <div class="profile-stat">
-          <div class="profile-stat-value">12+</div>
-          <div class="profile-stat-label">Years</div>
-        </div>
-        <div class="profile-stat">
-          <div class="profile-stat-value">400+</div>
-          <div class="profile-stat-label">Transactions</div>
-        </div>
-        <div class="profile-stat">
-          <div class="profile-stat-value">Ex-SIA</div>
-          <div class="profile-stat-label">Service</div>
-        </div>
-      </div>
-      <div class="profile-modal-bio">
-        <p>Real estate has never been just about properties for me — it's about people, their dreams, and the life they are building. After more than 12 years in the industry and over 400 successful transactions, I still get excited about helping clients make confident decisions, whether they are buying their first home, upgrading, investing, or selling a property they have cherished for years.</p>
-        <p>Before real estate, I was a flight attendant with Singapore Airlines, where I learned the importance of service, attention to detail, and genuinely caring for people. Those values continue to guide me today.</p>
-        <p>I believe that every client deserves honest advice, clear communication, and someone who will advocate for their best interests. My goal is not simply to close a transaction but to build lasting relationships and be the trusted advisor my clients can turn to throughout their property journey.</p>
-        <p>When I'm not working, I'm a proud wife and mother who enjoys spending time with family, travelling, and creating meaningful experiences with the people I care about most.</p>
-      </div>
+      <div class="profile-modal-name" id="modalName"></div>
+      <div class="profile-modal-role" id="modalRole"></div>
+      <div class="profile-modal-stats" id="modalStats"></div>
+      <div class="profile-modal-bio" id="modalBio"></div>
     </div>
   </div>
 </div>
@@ -1186,10 +1178,92 @@
 
   // Profile Modal
   const profileModal = document.getElementById('profileModal');
-  const modalTriggers = document.querySelectorAll('[data-modal]');
+  const modalPhotoImg = document.getElementById('modalPhotoImg');
+  const modalPhoto = document.getElementById('modalPhoto');
+  const modalName = document.getElementById('modalName');
+  const modalRole = document.getElementById('modalRole');
+  const modalStats = document.getElementById('modalStats');
+  const modalBio = document.getElementById('modalBio');
 
-  modalTriggers.forEach(trigger => {
+  const profiles = {
+    ainsley: {
+      photo: 'assets/images/ainsley.jpg',
+      initial: 'A',
+      name: 'Ainsley Chong',
+      role: 'Planning & Execution',
+      stats: [],
+      bio: ['The person who makes sure every launch, every campaign, and every team initiative actually happens — and happens well.']
+    },
+    grace: {
+      photo: null,
+      initial: 'G',
+      name: 'Grace Yong',
+      role: 'Events & Culture',
+      stats: [],
+      bio: ['Grace builds the moments that bind the team together. From town halls to client appreciation events, she makes INITIUM feel like family.']
+    },
+    kesang: {
+      photo: 'assets/images/kesang.jpg',
+      initial: null,
+      name: 'Kesang Labattu',
+      role: 'Real Estate Strategist & Mentor',
+      stats: [
+        { value: '12+', label: 'Years' },
+        { value: '400+', label: 'Transactions' },
+        { value: 'Ex-SIA', label: 'Service' }
+      ],
+      bio: [
+        'Real estate has never been just about properties for me — it\'s about people, their dreams, and the life they are building. After more than 12 years in the industry and over 400 successful transactions, I still get excited about helping clients make confident decisions, whether they are buying their first home, upgrading, investing, or selling a property they have cherished for years.',
+        'Before real estate, I was a flight attendant with Singapore Airlines, where I learned the importance of service, attention to detail, and genuinely caring for people. Those values continue to guide me today.',
+        'I believe that every client deserves honest advice, clear communication, and someone who will advocate for their best interests. My goal is not simply to close a transaction but to build lasting relationships and be the trusted advisor my clients can turn to throughout their property journey.',
+        'When I\'m not working, I\'m a proud wife and mother who enjoys spending time with family, travelling, and creating meaningful experiences with the people I care about most.'
+      ]
+    },
+    william: {
+      photo: null,
+      initial: 'W',
+      name: 'William Tan',
+      role: 'Top Producer & Team Lead',
+      stats: [],
+      bio: ['Leads INITIUM\'s largest sub-team and still answers his phone. He proves that growing big does not mean caring less.']
+    }
+  };
+
+  document.querySelectorAll('[data-profile]').forEach(trigger => {
     trigger.addEventListener('click', () => {
+      const key = trigger.dataset.profile;
+      const p = profiles[key];
+      if (!p) return;
+
+      modalName.textContent = p.name;
+      modalRole.textContent = p.role;
+
+      if (p.photo) {
+        modalPhotoImg.src = p.photo;
+        modalPhotoImg.alt = p.name;
+        modalPhotoImg.style.display = 'block';
+        modalPhoto.querySelector('.team-photo-initial')?.remove();
+      } else {
+        modalPhotoImg.style.display = 'none';
+        modalPhoto.querySelector('.team-photo-initial')?.remove();
+        const initial = document.createElement('div');
+        initial.className = 'team-photo-initial';
+        initial.textContent = p.initial;
+        modalPhoto.appendChild(initial);
+      }
+
+      if (p.stats.length) {
+        modalStats.style.display = 'flex';
+        modalStats.innerHTML = p.stats.map(s =>
+          `<div class="profile-stat"><div class="profile-stat-value">${s.value}</div><div class="profile-stat-label">${s.label}</div></div>`
+        ).join('');
+      } else {
+        modalStats.style.display = 'none';
+        modalStats.innerHTML = '';
+      }
+
+      modalBio.innerHTML = p.bio.map(par => `<p>${par}</p>`).join('');
+
       profileModal.classList.add('active');
       document.body.style.overflow = 'hidden';
     });
