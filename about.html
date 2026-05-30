@@ -366,15 +366,19 @@
     .mosaic-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 200px;
-      gap: 6px;
+      grid-auto-rows: 220px;
+      gap: 4px;
+      max-width: var(--container-max);
+      margin: 0 auto;
       padding: 0 var(--space-2);
     }
     .mosaic-item {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      grid-column: span 1;
+      grid-row: span 1;
     }
     .mosaic-item img {
       width: 100%;
@@ -421,25 +425,17 @@
     .mosaic-item:hover .mosaic-meta {
       transform: translateY(0);
     }
-    .span-2x2 { grid-column: span 2; grid-row: span 2; }
-    .span-2x1 { grid-column: span 2; grid-row: span 1; }
-    .span-1x2 { grid-column: span 1; grid-row: span 2; }
-    .span-1x1 { grid-column: span 1; grid-row: span 1; }
-
     @media (max-width: 1024px) {
       .mosaic-grid {
         grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 170px;
-        gap: 5px;
+        grid-auto-rows: 190px;
       }
     }
     @media (max-width: 640px) {
       .mosaic-grid {
         grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 150px;
-        gap: 4px;
+        grid-auto-rows: 160px;
       }
-      .span-1x2 { grid-row: span 1; }
     }
 
     /* Timeline */
@@ -706,91 +702,91 @@
     <p class="reveal">No stock photos. No AI-generated skylines. Just the real rooms, real trainings, real celebrations, and real people that make INITIUM.</p>
   </div>
   <div class="mosaic-grid reveal">
-    <div class="mosaic-item span-2x2">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-cny-gathering.jpg" alt="INITIUM team celebrating Chinese New Year together" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">CNY Team Gathering</div>
         <div class="mosaic-meta">Celebration · Tradition</div>
       </div>
     </div>
-    <div class="mosaic-item span-2x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-sora-gallery.jpg" alt="INITIUM agents at Sora sales gallery" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Sora Sales Gallery</div>
         <div class="mosaic-meta">Site Visit · New Launch</div>
       </div>
     </div>
-    <div class="mosaic-item span-1x2">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-lobby-tour.jpg" alt="Team briefing in modern development lobby" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Development Walkthrough</div>
         <div class="mosaic-meta">Training · On-Site</div>
       </div>
     </div>
-    <div class="mosaic-item span-2x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-sri-keynote.jpg" alt="INITIUM leadership at SRI Keynote with awards" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">SRI Keynote 2024</div>
         <div class="mosaic-meta">Awards · Recognition</div>
       </div>
     </div>
-    <div class="mosaic-item span-2x2">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-newlaunch-training.jpg" alt="New Launch training session in conference room" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">New Launch Training</div>
         <div class="mosaic-meta">Weekly Huddle · Knowledge Share</div>
       </div>
     </div>
-    <div class="mosaic-item span-1x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-crossborders-preso.jpg" alt="CrossBorders LLC presentation closing slide" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">CrossBorders Partnership</div>
         <div class="mosaic-meta">Collaboration</div>
       </div>
     </div>
-    <div class="mosaic-item span-2x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-birthday-celebration.jpg" alt="Birthday celebration with INITIUM team and family" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Birthday Celebrations</div>
         <div class="mosaic-meta">Family · Together</div>
       </div>
     </div>
-    <div class="mosaic-item span-1x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-crossbords-room.jpg" alt="Corporate seminar in curved meeting room" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Strategy Session</div>
         <div class="mosaic-meta">Planning</div>
       </div>
     </div>
-    <div class="mosaic-item span-2x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-team-group.jpg" alt="INITIUM team group photo in office" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Team Huddle</div>
         <div class="mosaic-meta">Culture · Connection</div>
       </div>
     </div>
-    <div class="mosaic-item span-1x2">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-monday-ignite.jpg" alt="Monday Ignite session with SP Telecommunications" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Monday Ignite</div>
         <div class="mosaic-meta">Weekly Kick-off · Energy</div>
       </div>
     </div>
-    <div class="mosaic-item span-2x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-investment-training.jpg" alt="Investment calculations on digital whiteboard" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Investment Workshop</div>
         <div class="mosaic-meta">Skills · Numbers</div>
       </div>
     </div>
-    <div class="mosaic-item span-1x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-yellow-boxes.jpg" alt="Team holding yellow gift boxes together" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Team Appreciation</div>
         <div class="mosaic-meta">Rewards</div>
       </div>
     </div>
-    <div class="mosaic-item span-1x1">
+    <div class="mosaic-item">
       <img src="assets/images/culture/culture-investment-screen.jpg" alt="Digital whiteboard showing investment strategy" loading="lazy">
       <div class="mosaic-overlay">
         <div class="mosaic-caption">Strategy Breakdown</div>
