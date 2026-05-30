@@ -284,7 +284,7 @@ def face_swap(
     target_url = _resolve_image_for_replicate(target_image)
 
     payload = {
-        "version": "latest",
+        "version": "d1d6ea8c8be89d664a07a457526f7128109dee7030fdac424788d762c71ed111",
         "input": {
             "input_image": target_url,
             "swap_image": source_url,
