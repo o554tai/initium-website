@@ -163,37 +163,63 @@
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: var(--space-8);
-      margin-top: var(--space-12);
+      margin-top: var(--space-14);
     }
     .pillar-card {
-      padding: var(--space-8);
+      padding: var(--space-10);
       background: var(--white);
-      border: 1px solid rgba(0,0,0,0.06);
+      border: 1px solid rgba(0,0,0,0.05);
+      border-top: 3px solid var(--accent);
       border-radius: var(--radius-lg);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
     }
     .pillar-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
+      transform: translateY(-6px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .pillar-card:hover::before {
+      opacity: 1;
     }
     .pillar-number {
       font-family: var(--font-display);
-      font-size: var(--text-sm);
+      font-size: clamp(var(--text-3xl), 3.5vw, var(--text-5xl));
       font-weight: 700;
+      line-height: 1;
       color: var(--accent);
-      margin-bottom: var(--space-4);
+      margin-bottom: var(--space-5);
+      opacity: 0.85;
+      letter-spacing: -0.03em;
     }
     .pillar-title {
       font-family: var(--font-display);
-      font-size: var(--text-xl);
+      font-size: var(--text-2xl);
       font-weight: 600;
       color: var(--text-primary);
-      margin-bottom: var(--space-3);
+      margin-bottom: var(--space-4);
+      letter-spacing: -0.02em;
     }
     .pillar-desc {
-      font-size: var(--text-sm);
+      font-size: var(--text-base);
       color: var(--text-secondary);
-      line-height: 1.6;
+      line-height: 1.7;
+    }
+    .pillar-icon {
+      width: 28px;
+      height: 28px;
+      margin-bottom: var(--space-4);
+      color: var(--accent);
+      opacity: 0.7;
     }
 
     /* Founder spotlight */
@@ -595,16 +621,19 @@
     <p class="about-text reveal" style="margin: 0 auto;">INITIUM operates on three interconnected pillars. Each one informs how we serve clients, support our agents, and grow as a collective.</p>
     <div class="pillars-grid">
       <div class="pillar-card reveal">
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
         <div class="pillar-number">01</div>
         <div class="pillar-title">Salesperson</div>
         <div class="pillar-desc">Mastery of the craft. Deep market knowledge, negotiation skill, and relentless client advocacy. We don't close deals — we open futures.</div>
       </div>
       <div class="pillar-card reveal">
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         <div class="pillar-number">02</div>
         <div class="pillar-title">Leader</div>
         <div class="pillar-desc">Raising others as we rise. Participative, proactive leadership that makes every team member feel seen, valued, and empowered to lead.</div>
       </div>
       <div class="pillar-card reveal">
+        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         <div class="pillar-number">03</div>
         <div class="pillar-title">Personal</div>
         <div class="pillar-desc">Authentic storytelling over sales pitches. We show up as ourselves — imperfect, relatable, human. That is the INITIUM difference.</div>
