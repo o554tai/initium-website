@@ -129,36 +129,27 @@
     /* Story grid */
     .story-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--space-16);
-      align-items: center;
+      grid-template-columns: 1fr;
+      justify-items: center;
+      text-align: center;
+      gap: var(--space-8);
     }
-    .story-visual {
-      aspect-ratio: 4/5;
-      background: linear-gradient(135deg, var(--accent-light) 0%, var(--surface-warm) 100%);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      position: relative;
-    }
-    .story-visual::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('assets/images/about-condo.jpg') center/cover;
-      opacity: 0.9;
+    .story-grid > div {
+      max-width: 720px;
     }
     .story-quote {
-      margin-top: var(--space-8);
-      padding-left: var(--space-6);
+      margin-top: var(--space-10);
+      padding: var(--space-8) var(--space-10);
       border-left: 2px solid var(--accent);
+      text-align: left;
     }
     .story-quote p {
       font-family: var(--font-editorial);
-      font-size: var(--text-xl);
+      font-size: var(--text-2xl);
       font-style: italic;
       color: var(--text-primary);
-      line-height: 1.5;
-      margin-bottom: var(--space-3);
+      line-height: 1.4;
+      margin-bottom: var(--space-4);
     }
     .story-quote span {
       font-family: var(--font-display);
@@ -517,7 +508,6 @@
     /* Responsive */
     @media (max-width: 1024px) {
       .story-grid { grid-template-columns: 1fr; gap: var(--space-10); }
-      .story-visual { aspect-ratio: 16/9; max-height: 400px; }
       .pillars-grid { grid-template-columns: repeat(2, 1fr); }
       .founder-card { grid-template-columns: 1fr; }
       .founder-photo { aspect-ratio: 16/9; max-height: 360px; }
@@ -583,7 +573,6 @@
 <section class="section-about">
   <div class="container">
     <div class="story-grid">
-      <div class="story-visual reveal"></div>
       <div>
         <div class="about-label reveal">Origin Story</div>
         <h2 class="about-title reveal">From Visual Communication to Property Journeys</h2>
