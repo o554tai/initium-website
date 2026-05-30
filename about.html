@@ -39,7 +39,7 @@
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transition: opacity 2s ease-in-out;
+      transition: opacity 1.2s ease-in-out;
     }
     .hero-slideshow .slide.active {
       opacity: 1;
@@ -565,10 +565,18 @@
 <section class="page-hero">
   <div class="hero-slideshow" id="heroSlideshow">
     <div class="slide active" style="background-image:url('assets/images/culture/culture-cny-gathering.jpg')"></div>
-    <div class="slide" style="background-image:url('assets/images/culture/culture-newlaunch-training.jpg')"></div>
-    <div class="slide" style="background-image:url('assets/images/culture/culture-sri-keynote.jpg')"></div>
     <div class="slide" style="background-image:url('assets/images/culture/culture-sora-gallery.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-lobby-tour.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-sri-keynote.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-crossborders-preso.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-newlaunch-training.jpg')"></div>
     <div class="slide" style="background-image:url('assets/images/culture/culture-birthday-celebration.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-crossbords-room.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-team-group.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-monday-ignite.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-investment-training.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-yellow-boxes.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-investment-screen.jpg')"></div>
   </div>
   <div class="page-hero-content">
     <div class="page-hero-label reveal">Our Beginning</div>
@@ -933,7 +941,7 @@
       slides[current].classList.remove('active');
       current = (current + 1) % slides.length;
       slides[current].classList.add('active');
-    }, 5000);
+    }, 3000);
   })();
 
   // Simple reveal on scroll
