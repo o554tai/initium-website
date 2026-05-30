@@ -342,6 +342,169 @@
       color: var(--text-secondary);
       line-height: 1.5;
     }
+    .team-readmore {
+      margin-top: var(--space-3);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--accent);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      transition: color 0.2s;
+    }
+    .team-readmore:hover {
+      color: var(--text-primary);
+    }
+    .team-readmore::after {
+      content: '→';
+      transition: transform 0.2s;
+    }
+    .team-readmore:hover::after {
+      transform: translateX(3px);
+    }
+
+    /* Profile Modal */
+    .profile-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-6);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .profile-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .profile-modal-inner {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      max-width: 900px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      position: relative;
+      transform: translateY(20px) scale(0.98);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .profile-modal.active .profile-modal-inner {
+      transform: translateY(0) scale(1);
+    }
+    .profile-modal-photo {
+      position: relative;
+      background: var(--surface-warm);
+      min-height: 100%;
+    }
+    .profile-modal-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 15%;
+    }
+    .profile-modal-body {
+      padding: var(--space-10);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .profile-modal-close {
+      position: absolute;
+      top: var(--space-4);
+      right: var(--space-4);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.95);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      line-height: 1;
+      color: var(--text-primary);
+      z-index: 10;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .profile-modal-close:hover {
+      background: var(--white);
+      transform: rotate(90deg);
+    }
+    .profile-modal-name {
+      font-family: var(--font-display);
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: var(--space-1);
+      line-height: 1.1;
+    }
+    .profile-modal-role {
+      font-size: var(--text-base);
+      font-weight: 500;
+      color: var(--accent);
+      margin-bottom: var(--space-6);
+    }
+    .profile-modal-stats {
+      display: flex;
+      gap: var(--space-8);
+      margin-bottom: var(--space-6);
+      padding-bottom: var(--space-6);
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+    }
+    .profile-stat {
+      text-align: left;
+    }
+    .profile-stat-value {
+      font-family: var(--font-display);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+    .profile-stat-label {
+      font-size: var(--text-xs);
+      color: var(--text-secondary);
+      margin-top: var(--space-1);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .profile-modal-bio {
+      font-size: var(--text-base);
+      color: var(--text-secondary);
+      line-height: 1.75;
+    }
+    .profile-modal-bio p {
+      margin-bottom: var(--space-4);
+    }
+    .profile-modal-bio p:last-child {
+      margin-bottom: 0;
+    }
+    @media (max-width: 768px) {
+      .profile-modal-inner {
+        grid-template-columns: 1fr;
+        max-height: 85vh;
+      }
+      .profile-modal-photo {
+        height: 280px;
+        min-height: auto;
+      }
+      .profile-modal-body {
+        padding: var(--space-6);
+      }
+      .profile-modal-stats {
+        gap: var(--space-6);
+      }
+    }
 
     /* Culture tags */
     .culture-values {
@@ -704,7 +867,7 @@
           <div class="team-bio">Grace builds the moments that bind the team together. From town halls to client appreciation events, she makes INITIUM feel like family.</div>
         </div>
       </div>
-      <div class="team-card reveal">
+      <div class="team-card reveal" data-modal="kesang" style="cursor: pointer;">
         <div class="team-photo">
           <img src="assets/images/kesang.jpg" alt="Kesang">
         </div>
@@ -712,6 +875,7 @@
           <div class="team-name">Kesang</div>
           <div class="team-role">Real Estate Strategist & Mentor</div>
           <div class="team-bio">The person who knows the market before the market knows itself. Kesang builds the training, curates the intelligence, and keeps INITIUM agents ahead of the curve.</div>
+          <span class="team-readmore">Read profile</span>
         </div>
       </div>
       <div class="team-card reveal">
@@ -727,6 +891,40 @@
     </div>
   </div>
 </section>
+
+<!-- Profile Modal -->
+<div class="profile-modal" id="profileModal">
+  <div class="profile-modal-inner">
+    <button class="profile-modal-close" onclick="closeProfileModal()" aria-label="Close profile">×</button>
+    <div class="profile-modal-photo">
+      <img src="assets/images/kesang.jpg" alt="Kesang Labattu">
+    </div>
+    <div class="profile-modal-body">
+      <div class="profile-modal-name">Kesang Labattu</div>
+      <div class="profile-modal-role">Real Estate Strategist & Mentor</div>
+      <div class="profile-modal-stats">
+        <div class="profile-stat">
+          <div class="profile-stat-value">12+</div>
+          <div class="profile-stat-label">Years</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value">400+</div>
+          <div class="profile-stat-label">Transactions</div>
+        </div>
+        <div class="profile-stat">
+          <div class="profile-stat-value">Ex-SIA</div>
+          <div class="profile-stat-label">Service</div>
+        </div>
+      </div>
+      <div class="profile-modal-bio">
+        <p>Real estate has never been just about properties for me — it's about people, their dreams, and the life they are building. After more than 12 years in the industry and over 400 successful transactions, I still get excited about helping clients make confident decisions, whether they are buying their first home, upgrading, investing, or selling a property they have cherished for years.</p>
+        <p>Before real estate, I was a flight attendant with Singapore Airlines, where I learned the importance of service, attention to detail, and genuinely caring for people. Those values continue to guide me today.</p>
+        <p>I believe that every client deserves honest advice, clear communication, and someone who will advocate for their best interests. My goal is not simply to close a transaction but to build lasting relationships and be the trusted advisor my clients can turn to throughout their property journey.</p>
+        <p>When I'm not working, I'm a proud wife and mother who enjoys spending time with family, travelling, and creating meaningful experiences with the people I care about most.</p>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Culture Mosaic -->
 <section class="culture-mosaic-section">
@@ -984,6 +1182,32 @@
     el.style.transform = 'translateY(20px)';
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
+  });
+
+  // Profile Modal
+  const profileModal = document.getElementById('profileModal');
+  const modalTriggers = document.querySelectorAll('[data-modal]');
+
+  modalTriggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      profileModal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeProfileModal() {
+    profileModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  profileModal.addEventListener('click', (e) => {
+    if (e.target === profileModal) closeProfileModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && profileModal.classList.contains('active')) {
+      closeProfileModal();
+    }
   });
 </script>
 
