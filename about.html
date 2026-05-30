@@ -15,18 +15,45 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/components.css">
   <style>
-    /* Page-specific styles */
+    /* Hero with photo slideshow */
     .page-hero {
       position: relative;
-      min-height: 55vh;
+      min-height: 70vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 120px 24px 80px;
-      background: var(--surface);
+      padding: 140px 24px 100px;
       overflow: hidden;
+      background: var(--dark);
+    }
+    .hero-slideshow {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-slideshow .slide {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 2s ease-in-out;
+    }
+    .hero-slideshow .slide.active {
+      opacity: 1;
+    }
+    .hero-slideshow::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.75) 100%);
+      z-index: 1;
+    }
+    .page-hero-content {
+      position: relative;
+      z-index: 2;
     }
     .page-hero-label {
       font-family: var(--font-display);
@@ -34,7 +61,7 @@
       font-weight: 600;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--accent);
+      color: var(--accent-light);
       margin-bottom: var(--space-6);
     }
     .page-hero-title {
@@ -43,15 +70,17 @@
       font-weight: 500;
       line-height: 1.05;
       letter-spacing: -0.03em;
-      color: var(--text-primary);
+      color: var(--white);
       margin-bottom: var(--space-5);
       max-width: 700px;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
     }
     .page-hero-sub {
       font-size: var(--text-lg);
-      color: var(--text-secondary);
-      max-width: 520px;
+      color: rgba(255,255,255,0.8);
+      max-width: 560px;
       line-height: 1.7;
+      text-shadow: 0 1px 10px rgba(0,0,0,0.4);
     }
 
     /* Section base */
@@ -307,6 +336,112 @@
       border-color: var(--accent);
     }
 
+    /* Culture Mosaic */
+    .culture-mosaic-section {
+      background: var(--dark);
+      padding: var(--space-24) 0;
+    }
+    .culture-mosaic-header {
+      text-align: center;
+      padding: 0 var(--space-6);
+      margin-bottom: var(--space-12);
+    }
+    .culture-mosaic-header .about-label {
+      color: var(--accent-light);
+      justify-content: center;
+    }
+    .culture-mosaic-header .about-label::before {
+      background: var(--accent-light);
+    }
+    .culture-mosaic-header .about-title {
+      color: var(--text-on-dark);
+      margin: 0 auto var(--space-4);
+    }
+    .culture-mosaic-header p {
+      color: var(--text-on-dark-muted);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .mosaic-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 200px;
+      gap: 6px;
+      padding: 0 var(--space-2);
+    }
+    .mosaic-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+    }
+    .mosaic-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .mosaic-item:hover img {
+      transform: scale(1.04);
+    }
+    .mosaic-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.75) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: var(--space-4);
+    }
+    .mosaic-item:hover .mosaic-overlay {
+      opacity: 1;
+    }
+    .mosaic-caption {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: var(--white);
+      letter-spacing: -0.01em;
+      transform: translateY(8px);
+      transition: transform 0.4s ease;
+    }
+    .mosaic-item:hover .mosaic-caption {
+      transform: translateY(0);
+    }
+    .mosaic-meta {
+      font-size: var(--text-xs);
+      color: var(--text-on-dark-muted);
+      margin-top: var(--space-1);
+      transform: translateY(8px);
+      transition: transform 0.4s ease 0.05s;
+    }
+    .mosaic-item:hover .mosaic-meta {
+      transform: translateY(0);
+    }
+    .span-2x2 { grid-column: span 2; grid-row: span 2; }
+    .span-2x1 { grid-column: span 2; grid-row: span 1; }
+    .span-1x2 { grid-column: span 1; grid-row: span 2; }
+    .span-1x1 { grid-column: span 1; grid-row: span 1; }
+
+    @media (max-width: 1024px) {
+      .mosaic-grid {
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: 170px;
+        gap: 5px;
+      }
+    }
+    @media (max-width: 640px) {
+      .mosaic-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: 150px;
+        gap: 4px;
+      }
+      .span-1x2 { grid-row: span 1; }
+    }
+
     /* Timeline */
     .timeline {
       display: grid;
@@ -426,11 +561,20 @@
 <div style="height:64px;"></div>
 
 
-<!-- Hero -->
+<!-- Hero with Slideshow -->
 <section class="page-hero">
-  <div class="page-hero-label reveal">Our Beginning</div>
-  <h1 class="page-hero-title reveal">Started With a Sketchbook</h1>
-  <p class="page-hero-sub reveal">An art school graduate saw an industry full of noise — and decided to build something quieter, clearer, and actually worth trusting.</p>
+  <div class="hero-slideshow" id="heroSlideshow">
+    <div class="slide active" style="background-image:url('assets/images/culture/culture-cny-gathering.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-newlaunch-training.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-sri-keynote.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-sora-gallery.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/images/culture/culture-birthday-celebration.jpg')"></div>
+  </div>
+  <div class="page-hero-content">
+    <div class="page-hero-label reveal">Our Beginning</div>
+    <h1 class="page-hero-title reveal">Started With a Sketchbook</h1>
+    <p class="page-hero-sub reveal">An art school graduate saw an industry full of noise — and decided to build something quieter, clearer, and actually worth trusting.</p>
+  </div>
 </section>
 
 <!-- Origin Story -->
@@ -546,10 +690,112 @@
   </div>
 </section>
 
-<!-- Culture -->
-<section class="section-about">
+<!-- Culture Mosaic -->
+<section class="culture-mosaic-section">
+  <div class="culture-mosaic-header">
+    <div class="about-label reveal">Our Culture</div>
+    <h2 class="about-title reveal">This Is Actually What We Do</h2>
+    <p class="reveal">No stock photos. No AI-generated skylines. Just the real rooms, real trainings, real celebrations, and real people that make INITIUM.</p>
+  </div>
+  <div class="mosaic-grid reveal">
+    <div class="mosaic-item span-2x2">
+      <img src="assets/images/culture/culture-cny-gathering.jpg" alt="INITIUM team celebrating Chinese New Year together" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">CNY Team Gathering</div>
+        <div class="mosaic-meta">Celebration · Tradition</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-2x1">
+      <img src="assets/images/culture/culture-sora-gallery.jpg" alt="INITIUM agents at Sora sales gallery" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Sora Sales Gallery</div>
+        <div class="mosaic-meta">Site Visit · New Launch</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-1x2">
+      <img src="assets/images/culture/culture-lobby-tour.jpg" alt="Team briefing in modern development lobby" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Development Walkthrough</div>
+        <div class="mosaic-meta">Training · On-Site</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-2x1">
+      <img src="assets/images/culture/culture-sri-keynote.jpg" alt="INITIUM leadership at SRI Keynote with awards" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">SRI Keynote 2024</div>
+        <div class="mosaic-meta">Awards · Recognition</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-2x2">
+      <img src="assets/images/culture/culture-newlaunch-training.jpg" alt="New Launch training session in conference room" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">New Launch Training</div>
+        <div class="mosaic-meta">Weekly Huddle · Knowledge Share</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-1x1">
+      <img src="assets/images/culture/culture-crossborders-preso.jpg" alt="CrossBorders LLC presentation closing slide" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">CrossBorders Partnership</div>
+        <div class="mosaic-meta">Collaboration</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-2x1">
+      <img src="assets/images/culture/culture-birthday-celebration.jpg" alt="Birthday celebration with INITIUM team and family" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Birthday Celebrations</div>
+        <div class="mosaic-meta">Family · Together</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-1x1">
+      <img src="assets/images/culture/culture-crossbords-room.jpg" alt="Corporate seminar in curved meeting room" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Strategy Session</div>
+        <div class="mosaic-meta">Planning</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-2x1">
+      <img src="assets/images/culture/culture-team-group.jpg" alt="INITIUM team group photo in office" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Team Huddle</div>
+        <div class="mosaic-meta">Culture · Connection</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-1x2">
+      <img src="assets/images/culture/culture-monday-ignite.jpg" alt="Monday Ignite session with SP Telecommunications" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Monday Ignite</div>
+        <div class="mosaic-meta">Weekly Kick-off · Energy</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-2x1">
+      <img src="assets/images/culture/culture-investment-training.jpg" alt="Investment calculations on digital whiteboard" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Investment Workshop</div>
+        <div class="mosaic-meta">Skills · Numbers</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-1x1">
+      <img src="assets/images/culture/culture-yellow-boxes.jpg" alt="Team holding yellow gift boxes together" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Team Appreciation</div>
+        <div class="mosaic-meta">Rewards</div>
+      </div>
+    </div>
+    <div class="mosaic-item span-1x1">
+      <img src="assets/images/culture/culture-investment-screen.jpg" alt="Digital whiteboard showing investment strategy" loading="lazy">
+      <div class="mosaic-overlay">
+        <div class="mosaic-caption">Strategy Breakdown</div>
+        <div class="mosaic-meta">Training</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Culture Values (retained below mosaic) -->
+<section class="section-about" style="background: var(--surface-warm);">
   <div class="container" style="text-align: center;">
-    <div class="about-label reveal" style="justify-content: center;">Our Culture</div>
+    <div class="about-label reveal" style="justify-content: center;">How We Work</div>
     <h2 class="about-title reveal" style="margin: 0 auto var(--space-6);">Engaging. Co-Sharing. Selfless.</h2>
     <p class="about-text reveal" style="margin: 0 auto;">INITIUM's culture is not written on a wall. It is lived in every huddle, every late-night strategy call, and every moment a senior agent stops to help a junior find their footing.</p>
     <div class="culture-values reveal">
@@ -677,6 +923,18 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 50);
   });
+
+  // Hero slideshow crossfade
+  (function(){
+    const slides = document.querySelectorAll('#heroSlideshow .slide');
+    if (!slides.length) return;
+    let current = 0;
+    setInterval(() => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+  })();
 
   // Simple reveal on scroll
   const reveals = document.querySelectorAll('.reveal');
