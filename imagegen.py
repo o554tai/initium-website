@@ -233,6 +233,178 @@ def generate_character_variations(
 
 
 # ═══════════════════════════════════════════════════════════
+# REPLICATE FACE-SWAP (character identity lock)
+# ═══════════════════════════════════════════════════════════
+
+REPLICATE_API_TOKEN = os.environ.get("REPLICATE_API_TOKEN", "")
+REPLICATE_BASE_URL = "https://api.replicate.com/v1"
+
+REPLICATE_HEADERS = lambda: {
+    "Authorization": f"Token {REPLICATE_API_TOKEN}",
+    "Content-Type": "application/json",
+    "Prefer": "wait",  # synchronous when possible
+}
+
+
+def _upload_to_replicate(file_path: str) -> str:
+    """Upload a local file to Replicate's temporary storage and return a serveable URL."""
+    if not REPLICATE_API_TOKEN:
+        raise RuntimeError("REPLICATE_API_TOKEN not configured")
+
+    # Replicate accepts direct file uploads via their uploads endpoint
+    url = "https://api.replicate.com/v1/files"
+    with open(file_path, "rb") as f:
+        resp = requests.post(
+            url,
+            headers={"Authorization": f"Token {REPLICATE_API_TOKEN}"},
+            files={"content": (Path(file_path).name, f)},
+            timeout=60,
+        )
+    resp.raise_for_status()
+    data = resp.json()
+    # The returned URL is a presigned URL that replicate models can read
+    return data.get("urls", {}).get("get", "")
+
+
+def _resolve_image_for_replicate(image: str) -> str:
+    """Return a URL Replicate can fetch — upload local files if needed."""
+    if image.startswith(("http://", "https://")):
+        return image
+    path = Path(image)
+    if not path.exists():
+        raise FileNotFoundError(f"Image not found: {image}")
+    return _upload_to_replicate(image)
+
+
+def face_swap(
+    source_face: str,
+    target_image: str,
+    model: str = "cdingram/face-swap",
+) -> dict:
+    """
+    Swap `source_face` onto `target_image` using Replicate.
+
+    Parameters:
+        source_face:   Path/URL to the face image (mugshot)
+        target_image:  Path/URL to the generated image (body/scene)
+        model:         Replicate model identifier
+
+    Returns:
+        {"url": <result URL>, "provider": "replicate"}
+    """
+    if not REPLICATE_API_TOKEN:
+        raise RuntimeError("REPLICATE_API_TOKEN not configured. Get one at replicate.com/account/api-tokens")
+
+    source_url = _resolve_image_for_replicate(source_face)
+    target_url = _resolve_image_for_replicate(target_image)
+
+    payload = {
+        "version": "latest",
+        "input": {
+            "input_image": target_url,
+            "swap_image": source_url,
+        },
+    }
+
+    resp = requests.post(
+        f"{REPLICATE_BASE_URL}/predictions",
+        headers=REPLICATE_HEADERS(),
+        json=payload,
+        timeout=60,
+    )
+    resp.raise_for_status()
+    prediction = resp.json()
+
+    # Poll if not completed immediately
+    pred_id = prediction.get("id")
+    status = prediction.get("status")
+    output_url = None
+
+    while status in ("starting", "processing"):
+        time.sleep(1)
+        poll = requests.get(
+            f"{REPLICATE_BASE_URL}/predictions/{pred_id}",
+            headers={"Authorization": f"Token {REPLICATE_API_TOKEN}"},
+            timeout=30,
+        )
+        poll.raise_for_status()
+        data = poll.json()
+        status = data.get("status")
+        if status == "succeeded":
+            output = data.get("output", "")
+            if isinstance(output, list):
+                output_url = output[0]
+            else:
+                output_url = output
+            break
+        elif status == "failed":
+            raise RuntimeError(f"Replicate face-swap failed: {data.get('error', 'unknown')}")
+
+    if not output_url:
+        raise RuntimeError("Replicate face-swap did not return an image URL")
+
+    return {"url": output_url, "provider": "replicate", "model": model}
+
+
+def character_avatar(
+    source_face: str,
+    prompt: str,
+    model: str = "seedream-4.5",
+    ratio: str = "3:4",
+    seed: int | None = None,
+    quality: str = "hd",
+    style: str = "natural",
+    negative_prompt: str = "blurry, low quality, watermark, deformed face, extra limbs, different person",
+    output_dir: str = "./output",
+    filename: str = "",
+) -> dict:
+    """
+    Full pipeline: mugshot → Seedream full-body → face-swap exact identity.
+
+    Returns dict with keys:
+        seedream_url, seedream_local, face_swap_url, face_swap_local, final_path
+    """
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+
+    base_name = filename or f"avatar_{int(time.time())}"
+
+    # Step 1 — Seedream img2img with mugshot as reference
+    print(f"[1/3] Seedream generating full-body from prompt...")
+    gen = generate_image_byteplus(
+        prompt=prompt,
+        model=model,
+        ratio=ratio,
+        images=source_face,
+        negative_prompt=negative_prompt,
+        seed=seed,
+        quality=quality,
+        style=style,
+    )
+    seedream_url = gen["url"]
+    seedream_local = out / f"{base_name}_raw.png"
+    download_image(seedream_url, str(seedream_local))
+    print(f"  → Raw saved: {seedream_local}")
+
+    # Step 2 — Face-swap exact identity (use original mugshot as source)
+    print(f"[2/3] Replicate face-swap for exact identity lock...")
+    swapped = face_swap(source_face=source_face, target_image=str(seedream_local))
+    face_swap_url = swapped["url"]
+    face_swap_local = out / f"{base_name}_final.png"
+    download_image(face_swap_url, str(face_swap_local))
+    print(f"  → Final saved: {face_swap_local}")
+
+    return {
+        "seedream_url": seedream_url,
+        "seedream_local": str(seedream_local),
+        "face_swap_url": face_swap_url,
+        "face_swap_local": str(face_swap_local),
+        "final_path": str(face_swap_local),
+        "provider": "byteplus+replicate",
+    }
+
+
+# ═══════════════════════════════════════════════════════════
 # FAL.AI FALLBACK
 # ═══════════════════════════════════════════════════════════
 
@@ -352,8 +524,8 @@ def download_image(url: str, output_path: str):
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Generate images with Seedream")
-    parser.add_argument("prompt", help="Text prompt")
+    parser = argparse.ArgumentParser(description="Generate images with Seedream + optional face-swap")
+    parser.add_argument("prompt", nargs="?", default="", help="Text prompt")
     parser.add_argument("-o", "--output", default="output.png", help="Output file path")
     parser.add_argument("--model", default="seedream-4.5", choices=list(BP_MODELS.keys()))
     parser.add_argument("--ratio", default="16:9", choices=list(BP_SIZE_MAP.keys()))
@@ -364,9 +536,35 @@ if __name__ == "__main__":
     parser.add_argument("--style", default="", choices=["", "natural", "vivid"])
     parser.add_argument("--b64", action="store_true", help="Return base64 instead of URL")
 
+    # Face-swap / character avatar flags
+    parser.add_argument("--face-swap", metavar="SOURCE_FACE", help="After generation, swap SOURCE_FACE onto the result (Replicate)")
+    parser.add_argument("--character-avatar", metavar="SOURCE_FACE", help="Full pipeline: mugshot → Seedream full-body → face-swap exact identity")
+    parser.add_argument("--output-dir", default="./output", help="Directory for character_avatar outputs")
+
     args = parser.parse_args()
 
     try:
+        # Character avatar full pipeline
+        if args.character_avatar:
+            if not args.prompt:
+                print("Error: --character-avatar requires a prompt")
+                sys.exit(1)
+            result = character_avatar(
+                source_face=args.character_avatar,
+                prompt=args.prompt,
+                model=args.model,
+                ratio=args.ratio,
+                seed=args.seed,
+                quality=args.quality or "hd",
+                style=args.style or "natural",
+                negative_prompt=args.negative or "blurry, low quality, watermark, deformed face, extra limbs, different person",
+                output_dir=args.output_dir,
+                filename=Path(args.output).stem,
+            )
+            print(f"\n✓ Final avatar: {result['final_path']}")
+            sys.exit(0)
+
+        # Standard generation
         result = generate_image_byteplus(
             prompt=args.prompt,
             model=args.model,
@@ -389,11 +587,20 @@ if __name__ == "__main__":
                 print(f"Saved base64 image to {args.output}")
             else:
                 print("No base64 data returned")
+                sys.exit(1)
         else:
             url = result["url"]
             print(f"Image URL: {url}")
             download_image(url, args.output)
             print(f"Downloaded to {args.output}")
+
+            # Optional post-process face-swap
+            if args.face_swap:
+                print(f"\nRunning face-swap with {args.face_swap}...")
+                swapped = face_swap(source_face=args.face_swap, target_image=args.output)
+                swap_path = str(Path(args.output).with_suffix("")) + "_swapped.png"
+                download_image(swapped["url"], swap_path)
+                print(f"Face-swapped image: {swap_path}")
 
     except Exception as e:
         print(f"Error: {e}")
