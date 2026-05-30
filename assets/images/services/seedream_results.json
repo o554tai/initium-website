@@ -1,0 +1,34 @@
+{
+  "buy": {
+    "success": true,
+    "image": "/home/hermes/.hermes/cache/images/seedream_20260530_012204_60949132.jpg",
+    "model": "seedream-4-0-250828",
+    "prompt": "Photorealistic, warm lighting. A Singaporean family of four at the doorway of a new HDB flat. The father is holding a set of keys, about to unlock the door. The mother and two children are smiling behind him. Interior hallway visible. Cinematic, emotional, soft golden light. Singapore housing estate visible through the open door.",
+    "aspect_ratio": "landscape",
+    "provider": "seedream"
+  },
+  "sell": {
+    "success": true,
+    "image": "/home/hermes/.hermes/cache/images/seedream_20260530_012212_d09a0b17.jpg",
+    "model": "seedream-4-0-250828",
+    "prompt": "Photorealistic interior. A professional photographer with a DSLR camera on a tripod shooting a wabi-sabi themed living room in a Singapore landed property. Natural wood textures, raw linen sofa, soft diffused daylight through large windows. Behind the scenes, staging equipment visible. Warm, editorial feel. Tropical plants visible outside the window.",
+    "aspect_ratio": "landscape",
+    "provider": "seedream"
+  },
+  "rent": {
+    "success": true,
+    "image": "/home/hermes/.hermes/cache/images/seedream_20260530_012220_6e6979b2.jpg",
+    "model": "seedream-4-0-250828",
+    "prompt": "Photorealistic. A young Singaporean professional in smart casual attire entering a modern studio apartment. Floor-to-ceiling windows with Singapore city skyline view. Minimalist interior, clean lines, warm afternoon light. The person has a confident, optimistic expression. Lifestyle photography. Marina Bay Sands visible in the distant skyline.",
+    "aspect_ratio": "landscape",
+    "provider": "seedream"
+  },
+  "launch": {
+    "success": true,
+    "image": "/home/hermes/.hermes/cache/images/seedream_20260530_012227_4d075cac.jpg",
+    "model": "seedream-4-0-250828",
+    "prompt": "Photorealistic. A crowded Singapore new launch showflat sales gallery. Property agents in formal attire guiding prospective buyers through a model unit. Bright, modern interior display. Showflat signage visible. Busy, energetic atmosphere. Bright overhead lighting. Singapore condominium showflat with floor plans on the wall.",
+    "aspect_ratio": "landscape",
+    "provider": "seedream"
+  }
+}
