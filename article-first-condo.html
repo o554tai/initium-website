@@ -4,53 +4,21 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Buying Your First Condo in Singapore: Complete 2026 Guide | INITIUM</title>
-<!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', 'REPLACE_WITH_META_PIXEL_ID');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=REPLACE_WITH_META_PIXEL_ID&ev=PageView&noscript=1"/></noscript>
-<!-- End Meta Pixel Code -->
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=REPLACE_WITH_GA4_ID"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
-</script>
-<!-- End Google tag -->
-
-
-
-
 <meta name="description" content="From eligibility checks to financing options, everything a first-time buyer needs to know before buying a condo in Singapore.">
 <meta name="theme-color" content="#50C878">
 <link rel="canonical" href="https://initium.sg/article-first-condo.html">
 
 <meta property="og:title" content="Buying Your First Condo in Singapore: Complete 2026 Guide | INITIUM">
 <meta property="og:description" content="From eligibility checks to financing options, everything a first-time buyer needs to know before buying a condo in Singapore.">
-<meta property="og:image" content="https://initium.sg/og-image.jpg">
+<meta property="og:image" content="https://initium.sg/assets/images/blog/guide-condo.jpg">
 <meta property="og:url" content="https://initium.sg/article-first-condo.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="INITIUM">
 <meta property="og:locale" content="en_SG">
-<meta name="geo.region" content="SG">
-<meta name="geo.placename" content="Singapore">
-<meta name="ICBM" content="1.2936, 103.8318">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Buying Your First Condo in Singapore: Complete 2026 Guide | INITIUM">
 <meta name="twitter:description" content="From eligibility checks to financing options, everything a first-time buyer needs to know before buying a condo in Singapore.">
-<meta name="twitter:image" content="https://initium.sg/og-image.jpg">
+<meta name="twitter:image" content="https://initium.sg/assets/images/blog/guide-condo.jpg">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -58,7 +26,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 <style>
   :root {
     --ig: #50C878;
-    --ig-dark: #3DA35F;
+    --ig-dark: #3DA25F;
     --ig-light: #E8F5EE;
     --ig-surface: #F7F8F5;
     --ig-ink: #1A1A1A;
@@ -73,9 +41,20 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   body {
     font-family: var(--font-body);
     color: var(--ig-ink);
-    background: var(--ig-surface);
+    background: #fff;
     overflow-x: hidden;
     line-height: 1.7;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--ig);
+    z-index: 10001;
+    width: 0%;
+    transition: width 0.1s linear;
   }
 
   /* Navigation */
@@ -83,14 +62,14 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     position: fixed;
     top:0; left:0; right:0;
     z-index: 1000;
-    padding: 24px 48px;
+    padding: 20px 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: background 0.4s ease, backdrop-filter 0.4s ease;
   }
   nav.scrolled {
-    background: rgba(247,249,248,0.92);
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
     border-bottom: 1px solid rgba(80,200,120,0.08);
@@ -106,7 +85,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     color: var(--ig);
     text-decoration: none;
   }
-  .nav-logo img { height: 80px; width: auto; display: block; background: transparent; }
+  .nav-logo img { height: 64px; width: auto; display: block; background: transparent; }
   .nav-links {
     display: flex;
     gap: 32px;
@@ -133,54 +112,129 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .nav-links a:hover { color: var(--ig); }
   .nav-links a:hover::after { width: 100%; }
 
-  /* Article */
+  /* Hero */
   .article-hero {
-    padding: 160px 24px 60px;
-    text-align: center;
-    background: var(--ig-surface);
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 420px;
+    max-height: 640px;
+    overflow: hidden;
+  }
+  .article-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.65);
+  }
+  .article-hero-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 80px 48px 48px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    color: #fff;
   }
   .article-tag {
     display: inline-block;
-    padding: 6px 16px;
-    background: var(--ig-light);
-    color: var(--ig-dark);
+    padding: 6px 14px;
+    background: var(--ig);
+    color: #fff;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border-radius: 100px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
   .article-title {
     font-family: var(--font-editorial);
-    font-size: clamp(32px, 5vw, 56px);
+    font-size: clamp(32px, 4.5vw, 52px);
     font-weight: 500;
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    max-width: 720px;
-    margin: 0 auto 20px;
-    color: var(--ig-ink);
+    max-width: 780px;
+    margin-bottom: 16px;
+    color: #fff;
   }
   .article-meta {
-    font-size: 15px;
-    color: var(--ig-ink-2);
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-  .article-body {
-    max-width: 720px;
+  .article-meta-dot {
+    width: 4px; height: 4px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+  }
+
+  /* Share */
+  .share-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .share-row span {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.6);
+  }
+  .share-row a {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .share-row a:hover {
+    background: var(--ig);
+    transform: translateY(-2px);
+  }
+  .share-row svg {
+    width: 16px; height: 16px;
+  }
+
+  /* Layout */
+  .article-wrap {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 24px 120px;
+    padding: 64px 48px;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* Body */
+  .article-body {
+    max-width: 680px;
+  }
+  .article-body > p:first-of-type {
+    font-size: 20px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin-bottom: 40px;
   }
   .article-body h2 {
     font-family: var(--font-display);
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     margin: 48px 0 20px;
     color: var(--ig-ink);
-    line-height: 1.2;
+    line-height: 1.25;
+    scroll-margin-top: 100px;
   }
   .article-body h3 {
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 600;
     margin: 32px 0 12px;
     color: var(--ig-ink);
@@ -192,11 +246,11 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     margin-bottom: 20px;
   }
   .article-body ul, .article-body ol {
-    margin: 0 0 20px 24px;
+    margin: 0 0 24px 24px;
     color: var(--ig-ink-2);
   }
   .article-body li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-size: 17px;
     line-height: 1.7;
   }
@@ -212,11 +266,55 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .article-body a:hover {
     border-bottom-width: 2px;
   }
+
+  /* Sidebar TOC */
+  .article-sidebar {
+    position: sticky;
+    top: 100px;
+    padding: 28px;
+    background: var(--ig-surface);
+    border-radius: 16px;
+  }
+  .toc-label {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ig-ink-3);
+    margin-bottom: 16px;
+  }
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc-list li {
+    margin-bottom: 10px;
+  }
+  .toc-list a {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    display: block;
+    padding: 4px 0;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -14px;
+    transition: all 0.3s ease;
+    line-height: 1.5;
+  }
+  .toc-list a:hover, .toc-list a.active {
+    color: var(--ig);
+    border-left-color: var(--ig);
+  }
+
+  /* CTA */
   .article-cta {
     background: var(--ig);
     color: #fff;
     border-radius: 20px;
-    padding: 48px 36px;
+    padding: 48px 40px;
     text-align: center;
     margin-top: 64px;
   }
@@ -230,7 +328,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .article-cta p {
     font-size: 16px;
     opacity: 0.9;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
@@ -251,10 +349,91 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     text-decoration: none;
     border-radius: 100px;
     transition: all 0.3s ease;
+    border: none;
   }
   .article-cta a:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Related */
+  .related-section {
+    background: var(--ig-surface);
+    padding: 80px 48px;
+  }
+  .related-header {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+  .related-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ig);
+    margin-bottom: 8px;
+  }
+  .related-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ig-ink);
+  }
+  .related-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .related-card {
+    display: block;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  }
+  .related-img {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: var(--ig-surface);
+  }
+  .related-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .related-card:hover .related-img img {
+    transform: scale(1.04);
+  }
+  .related-body {
+    padding: 24px;
+  }
+  .related-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--ig-light);
+    color: var(--ig-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  .related-card-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--ig-ink);
   }
 
   /* Footer */
@@ -306,7 +485,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     text-decoration: none;
     transition: color 0.3s ease;
   }
-  .footer-legal a:hover { color: var(--ig); }  .footer-socials {
+  .footer-legal a:hover { color: var(--ig); }
+  .footer-socials {
     display: flex;
     gap: 12px;
     margin-top: 16px;
@@ -321,6 +501,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     justify-content: center;
     color: var(--ig);
     transition: all 0.3s ease;
+    text-decoration: none;
   }
   .footer-socials a:hover {
     background: var(--ig);
@@ -335,136 +516,39 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     font-size: 13px;
     color: var(--ig-ink-3);
   }
-  .footer-links {
-    display: flex;
-    gap: 24px;
-    list-style: none;
-  }
-  .footer-links a {
-    font-size: 13px;
-    color: var(--ig-ink-2);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .footer-links a:hover { color: var(--ig); }
 
   /* Mobile */
+  @media (max-width: 1024px) {
+    .article-wrap {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .article-sidebar {
+      display: none;
+    }
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
+    .nav-logo img { height: 48px; }
     .nav-links { display: none; }
-    .article-body { padding: 48px 24px 80px; }
-    .article-body h2 { font-size: 24px; }
+    .article-hero { height: 50vh; min-height: 360px; }
+    .article-hero-content { padding: 60px 24px 32px; }
+    .article-wrap { padding: 40px 24px; }
+    .article-body h2 { font-size: 22px; }
+    .related-section { padding: 60px 24px; }
+    .related-grid { grid-template-columns: 1fr; }
     footer { padding: 48px 24px 24px; }
     .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
   }
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {
-      "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://initium.sg/"
-    },
-    {
-      "@type": "ListItem",
-      "position": 2,
-      "name": "The Post",
-      "item": "https://initium.sg/blog.html"
-    },
-    {
-      "@type": "ListItem",
-      "position": 3,
-      "name": "First Condo Guide",
-      "item": "https://initium.sg/article-first-condo.html"
-    }
-  ]
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Buying Your First Condo in Singapore: Complete 2026 Guide | INITIUM",
-  "description": "From eligibility checks to financing options, everything a first-time buyer needs to know before buying a condo in Singapore.",
-  "image": "https://initium.sg/og-image.jpg",
-  "author": {
-    "@type": "Organization",
-    "name": "INITIUM",
-    "url": "https://initium.sg"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "INITIUM",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://initium.sg/logo-nav-crop.png"
-    }
-  },
-  "url": "https://initium.sg/article-first-condo.html",
-  "datePublished": "2026-05-01",
-  "dateModified": "2026-05-18"
-}
-</script>
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "name": "INITIUM",
-      "alternateName": "INITIUM Singapore Real Estate",
-      "url": "https://initium.sg",
-      "logo": "https://initium.sg/logo-nav-crop.png",
-      "description": "A modern real estate team built on trust, systems, and the drive to lift everyone higher.",
-      "sameAs": [
-        "https://instagram.com/initium.sg",
-        "https://wa.me/6588464814"
-      ]
-    },
-    {
-      "@type": "RealEstateAgent",
-      "name": "INITIUM",
-      "image": "https://initium.sg/logo-nav-crop.png",
-      "url": "https://initium.sg",
-      "telephone": "+6588464814",
-      "email": "hello@initium.sg",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "1 Kim Seng Promenade #17-10/12, Great World City, West Tower",
-        "addressLocality": "Singapore",
-        "postalCode": "237994",
-        "addressCountry": "SG"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "1.2936",
-        "longitude": "103.8318"
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-        "opens": "00:00",
-        "closes": "23:59"
-      },
-      "priceRange": "$$$",
-      "areaServed": {
-        "@type": "City",
-        "name": "Singapore"
-      }
-    }
-  ]
-}
-</script>
-  <link rel="stylesheet" href="animations.css">
 </head>
 <body>
+
+<div class="progress-bar" id="progressBar"></div>
 
 <nav id="navbar">
   <a href="index.html" class="nav-logo">
@@ -482,16 +566,41 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 </nav>
 
 <div class="article-hero">
-  <span class="article-tag">Buying Guide</span>
-  <h1 class="article-title">Buying Your First Condo in Singapore: A Complete Guide</h1>
-  <div class="article-meta">May 2026 · INITIUM Team · 8 min read</div>
+  <img src="assets/images/blog/guide-condo.jpg" alt="Modern Singapore condo exterior at dusk">
+  <div class="article-hero-content">
+    <span class="article-tag">Buying Guide</span>
+    <h1 class="article-title">Buying Your First Condo in Singapore: A Complete Guide</h1>
+    <div class="article-meta">
+      <span>May 2026</span>
+      <span class="article-meta-dot"></span>
+      <span>INITIUM Team</span>
+      <span class="article-meta-dot"></span>
+      <span>8 min read</span>
+    </div>
+    <div class="share-row">
+      <span>Share</span>
+      <a href="https://wa.me/?text=Buying%20Your%20First%20Condo%20in%20Singapore%20-%20https://initium.sg/article-first-condo.html" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://initium.sg/article-first-condo.html" target="_blank" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://twitter.com/intent/tweet?text=Buying%20Your%20First%20Condo%20in%20Singapore&url=https://initium.sg/article-first-condo.html" target="_blank" aria-label="X">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" onclick="navigator.clipboard.writeText('https://initium.sg/article-first-condo.html');alert('Link copied');return false;" aria-label="Copy link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </a>
+    </div>
+  </div>
 </div>
 
-<article class="article-body">
+<div class="article-wrap">
+  <article class="article-body">
 
 <p>Buying a condominium in Singapore is one of the biggest financial decisions most people will make. Whether you are a young professional looking for your first home or a couple planning for the future, the process can feel overwhelming. This guide breaks it down into clear, actionable steps.</p>
 
-<h2>1. Check Your Eligibility</h2>
+<h2 id="eligibility">1. Check Your Eligibility</h2>
 <p>Before you start browsing listings, understand what you are eligible to buy. Singapore citizens, Permanent Residents, and foreigners each face different rules when purchasing private property.</p>
 
 <ul>
@@ -500,7 +609,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   <li><strong>Foreigners:</strong> Can buy condos but pay 60% ABSD. Not eligible for Executive Condominiums (ECs) until they become PRs.</li>
 </ul>
 
-<h2>2. Know Your Numbers</h2>
+<h2 id="numbers">2. Know Your Numbers</h2>
 <p>Work out what you can afford before you fall in love with a unit. The Total Debt Servicing Ratio (TDSR) limits your monthly debt repayments to 55% of your gross monthly income. This includes your car loan, student loans, credit cards, and the new mortgage.</p>
 
 <p>A good rule of thumb: your monthly mortgage should not exceed 30% of your monthly income. Factor in these costs:</p>
@@ -513,10 +622,10 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   <li><strong>Renovation:</strong> Budget $30,000–$100,000 depending on the condition.</li>
 </ul>
 
-<h2>3. Get Your IPA First</h2>
+<h2 id="ipa">3. Get Your IPA First</h2>
 <p>An In-Principle Approval (IPA) from a bank tells you exactly how much they will lend you. Without it, you are flying blind. Sellers and agents take you more seriously when you have one. Shop around — different banks offer different rates and packages.</p>
 
-<h2>4. Choose the Right Location</h2>
+<h2 id="location">4. Choose the Right Location</h2>
 <p>Location affects everything: price, rental yield, resale value, and your daily life. Ask yourself:</p>
 
 <ul>
@@ -528,17 +637,17 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 
 <p>Districts like District 9 (Orchard/River Valley), District 10 (Tanglin/Holland), and District 15 (East Coast) command premium prices but hold value well. Emerging areas like District 18 (Tampines/Pasir Ris) and District 23 (Bukit Panjang) offer better entry prices with growth potential.</p>
 
-<h2>5. New Launch vs. Resale</h2>
+<h2 id="launch-vs-resale">5. New Launch vs. Resale</h2>
 <p>Each has its strengths. New launches offer modern designs, progressive payment schemes, and the excitement of being the first owner. Resale units let you move in immediately, see the actual unit, and negotiate on price.</p>
 
 <p>For first-time buyers, resale often makes more sense because you can see exactly what you are getting and start living there right away. New launches work better if you have time to wait and want the latest specifications.</p>
 
-<h2>6. Work with the Right Agent</h2>
+<h2 id="agent">6. Work with the Right Agent</h2>
 <p>A good agent saves you time, money, and stress. They know the market, spot red flags, and negotiate on your behalf. At INITIUM, we guide first-time buyers through every step — from financing to keys.</p>
 
 <p>Look for an agent who listens more than they talk, shows you units that actually fit your brief, and explains the paperwork without rushing you.</p>
 
-<h2>7. The Day of Completion</h2>
+<h2 id="completion">7. The Day of Completion</h2>
 <p>On completion day, your lawyer handles the transfer of funds, your bank releases the loan, and you collect the keys. Do a final inspection before signing anything. Check that all fittings, fixtures, and appliances listed in the sale agreement are present and working.</p>
 
 <div class="article-cta">
@@ -547,7 +656,57 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%20read%20your%20first-time%20buyer%20guide%20and%20I%27d%20like%20to%20speak%20to%20an%20agent.">Chat on WhatsApp</a>
 </div>
 
-</article>
+  </article>
+
+  <aside class="article-sidebar">
+    <div class="toc-label">In this guide</div>
+    <ul class="toc-list">
+      <li><a href="#eligibility" class="toc-link">Check Your Eligibility</a></li>
+      <li><a href="#numbers" class="toc-link">Know Your Numbers</a></li>
+      <li><a href="#ipa" class="toc-link">Get Your IPA First</a></li>
+      <li><a href="#location" class="toc-link">Choose the Right Location</a></li>
+      <li><a href="#launch-vs-resale" class="toc-link">New Launch vs. Resale</a></li>
+      <li><a href="#agent" class="toc-link">Work with the Right Agent</a></li>
+      <li><a href="#completion" class="toc-link">The Day of Completion</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="related-section">
+  <div class="related-header">
+    <div class="related-label">More from The Post</div>
+    <h2 class="related-title">Keep Reading</h2>
+  </div>
+  <div class="related-grid">
+    <a href="article-new-vs-resale.html" class="related-card">
+      <div class="related-img">
+        <img src="assets/images/blog/guide-resale.jpg" alt="New launch vs resale comparison" loading="lazy">
+      </div>
+      <div class="related-body">
+        <span class="related-tag">Strategy</span>
+        <div class="related-card-title">New Launch vs. Resale: Which One Is Right for You?</div>
+      </div>
+    </a>
+    <a href="article-landed-buying.html" class="related-card">
+      <div class="related-img">
+        <img src="assets/images/blog/guide-landed.jpg" alt="Singapore landed property" loading="lazy">
+      </div>
+      <div class="related-body">
+        <span class="related-tag">Buying Guide</span>
+        <div class="related-card-title">Things to Look Out for Before Buying a Landed Property</div>
+      </div>
+    </a>
+    <a href="article-hdb-selling.html" class="related-card">
+      <div class="related-img">
+        <img src="assets/images/blog/guide-hdb.jpg" alt="Singapore HDB estate" loading="lazy">
+      </div>
+      <div class="related-body">
+        <span class="related-tag">Selling Guide</span>
+        <div class="related-card-title">Do's and Don'ts for HDB Sellers</div>
+      </div>
+    </a>
+  </div>
+</section>
 
 <footer>
   <div class="footer-main">
@@ -606,83 +765,34 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 </footer>
 
 <script>
+  // Progress bar
   window.addEventListener('scroll', function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById('progressBar').style.width = scrolled + '%';
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
   });
+
+  // TOC active state
+  var sections = document.querySelectorAll('.article-body h2[id]');
+  var tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', function() {
+    var current = '';
+    sections.forEach(function(section) {
+      var sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 120) {
+        current = section.getAttribute('id');
+      }
+    });
+    tocLinks.forEach(function(link) {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
+  });
 </script>
 
-
-<!-- Custom Cursor -->
-<style>
-  .custom-cursor {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-    z-index: 99999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.3s ease;
-  }
-  .custom-cursor svg {
-    width: 100%;
-    height: 100%;
-    display: block;
-    transition: all 0.3s ease;
-  }
-  .custom-cursor svg path {
-    stroke: var(--ig, #50C878);
-    stroke-width: 5;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    fill: none;
-    transition: all 0.3s ease;
-  }
-  .custom-cursor.hover {
-    transform: translate(-50%, -50%) scale(1.8);
-  }
-  .custom-cursor.hover svg path {
-    fill: var(--ig, #50C878);
-  }
-  @media (pointer: coarse) {
-    .custom-cursor { display: none !important; }
-  }
-</style>
-<div class="custom-cursor" id="customCursor">
-  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <path d="M35 25 L45 15 L55 25"/>
-    <path d="M30 50 L45 72 L65 42 L88 82"/>
-  </svg>
-</div>
-<script>
-(function() {
-  var cursor = document.getElementById('customCursor');
-  var mouseX = 0, mouseY = 0;
-  var cursorX = 0, cursorY = 0;
-
-  document.addEventListener('mousemove', function(e) {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-  });
-
-  function animate() {
-    cursorX += (mouseX - cursorX) * 0.15;
-    cursorY += (mouseY - cursorY) * 0.15;
-    cursor.style.left = cursorX + 'px';
-    cursor.style.top = cursorY + 'px';
-    requestAnimationFrame(animate);
-  }
-  animate();
-
-  var hoverTargets = 'a, button, .service-tab, .property-card, .blog-card, .testimonial-card, .team-card, .why-card, .social-toast, .exit-close, .exit-submit, .nav-toggle';
-  document.querySelectorAll(hoverTargets).forEach(function(el) {
-    el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
-    el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
-  });
-})();
-</script>
-
-  <script src="animations.js"></script>
 </body>
 </html>

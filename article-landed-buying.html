@@ -9,19 +9,16 @@
 <link rel="canonical" href="https://initium.sg/article-landed-buying.html">
 
 <meta property="og:title" content="Things to Look Out for Before Buying a Landed Property | INITIUM">
-<meta property="og:description" content="From land tenure and zoning restrictions to renovation budgets and neighbourhood character — the checks that save you from costly surprises.">
-<meta property="og:image" content="https://initium.sg/og-image.jpg">
+<meta property="og:description" content="From land tenure and zoning restrictions to renovation budgets and neighbourhood character — the checks that save you from costly surprises when buying landed property in Singapore.">
+<meta property="og:image" content="https://initium.sg/assets/images/blog/guide-landed.jpg">
 <meta property="og:url" content="https://initium.sg/article-landed-buying.html">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="INITIUM">
 <meta property="og:locale" content="en_SG">
-<meta name="geo.region" content="SG">
-<meta name="geo.placename" content="Singapore">
-<meta name="ICBM" content="1.2936, 103.8318">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Things to Look Out for Before Buying a Landed Property | INITIUM">
-<meta name="twitter:description" content="From land tenure and zoning restrictions to renovation budgets and neighbourhood character — the checks that save you from costly surprises.">
-<meta name="twitter:image" content="https://initium.sg/og-image.jpg">
+<meta name="twitter:description" content="From land tenure and zoning restrictions to renovation budgets and neighbourhood character — the checks that save you from costly surprises when buying landed property in Singapore.">
+<meta name="twitter:image" content="https://initium.sg/assets/images/blog/guide-landed.jpg">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -44,9 +41,20 @@
   body {
     font-family: var(--font-body);
     color: var(--ig-ink);
-    background: var(--ig-surface);
+    background: #fff;
     overflow-x: hidden;
     line-height: 1.7;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: var(--ig);
+    z-index: 10001;
+    width: 0%;
+    transition: width 0.1s linear;
   }
 
   /* Navigation */
@@ -54,14 +62,14 @@
     position: fixed;
     top:0; left:0; right:0;
     z-index: 1000;
-    padding: 24px 48px;
+    padding: 20px 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     transition: background 0.4s ease, backdrop-filter 0.4s ease;
   }
   nav.scrolled {
-    background: rgba(247,249,248,0.92);
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(20px) saturate(1.4);
     -webkit-backdrop-filter: blur(20px) saturate(1.4);
     border-bottom: 1px solid rgba(80,200,120,0.08);
@@ -77,7 +85,7 @@
     color: var(--ig);
     text-decoration: none;
   }
-  .nav-logo img { height: 80px; width: auto; display: block; background: transparent; }
+  .nav-logo img { height: 64px; width: auto; display: block; background: transparent; }
   .nav-links {
     display: flex;
     gap: 32px;
@@ -104,54 +112,129 @@
   .nav-links a:hover { color: var(--ig); }
   .nav-links a:hover::after { width: 100%; }
 
-  /* Article */
+  /* Hero */
   .article-hero {
-    padding: 160px 24px 60px;
-    text-align: center;
-    background: var(--ig-surface);
+    position: relative;
+    width: 100%;
+    height: 60vh;
+    min-height: 420px;
+    max-height: 640px;
+    overflow: hidden;
+  }
+  .article-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.65);
+  }
+  .article-hero-content {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 80px 48px 48px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 60%, transparent 100%);
+    color: #fff;
   }
   .article-tag {
     display: inline-block;
-    padding: 6px 16px;
-    background: var(--ig-light);
-    color: var(--ig-dark);
+    padding: 6px 14px;
+    background: var(--ig);
+    color: #fff;
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border-radius: 100px;
-    margin-bottom: 24px;
+    margin-bottom: 16px;
   }
   .article-title {
     font-family: var(--font-editorial);
-    font-size: clamp(32px, 5vw, 56px);
+    font-size: clamp(32px, 4.5vw, 52px);
     font-weight: 500;
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
-    max-width: 720px;
-    margin: 0 auto 20px;
-    color: var(--ig-ink);
+    max-width: 780px;
+    margin-bottom: 16px;
+    color: #fff;
   }
   .article-meta {
-    font-size: 15px;
-    color: var(--ig-ink-2);
+    font-size: 14px;
+    color: rgba(255,255,255,0.8);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
   }
-  .article-body {
-    max-width: 720px;
+  .article-meta-dot {
+    width: 4px; height: 4px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 50%;
+  }
+
+  /* Share */
+  .share-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .share-row span {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: rgba(255,255,255,0.6);
+  }
+  .share-row a {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    transition: all 0.3s ease;
+    text-decoration: none;
+  }
+  .share-row a:hover {
+    background: var(--ig);
+    transform: translateY(-2px);
+  }
+  .share-row svg {
+    width: 16px; height: 16px;
+  }
+
+  /* Layout */
+  .article-wrap {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 80px 24px 120px;
+    padding: 64px 48px;
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* Body */
+  .article-body {
+    max-width: 680px;
+  }
+  .article-body > p:first-of-type {
+    font-size: 20px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin-bottom: 40px;
   }
   .article-body h2 {
     font-family: var(--font-display);
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     margin: 48px 0 20px;
     color: var(--ig-ink);
-    line-height: 1.2;
+    line-height: 1.25;
+    scroll-margin-top: 100px;
   }
   .article-body h3 {
     font-family: var(--font-display);
-    font-size: 20px;
+    font-size: 19px;
     font-weight: 600;
     margin: 32px 0 12px;
     color: var(--ig-ink);
@@ -163,11 +246,11 @@
     margin-bottom: 20px;
   }
   .article-body ul, .article-body ol {
-    margin: 0 0 20px 24px;
+    margin: 0 0 24px 24px;
     color: var(--ig-ink-2);
   }
   .article-body li {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     font-size: 17px;
     line-height: 1.7;
   }
@@ -183,11 +266,55 @@
   .article-body a:hover {
     border-bottom-width: 2px;
   }
+
+  /* Sidebar TOC */
+  .article-sidebar {
+    position: sticky;
+    top: 100px;
+    padding: 28px;
+    background: var(--ig-surface);
+    border-radius: 16px;
+  }
+  .toc-label {
+    font-family: var(--font-display);
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ig-ink-3);
+    margin-bottom: 16px;
+  }
+  .toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .toc-list li {
+    margin-bottom: 10px;
+  }
+  .toc-list a {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    display: block;
+    padding: 4px 0;
+    border-left: 2px solid transparent;
+    padding-left: 12px;
+    margin-left: -14px;
+    transition: all 0.3s ease;
+    line-height: 1.5;
+  }
+  .toc-list a:hover, .toc-list a.active {
+    color: var(--ig);
+    border-left-color: var(--ig);
+  }
+
+  /* CTA */
   .article-cta {
     background: var(--ig);
     color: #fff;
     border-radius: 20px;
-    padding: 48px 36px;
+    padding: 48px 40px;
     text-align: center;
     margin-top: 64px;
   }
@@ -201,7 +328,7 @@
   .article-cta p {
     font-size: 16px;
     opacity: 0.9;
-    margin-bottom: 24px;
+    margin-bottom: 28px;
     max-width: 480px;
     margin-left: auto;
     margin-right: auto;
@@ -222,10 +349,91 @@
     text-decoration: none;
     border-radius: 100px;
     transition: all 0.3s ease;
+    border: none;
   }
   .article-cta a:hover {
     transform: translateY(-2px);
     box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Related */
+  .related-section {
+    background: var(--ig-surface);
+    padding: 80px 48px;
+  }
+  .related-header {
+    max-width: 1200px;
+    margin: 0 auto 40px;
+  }
+  .related-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ig);
+    margin-bottom: 8px;
+  }
+  .related-title {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--ig-ink);
+  }
+  .related-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .related-card {
+    display: block;
+    background: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+  .related-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.1);
+  }
+  .related-img {
+    aspect-ratio: 16/10;
+    overflow: hidden;
+    background: var(--ig-surface);
+  }
+  .related-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  .related-card:hover .related-img img {
+    transform: scale(1.04);
+  }
+  .related-body {
+    padding: 24px;
+  }
+  .related-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    background: var(--ig-light);
+    color: var(--ig-dark);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-radius: 6px;
+    margin-bottom: 10px;
+  }
+  .related-card-title {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--ig-ink);
   }
 
   /* Footer */
@@ -293,6 +501,7 @@
     justify-content: center;
     color: var(--ig);
     transition: all 0.3s ease;
+    text-decoration: none;
   }
   .footer-socials a:hover {
     background: var(--ig);
@@ -309,11 +518,28 @@
   }
 
   /* Mobile */
+  @media (max-width: 1024px) {
+    .article-wrap {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .article-sidebar {
+      display: none;
+    }
+    .related-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
   @media (max-width: 900px) {
     nav { padding: 16px 24px; }
+    .nav-logo img { height: 48px; }
     .nav-links { display: none; }
-    .article-body { padding: 48px 24px 80px; }
-    .article-body h2 { font-size: 24px; }
+    .article-hero { height: 50vh; min-height: 360px; }
+    .article-hero-content { padding: 60px 24px 32px; }
+    .article-wrap { padding: 40px 24px; }
+    .article-body h2 { font-size: 22px; }
+    .related-section { padding: 60px 24px; }
+    .related-grid { grid-template-columns: 1fr; }
     footer { padding: 48px 24px 24px; }
     .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
     .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
@@ -321,6 +547,8 @@
 </style>
 </head>
 <body>
+
+<div class="progress-bar" id="progressBar"></div>
 
 <nav id="navbar">
   <a href="index.html" class="nav-logo">
@@ -338,16 +566,41 @@
 </nav>
 
 <div class="article-hero">
-  <span class="article-tag">Buying Guide</span>
-  <h1 class="article-title">Things to Look Out for Before Buying a Landed Property</h1>
-  <div class="article-meta">May 2026 · INITIUM Team · 7 min read</div>
+  <img src="assets/images/blog/guide-landed.jpg" alt="Singapore landed property with tropical garden">
+  <div class="article-hero-content">
+    <span class="article-tag">Buying Guide</span>
+    <h1 class="article-title">Things to Look Out for Before Buying a Landed Property</h1>
+    <div class="article-meta">
+      <span>May 2026</span>
+      <span class="article-meta-dot"></span>
+      <span>INITIUM Team</span>
+      <span class="article-meta-dot"></span>
+      <span>7 min read</span>
+    </div>
+    <div class="share-row">
+      <span>Share</span>
+      <a href="https://wa.me/?text=Buying%20a%20Landed%20Property%20in%20Singapore%20-%20https://initium.sg/article-landed-buying.html" target="_blank" aria-label="WhatsApp">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      </a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://initium.sg/article-landed-buying.html" target="_blank" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+      </a>
+      <a href="https://twitter.com/intent/tweet?text=Buying%20a%20Landed%20Property%20in%20Singapore&url=https://initium.sg/article-landed-buying.html" target="_blank" aria-label="X">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a href="#" onclick="navigator.clipboard.writeText('https://initium.sg/article-landed-buying.html');alert('Link copied');return false;" aria-label="Copy link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </a>
+    </div>
+  </div>
 </div>
 
-<article class="article-body">
+<div class="article-wrap">
+  <article class="article-body">
 
 <p>Buying a landed property in Singapore is a significant milestone. It offers space, privacy, and the freedom to shape your home exactly how you want it. But it also comes with complexities that condo buyers never face. Here is what to check before you commit.</p>
 
-<h2>1. Land Tenure: Freehold vs. Leasehold</h2>
+<h2 id="tenure">1. Land Tenure: Freehold vs. Leasehold</h2>
 <p>This is the first question every landed buyer should ask. Freehold land is owned indefinitely. Leasehold land — typically 999-year or 99-year — reverts to the state when the lease expires.</p>
 
 <ul>
@@ -358,7 +611,7 @@
 
 <p>Do not assume freehold is always better. A well-located 999-year leasehold in a mature estate can outperform a remote freehold in terms of capital appreciation and rental yield.</p>
 
-<h2>2. Zoning and URA Master Plan</h2>
+<h2 id="zoning">2. Zoning and URA Master Plan</h2>
 <p>The Urban Redevelopment Authority (URA) Master Plan tells you what can and cannot be built around your property. A quiet street today could become a busy arterial road tomorrow. Check:</p>
 
 <ul>
@@ -369,7 +622,7 @@
 
 <p>A good agent will pull the URA map and walk you through what it means for your specific plot. Do not skip this step.</p>
 
-<h2>3. Structural Condition and Rebuild Potential</h2>
+<h2 id="structural">3. Structural Condition and Rebuild Potential</h2>
 <p>Many landed properties on the market are decades old. Older homes may look charming but hide expensive problems. Budget for a professional structural survey before you buy.</p>
 
 <p>Key things to inspect:</p>
@@ -382,7 +635,7 @@
 
 <p>If the house is beyond saving, factor in a full rebuild. Rebuilding a terrace house today costs $1.5–$3 million depending on size, materials, and finishes.</p>
 
-<h2>4. Renovation and A&A Budgets</h2>
+<h2 id="renovation">4. Renovation and A&A Budgets</h2>
 <p>Even a well-maintained landed property will need work. Unlike condos where the MC handles external maintenance, landed owners are responsible for everything — roof, walls, driveway, garden, gates.</p>
 
 <p>Typical renovation costs for a landed property:</p>
@@ -395,7 +648,7 @@
 
 <p>Get quotes from at least three contractors before you buy. The renovation budget often determines whether a deal makes financial sense.</p>
 
-<h2>5. Neighbourhood Character and Future Value</h2>
+<h2 id="neighbourhood">5. Neighbourhood Character and Future Value</h2>
 <p>Landed estates have personalities. Some are quiet and family-oriented. Others are cosmopolitan with a mix of locals and expats. Drive through at different times of day — morning rush, afternoon school pickup, evening — to get a real sense of the place.</p>
 
 <p>Check proximity to:</p>
@@ -408,7 +661,7 @@
 
 <p>These factors do not just affect your daily life. They determine how quickly you can sell and at what price when the time comes.</p>
 
-<h2>6. The Envelope Control and Setback Rules</h2>
+<h2 id="envelope">6. The Envelope Control and Setback Rules</h2>
 <p>URA's Envelope Control guidelines limit how much of your plot you can build on and how tall the structure can be. Setback rules dictate how far your house must be from the road and your neighbours' boundaries.</p>
 
 <p>These rules vary by plot size, zoning, and whether the property is in a landed housing area or a mixed zone. Your architect or builder will need to work within these constraints. Understanding them early prevents disappointment later.</p>
@@ -419,7 +672,56 @@
   <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20buying%20a%20landed%20property%20and%20would%20like%20some%20guidance.">Chat on WhatsApp</a>
 </div>
 
-</article>
+  </article>
+
+  <aside class="article-sidebar">
+    <div class="toc-label">In this guide</div>
+    <ul class="toc-list">
+      <li><a href="#tenure" class="toc-link">Land Tenure: Freehold vs. Leasehold</a></li>
+      <li><a href="#zoning" class="toc-link">Zoning and URA Master Plan</a></li>
+      <li><a href="#structural" class="toc-link">Structural Condition and Rebuild Potential</a></li>
+      <li><a href="#renovation" class="toc-link">Renovation and A&A Budgets</a></li>
+      <li><a href="#neighbourhood" class="toc-link">Neighbourhood Character and Future Value</a></li>
+      <li><a href="#envelope" class="toc-link">Envelope Control and Setback Rules</a></li>
+    </ul>
+  </aside>
+</div>
+
+<section class="related-section">
+  <div class="related-header">
+    <div class="related-label">More from The Post</div>
+    <h2 class="related-title">Keep Reading</h2>
+  </div>
+  <div class="related-grid">
+    <a href="article-first-condo.html" class="related-card">
+      <div class="related-img">
+        <img src="assets/images/blog/guide-condo.jpg" alt="First condo guide" loading="lazy">
+      </div>
+      <div class="related-body">
+        <span class="related-tag">Buying Guide</span>
+        <div class="related-card-title">Buying Your First Condo in Singapore: A Complete Guide</div>
+      </div>
+    </a>
+    <a href="article-new-vs-resale.html" class="related-card">
+      <div class="related-img">
+        <img src="assets/images/blog/guide-resale.jpg" alt="New launch vs resale" loading="lazy">
+      </div>
+      <div class="related-body">
+        <span class="related-tag">Strategy</span>
+        <div class="related-card-title">New Launch vs. Resale: Which One Is Right for You?</div>
+      </div>
+    </a>
+    <a href="article-hdb-selling.html" class="related-card">
+      <div class="related-img">
+        <img src="assets/images/blog/guide-hdb.jpg" alt="HDB selling guide" loading="lazy">
+      </div>
+      <div class="related-body">
+        <span class="related-tag">Selling Guide</span>
+        <div class="related-card-title">Do's and Don'ts for HDB Sellers</div>
+      </div>
+    </a>
+  </div>
+</section>
 
 <footer>
   <div class="footer-main">
@@ -478,8 +780,32 @@
 </footer>
 
 <script>
+  // Progress bar
   window.addEventListener('scroll', function() {
+    var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    var height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var scrolled = (winScroll / height) * 100;
+    document.getElementById('progressBar').style.width = scrolled + '%';
     document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // TOC active state
+  var sections = document.querySelectorAll('.article-body h2[id]');
+  var tocLinks = document.querySelectorAll('.toc-link');
+  window.addEventListener('scroll', function() {
+    var current = '';
+    sections.forEach(function(section) {
+      var sectionTop = section.offsetTop;
+      if (pageYOffset >= sectionTop - 120) {
+        current = section.getAttribute('id');
+      }
+    });
+    tocLinks.forEach(function(link) {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === '#' + current) {
+        link.classList.add('active');
+      }
+    });
   });
 </script>
 
