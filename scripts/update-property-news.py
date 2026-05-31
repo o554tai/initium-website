@@ -23,9 +23,9 @@ ARCHIVE_HTML = os.path.join(REPO_DIR, "news-archive.html")
 # Source brand logos — used as card thumbnails since article hero images
 # are blocked by paywalls / bot protection.
 SOURCE_LOGOS = {
-    "ST": "https://www.straitstimes.com/assets/ST-logo-default-aoeSLh4S.png",
-    "CNA": "https://www.channelnewsasia.com/sites/default/themes/mc_cna_theme/images/logo.svg",
-    "EdgeProp": "https://sg.tepcdn.com/public/usr/dluzx5/4f70fe-Edgeprop-Logo.jpg",
+    "ST": "assets/images/blog/logos/st-logo.svg",
+    "CNA": "assets/images/blog/logos/cna-logo.svg",
+    "EdgeProp": "assets/images/blog/logos/edgeprop-logo.svg",
 }
 
 HOURS_FRESH = 48
@@ -213,16 +213,22 @@ def build_card_html(article: dict) -> str:
     img = pick_source_logo(article)
     date_str = fmt_date(article.get("pub_ts", article.get("fetched_ts", now_ts())))
     url = article.get("url", "#")
+    source_name = "ST" if tag == "ST" else ("CNA" if tag == "CNA" else "EdgeProp")
+    read_text = f"Read on {source_name} →"
     return (
-        f'      <a href="{url}" class="blog-card" target="_blank" rel="noopener">\n'
-        f'        <div class="blog-thumb">\n'
-        f'          <img src="{img}" alt="{tag} property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">\n'
+        f'      <a href="{url}" target="_blank" rel="noopener" class="news-card">\n'
+        f'        <div class="news-img">\n'
+        f'          <img src="{img}" alt="{source_name}" loading="lazy">\n'
+        f'          <span class="news-source">{tag}</span>\n'
         f'        </div>\n'
-        f'        <div class="blog-content">\n'
-        f'          <span class="blog-tag">{tag}</span>\n'
-        f'          <h3 class="blog-title">{display_title}</h3>\n'
-        f'          <p class="blog-excerpt">{excerpt}</p>\n'
-        f'          <div class="blog-meta">{date_str} &middot; Read on {tag}</div>\n'
+        f'        <div class="news-body">\n'
+        f'          <h3 class="news-title">{display_title}</h3>\n'
+        f'          <p class="news-excerpt">{excerpt}</p>\n'
+        f'          <div class="news-meta">\n'
+        f'            <span>{date_str}</span>\n'
+        f'            <span>·</span>\n'
+        f'            <span class="source-link">{read_text}</span>\n'
+        f'          </div>\n'
         f'        </div>\n'
         f'      </a>'
     )
@@ -257,11 +263,11 @@ def update_blog_html(fresh: list[dict]):
 
     cards_html = "\n\n".join(build_card_html(a) for a in fresh)
 
-    pattern = r'(<div class="news-grid" id="newsGrid">)\n\n(.*?)(\n      </div>)'
+    pattern = r'(<div class="news-grid[^"]*" id="newsGrid">)\n\n(.*?)(\n      </div>)'
     match = re.search(pattern, content, re.DOTALL)
     if not match:
         # Try without the leading newline after open tag
-        pattern2 = r'(<div class="news-grid" id="newsGrid">)(.*?)(</div>)'
+        pattern2 = r'(<div class="news-grid[^"]*" id="newsGrid">)(.*?)(</div>)'
         match = re.search(pattern2, content, re.DOTALL)
         if match:
             old = match.group(0)
