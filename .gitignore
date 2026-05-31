@@ -19,3 +19,6 @@ backend/jobs.json
 # IDE
 .vscode/
 .idea/
+venv/
+test_face.png
+test_video.mp4
