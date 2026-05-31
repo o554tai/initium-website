@@ -85,12 +85,28 @@
 
     /* Featured guides */
     .guides-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-8);
+      display: flex;
+      gap: var(--space-6);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding-bottom: var(--space-4);
+      -webkit-overflow-scrolling: touch;
+    }
+    .guides-grid::-webkit-scrollbar {
+      height: 4px;
+    }
+    .guides-grid::-webkit-scrollbar-track {
+      background: var(--surface-warm);
+      border-radius: 2px;
+    }
+    .guides-grid::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 2px;
     }
     .guide-card {
       display: block;
+      flex: 0 0 320px;
       background: var(--white);
       border-radius: var(--radius-sm);
       overflow: hidden;
@@ -98,6 +114,7 @@
       transition: all var(--transition-base);
       text-decoration: none;
       color: inherit;
+      scroll-snap-align: start;
     }
     .guide-card:hover {
       transform: translateY(-4px);
@@ -118,7 +135,7 @@
       transform: scale(1.03);
     }
     .guide-body {
-      padding: var(--space-6) var(--space-8) var(--space-8);
+      padding: var(--space-5) var(--space-6) var(--space-6);
     }
     .guide-tag {
       display: inline-block;
@@ -138,17 +155,21 @@
     }
     .guide-title {
       font-family: var(--font-display);
-      font-size: var(--text-xl);
+      font-size: var(--text-lg);
       font-weight: 600;
       line-height: 1.3;
       color: var(--text-primary);
-      margin-bottom: var(--space-3);
+      margin-bottom: var(--space-2);
     }
     .guide-excerpt {
       font-size: var(--text-sm);
       color: var(--text-secondary);
-      line-height: 1.7;
-      margin-bottom: var(--space-4);
+      line-height: 1.6;
+      margin-bottom: var(--space-3);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
     }
     .guide-meta {
       font-size: var(--text-xs);
@@ -265,7 +286,7 @@
       .news-grid { grid-template-columns: repeat(2, 1fr); }
     }
     @media (max-width: 768px) {
-      .guides-grid { grid-template-columns: 1fr; }
+      .guides-grid { gap: var(--space-4); }
       .news-grid { grid-template-columns: 1fr; }
       .page-hero { min-height: 40vh; padding: var(--space-16) var(--page-pad-x) var(--space-10); }
     }
@@ -312,7 +333,7 @@
       </div>
     </div>
     <div class="guides-grid reveal">
-      <a href="#" class="guide-card">
+      <a href="article-first-condo.html" class="guide-card">
         <div class="guide-img">
           <img src="assets/images/blog/guide-condo.jpg" alt="Modern Singapore condo exterior at dusk" loading="lazy">
         </div>
@@ -323,7 +344,7 @@
           <div class="guide-meta">May 2026 · 8 min read</div>
         </div>
       </a>
-      <a href="#" class="guide-card">
+      <a href="article-new-vs-resale.html" class="guide-card">
         <div class="guide-img">
           <img src="assets/images/blog/guide-resale.jpg" alt="Modern condo interior living room" loading="lazy">
         </div>
@@ -334,7 +355,7 @@
           <div class="guide-meta">May 2026 · 6 min read</div>
         </div>
       </a>
-      <a href="#" class="guide-card">
+      <a href="article-landed-buying.html" class="guide-card">
         <div class="guide-img">
           <img src="assets/images/blog/guide-landed.jpg" alt="Singapore landed property with tropical garden" loading="lazy">
         </div>
@@ -345,7 +366,7 @@
           <div class="guide-meta">May 2026 · 7 min read</div>
         </div>
       </a>
-      <a href="#" class="guide-card">
+      <a href="article-hdb-selling.html" class="guide-card">
         <div class="guide-img">
           <img src="assets/images/blog/guide-hdb.jpg" alt="Singapore HDB corridor and facade" loading="lazy">
         </div>
