@@ -97,10 +97,18 @@ def download_video(url: str, output_path: str):
 
 def extract_video_url(status: dict) -> str:
     """Extract video URL from completed task response."""
-    # Try common response shapes
-    if "content" in status:
-        for item in status["content"]:
-            if item.get("type") == "video_url":
+    # Text-only responses return content as a dict: {"content": {"video_url": "..."}}
+    # Multimodal responses return content as a list:
+    #   [{"type": "video_url", "video_url": {"url": "..."}}]
+    content = status.get("content")
+
+    if isinstance(content, dict):
+        if "video_url" in content:
+            return content["video_url"]
+
+    if isinstance(content, list):
+        for item in content:
+            if isinstance(item, dict) and item.get("type") == "video_url":
                 return item["video_url"]["url"]
 
     if "video_url" in status:

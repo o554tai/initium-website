@@ -389,6 +389,181 @@ def character_avatar(
     }
 
 
+def video_face_swap(
+    source_face: str,
+    target_video: str,
+    model: str = "okaris/roop",
+    output_dir: str = "./output",
+    filename: str = "",
+) -> dict:
+    """
+    Swap `source_face` onto `target_video` using Replicate video face-swap (raw HTTP API).
+    Avoids the Python client's file-upload path which requires broader token scope.
+    Parameters:
+        source_face:   Path/URL to the face image (mugshot)
+        target_video:  Path/URL to the generated video (Seedance output)
+        model:         Replicate model identifier (default: okaris/roop)
+        output_dir:    Where to save the result
+        filename:      Base filename (without ext); defaults to timestamp
+    Returns:
+        {"url": <result URL>, "local_path": <saved path>, "provider": "replicate"}
+    """
+    import base64
+
+    if not os.environ.get("REPLICATE_API_TOKEN"):
+        raise RuntimeError("REPLICATE_API_TOKEN not configured. Get one at replicate.com/account/api-tokens")
+
+    token = os.environ["REPLICATE_API_TOKEN"]
+    headers = {
+        "Authorization": f"Token {token}",
+        "Content-Type": "application/json",
+        "Prefer": "wait",
+    }
+
+    def _resolve_for_replicate(path_or_url: str, media_type: str = "image") -> str:
+        if path_or_url.startswith(("http://", "https://", "data:")):
+            return path_or_url
+        p = Path(path_or_url)
+        if not p.exists():
+            raise FileNotFoundError(f"Not found: {path_or_url}")
+        ext = p.suffix.lower().replace(".", "")
+        if ext == "jpg":
+            ext = "jpeg"
+        with open(p, "rb") as f:
+            data = base64.b64encode(f.read()).decode()
+        return f"data:{media_type}/{ext};base64,{data}"
+
+    source_url = _resolve_for_replicate(source_face, media_type="image")
+    target_url = _resolve_for_replicate(target_video, media_type="video")
+
+    print(f"[Replicate] Starting video face-swap with {model}...")
+    print(f"  Source face: {source_face}")
+    print(f"  Target video: {target_video}")
+
+    payload = {
+        "input": {
+            "source": source_url,
+            "target": target_url,
+        },
+    }
+
+    resp = requests.post(
+        f"{REPLICATE_BASE_URL}/models/{model}/predictions",
+        headers=headers,
+        json=payload,
+        timeout=60,
+    )
+    resp.raise_for_status()
+    prediction = resp.json()
+
+    # Poll
+    pred_id = prediction.get("id")
+    status = prediction.get("status")
+    output_url = None
+    max_polls = 60
+    polls = 0
+
+    while polls < max_polls:
+        if status == "succeeded" and prediction.get("output"):
+            output = prediction["output"]
+            output_url = output[0] if isinstance(output, list) else output
+            break
+        if status == "failed":
+            raise RuntimeError(f"Replicate face-swap failed: {prediction.get('error', 'unknown')}")
+
+        time.sleep(2)
+        polls += 1
+        poll = requests.get(
+            f"{REPLICATE_BASE_URL}/predictions/{pred_id}",
+            headers={"Authorization": f"Token {token}"},
+            timeout=30,
+        )
+        poll.raise_for_status()
+        prediction = poll.json()
+        status = prediction.get("status")
+
+    if not output_url:
+        raise RuntimeError("Replicate face-swap did not return a video URL")
+
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    base_name = filename or f"face_swap_{int(time.time())}"
+    local_path = out / f"{base_name}.mp4"
+
+    print(f"[Replicate] Downloading result...")
+    download_image(output_url, str(local_path))
+    print(f"  → Saved: {local_path}")
+
+    return {
+        "url": output_url,
+        "local_path": str(local_path),
+        "provider": "replicate",
+        "model": model,
+    }
+
+
+def character_video(
+    source_face: str,
+    prompt: str,
+    ratio: str = "9:16",
+    duration: int = 5,
+    output_dir: str = "./output",
+    filename: str = "",
+) -> dict:
+    """
+    Full video pipeline: text-only Seedance → Replicate video face-swap.
+    Steps:
+        1. Generate video via Seedance (text-only, no face ref to avoid filter)
+        2. Face-swap the exact mugshot onto the video via Replicate
+    Returns dict with keys:
+        seedance_url, seedance_local, face_swap_url, face_swap_local, final_path
+    """
+    from seedance import (
+        build_text_only_payload,
+        submit_task,
+        wait_for_completion,
+        extract_video_url,
+        download_video,
+    )
+
+    out = Path(output_dir)
+    out.mkdir(parents=True, exist_ok=True)
+    base_name = filename or f"char_vid_{int(time.time())}"
+
+    print(f"[1/2] Seedance text-to-video: {prompt[:60]}...")
+    payload = build_text_only_payload(
+        prompt=prompt,
+        ratio=ratio,
+        duration=duration,
+        generate_audio=False,
+    )
+    task_id = submit_task(payload)
+    status = wait_for_completion(task_id)
+    seedance_url = extract_video_url(status)
+    seedance_local = out / f"{base_name}_raw.mp4"
+    download_video(seedance_url, str(seedance_local))
+    print(f"  → Raw video saved: {seedance_local}")
+
+    print(f"[2/2] Replicate video face-swap...")
+    swapped = video_face_swap(
+        source_face=source_face,
+        target_video=str(seedance_local),
+        output_dir=output_dir,
+        filename=base_name,
+    )
+    face_swap_local = swapped["local_path"]
+    print(f"  → Final video saved: {face_swap_local}")
+
+    return {
+        "seedance_url": seedance_url,
+        "seedance_local": str(seedance_local),
+        "face_swap_url": swapped["url"],
+        "face_swap_local": str(face_swap_local),
+        "final_path": str(face_swap_local),
+        "provider": "byteplus+replicate",
+    }
+
+
 # ═══════════════════════════════════════════════════════════
 # FAL.AI FALLBACK
 # ═══════════════════════════════════════════════════════════
@@ -526,9 +701,45 @@ if __name__ == "__main__":
     parser.add_argument("--character-avatar", metavar="SOURCE_FACE", help="Full pipeline: mugshot → Seedream full-body → face-swap exact identity")
     parser.add_argument("--output-dir", default="./output", help="Directory for character_avatar outputs")
 
+    # Video face-swap / character video flags
+    parser.add_argument("--video-face-swap", metavar="SOURCE_FACE", help="Swap SOURCE_FACE onto a target video (provide --target-video)")
+    parser.add_argument("--target-video", help="Target video path/URL for --video-face-swap")
+    parser.add_argument("--character-video", metavar="SOURCE_FACE", help="Full pipeline: text → Seedance video → face-swap exact identity")
+    parser.add_argument("--duration", type=int, default=5, help="Video duration in seconds (for --character-video)")
+
     args = parser.parse_args()
 
     try:
+        # Video face-swap only
+        if args.video_face_swap:
+            if not args.target_video:
+                print("Error: --video-face-swap requires --target-video")
+                sys.exit(1)
+            result = video_face_swap(
+                source_face=args.video_face_swap,
+                target_video=args.target_video,
+                output_dir=args.output_dir,
+                filename=Path(args.output).stem,
+            )
+            print(f"\n✓ Face-swapped video: {result['local_path']}")
+            sys.exit(0)
+
+        # Character video full pipeline
+        if args.character_video:
+            if not args.prompt:
+                print("Error: --character-video requires a prompt")
+                sys.exit(1)
+            result = character_video(
+                source_face=args.character_video,
+                prompt=args.prompt,
+                ratio=args.ratio,
+                duration=args.duration,
+                output_dir=args.output_dir,
+                filename=Path(args.output).stem,
+            )
+            print(f"\n✓ Final video: {result['final_path']}")
+            sys.exit(0)
+
         # Character avatar full pipeline
         if args.character_avatar:
             if not args.prompt:
