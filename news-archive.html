@@ -11,200 +11,113 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
 <style>
-  :root {
-    --ig: #50C878;
-    --ig-dark: #3DA35F;
-    --ig-light: #E8F5EE;
-    --ig-surface: #F7F8F5;
-    --ig-ink: #1A1A1A;
-    --ig-ink-2: #6B7B6E;
-    --ig-ink-3: #A8B5AC;
-    --font-editorial: 'Playfair Display', serif;
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font-body);
-    color: var(--ig-ink);
-    background: var(--ig-surface);
-    overflow-x: hidden;
-  }
-  nav {
-    position: fixed;
-    top:0; left:0; right:0;
-    z-index: 1000;
-    padding: 24px 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: background 0.4s ease, backdrop-filter 0.4s ease;
-  }
-  nav.scrolled {
-    background: rgba(247,249,248,0.92);
-    backdrop-filter: blur(20px) saturate(1.4);
-    -webkit-backdrop-filter: blur(20px) saturate(1.4);
-    border-bottom: 1px solid rgba(0,140,101,0.08);
-  }
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font-display);
-    font-weight: 700;
-    font-size: 16px;
-    letter-spacing: 3px;
-    color: var(--ig);
-    text-decoration: none;
-  }
-  .nav-logo img { height: 56px; width: auto; display: block; background: transparent; }
-  .nav-links {
-    display: flex;
-    gap: 32px;
-    list-style: none;
-  }
-  .nav-links a {
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-decoration: none;
-    color: var(--ig-ink-2);
-    position: relative;
-    padding-bottom: 4px;
-    transition: color 0.3s ease;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom:0; left:0;
-    width: 0; height: 1.5px;
-    background: var(--ig);
-    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
-  }
-  .nav-links a:hover { color: var(--ig); }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-links a.active { color: var(--ig); }
-  .nav-links a.active::after { width: 100%; }
-
+  /* Archive page overrides */
   .page-hero {
     position: relative;
-    min-height: 40vh;
+    min-height: 45vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 160px 24px 60px;
-    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
+    padding: var(--space-24) var(--page-pad-x) var(--space-16);
+    background: var(--dark);
     overflow: hidden;
   }
-  .page-hero-label {
-    font-family: var(--font-display);
-    font-size: 11px;
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 50%, rgba(80,200,120,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .page-hero .container { position: relative; z-index: 1; }
+  .page-hero .label {
+    color: var(--accent);
+    font-size: var(--text-sm);
     font-weight: 600;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--ig);
-    margin-bottom: 24px;
+    letter-spacing: 0.16em;
+    margin-bottom: var(--space-4);
   }
-  .page-hero-title {
-    font-family: var(--font-display);
-    font-size: clamp(36px, 5vw, 64px);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.03em;
-    color: var(--ig-ink);
-    margin-bottom: 16px;
-    max-width: 700px;
+  .page-hero .headline-xl {
+    color: var(--white);
+    margin-bottom: var(--space-4);
   }
-  .page-hero-sub {
-    font-size: clamp(15px, 2vw, 18px);
-    font-weight: 400;
-    color: var(--ig-ink-2);
-    max-width: 520px;
-    line-height: 1.7;
+  .page-hero .body-lg {
+    color: rgba(255,255,255,0.7);
+    max-width: 560px;
+    margin: 0 auto var(--space-4);
   }
-  .archive-link {
-    margin-top: 20px;
-    font-size: 13px;
-    color: var(--ig);
+  .page-hero .back-link {
+    color: var(--accent);
+    font-size: var(--text-sm);
+    font-weight: 500;
     text-decoration: none;
-    border-bottom: 1px solid var(--ig);
-    padding-bottom: 2px;
     transition: opacity 0.3s ease;
   }
-  .archive-link:hover { opacity: 0.7; }
+  .page-hero .back-link:hover { opacity: 0.7; }
 
-  section {
-    position: relative;
-    padding: 80px 48px;
-  }
-  .section-inner {
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .section-header {
-    margin-bottom: 48px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-  }
-  .section-subheader {
-    font-family: var(--font-display);
-    font-size: 11px;
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    color: var(--accent);
+    font-size: var(--text-sm);
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--ig);
-    margin-bottom: 12px;
+    margin-bottom: var(--space-4);
   }
-  .section-title {
-    font-family: var(--font-display);
-    font-size: clamp(28px, 4vw, 40px);
-    font-weight: 700;
-    color: var(--ig-ink);
-    line-height: 1.2;
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--accent);
   }
-  .archive-count {
-    font-size: 14px;
-    color: var(--ig-ink-3);
-    font-weight: 500;
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-10);
   }
-  /* Archive Search */
-  .archive-search {
-    margin-bottom: 32px;
+
+  .archive-search-wrap {
+    margin-bottom: var(--space-8);
     position: relative;
-  }
-  .archive-search input {
-    width: 100%;
     max-width: 480px;
+  }
+  .archive-search-wrap input {
+    width: 100%;
     padding: 14px 20px 14px 48px;
     border: 1px solid rgba(0,140,101,0.15);
     border-radius: 16px;
-    background: #fff;
+    background: var(--white);
     font-family: var(--font-body);
     font-size: 15px;
-    color: var(--ig-ink);
+    color: var(--text-primary);
     outline: none;
     transition: all 0.3s ease;
   }
-  .archive-search input::placeholder {
-    color: var(--ig-ink-3);
+  .archive-search-wrap input::placeholder { color: var(--text-tertiary); }
+  .archive-search-wrap input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(80,200,120,0.08);
   }
-  .archive-search input:focus {
-    border-color: var(--ig);
-    box-shadow: 0 0 0 4px rgba(0,140,101,0.08);
-  }
-  .archive-search svg {
+  .archive-search-wrap svg {
     position: absolute;
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
     width: 18px;
     height: 18px;
-    color: var(--ig-ink-3);
+    color: var(--text-tertiary);
     pointer-events: none;
   }
   .archive-search-clear {
@@ -216,8 +129,8 @@
     height: 20px;
     border-radius: 50%;
     border: none;
-    background: var(--ig-light);
-    color: var(--ig);
+    background: var(--surface-warm);
+    color: var(--accent);
     font-size: 14px;
     line-height: 1;
     cursor: pointer;
@@ -226,183 +139,30 @@
     justify-content: center;
     padding: 0;
   }
-  .archive-search-clear.visible {
-    display: flex;
-  }
-  .news-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
+  .archive-search-clear.visible { display: flex; }
+
   .archive-scroll-container {
-    max-height: 640px;
+    max-height: 720px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 8px;
     scrollbar-width: thin;
-    scrollbar-color: var(--ig-light) transparent;
+    scrollbar-color: var(--surface-warm) transparent;
   }
-  .archive-scroll-container::-webkit-scrollbar {
-    width: 6px;
-  }
-  .archive-scroll-container::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .archive-scroll-container::-webkit-scrollbar-thumb {
-    background: var(--ig-light);
-    border-radius: 10px;
-  }
-  .archive-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: var(--ig);
-  }
-  .news-card {
-    display: block;
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
-    transition: all 0.35s ease;
-    text-decoration: none;
-    color: inherit;
-  }
-  .news-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  }
-  .news-img {
-    aspect-ratio: 16/10;
-    overflow: hidden;
-    background: #f5f5f0;
-    position: relative;
-  }
-  .news-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-  .news-card:hover .news-img img {
-    transform: scale(1.03);
-  }
-  .news-source {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    padding: 4px 10px;
-    background: rgba(26,26,26,0.85);
-    color: #fff;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    border-radius: 4px;
-  }
-  .news-body {
-    padding: 18px 22px 22px;
-  }
-  .news-title {
-    font-family: var(--font-display);
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.4;
-    color: var(--ig-ink);
-    margin-bottom: 8px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .news-excerpt {
-    font-size: 13px;
-    color: var(--ig-ink-2);
-    line-height: 1.6;
-    margin-bottom: 12px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  .news-meta {
-    font-size: 11px;
-    color: var(--ig-ink-3);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .news-meta .source-link {
-    color: var(--ig);
-    text-decoration: none;
+  .archive-scroll-container::-webkit-scrollbar { width: 6px; }
+  .archive-scroll-container::-webkit-scrollbar-track { background: transparent; }
+  .archive-scroll-container::-webkit-scrollbar-thumb { background: var(--surface-warm); border-radius: 10px; }
+  .archive-scroll-container::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+  .archive-count {
+    font-size: var(--text-sm);
+    color: var(--text-tertiary);
     font-weight: 500;
   }
-  .news-meta .source-link:hover {
-    text-decoration: underline;
-  }
 
-  footer {
-    border-top: 1px solid var(--ig-light);
-    padding: 64px 48px 32px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .footer-main {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr 1fr;
-    gap: 48px;
-    margin-bottom: 48px;
-  }
-  .footer-col {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .footer-col-title {
-    font-family: var(--font-display);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ig-ink);
-    margin-bottom: 4px;
-  }
-  .footer-col a {
-    font-size: 14px;
-    color: var(--ig-ink-2);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .footer-col a:hover { color: var(--ig); }
-  .footer-bottom {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding-top: 24px;
-    border-top: 1px solid var(--ig-light);
-  }
-  .footer-copy {
-    font-size: 13px;
-    color: var(--ig-ink-3);
-  }
-  .footer-legal {
-    display: flex;
-    gap: 24px;
-  }
-  .footer-legal a {
-    font-size: 13px;
-    color: var(--ig-ink-3);
-    text-decoration: none;
-    transition: color 0.3s ease;
-  }
-  .footer-legal a:hover { color: var(--ig); }
-
-  @media (max-width: 900px) {
-    nav { padding: 16px 24px; }
-    .nav-links { display: none; }
-    section { padding: 60px 24px; }
-    .news-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  @media (max-width: 768px) {
+    .page-hero { min-height: 40vh; padding: var(--space-16) var(--page-pad-x) var(--space-10); }
     .archive-scroll-container { max-height: 520px; }
-    footer { padding: 48px 24px 24px; }
-    .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
-    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
-  }
-  @media (max-width: 600px) {
-    .news-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -426,27 +186,30 @@
 </nav>
 
 <div class="page-hero">
-  <div class="page-hero-label">Market Watch</div>
-  <h1 class="page-hero-title">Property News Archive</h1>
-  <p class="page-hero-sub">Past headlines from The Straits Times, CNA, and EdgeProp.</p>
-  <a href="blog.html" class="archive-link">&larr; Back to Pulse</a>
+  <div class="container">
+    <div class="label">Market Watch</div>
+    <h1 class="headline-xl">Property News Archive</h1>
+    <p class="body-lg">Past headlines from The Straits Times, CNA, and EdgeProp.</p>
+    <a href="blog.html" class="back-link">← Back to Pulse</a>
+  </div>
 </div>
 
-<section style="background:#fff;">
-  <div class="section-inner">
+<section class="py-24">
+  <div class="container">
     <div class="section-header">
       <div>
-        <div class="section-subheader">Archive</div>
-        <h2 class="section-title">Past Headlines</h2>
+        <div class="section-label">Archive</div>
+        <h2 class="headline-md">Past Headlines</h2>
       </div>
       <div class="archive-count">42 articles</div>
     </div>
+    <div class="archive-search-wrap">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
+      <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+    </div>
     <div class="archive-scroll-container">
-      <div class="archive-search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-        <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
-        <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
-      </div>
+
       <div class="news-grid" id="archiveGrid">
 
             <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPM1ZkaFRDMmVCUHdQLWxRbjJGZFdCUEJ0dmdYOFV4OVVOOXFmS0FJeHZFM1RIbFlMTWlhYkJfTTVLM2RkdnVzZWlncF9RS2ltUDNkQkNicGZwLXkyTUg3RzRMZ0czWnBLQkxEblFoOFBUVVUwMHduZl9yNGExY0JGUGxyVllJYVgzbU9saGZMcF9adnlERXJLMmZ0MTFaX0tQeW1DVEdQNnBrTEnSAbABQVVfeXFMTkI0UUtjLXJJXzdUN2JmYTdYUF9zTzFlNmVnT0dCTnUtcmxudHZETUpHOUJKMHIwdkZ4c1E1ZHRVaUdPbnVWWXRUWnlEdlktMW9mT1F6ZEw3bkh3aTV4Zy0wR2VnVHM1XzRBc0NZVzJwal8tV0ZmRDhnTzhmVThWdXNSaWUwNFlva1pRSGI5bXhId0RhcmtjelZwczJ0bmJzVS1XTk80cmtaNTc4UzFfb20?oc=5" target="_blank" rel="noopener" class="news-card">
@@ -1129,8 +892,8 @@
 <footer>
   <div class="footer-main">
     <div class="footer-brand">
-      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
-      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">Igniting Journeys</p>
+      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--accent);">INITIUM</div>
+      <p style="font-size:13px; color:var(--text-tertiary); margin-top:8px; max-width:240px;">Igniting Journeys</p>
     </div>
     <div class="footer-col">
       <div class="footer-col-title">Explore</div>
@@ -1203,7 +966,7 @@
         if (!existing) {
           var p = document.createElement('p');
           p.className = 'archive-empty';
-          p.style.cssText = 'color:var(--ig-ink-3); text-align:center; padding:60px 0; grid-column:1/-1;';
+          p.style.cssText = 'color:var(--text-tertiary); text-align:center; padding:60px 0; grid-column:1/-1;';
           p.textContent = 'No articles match your search.';
           grid.appendChild(p);
         }
