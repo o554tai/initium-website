@@ -7,13 +7,10 @@
 <meta name="description" content="Archived property news from The Straits Times, CNA, and EdgeProp.">
 <meta name="theme-color" content="#50C878">
 <link rel="canonical" href="https://initium.sg/news-archive.html">
-<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/components.css">
 <style>
   :root {
     --ig: #50C878;
@@ -29,6 +26,67 @@
   }
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 56px; width: auto; display: block; background: transparent; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
 
   .page-hero {
     position: relative;
@@ -262,10 +320,69 @@
     color: var(--ig-ink-3);
   }
 
+  footer {
+    border-top: 1px solid var(--ig-light);
+    padding: 64px 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-col-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }
+  .footer-col a {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-col a:hover { color: var(--ig); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--ig-light);
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-legal {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-legal a {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-legal a:hover { color: var(--ig); }
+
   @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
     section { padding: 60px 24px; }
     .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
     .archive-scroll-container { max-height: 520px; }
+    footer { padding: 48px 24px 24px; }
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
   }
   @media (max-width: 600px) {
     .blog-grid { grid-template-columns: 1fr; }
@@ -274,23 +391,22 @@
 </head>
 <body>
 
-<nav class="nav" id="nav">
-  <div class="container nav-inner">
-    <a href="index.html" class="nav-logo">INITI<span>U</span>M</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html" class="nav-link" data-page="index">Home</a>
-      <a href="new-launches.html" class="nav-link" data-page="new-launches">New Launches</a>
-      <a href="services.html" class="nav-link" data-page="services">Services</a>
-      <a href="about.html" class="nav-link" data-page="about">About</a>
-      <a href="blog.html" class="nav-link active" data-page="blog">The Post</a>
-      <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
-    </div>
-  </div>
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav-crop.png" alt="INITIUM" height="56" style="background:transparent;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="blog.html">Pulse</a></li>
+    <li><a href="intm-studio.html">INTM Studio</a></li>
+    <li><a href="intm-shop.html">INTM Shop</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
 </nav>
-<div style="height:64px;"></div>
 
 <div class="page-hero">
   <div class="page-hero-label">Market Watch</div>
@@ -306,7 +422,7 @@
         <div class="section-subheader">Archive</div>
         <h2 class="section-title">Past Headlines</h2>
       </div>
-      <div class="archive-count">45 articles</div>
+      <div class="archive-count">42 articles</div>
     </div>
     <div class="archive-scroll-container">
       <div class="archive-search">
@@ -820,137 +936,51 @@
         </div>
       </a>
 
-      <a href="https://news.google.com/rss/articles/CBMi4gFBVV95cUxQREwzeFBVREVtcVk1YXNienBoZENmOFhhcm1GdVE0UWgxaDBDTHJiaDhyM1h2SEUyaWwzT2pfRGN6dkZoT3FtWnlzb0c1bWFYQ3BZb0k2WUM2T1ZUZFhpd0h6aE9rZGwwQnU0ekVfcmpGNXhEMkFpa056Z0I2X2FDeGhJbFEwSllhc0ZvMGVDb2U4N3J0dVpZbDB0TXRwNXAtY292eHVaSWhxZjRPb0d5MzQ5bUo5WURJTW4xRmNINXVZY2lEMXV5OFlPMWhSM0xPVTRzb2RRSEQ0bVhHbHpGM3p3?oc=5" class="blog-card" target="_blank" rel="noopener">
-        <div class="blog-thumb">
-          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
-        </div>
-        <div class="blog-content">
-          <span class="blog-tag">CNA</span>
-          <h3 class="blog-title">CNA938 Rewind - Why more Singapore families are fighting over property</h3>
-          <p class="blog-excerpt">CNA938 Rewind - Why more Singapore families are fighting over property</p>
-          <div class="blog-meta">Mon, 25 May 2026 &middot; Read on CNA</div>
-        </div>
-      </a>
-
-      <a href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxQLWhPSk9qbWU1cEw3c0tpaEgwdmdIVUNLbGp0YUpJdEZad3kxZmJiTFRNQlhWaDRBRVU1Y3pxOWRJV3JVdHo0cUZJajlMUjdraXJSdG9IbTRMWmRsSkhDdVM3TzM4c2s1bmdMMGxIYmpkSnRpQXFhMzhPVDYydkZmQ3Z5VUV5bURKN255MEEzRlZFMHRFUUJQYlBzQXVrYUJKaGptRlJ2S3pvNW94cXFrR1BrekdwaWZpdjYwQkwwYnFTZXhGcWg1LVFZU2tRSE9VSnc?oc=5" class="blog-card" target="_blank" rel="noopener">
-        <div class="blog-thumb">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
-        </div>
-        <div class="blog-content">
-          <span class="blog-tag">ST</span>
-          <h3 class="blog-title">TCL Zhonghuan Launches Next-Generation BC Module at Tianjin Manufacturing Base</h3>
-          <p class="blog-excerpt">TCL Zhonghuan Launches Next-Generation BC Module at Tianjin Manufacturing Base</p>
-          <div class="blog-meta">Mon, 25 May 2026 &middot; Read on ST</div>
-        </div>
-      </a>
-
-      <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxPX0RfTlFnZXdESTVmY08xRXZvUjM0YmFKLWJvZE8xSlprTVVvR1dSZ3FXZW90Q3ZQanlVUzN4aDV4VlFDMmlYeWxQeVE0bEl1VHZxRjlDTlljYjhqMDJJQVhpRkJ1UTQ2YVBHZGpUVzBvTXpKUkI1czByZktWNzU2R0RHQV9PTFhLeGtZWDBzeGJSd1B3WkVTWGxyMGtISk1YN1AzLVpQeDZJd0ZDZTI3VGlITkg0UTM2WGQzNUdPM1VaWlpfeUlfV0gyQVJYS1BOeDVlZGVpaw?oc=5" class="blog-card" target="_blank" rel="noopener">
-        <div class="blog-thumb">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
-        </div>
-        <div class="blog-content">
-          <span class="blog-tag">ST</span>
-          <h3 class="blog-title">SC Unveils Thailand's Most Prestigious Ultra-Luxury Residences for the Global Elite</h3>
-          <p class="blog-excerpt">SC Unveils Thailand's Most Prestigious Ultra-Luxury Residences for the Global Elite</p>
-          <div class="blog-meta">Mon, 25 May 2026 &middot; Read on ST</div>
-        </div>
-      </a>
-
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA Section -->
-<section class="section" style="background: var(--dark); text-align: center;">
-  <div class="container">
-    <div class="label reveal" style="color: var(--accent-light);">Stay in the Loop</div>
-    <h2 class="headline-md reveal" style="color: var(--white); margin-bottom: var(--space-4);">The Market Moves Fast.</h2>
-    <p class="body-lg reveal" style="color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto var(--space-8);">Get the latest guides, market updates, and INITIUM news sent straight to you. No spam. No fluff. Just what matters.</p>
-    <div class="reveal">
-      <a href="contact.html" class="btn btn-primary btn-lg">Join the List</a>
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
+      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">Igniting Journeys</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="new-launches.html">New Launches</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="team.html">Team</a>
+      <a href="join.html">Join Us</a>
+      <a href="blog.html">Pulse</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="https://wa.me/6588464814" target="_blank">WhatsApp</a>
+      <a href="https://www.instagram.com/initium.grp" target="_blank">Instagram</a>
+      <a href="mailto:hello@initium.sg">Email</a>
     </div>
   </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">INITI<span>U</span>M</div>
-        <p class="footer-desc">Built on trust, systems, and the drive to lift everyone higher. Singapore, since 2010.</p>
-        <div class="footer-socials">
-          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </a>
-          <a href="https://www.facebook.com/Initiumsg/" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="TikTok">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-          </a>
-          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.5c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer-nav">
-        <div class="footer-heading">Quick Links</div>
-        <div class="footer-links">
-          <a href="new-launches.html" class="footer-link">
-            <span class="footer-link-title">New Launches</span>
-            <span class="footer-link-desc">Early access to Singapore's latest developments</span>
-          </a>
-          <a href="services.html" class="footer-link">
-            <span class="footer-link-title">Services</span>
-            <span class="footer-link-desc">Buy, sell, invest with precision</span>
-          </a>
-          <a href="about.html" class="footer-link">
-            <span class="footer-link-title">About</span>
-            <span class="footer-link-desc">Our story, team, and culture</span>
-          </a>
-          <a href="blog.html" class="footer-link">
-            <span class="footer-link-title">The Post</span>
-            <span class="footer-link-desc">Market insights and property stories</span>
-          </a>
-          <a href="contact.html" class="footer-link">
-            <span class="footer-link-title">Contact</span>
-            <span class="footer-link-desc">Start a conversation</span>
-          </a>
-          <a href="intm-shop.html" class="footer-link">
-            <span class="footer-link-title">INTM Shop</span>
-            <span class="footer-link-desc">Branded merchandise and tools</span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 INITIUM. All rights reserved.</span>
-      <span>CEA Licence No: L3010858B</span>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2026 INITIUM. Igniting Journeys.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
     </div>
   </div>
 </footer>
 
-<script src="js/nav.js"></script>
 <script>
-  // Simple reveal on scroll
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
+  // Nav scroll effect
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
   });
 
   // Archive search
