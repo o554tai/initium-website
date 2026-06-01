@@ -7,117 +7,204 @@
 <meta name="description" content="Archived property news from The Straits Times, CNA, and EdgeProp.">
 <meta name="theme-color" content="#50C878">
 <link rel="canonical" href="https://initium.sg/news-archive.html">
-<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/base.css">
-<link rel="stylesheet" href="css/layout.css">
-<link rel="stylesheet" href="css/components.css">
 <style>
-  /* Archive page overrides */
+  :root {
+    --ig: #50C878;
+    --ig-dark: #3DA35F;
+    --ig-light: #E8F5EE;
+    --ig-surface: #F7F8F5;
+    --ig-ink: #1A1A1A;
+    --ig-ink-2: #6B7B6E;
+    --ig-ink-3: #A8B5AC;
+    --font-editorial: 'Playfair Display', serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+  nav {
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 1000;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.scrolled {
+    background: rgba(247,249,248,0.92);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid rgba(0,140,101,0.08);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 3px;
+    color: var(--ig);
+    text-decoration: none;
+  }
+  .nav-logo img { height: 56px; width: auto; display: block; background: transparent; }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ig-ink-2);
+    position: relative;
+    padding-bottom: 4px;
+    transition: color 0.3s ease;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom:0; left:0;
+    width: 0; height: 1.5px;
+    background: var(--ig);
+    transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+  }
+  .nav-links a:hover { color: var(--ig); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-links a.active { color: var(--ig); }
+  .nav-links a.active::after { width: 100%; }
+
   .page-hero {
     position: relative;
-    min-height: 45vh;
+    min-height: 40vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: var(--space-24) var(--page-pad-x) var(--space-16);
-    background: var(--dark);
+    padding: 160px 24px 60px;
+    background: radial-gradient(ellipse at 50% 40%, #ffffff 0%, var(--ig-surface) 60%, var(--ig-light) 100%);
     overflow: hidden;
   }
-  .page-hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at 30% 50%, rgba(80,200,120,0.08) 0%, transparent 60%);
-    pointer-events: none;
-  }
-  .page-hero .container { position: relative; z-index: 1; }
-  .page-hero .label {
-    color: var(--accent);
-    font-size: var(--text-sm);
+  .page-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.16em;
-    margin-bottom: var(--space-4);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
   }
-  .page-hero .headline-xl {
-    color: var(--white);
-    margin-bottom: var(--space-4);
+  .page-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 16px;
+    max-width: 700px;
   }
-  .page-hero .body-lg {
-    color: rgba(255,255,255,0.7);
-    max-width: 560px;
-    margin: 0 auto var(--space-4);
+  .page-hero-sub {
+    font-size: clamp(15px, 2vw, 18px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 520px;
+    line-height: 1.7;
   }
-  .page-hero .back-link {
-    color: var(--accent);
-    font-size: var(--text-sm);
-    font-weight: 500;
+  .archive-link {
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ig);
     text-decoration: none;
+    border-bottom: 1px solid var(--ig);
+    padding-bottom: 2px;
     transition: opacity 0.3s ease;
   }
-  .page-hero .back-link:hover { opacity: 0.7; }
+  .archive-link:hover { opacity: 0.7; }
 
-  .section-label {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3);
-    color: var(--accent);
-    font-size: var(--text-sm);
-    font-weight: 600;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    margin-bottom: var(--space-4);
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 24px;
-    height: 2px;
-    background: var(--accent);
-  }
-
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-    margin-bottom: var(--space-10);
-  }
-
-  .archive-search-wrap {
-    margin-bottom: var(--space-8);
+  section {
     position: relative;
-    max-width: 480px;
+    padding: 80px 48px;
   }
-  .archive-search-wrap input {
+  .section-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .section-header {
+    margin-bottom: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .section-subheader {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 700;
+    color: var(--ig-ink);
+    line-height: 1.2;
+  }
+  .archive-count {
+    font-size: 14px;
+    color: var(--ig-ink-3);
+    font-weight: 500;
+  }
+  /* Archive Search */
+  .archive-search {
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .archive-search input {
     width: 100%;
+    max-width: 480px;
     padding: 14px 20px 14px 48px;
     border: 1px solid rgba(0,140,101,0.15);
     border-radius: 16px;
-    background: var(--white);
+    background: #fff;
     font-family: var(--font-body);
     font-size: 15px;
-    color: var(--text-primary);
+    color: var(--ig-ink);
     outline: none;
     transition: all 0.3s ease;
   }
-  .archive-search-wrap input::placeholder { color: var(--text-tertiary); }
-  .archive-search-wrap input:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px rgba(80,200,120,0.08);
+  .archive-search input::placeholder {
+    color: var(--ig-ink-3);
   }
-  .archive-search-wrap svg {
+  .archive-search input:focus {
+    border-color: var(--ig);
+    box-shadow: 0 0 0 4px rgba(0,140,101,0.08);
+  }
+  .archive-search svg {
     position: absolute;
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
     width: 18px;
     height: 18px;
-    color: var(--text-tertiary);
+    color: var(--ig-ink-3);
     pointer-events: none;
   }
   .archive-search-clear {
@@ -129,8 +216,8 @@
     height: 20px;
     border-radius: 50%;
     border: none;
-    background: var(--surface-warm);
-    color: var(--accent);
+    background: var(--ig-light);
+    color: var(--ig);
     font-size: 14px;
     line-height: 1;
     cursor: pointer;
@@ -139,842 +226,737 @@
     justify-content: center;
     padding: 0;
   }
-  .archive-search-clear.visible { display: flex; }
-
+  .archive-search-clear.visible {
+    display: flex;
+  }
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
   .archive-scroll-container {
-    max-height: 720px;
+    max-height: 640px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 8px;
     scrollbar-width: thin;
-    scrollbar-color: var(--surface-warm) transparent;
+    scrollbar-color: var(--ig-light) transparent;
   }
-  .archive-scroll-container::-webkit-scrollbar { width: 6px; }
-  .archive-scroll-container::-webkit-scrollbar-track { background: transparent; }
-  .archive-scroll-container::-webkit-scrollbar-thumb { background: var(--surface-warm); border-radius: 10px; }
-  .archive-scroll-container::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-  .archive-count {
-    font-size: var(--text-sm);
-    color: var(--text-tertiary);
-    font-weight: 500;
+  .archive-scroll-container::-webkit-scrollbar {
+    width: 6px;
   }
-
-  @media (max-width: 768px) {
-    .page-hero { min-height: 40vh; padding: var(--space-16) var(--page-pad-x) var(--space-10); }
-    .archive-scroll-container { max-height: 520px; }
-    .news-grid { grid-template-columns: 1fr; }
+  .archive-scroll-container::-webkit-scrollbar-track {
+    background: transparent;
   }
-
-  /* News grid & cards */
-  .news-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-6);
+  .archive-scroll-container::-webkit-scrollbar-thumb {
+    background: var(--ig-light);
+    border-radius: 10px;
   }
-  .news-card {
-    display: block;
-    background: var(--white);
-    border-radius: var(--radius-sm);
+  .archive-scroll-container::-webkit-scrollbar-thumb:hover {
+    background: var(--ig);
+  }
+  .blog-card {
+    background: #fff;
+    border-radius: 24px;
     overflow: hidden;
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-base);
+    border: 1px solid rgba(0,140,101,0.08);
+    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
     text-decoration: none;
     color: inherit;
+    display: block;
   }
-  .news-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+  .blog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 24px 60px rgba(0,140,101,0.1);
+    border-color: rgba(0,140,101,0.2);
   }
-  .news-img {
-    aspect-ratio: 16/10;
-    overflow: hidden;
-    background: var(--surface-warm);
+  .blog-thumb {
+    height: 220px;
+    background: linear-gradient(135deg, var(--ig-light), var(--ig-surface));
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
+    overflow: hidden;
   }
-  .news-img img {
+  .blog-thumb img {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
   }
-  .news-card:hover .news-img img {
-    transform: scale(1.03);
+  .blog-content {
+    padding: 28px;
   }
-  .news-source {
-    position: absolute;
-    bottom: var(--space-3);
-    left: var(--space-3);
-    padding: var(--space-1) var(--space-2);
-    background: rgba(26,26,26,0.85);
-    color: var(--white);
-    font-size: var(--text-xs);
+  .blog-tag {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--ig-light);
+    color: var(--ig-dark);
+    font-size: 11px;
     font-weight: 600;
     letter-spacing: 0.06em;
-    border-radius: var(--radius-sm);
+    text-transform: uppercase;
+    border-radius: 100px;
+    margin-bottom: 16px;
   }
-  .news-body {
-    padding: var(--space-5) var(--space-6) var(--space-6);
-  }
-  .news-title {
+  .blog-title {
     font-family: var(--font-display);
-    font-size: var(--text-base);
+    font-size: 20px;
     font-weight: 600;
-    line-height: 1.4;
-    color: var(--text-primary);
-    margin-bottom: var(--space-3);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+    line-height: 1.3;
+    color: var(--ig-ink);
+    margin-bottom: 10px;
   }
-  .news-excerpt {
-    font-size: var(--text-sm);
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: var(--space-4);
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  .blog-excerpt {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    margin-bottom: 16px;
   }
-  .news-meta {
-    font-size: var(--text-xs);
-    color: var(--text-tertiary);
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-  }
-  .news-meta .source-link {
-    color: var(--accent);
-    text-decoration: none;
-    font-weight: 500;
-  }
-  .news-meta .source-link:hover {
-    text-decoration: underline;
+  .blog-meta {
+    font-size: 13px;
+    color: var(--ig-ink-3);
   }
 
-  @media (max-width: 1024px) {
-    .news-grid { grid-template-columns: repeat(2, 1fr); }
+  footer {
+    border-top: 1px solid var(--ig-light);
+    padding: 64px 48px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-main {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 48px;
+  }
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-col-title {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ig-ink);
+    margin-bottom: 4px;
+  }
+  .footer-col a {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-col a:hover { color: var(--ig); }
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24px;
+    border-top: 1px solid var(--ig-light);
+  }
+  .footer-copy {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+  }
+  .footer-legal {
+    display: flex;
+    gap: 24px;
+  }
+  .footer-legal a {
+    font-size: 13px;
+    color: var(--ig-ink-3);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .footer-legal a:hover { color: var(--ig); }
+
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 60px 24px; }
+    .blog-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .archive-scroll-container { max-height: 520px; }
+    footer { padding: 48px 24px 24px; }
+    .footer-main { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+  }
+  @media (max-width: 600px) {
+    .blog-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 
-<nav class="nav" id="nav">
-  <div class="container nav-inner">
-    <a href="index.html" class="nav-logo">INITI<span>U</span>M</a>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="nav-links" id="navLinks">
-      <a href="index.html" class="nav-link" data-page="index">Home</a>
-      <a href="new-launches.html" class="nav-link" data-page="new-launches">New Launches</a>
-      <a href="services.html" class="nav-link" data-page="services">Services</a>
-      <a href="about.html" class="nav-link" data-page="about">About</a>
-      <a href="blog.html" class="nav-link" data-page="blog">The Post</a>
-      <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
-    </div>
-  </div>
+<nav id="navbar">
+  <a href="index.html" class="nav-logo">
+    <img src="logo-nav-crop.png" alt="INITIUM" height="56" style="background:transparent;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="new-launches.html">New Launches</a></li>
+    <li><a href="team.html">Team</a></li>
+    <li><a href="join.html">Join Us</a></li>
+    <li><a href="blog.html">Pulse</a></li>
+    <li><a href="intm-studio.html">INTM Studio</a></li>
+    <li><a href="intm-shop.html">INTM Shop</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
 </nav>
-<div style="height:64px;"></div>
 
 <div class="page-hero">
-  <div class="container">
-    <div class="label reveal">Market Watch</div>
-    <h1 class="headline-xl reveal">Property News Archive</h1>
-    <p class="body-lg reveal">Past headlines from The Straits Times, CNA, and EdgeProp.</p>
-    <a href="blog.html" class="back-link reveal">← Back to The Post</a>
-  </div>
+  <div class="page-hero-label">Market Watch</div>
+  <h1 class="page-hero-title">Property News Archive</h1>
+  <p class="page-hero-sub">Past headlines from The Straits Times, CNA, and EdgeProp.</p>
+  <a href="blog.html" class="archive-link">&larr; Back to Pulse</a>
 </div>
 
-<section class="py-24">
-  <div class="container">
+<section style="background:#fff;">
+  <div class="section-inner">
     <div class="section-header">
       <div>
-        <div class="section-label reveal">Archive</div>
-        <h2 class="headline-md reveal">Past Headlines</h2>
+        <div class="section-subheader">Archive</div>
+        <h2 class="section-title">Past Headlines</h2>
       </div>
-      <div class="archive-count reveal">42 articles</div>
-    </div>
-    <div class="archive-search-wrap reveal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-      <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
-      <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+      <div class="archive-count">44 articles</div>
     </div>
     <div class="archive-scroll-container">
+      <div class="archive-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        <input type="text" id="archiveSearch" placeholder="Search keywords... (e.g. HDB, condo, ABSD)" autocomplete="off">
+        <button class="archive-search-clear" id="searchClear" aria-label="Clear search">&times;</button>
+      </div>
+      <div class="blog-grid" id="archiveGrid">
 
-      <div class="news-grid" id="archiveGrid">
-
-            <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPM1ZkaFRDMmVCUHdQLWxRbjJGZFdCUEJ0dmdYOFV4OVVOOXFmS0FJeHZFM1RIbFlMTWlhYkJfTTVLM2RkdnVzZWlncF9RS2ltUDNkQkNicGZwLXkyTUg3RzRMZ0czWnBLQkxEblFoOFBUVVUwMHduZl9yNGExY0JGUGxyVllJYVgzbU9saGZMcF9adnlERXJLMmZ0MTFaX0tQeW1DVEdQNnBrTEnSAbABQVVfeXFMTkI0UUtjLXJJXzdUN2JmYTdYUF9zTzFlNmVnT0dCTnUtcmxudHZETUpHOUJKMHIwdkZ4c1E1ZHRVaUdPbnVWWXRUWnlEdlktMW9mT1F6ZEw3bkh3aTV4Zy0wR2VnVHM1XzRBc0NZVzJwal8tV0ZmRDhnTzhmVThWdXNSaWUwNFlva1pRSGI5bXhId0RhcmtjelZwczJ0bmJzVS1XTk80cmtaNTc4UzFfb20?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxPcmFVNTlHbGFiWFRjbWo0YVkxVUhacnNfQkpQQ283R01jWHJHU0dKRkR1Mm5sUEhwMERNbHA4Z0xQTGJPbE4xcDcyVE9XY1N1ZWs2ek1faFFtakluM3RGaWI0OUwxQ29EVWVNQ3Z0OC1ySXl5alhjSWpMMVFadmtEc1Z1NUgxbF85dVJTdEdfSmdtbEY5V0I3TldiT2dLVUJvWU5xRFIyNzIwU1diWkZXYXBfRHYxdlRrMnRRZEpPZVF2SjJEYmc?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Sevens Group is unveiling its highly anticipated collection of landed homes</h3>
-          <p class="news-excerpt">Sevens Group is unveiling its highly anticipated collection of landed homes</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Foreign-owned homes in South Korea top 108,000; Chinese nationals hold more than half</h3>
+          <p class="blog-excerpt">Foreign-owned homes in South Korea top 108,000; Chinese nationals hold more than...</p>
+          <div class="blog-meta">Sat, 30 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOWjV4Sm5OdEVJSVMwZE1iQ3VfYU9YczI0OEpYMzgxTHVuMTBMSkxfU3JrcF9nYU5BeURET1JrV1BoRHZobk9kMklzZ1h4WFEydk85Vi1aRTFTb3JfdUhmMW5mRWhhR3czUW9MZmpJRGx1ODVoRXVSa3lnT2NJVmhxTGJGaUdydkNXS1BDQUhreDdZLWFYeGJPc3N6bExaalJiV1ZZSFpIdGVkVUFMcS1z0gG0AUFVX3lxTFBVOHNwYWlrd2VOcE83dm9mekpiVzVtclh2VWgyWnFEbmc0SDlJV0IzZU9FaXZhY3hyWXVRcUNybFBsZ2VlTFdjQ3VMUEphQXBpMDVCTDZNTkx5OTRudDg3NzBORXhRek81N1EzYlhOX213Q282SnZRcjNtckZvaVlhZTEtcVJ5VmlnQUR5a1JjRHVYSmNWRDVHdlZzTktON3B6OW9ONnpmN2YyRGh0dk5mMHJwVw?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxNMmtaSk03YlRWTjVCdVlDcVlQdFNIQW1NcTkyUWIzcnd0dVByRzJFU0oyNG9uYjlEci1NUkJoemZ0RUcwbGNWZWhWVUI2dVY4MkxwNmFUOXQyZkpuWFU0TFlYbmdfbUhFUDdmaHpXN3ZHY3AxcmoxZURCMnhZVC1yOFkxTzlUUGhBNWhpcVZFV3d4d2RJZWRVNzNtTjlKa085c1E?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Prices of non-landed private homes inched down 0.1% m-o-m in April: NUS estimates</h3>
-          <p class="news-excerpt">Prices of non-landed private homes inched down 0.1% m-o-m in April: NUS...</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">ABSD avoidance: How investors lost property claims</h3>
+          <p class="blog-excerpt">ABSD avoidance: How investors lost property claims</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQT3VmUXBjYy1Bd0xDUmgtMjc4N04yMk9xZ2lJV0V4TWJMajNZTEdTWHlfbTJnQzV3VHBXNEZkRFE2dmN0TnZHZTJhQVpVSERJSlU2Q3FwWkpuSE1TVUVRSGNFb0tKZFN2d0ttUGdOb1N1eWJWREhId1FFOFljeVRVN1hPT2FlV1hFbXhCX09yMExGVGdtUHp6UVIyREZaMk9BXzhycmJic2ItSk56VGpoVWp2T1pwZndp0gG-AUFVX3lxTFA3MDVSSXVUWTRCSmVFOC1qR0NFejY2QTRhN1ByQmJ3d0lELVMtNkYtcTNmVGcyUDRyNTRNZ08wWnpEN0t6X1FCd0lZZWVJUnZ1M3hjWmtsWjhDaEZLQS1SMzZQNFF5TEQ3LWk0RWJRNnBuOVBuRGRvUXNndVJlT0lUaTJNVHlIWWFhTHhnOGpNMlBKNWJEcWtCLUdnVEVqNDFXaGwwY2o1X2hlT2ZFUVdIY3V5aFJ3eHp5M24zUUE?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMivgFBVV95cUxPaHFfcTNGa1llRjIzc2EyeGJhU1lfNzU3SmhfTVJLX0syajR1OEY3ZXBmUlhaV1dPVDR6dTAycEdTb1B4ZWFYQzlYWS1rT2lJdXhQZ1FFa3o3U3lya1BiS3dwM0Y5UEZnS2FyOFdNOHlKOV85ekxlZnduYTZqdUNsbEJGU1JhNEFGNk9OSS1vb1dXb2VreEZxWVlER21UTDBKdTFCdnFGLURULVZ3a0dFMVVkUVNOcVZ3MmcxQVNB?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">IOI Properties 3Q profit soars on stronger Singapore contributions, land sale gains</h3>
-          <p class="news-excerpt">IOI Properties 3Q profit soars on stronger Singapore contributions, land sale gains</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">ABSD avoidance: How investors lost property claims</h3>
+          <p class="blog-excerpt">ABSD avoidance: How investors lost property claims</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxPMVVPVEtUN003ZHlXNUhxeTdSVjhsYUpXc3BDRWRwWmRKSzhtV00yQ1RyS3BsMUp5VXU1YV9ES2NYWEZuZkpDX2xyeW0ySEVkV01ISGxKRlVtQWdkZXQ1S1hwdURCNHFlOFNVQXRoV014cHhaRTNVSERvV3oxUEhHSk9UVkhaMFlhdXJCelNYdU42RV9jR001aFpfS0FDQktJMWNoLUkwd29nZDNlMUVrSkVsMGx1dEZqRmIzODRDeHQzXzFLZ2tz0gHMAUFVX3lxTE5hdXhMMzJEelpsdjh3Zy11SGQwa1BudGpTT0czQ1RnbzQ0cDFWWEE1ODA0TGdpeV9FXzlZSTAxWHRHcDVUMWl5OUZUMEJsZmhDTTF0OG01SGpCdmlYbXFBel9tN2J0U2RSLWhBOW9uaU9SNjRmalRsNEhLaGRBazJZSVpCRjBqN3d5MTlKT0Z3QldxLWl4MUFTX3pxOTdxSU1SOHBNTkJVUFg1SWlPQ1lieG5hVmNuTFNGd09DVEdFWW52VlQxT2xjZXNIRg?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMixgFBVV95cUxOZTB0aHlqOWNZSFJ3ampSZEdVTHdXS082QXVJVktvOGROS0lvYm5xMGdBUjZNVUU4V21fMHFhU1pWNWZyYVdCbkdQME9XR0Y2Z2NMalhUaXV4Z1pHakFtcGlwT3h0S2VtaFNfUFkzSDJQSnBlNmZZdkFWY3pWdE0zenhXOWlWVkhodTg3Y2hJRVdWYzdhLXc0c1hrTGZ5STROSm9GZ1pOSklnN2gxcnB1MEhyNlN5a0FTUDJCV3VybVNBTGVPaVE?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">South Korea's rental housing sector draws planned US$300 mil flexible living, build-to-...</h3>
-          <p class="news-excerpt">South Korea's rental housing sector draws planned US$300 mil flexible living, build-to-rent...</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Louisiana approves new US House map eliminating Democratic majority-black seat</h3>
+          <p class="blog-excerpt">Louisiana approves new US House map eliminating Democratic majority-black seat</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPbktSVlRBOTN5YXI1YVNVV2dxZlZ6TFNBUm0xMF81LW0tZEtWYzVyT252V3R0bXRTeXZDbDFPRmxMNVRhdDB2NFZFUW82STNRZmU4S3NxeUVEZjhJRmxOTFp4RzZBaFNQMkRZY1VRRU5BaGtFeFBwdTl2Z29PN0E2WGQxMzFHV1hPanBhWkZnaURlbWs0NnR3QXByVdIBoAFBVV95cUxOOVZjY0x6OHU3R05XY0lZWDZMTnltR0FRaUQxVWVLeVFlSlNfX0R4a1N0amNnbXFyY0Q0bkhSQno2YXJwRjRCR0l0MDlxUWNXc1hXUF9jRFBCYzRJRjdxX1ZaNjhOQXZMWU1WUmtjUE1JTWx5ZTJsanJaMElEX0EySHBMb2w2M3dLVUNPVmhfcjRUcmRNczZkODI2S2VmZURr?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMiT0FVX3lxTE1YVWZVcWhwajIzcUtISFVXMzlIQXVhSGNRbjFjbm8yX0JFX24yVnc0TlA0ckQ2R19ka3BJM1lNU2VKcU1yTGVGQlJMRDNXVXc?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Why your real estate strategy needs an audit, not a sales pitch</h3>
-          <p class="news-excerpt">Why your real estate strategy needs an audit, not a sales pitch</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Latest Singapore News & Headlines, Top Stories Today</h3>
+          <p class="blog-excerpt">Latest Singapore News & Headlines, Top Stories Today</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxNNDhYT2JGUTJYdUtoZUlvQ2F0OG83RFgtTXhNR1JjS1cwcEl6YXRoOWZwLVdaXzFMMDk0cGs2RGt1ZnZwa0U0UWpnRS04c0lzSFF5bTg2TlR6VHJocEM3ZFlsQVc2eDRSOHlsZFFsSFJpYWhGV2pjNHVQNmNtWm5FSnhNMDZRUWt0SnBCMGFpMnBTd1NZNWVfemZFUEhaVTUyWHdLQlVYcF9Od0dlLTh3NHJqbmlKMlhLSG92SUhsZ29laWPSAcgBQVVfeXFMT2NiMUhfWktXWmNOM0xQajZkaTdITVRqem5CNjRNRzBaX0NBclVHd1VZSWhvVHE4d21yNm9CSUJBQTBHX2EzZVhsd2pjWFd4b3dkZXhkVjh1NXR2bXJrTHgtSXlnQzhaOHU4Y1lkRmtfYWtJMVktc2FsVzd6WDBQSHNYN2o4dVZIcnlQdWNMU01HMU5FaE9VdkdJb1pqX3doc3B5aDVoalNzZ2kyTXc0NTgzS2ZJWWZ0TnhrcHRmeG5lUElGdUVrZXU?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMiygFBVV95cUxNd0hvQUhkMVFlcTJJN2hUa2FUeHhVWUJXR0VmVzM0X1Z2d3Y3UWhHYmRtd0o0SmRxdnlGYjc3Vnp0U05TbTI5WE5yWUtqX0NsaGp2Z05BRDZza2lkMEFxeVRNNndsaFBxdl9SWERrcnpYM3JSZDlheTA0T3dyQ0NIcmhFbGVOUmExdEdyUDB0Z1l0d2JxdWVmczRTX0dtajgydzBXR0NqMkFDcHJBaEsyS3J4OXlBeXY3Q0FmaUpBYV9jYVN1NktUcmN3?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">A three-room flat in Queenstown was just sold for $900,000, setting a new record high f...</h3>
-          <p class="news-excerpt">A three-room flat in Queenstown was just sold for $900,000, setting a...</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Man taken to hospital unconscious after minibus crashes, knocks over lamp post in Bukit...</h3>
+          <p class="blog-excerpt">Man taken to hospital unconscious after minibus crashes, knocks over lamp post...</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxOWmZMc0JUOExJRnVBY3hEZDdGRmNwWXU4UEtYNDZ0ckNYYWF1YTVRS094ZC0zS0pRcU1WakkyLWhDRG9QVlpDSno0YVlFdUxLZmMtOW9FUTFOS2ZtSkdXY1ZtemJYYmpfanZ0ejc2bVZOa045OU1kaEx5d1NSVzFTQmhtMkFJNmhib05nT1lhNm16MjJzaWFBU2kyYzFLOGdzd2FSQ09TNjhka0JnaTJQa2dDNHItMVdWcjZ6cy1iWQ?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxPM1ZkaFRDMmVCUHdQLWxRbjJGZFdCUEJ0dmdYOFV4OVVOOXFmS0FJeHZFM1RIbFlMTWlhYkJfTTVLM2RkdnVzZWlncF9RS2ltUDNkQkNicGZwLXkyTUg3RzRMZ0czWnBLQkxEblFoOFBUVVUwMHduZl9yNGExY0JGUGxyVllJYVgzbU9saGZMcF9adnlERXJLMmZ0MTFaX0tQeW1DVEdQNnBrTEnSAbABQVVfeXFMTkI0UUtjLXJJXzdUN2JmYTdYUF9zTzFlNmVnT0dCTnUtcmxudHZETUpHOUJKMHIwdkZ4c1E1ZHRVaUdPbnVWWXRUWnlEdlktMW9mT1F6ZEw3bkh3aTV4Zy0wR2VnVHM1XzRBc0NZVzJwal8tV0ZmRDhnTzhmVThWdXNSaWUwNFlva1pRSGI5bXhId0RhcmtjelZwczJ0bmJzVS1XTk80cmtaNTc4UzFfb20?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">OKP bags $165.3 mil contract to build and upgrade lift shafts, pedestrian bridges, link...</h3>
-          <p class="news-excerpt">OKP bags $165.3 mil contract to build and upgrade lift shafts, pedestrian...</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Sevens Group is unveiling its highly anticipated collection of landed homes</h3>
+          <p class="blog-excerpt">Sevens Group is unveiling its highly anticipated collection of landed homes</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxQc3B0MS1mYVJlVVltZ0xDYV9WUDA5TzFUM2JaY3BkZWNQT0dmZ3ByTTVfS0k2dHBMRnZhdl9JUk5VN2g1d1pVeVc5S05uQnB0cWpyVG5Hb3BQOVhyQnhNSXBPUlVrNmRodmhnd0lielRIU1JVSmZTS3R4NV9FcmFqS0RsNkFKUVVGUmlrTFhQSUpWNHlyMjBvZFREMzc3bWF1X1dXd2J2cVJDNkFVOER3ZThucFpoOXfSAbwBQVVfeXFMUEQxZ29KYWtOYllvWTJKWUNxYXV4S2FCbXVHcG5HMkp1NDlCWS1JNHR0dVI4NHhKd3RMVnB0V0xUSXhHYnZMbXhxci01UDVMQUozR3ktTnY1TDRpQzN1QTRJLURVV2MxSHdxSjJKT0xyaXlIV08yTmlsZWpxUVU5ZDVoS1FxS2FyNUtQNmtIN1lCQnU1V3ctTVp3cDZrZHFCNTNuNDBlVzNDQ3k4T0FCaWV1d1BXTVpkVFYxR3M?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxOWjV4Sm5OdEVJSVMwZE1iQ3VfYU9YczI0OEpYMzgxTHVuMTBMSkxfU3JrcF9nYU5BeURET1JrV1BoRHZobk9kMklzZ1h4WFEydk85Vi1aRTFTb3JfdUhmMW5mRWhhR3czUW9MZmpJRGx1ODVoRXVSa3lnT2NJVmhxTGJGaUdydkNXS1BDQUhreDdZLWFYeGJPc3N6bExaalJiV1ZZSFpIdGVkVUFMcS1z0gG0AUFVX3lxTFBVOHNwYWlrd2VOcE83dm9mekpiVzVtclh2VWgyWnFEbmc0SDlJV0IzZU9FaXZhY3hyWXVRcUNybFBsZ2VlTFdjQ3VMUEphQXBpMDVCTDZNTkx5OTRudDg3NzBORXhRek81N1EzYlhOX213Q282SnZRcjNtckZvaVlhZTEtcVJ5VmlnQUR5a1JjRHVYSmNWRDVHdlZzTktON3B6OW9ONnpmN2YyRGh0dk5mMHJwVw?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Generations @ Tannery offers rare freehold industrial space with a values-driven vision</h3>
-          <p class="news-excerpt">Generations @ Tannery offers rare freehold industrial space with a values-driven vision</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Prices of non-landed private homes inched down 0.1% m-o-m in April: NUS estimates</h3>
+          <p class="blog-excerpt">Prices of non-landed private homes inched down 0.1% m-o-m in April: NUS...</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNMXR1blJGcUZVeHA1R21JT25jRll5YTNkbHpOWVVmcmRIME5zMWRSYzdqVnh5c2RtYkhDeDZ1WlV3RlFyLW50OGZQZFRrcUgwaEtVaGJkSjZybDJSTWctVkxEb0g4YkF5LThxWXZCcHpqN0ZiTWZIbXNMTUU5LVJqekliTmdSRXJRcUU3Si1GX0lmY0tra3RxOGp6UHUxZEJPUlRDeW9FUGFRV0dyVlExS2dnZWxpSDJ2TXR3?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQT3VmUXBjYy1Bd0xDUmgtMjc4N04yMk9xZ2lJV0V4TWJMajNZTEdTWHlfbTJnQzV3VHBXNEZkRFE2dmN0TnZHZTJhQVpVSERJSlU2Q3FwWkpuSE1TVUVRSGNFb0tKZFN2d0ttUGdOb1N1eWJWREhId1FFOFljeVRVN1hPT2FlV1hFbXhCX09yMExGVGdtUHp6UVIyREZaMk9BXzhycmJic2ItSk56VGpoVWp2T1pwZndp0gG-AUFVX3lxTFA3MDVSSXVUWTRCSmVFOC1qR0NFejY2QTRhN1ByQmJ3d0lELVMtNkYtcTNmVGcyUDRyNTRNZ08wWnpEN0t6X1FCd0lZZWVJUnZ1M3hjWmtsWjhDaEZLQS1SMzZQNFF5TEQ3LWk0RWJRNnBuOVBuRGRvUXNndVJlT0lUaTJNVHlIWWFhTHhnOGpNMlBKNWJEcWtCLUdnVEVqNDFXaGwwY2o1X2hlT2ZFUVdIY3V5aFJ3eHp5M24zUUE?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Romania says Russian drone hit block of flats in Galati injuring two</h3>
-          <p class="news-excerpt">Romania says Russian drone hit block of flats in Galati injuring two</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">IOI Properties 3Q profit soars on stronger Singapore contributions, land sale gains</h3>
+          <p class="blog-excerpt">IOI Properties 3Q profit soars on stronger Singapore contributions, land sale gains</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxNS0pBR3MtQUV3WmNkN1FCNHlHVGM5cnc3MzNTMkI5NXg1Z3BFSmJzV1ZFbkY5Vm5mSS1EbHVyQmVSQ1Bwc3l1cEwwcV94OVZodzdBaXFudkN6VVUtdmhYNFZjd1ZfQVVzYmd0X01iejIwT3MydFptWnVDMnJmQXhhamJvN1VkQ1lEUWVNUDBVa05Zd3JERENHWDdJMEZZbTBFdDAzVElPeUNDYmJ6NHVYVDNiajdKZVpnNHfSAb8BQVVfeXFMUFExVzJGRlpzLWtoTnBOZXhUS19QM0dMVEdyVm5qSU1hbERqRm56dWhDbE1CSlc4UDY3VWc4bVNtYXRINlJJRkpScmhnYU9US2xnejIzbkI2MU5abnljU29nRWhVRzZsbF82ZjdPX2NnSGdGQWR2TzMzLUs4aXpnSDFxal9yMmZWRFJSRVZlNU5iWkZkbUtkMUZtUUtlZ3BLVDFqa3FGZVl4OC1yUDhrdkszbzhEdVoxZ2N5aTh4MVE?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMixwFBVV95cUxPMVVPVEtUN003ZHlXNUhxeTdSVjhsYUpXc3BDRWRwWmRKSzhtV00yQ1RyS3BsMUp5VXU1YV9ES2NYWEZuZkpDX2xyeW0ySEVkV01ISGxKRlVtQWdkZXQ1S1hwdURCNHFlOFNVQXRoV014cHhaRTNVSERvV3oxUEhHSk9UVkhaMFlhdXJCelNYdU42RV9jR001aFpfS0FDQktJMWNoLUkwd29nZDNlMUVrSkVsMGx1dEZqRmIzODRDeHQzXzFLZ2tz0gHMAUFVX3lxTE5hdXhMMzJEelpsdjh3Zy11SGQwa1BudGpTT0czQ1RnbzQ0cDFWWEE1ODA0TGdpeV9FXzlZSTAxWHRHcDVUMWl5OUZUMEJsZmhDTTF0OG01SGpCdmlYbXFBel9tN2J0U2RSLWhBOW9uaU9SNjRmalRsNEhLaGRBazJZSVpCRjBqN3d5MTlKT0Z3QldxLWl4MUFTX3pxOTdxSU1SOHBNTkJVUFg1SWlPQ1lieG5hVmNuTFNGd09DVEdFWW52VlQxT2xjZXNIRg?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">QIP eyes Asia Pacific expansion across hospitality, student housing and co-living</h3>
-          <p class="news-excerpt">QIP eyes Asia Pacific expansion across hospitality, student housing and co-living</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">South Korea's rental housing sector draws planned US$300 mil flexible living, build-to-...</h3>
+          <p class="blog-excerpt">South Korea's rental housing sector draws planned US$300 mil flexible living, build-to-rent...</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPd01CTy16bXVtQ2kybkhtalBvbzI5bDhIenB3ZnpTZUw4MmllUkdPY1Q0cHFFVnpBTHVJbUxCcHA5MjN3SG9KRVp4RWhiTlJpLTVudmxJSHc0X1NCd1BKRkhGSlFUUnFGTkg1ZWIyMzU1TVpvcFFBWFpRaFJUMmVpMTNWRF9Ud2hxSjhNZ0J1Yl9NMkhBSFo3QVV1ODk0czJH0gGmAUFVX3lxTE5LV0FySjJjYnViVnpEdTQxSklEeUVqUVJpMmZnSGd6bWJZU19GT25YS21vdWQwMlNYTzNSa2xnU3EtRmN1a0FJRkVaYzJrUWhHVVRhak5ianc4bUhCRlZEck9YMmVmOTlrbVFJeWRhMkpfYUFyNFNtbUFobDdHT0VxMDduV2FYNnREYUM5QVd0VG8yUEoyQVdTRnBvMnJBejlicXNlSlE?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPbktSVlRBOTN5YXI1YVNVV2dxZlZ6TFNBUm0xMF81LW0tZEtWYzVyT252V3R0bXRTeXZDbDFPRmxMNVRhdDB2NFZFUW82STNRZmU4S3NxeUVEZjhJRmxOTFp4RzZBaFNQMkRZY1VRRU5BaGtFeFBwdTl2Z29PN0E2WGQxMzFHV1hPanBhWkZnaURlbWs0NnR3QXByVdIBoAFBVV95cUxOOVZjY0x6OHU3R05XY0lZWDZMTnltR0FRaUQxVWVLeVFlSlNfX0R4a1N0amNnbXFyY0Q0bkhSQno2YXJwRjRCR0l0MDlxUWNXc1hXUF9jRFBCYzRJRjdxX1ZaNjhOQXZMWU1WUmtjUE1JTWx5ZTJsanJaMElEX0EySHBMb2w2M3dLVUNPVmhfcjRUcmRNczZkODI2S2VmZURr?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Residential transactions with contracts dated May 12 to 17 [DONE DEALS]</h3>
-          <p class="news-excerpt">Residential transactions with contracts dated May 12 to 17 [DONE DEALS]</p>
-          <div class="news-meta">
-            <span>Fri, 29 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Why your real estate strategy needs an audit, not a sales pitch</h3>
+          <p class="blog-excerpt">Why your real estate strategy needs an audit, not a sales pitch</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxON3VIWGdfakdueFVxYjJ1ZndfbjdBM3U5TENpSnQ5cG05LXNUNEx5bkhjZk9kN0luZS1GUmxvbEYxWm9Tel84LWtnN0ZfdHdiQ09vMzZ0dDBfM29KQXFITGtTM3BaUmJkQnp6bDNCWG1DOVZvS0FHS0tfQ1gxdXJWcnJndmRzWW45dmdlSjJ3b3FESHBnb1pKT0JDZElqSjJpeXpBTkVVVQ?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiwwFBVV95cUxNNDhYT2JGUTJYdUtoZUlvQ2F0OG83RFgtTXhNR1JjS1cwcEl6YXRoOWZwLVdaXzFMMDk0cGs2RGt1ZnZwa0U0UWpnRS04c0lzSFF5bTg2TlR6VHJocEM3ZFlsQVc2eDRSOHlsZFFsSFJpYWhGV2pjNHVQNmNtWm5FSnhNMDZRUWt0SnBCMGFpMnBTd1NZNWVfemZFUEhaVTUyWHdLQlVYcF9Od0dlLTh3NHJqbmlKMlhLSG92SUhsZ29laWPSAcgBQVVfeXFMT2NiMUhfWktXWmNOM0xQajZkaTdITVRqem5CNjRNRzBaX0NBclVHd1VZSWhvVHE4d21yNm9CSUJBQTBHX2EzZVhsd2pjWFd4b3dkZXhkVjh1NXR2bXJrTHgtSXlnQzhaOHU4Y1lkRmtfYWtJMVktc2FsVzd6WDBQSHNYN2o4dVZIcnlQdWNMU01HMU5FaE9VdkdJb1pqX3doc3B5aDVoalNzZ2kyTXc0NTgzS2ZJWWZ0TnhrcHRmeG5lUElGdUVrZXU?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Top seed Sabalenka survives first set wobble to beat Jacquemot</h3>
-          <p class="news-excerpt">Top seed Sabalenka survives first set wobble to beat Jacquemot</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">A three-room flat in Queenstown was just sold for $900,000, setting a new record high f...</h3>
+          <p class="blog-excerpt">A three-room flat in Queenstown was just sold for $900,000, setting a...</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxQbzZMR1REa1lHU3MxaUpIVGRkbk1PYnh3NUREc05tWHhJQTkzem5YUEo3R2NRNFV3ZFprcnZOeUFta1prcDZlMm9QaEJtZjJoVEQ0cE11R1poWGhSdnlsZEZpbzZ3cUFVUTVjbzlsVlVoTm5FbmJuZ2NsaUZaWWxBMUZGaGZYR0Zybl9IZWROXzh5eE56LU5PWWtVZ1ZkZzItcGhkU1J0eW9MZ1B0c2lGdFc5ZjFqaERnTVE?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxOWmZMc0JUOExJRnVBY3hEZDdGRmNwWXU4UEtYNDZ0ckNYYWF1YTVRS094ZC0zS0pRcU1WakkyLWhDRG9QVlpDSno0YVlFdUxLZmMtOW9FUTFOS2ZtSkdXY1ZtemJYYmpfanZ0ejc2bVZOa045OU1kaEx5d1NSVzFTQmhtMkFJNmhib05nT1lhNm16MjJzaWFBU2kyYzFLOGdzd2FSQ09TNjhka0JnaTJQa2dDNHItMVdWcjZ6cy1iWQ?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">French parliament backs repeal of slavery-era edicts, dodges reparations call</h3>
-          <p class="news-excerpt">French parliament backs repeal of slavery-era edicts, dodges reparations call</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">OKP bags $165.3 mil contract to build and upgrade lift shafts, pedestrian bridges, link...</h3>
+          <p class="blog-excerpt">OKP bags $165.3 mil contract to build and upgrade lift shafts, pedestrian...</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxOazlCQ3Bub0RBR1l0bUNoa2NIN3lqOTR4cUdWN3JyQktDdDM0ZFlZSlYwa2cySHlzT2hFVnlCMGh1a0NMZUJ5SWpZMjNBR051YTVQaEhxaHptUGJSdUlPNmNkbVFtRkhHRGFfWVlTVzJVNEQ0OE9oa2ZnOFM1eDYtRGZKTERlRkhnZE04TEpNeF9pNXhnMVlBWk1FQzdHZ9IBowFBVV95cUxNXzRSck5yZ2RPTnpyVjllWnFGaHVobVo4T1g4bFYzZHhLMG1KdE5pYlRBcFFZQzRiRWRLeTlsY2NtNE15Qi1LN2kzQlRTS05GZWZXekd4STRPT200SUtvanUzakNKZVZfYUhXX2R3amY0TC1qaWVta3lZaTFfRXNGQi1HNTJGVlNQSXJ6RzF2UVZNY2plSU9kUXVIOE9CMlU4bmg0?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxQc3B0MS1mYVJlVVltZ0xDYV9WUDA5TzFUM2JaY3BkZWNQT0dmZ3ByTTVfS0k2dHBMRnZhdl9JUk5VN2g1d1pVeVc5S05uQnB0cWpyVG5Hb3BQOVhyQnhNSXBPUlVrNmRodmhnd0lielRIU1JVSmZTS3R4NV9FcmFqS0RsNkFKUVVGUmlrTFhQSUpWNHlyMjBvZFREMzc3bWF1X1dXd2J2cVJDNkFVOER3ZThucFpoOXfSAbwBQVVfeXFMUEQxZ29KYWtOYllvWTJKWUNxYXV4S2FCbXVHcG5HMkp1NDlCWS1JNHR0dVI4NHhKd3RMVnB0V0xUSXhHYnZMbXhxci01UDVMQUozR3ktTnY1TDRpQzN1QTRJLURVV2MxSHdxSjJKT0xyaXlIV08yTmlsZWpxUVU5ZDVoS1FxS2FyNUtQNmtIN1lCQnU1V3ctTVp3cDZrZHFCNTNuNDBlVzNDQ3k4T0FCaWV1d1BXTVpkVFYxR3M?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">JTC launches B2 industrial GLS site at 6 Tuas Avenue 14 for tender</h3>
-          <p class="news-excerpt">JTC launches B2 industrial GLS site at 6 Tuas Avenue 14 for...</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Generations @ Tannery offers rare freehold industrial space with a values-driven vision</h3>
+          <p class="blog-excerpt">Generations @ Tannery offers rare freehold industrial space with a values-driven vision</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxOWlF5RDBZQmJPWm1OaWtHbFdRenllU0hNSzJTWjI5N2owZVI1VVQ5WGx3QU5MYndxa2xleGxSZW5iTTc4REt4TmEwUkNDNjVUQzVOLU9hRGlIVy1RaVBMSlhvMzlJYkR0LW5DWE9oRmMyZFctTFExVl9EVjhmZTlTazBPRnJGQlItLUFsQUJKYmY2NWludlp0RWZhMzA2S3EwUU5WaDloWE5FekY3S2FnMXpaSEpSU094NXU0?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA" loading="lazy">
-          <span class="news-source">CNA</span>
+      <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxNMXR1blJGcUZVeHA1R21JT25jRll5YTNkbHpOWVVmcmRIME5zMWRSYzdqVnh5c2RtYkhDeDZ1WlV3RlFyLW50OGZQZFRrcUgwaEtVaGJkSjZybDJSTWctVkxEb0g4YkF5LThxWXZCcHpqN0ZiTWZIbXNMTUU5LVJqekliTmdSRXJRcUU3Si1GX0lmY0tra3RxOGp6UHUxZEJPUlRDeW9FUGFRV0dyVlExS2dnZWxpSDJ2TXR3?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Entrata reveals 23% revenue jump as real estate software firm files for US IPO</h3>
-          <p class="news-excerpt">Entrata reveals 23% revenue jump as real estate software firm files for...</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on CNA &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Romania says Russian drone hit block of flats in Galati injuring two</h3>
+          <p class="blog-excerpt">Romania says Russian drone hit block of flats in Galati injuring two</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxQVmVROTZLNTlZaURqdVlkaXotbXBYN3JyYlpja2RqemhGNktScWptd0UwRlM0eDJ0bXBrakJfcWdFemhTYnJMTEtBUi02VGNTYTJmQm1fZGNmN2VVMDk2Q05JajBZSHRFY3JJNS10UDdQekROWFl1dF9zalNnZjlsYUtXV09odlpOMHFKUmNGcmR0N3BZQWxOcWZLVdIBoAFBVV95cUxQQ3RpcUhzNmh2R2d2TElZTDJwNDBYVjk4aFl0aWx2aFc2S29zaU9mRlZSeUlmTFpHUDJXc0s3Ry0yMjd3QTdtcl82ZHBDSmVjeHByeDhFM3E3ZFBsRVRiY3JWbHQwbkxDemdjR0M2djRDajh2Z1pwSWM5V0hsejJyOVpXNjZzT2JNNThZR2lOXzM4eDR6aDAzWTNERENSUjJs?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxNS0pBR3MtQUV3WmNkN1FCNHlHVGM5cnc3MzNTMkI5NXg1Z3BFSmJzV1ZFbkY5Vm5mSS1EbHVyQmVSQ1Bwc3l1cEwwcV94OVZodzdBaXFudkN6VVUtdmhYNFZjd1ZfQVVzYmd0X01iejIwT3MydFptWnVDMnJmQXhhamJvN1VkQ1lEUWVNUDBVa05Zd3JERENHWDdJMEZZbTBFdDAzVElPeUNDYmJ6NHVYVDNiajdKZVpnNHfSAb8BQVVfeXFMUFExVzJGRlpzLWtoTnBOZXhUS19QM0dMVEdyVm5qSU1hbERqRm56dWhDbE1CSlc4UDY3VWc4bVNtYXRINlJJRkpScmhnYU9US2xnejIzbkI2MU5abnljU29nRWhVRzZsbF82ZjdPX2NnSGdGQWR2TzMzLUs4aXpnSDFxal9yMmZWRFJSRVZlNU5iWkZkbUtkMUZtUUtlZ3BLVDFqa3FGZVl4OC1yUDhrdkszbzhEdVoxZ2N5aTh4MVE?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Four-bedder at Nassim Park Residences garners $2.95 mil profit</h3>
-          <p class="news-excerpt">Four-bedder at Nassim Park Residences garners $2.95 mil profit</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">QIP eyes Asia Pacific expansion across hospitality, student housing and co-living</h3>
+          <p class="blog-excerpt">QIP eyes Asia Pacific expansion across hospitality, student housing and co-living</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxNUTRCYkFUbGlaejZLMXRUOW1lVlRFUk82ZGNHU1p3UDN4Q1ViekZtcDQ1R3lWTjZHSkxIRnBUbGZ1RjJWWUtzYnMtSl9oY3JyT2lOQlhucHQwblhneV9PUmh1Mm5zR24ySFhocjVyZ2duUjIxMTFKQ3dOa01DUGJqUHBSUmw4cXJISmstTE5NSnpfZ9IBlwFBVV95cUxOd3hQV1MzcGJ2QjFXVllBT0xSMklGWjFhVTZZTWVxVnMtbFkzYTdPZGJYZ2I1cTZXeEludl8tV1lZXy1YUXZ2MllrcktVUGZoaXpCSjlyRi02ZFY1OGRoRzhnaDlvTGVWVWRHZFQxU2RzbW1mYy0wS0JvcUZuU2UwM1ZqREtvc0tVakZSTkU3b1ZZN3ZwaS1N?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPd01CTy16bXVtQ2kybkhtalBvbzI5bDhIenB3ZnpTZUw4MmllUkdPY1Q0cHFFVnpBTHVJbUxCcHA5MjN3SG9KRVp4RWhiTlJpLTVudmxJSHc0X1NCd1BKRkhGSlFUUnFGTkg1ZWIyMzU1TVpvcFFBWFpRaFJUMmVpMTNWRF9Ud2hxSjhNZ0J1Yl9NMkhBSFo3QVV1ODk0czJH0gGmAUFVX3lxTE5LV0FySjJjYnViVnpEdTQxSklEeUVqUVJpMmZnSGd6bWJZU19GT25YS21vdWQwMlNYTzNSa2xnU3EtRmN1a0FJRkVaYzJrUWhHVVRhak5ianc4bUhCRlZEck9YMmVmOTlrbVFJeWRhMkpfYUFyNFNtbUFobDdHT0VxMDduV2FYNnREYUM5QVd0VG8yUEoyQVdTRnBvMnJBejlicXNlSlE?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Three-bedder at Leedon Green scores new high of $3,496 psf</h3>
-          <p class="news-excerpt">Three-bedder at Leedon Green scores new high of $3,496 psf</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Residential transactions with contracts dated May 12 to 17 [DONE DEALS]</h3>
+          <p class="blog-excerpt">Residential transactions with contracts dated May 12 to 17 [DONE DEALS]</p>
+          <div class="blog-meta">Fri, 29 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxNejlMWWpGVDVmbDJheXE5c09CdkR6dnRXdUtvTlVUWUZFSmkyaElWdHo4ckJwT1Z1clFNcDBUWkV6bnlPdDNDVE4wdm5oYklseG84T0hCSTVPdGw1TkdkaS1lZkVDTVU4Sy1xeFc4eDhqa243bFdDRkt2MzBEa2pMeGk4cTY0ZUNWZVdWZ1dMWXl0Wm5aTE80dHZVb3Z5Ykl3NkRZdlR4bVBqQVdCR0g4?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMipwFBVV95cUxON3VIWGdfakdueFVxYjJ1ZndfbjdBM3U5TENpSnQ5cG05LXNUNEx5bkhjZk9kN0luZS1GUmxvbEYxWm9Tel84LWtnN0ZfdHdiQ09vMzZ0dDBfM29KQXFITGtTM3BaUmJkQnp6bDNCWG1DOVZvS0FHS0tfQ1gxdXJWcnJndmRzWW45dmdlSjJ3b3FESHBnb1pKT0JDZElqSjJpeXpBTkVVVQ?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">‘Shoebox’ flat reform leaves low-income Hong Kong residents in limbo</h3>
-          <p class="news-excerpt">‘Shoebox’ flat reform leaves low-income Hong Kong residents in limbo</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Top seed Sabalenka survives first set wobble to beat Jacquemot</h3>
+          <p class="blog-excerpt">Top seed Sabalenka survives first set wobble to beat Jacquemot</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxPY0lKSFZQZ2pVOWxpREViUmF0dFJFQUJvbmViQ1ZqUzd5dDJnRWx2aDVIVFFHMFZvUjNyNHV3VlNXQ1FrbmdPQnIyb2FpUGFENEtaVU90U1BRNEVzbUhCcVhpUl9DSnktcnZWM0NnT3RDWFhzbG9SQ20wTWJvakRwU1AzTm1yZXJRaXJieVVQc252dlNHWnpMNVVJbVB1eEkwTklLTmpJVTBxbWlQNzBWOGJSQ2hOSGxEdm5WUFlZbw?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxQbzZMR1REa1lHU3MxaUpIVGRkbk1PYnh3NUREc05tWHhJQTkzem5YUEo3R2NRNFV3ZFprcnZOeUFta1prcDZlMm9QaEJtZjJoVEQ0cE11R1poWGhSdnlsZEZpbzZ3cUFVUTVjbzlsVlVoTm5FbmJuZ2NsaUZaWWxBMUZGaGZYR0Zybl9IZWROXzh5eE56LU5PWWtVZ1ZkZzItcGhkU1J0eW9MZ1B0c2lGdFc5ZjFqaERnTVE?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Australia introduces Bill to overhaul property tax breaks, capital gains rule</h3>
-          <p class="news-excerpt">Australia introduces Bill to overhaul property tax breaks, capital gains rule</p>
-          <div class="news-meta">
-            <span>Thu, 28 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">French parliament backs repeal of slavery-era edicts, dodges reparations call</h3>
+          <p class="blog-excerpt">French parliament backs repeal of slavery-era edicts, dodges reparations call</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPYmNmUGRZQWJUSExWWmMwU0djRGVXc3gtVFRHMVZES1FYQTF6Q3cteFFWaXAxOTR6SG5xN09ZTGFMdl9aQ0xFdzFUNTkzSHBYdThHMk9PVWZHVlRoS2V0c0VpTDRLUUdqT3NueTY5SjFDN1VqMU83a3ZKbjBhaTduUGppQlN6TXVRSHNFRTZ3dUpsRFVnVFhjZ3ZGb1pFT0p3NGJSemFqOXZaUHRRbVFqRnN2OWVlWDhzQVHSAb8BQVVfeXFMT0VzUkhhQl9DYkNGZHZzQmNpOTBKM0wyVXV2TFZWWXJKZDJoZE0zZk5Td3dTblBHMDZIMzk1WXVZalU2M05rTGM2OTF6SXFUMktHeTdzR2prSHQ2RlpNZzRIbFFkVW40RHVGcW15eGJCb1hqZmxMRlNzVWxGMGYwMVFCZEJUcTBVOVRTc1hoTmN6b29EMkZQcjZIMUNzaTZtVkk0N2NYbVlLd2N3WkoxYWJtVmU5aS1NR2VIcWJkWEU?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMingFBVV95cUxOazlCQ3Bub0RBR1l0bUNoa2NIN3lqOTR4cUdWN3JyQktDdDM0ZFlZSlYwa2cySHlzT2hFVnlCMGh1a0NMZUJ5SWpZMjNBR051YTVQaEhxaHptUGJSdUlPNmNkbVFtRkhHRGFfWVlTVzJVNEQ0OE9oa2ZnOFM1eDYtRGZKTERlRkhnZE04TEpNeF9pNXhnMVlBWk1FQzdHZ9IBowFBVV95cUxNXzRSck5yZ2RPTnpyVjllWnFGaHVobVo4T1g4bFYzZHhLMG1KdE5pYlRBcFFZQzRiRWRLeTlsY2NtNE15Qi1LN2kzQlRTS05GZWZXekd4STRPT200SUtvanUzakNKZVZfYUhXX2R3amY0TC1qaWVta3lZaTFfRXNGQi1HNTJGVlNQSXJ6RzF2UVZNY2plSU9kUXVIOE9CMlU4bmg0?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Japanese family office buys Keong Saik Road corner conservation shophouse for $22 mil</h3>
-          <p class="news-excerpt">Japanese family office buys Keong Saik Road corner conservation shophouse for $22...</p>
-          <div class="news-meta">
-            <span>Wed, 27 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">JTC launches B2 industrial GLS site at 6 Tuas Avenue 14 for tender</h3>
+          <p class="blog-excerpt">JTC launches B2 industrial GLS site at 6 Tuas Avenue 14 for...</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxOa2pxWGZvUkFSZ3g4MzlIcmZmOUJKUDEyQU4xSkMwSk1ET1UxRDhLeS05WDRaSzV4WFJqSTNFd1ZVdjJzZDV1LUV4WnhMVFE4S3d6enozZ3NDT0VNWDZfMmk2dGhSdkE5cUJWUkZ1Zk41Vk5qSWFUOXlIY1hNTlFHbVZ5SEh5VHYyR2xzS09EamVHUDBBcGlrSk1MM0p5MHJRci05TGhUZmd6YlptQzYzTkNvdDg0WFR1U1RERGlrMXR3TXdHN0E1MA?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiuwFBVV95cUxOWlF5RDBZQmJPWm1OaWtHbFdRenllU0hNSzJTWjI5N2owZVI1VVQ5WGx3QU5MYndxa2xleGxSZW5iTTc4REt4TmEwUkNDNjVUQzVOLU9hRGlIVy1RaVBMSlhvMzlJYkR0LW5DWE9oRmMyZFctTFExVl9EVjhmZTlTazBPRnJGQlItLUFsQUJKYmY2NWludlp0RWZhMzA2S3EwUU5WaDloWE5FekY3S2FnMXpaSEpSU094NXU0?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">The Philippine housing crisis explained</h3>
-          <p class="news-excerpt">The Philippine housing crisis explained</p>
-          <div class="news-meta">
-            <span>Wed, 27 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">CNA</span>
+          <h3 class="blog-title">Entrata reveals 23% revenue jump as real estate software firm files for US IPO</h3>
+          <p class="blog-excerpt">Entrata reveals 23% revenue jump as real estate software firm files for...</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on CNA</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMi4gFBVV95cUxQYWNMaGszeExna2NHREEwTUxzVjNqYWprZVFicE5WdXNhNnhuOTNhUzctNXNJZGlPY0ZGal9PUU9YOFBRZF8yM2lidkFZWHFWYldMaVlzM3FSUG9sRnE4THRadXNwLTZNRF9sOXZPSjFmSGU4SU16elM3MmwxVHlrNHUwM0JkVlpZNVphTVF4Q2RrZ3V0ZTE0SER5U0IxNUJtcnlEcGMyM3pLaXhHZDBXdU8wYm41R3JOWnpQMDJ1VDBPbVBHVHhUd3pDU0hKcmFEeXJnMXVfTndqU042Z19LdUtn?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA" loading="lazy">
-          <span class="news-source">CNA</span>
+      <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxQVmVROTZLNTlZaURqdVlkaXotbXBYN3JyYlpja2RqemhGNktScWptd0UwRlM0eDJ0bXBrakJfcWdFemhTYnJMTEtBUi02VGNTYTJmQm1fZGNmN2VVMDk2Q05JajBZSHRFY3JJNS10UDdQekROWFl1dF9zalNnZjlsYUtXV09odlpOMHFKUmNGcmR0N3BZQWxOcWZLVdIBoAFBVV95cUxQQ3RpcUhzNmh2R2d2TElZTDJwNDBYVjk4aFl0aWx2aFc2S29zaU9mRlZSeUlmTFpHUDJXc0s3Ry0yMjd3QTdtcl82ZHBDSmVjeHByeDhFM3E3ZFBsRVRiY3JWbHQwbkxDemdjR0M2djRDajh2Z1pwSWM5V0hsejJyOVpXNjZzT2JNNThZR2lOXzM4eDR6aDAzWTNERENSUjJs?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">CNA938 Rewind - Why more Singapore families are fighting over property</h3>
-          <p class="news-excerpt">CNA938 Rewind - Why more Singapore families are fighting over property</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on CNA &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Four-bedder at Nassim Park Residences garners $2.95 mil profit</h3>
+          <p class="blog-excerpt">Four-bedder at Nassim Park Residences garners $2.95 mil profit</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMi2gFBVV95cUxPM3I5VktNZS1TeGxvbU9HQTNtWWVabEtlMF9YcURVZnpDX3VHVWZ0cEhHd0k5NmJVYXRHN0l1MG5VOHRVbEZmZTR3VHlSUDlROFdsQVZoR2xpckliSnloRGhPcG9YeVExZEE3c21WYzNsVEZoQkdJLTA0UEJKNVpTRVEtLVdRU085aTUzZmotTUlwb0xwdzU4OUdWc29OU3Ewc1BsdnRiVmJzeFRqTWtIYzZrazhxejVQcjVQVm1ueFNtUXdwaENxYkpzdWhYVUNjTFJ5ZVNLd1lsUQ?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA" loading="lazy">
-          <span class="news-source">CNA</span>
+      <a href="https://news.google.com/rss/articles/CBMikgFBVV95cUxNUTRCYkFUbGlaejZLMXRUOW1lVlRFUk82ZGNHU1p3UDN4Q1ViekZtcDQ1R3lWTjZHSkxIRnBUbGZ1RjJWWUtzYnMtSl9oY3JyT2lOQlhucHQwblhneV9PUmh1Mm5zR24ySFhocjVyZ2duUjIxMTFKQ3dOa01DUGJqUHBSUmw4cXJISmstTE5NSnpfZ9IBlwFBVV95cUxOd3hQV1MzcGJ2QjFXVllBT0xSMklGWjFhVTZZTWVxVnMtbFkzYTdPZGJYZ2I1cTZXeEludl8tV1lZXy1YUXZ2MllrcktVUGZoaXpCSjlyRi02ZFY1OGRoRzhnaDlvTGVWVWRHZFQxU2RzbW1mYy0wS0JvcUZuU2UwM1ZqREtvc0tVakZSTkU3b1ZZN3ZwaS1N?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">CNA938 Rewind - RTS Link to boost Johor, Singapore property markets</h3>
-          <p class="news-excerpt">CNA938 Rewind - RTS Link to boost Johor, Singapore property markets</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on CNA &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Three-bedder at Leedon Green scores new high of $3,496 psf</h3>
+          <p class="blog-excerpt">Three-bedder at Leedon Green scores new high of $3,496 psf</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxOQWRpbGxfWUxIR0NyQUxKZFN2cGlnaHVyMkxHQWdka2xyaFNmb1V3d1RESThvY1FSa2ROQndSN3hkd2dmS0d3dFFTaVpTVmZKTnlzVDhEcHRrX0pKeW1XOUpkX25YZVlfSU4xd1gtdW9qX21Penh4d18wTkUxZ3pOeFZpNHplU2JZTjRWcEV1ZFpQaWdISVRLMUd1QdIBoAFBVV95cUxNS1NtUzc0X0lER01aTkNtRFRNVmlqc3pzVE9fQ3hFY3UzcnctRG9sVUk4TjZJdXVIbWptUDh2RWxESmdxdFExbXAxME1YYmJfYmIzd1QxLWdNZW9SYkthN0hUUFdEQnA5M2Zla3Y1a3VwSjRJc3FuVHM5YVRyMmZPdVZXMVVPY1FUeEpDSVRQNE52QmltV3Q0alV6SlA5R203?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMirwFBVV95cUxNejlMWWpGVDVmbDJheXE5c09CdkR6dnRXdUtvTlVUWUZFSmkyaElWdHo4ckJwT1Z1clFNcDBUWkV6bnlPdDNDVE4wdm5oYklseG84T0hCSTVPdGw1TkdkaS1lZkVDTVU4Sy1xeFc4eDhqa243bFdDRkt2MzBEa2pMeGk4cTY0ZUNWZVdWZ1dMWXl0Wm5aTE80dHZVb3Z5Ykl3NkRZdlR4bVBqQVdCR0g4?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Your next property search in Singapore might start with an AI prompt</h3>
-          <p class="news-excerpt">Your next property search in Singapore might start with an AI prompt</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">‘Shoebox’ flat reform leaves low-income Hong Kong residents in limbo</h3>
+          <p class="blog-excerpt">‘Shoebox’ flat reform leaves low-income Hong Kong residents in limbo</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPZ3JmSTdQT0Q5cnREOGlqemJ6YlVIZ3FBYVNBM1l5R3JBeWdXc1pMeEJDcHBINHpqVXF5a3NmOVFZYjVRLUtmejk5bVl5Uzl3TjVSQWVwUThZZm84c2NOdFEyUGh5WGdhODBlMTdFSWMwZjk0MnIxVmx2MWlPbUVKZnhDdExteFdfYUFST3N1RzUya05xZ2J5NnNPVHozNDF60gGmAUFVX3lxTE1mbmtqUm96eUJ3RWNzeGlScXZsaWNHNTVKSWlMY3hpNXl1Z2YxM1V2Y1c4MFFsZ1JCYUMzaGdocGJrcVJsZW9UUHdkNkZKbTRHMzNlZ2R1bEZTbFBGc0txeUhQemhOZjNqN1hKT3N4RS13TlY1QmJ6ekd5ZFduQy1UazRpeFhVaHhCYUNzVmpmT1lmMmxmLU1weFpmbHBoWndBSnEyWmc?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMivwFBVV95cUxPY0lKSFZQZ2pVOWxpREViUmF0dFJFQUJvbmViQ1ZqUzd5dDJnRWx2aDVIVFFHMFZvUjNyNHV3VlNXQ1FrbmdPQnIyb2FpUGFENEtaVU90U1BRNEVzbUhCcVhpUl9DSnktcnZWM0NnT3RDWFhzbG9SQ20wTWJvakRwU1AzTm1yZXJRaXJieVVQc252dlNHWnpMNVVJbVB1eEkwTklLTmpJVTBxbWlQNzBWOGJSQ2hOSGxEdm5WUFlZbw?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">FLCT buys four properties in Germany and the Netherlands for EUR294.9 mil</h3>
-          <p class="news-excerpt">FLCT buys four properties in Germany and the Netherlands for EUR294.9 mil</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Australia introduces Bill to overhaul property tax breaks, capital gains rule</h3>
+          <p class="blog-excerpt">Australia introduces Bill to overhaul property tax breaks, capital gains rule</p>
+          <div class="blog-meta">Thu, 28 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPZW1MZFBlRGJ0UnlvNkR6NXo5OXVYUHRpajRUenYyRTJ4eHgzQ0ZoRUdFZ3d0N05pazNzM3V6TTY0cTFVZWxPYko5ZUd5UEY3Q3VHb0YtSnE2Q0lScEdTdnFOb0lCS1preHk1MURXVDVDbEpoUkwzRjd3NzlPTF8td0paQk96cHJURHp4d0cxdFdVMHRPankxclFwUFdVYlc4RVVWMHFSQzYwcU1pN1pjdWxiNzBqblJoeUE?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPYmNmUGRZQWJUSExWWmMwU0djRGVXc3gtVFRHMVZES1FYQTF6Q3cteFFWaXAxOTR6SG5xN09ZTGFMdl9aQ0xFdzFUNTkzSHBYdThHMk9PVWZHVlRoS2V0c0VpTDRLUUdqT3NueTY5SjFDN1VqMU83a3ZKbjBhaTduUGppQlN6TXVRSHNFRTZ3dUpsRFVnVFhjZ3ZGb1pFT0p3NGJSemFqOXZaUHRRbVFqRnN2OWVlWDhzQVHSAb8BQVVfeXFMT0VzUkhhQl9DYkNGZHZzQmNpOTBKM0wyVXV2TFZWWXJKZDJoZE0zZk5Td3dTblBHMDZIMzk1WXVZalU2M05rTGM2OTF6SXFUMktHeTdzR2prSHQ2RlpNZzRIbFFkVW40RHVGcW15eGJCb1hqZmxMRlNzVWxGMGYwMVFCZEJUcTBVOVRTc1hoTmN6b29EMkZQcjZIMUNzaTZtVkk0N2NYbVlLd2N3WkoxYWJtVmU5aS1NR2VIcWJkWEU?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Can Australia make housing more affordable without hurting tech startups?</h3>
-          <p class="news-excerpt">Can Australia make housing more affordable without hurting tech startups?</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Japanese family office buys Keong Saik Road corner conservation shophouse for $22 mil</h3>
+          <p class="blog-excerpt">Japanese family office buys Keong Saik Road corner conservation shophouse for $22...</p>
+          <div class="blog-meta">Wed, 27 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxNX2NCRmVTYnpEdW9KaVloS2pqUUZDbm8ySUo1a2QweWZGREhyMUZnYmJGVS12U1NqOWZTMzVwejB2akp0MGdXNkphT0k5RGVJSVdHQXFNN05mT1diQ28xMTdIcksyYXQ1X1NrbzZ5Wll2OVJ6Z2FwUnA0OHA1cnNFa05qaWo1VDV2WkQ3TnR3eEdsU3NsS05fV0NLRWdHQmtwdjkyUEp0ZVI4MGVSZ1labjBn?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxOa2pxWGZvUkFSZ3g4MzlIcmZmOUJKUDEyQU4xSkMwSk1ET1UxRDhLeS05WDRaSzV4WFJqSTNFd1ZVdjJzZDV1LUV4WnhMVFE4S3d6enozZ3NDT0VNWDZfMmk2dGhSdkE5cUJWUkZ1Zk41Vk5qSWFUOXlIY1hNTlFHbVZ5SEh5VHYyR2xzS09EamVHUDBBcGlrSk1MM0p5MHJRci05TGhUZmd6YlptQzYzTkNvdDg0WFR1U1RERGlrMXR3TXdHN0E1MA?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Canberra Drive EC site launched for tender under tighter EC rules</h3>
-          <p class="news-excerpt">Canberra Drive EC site launched for tender under tighter EC rules</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">The Philippine housing crisis explained</h3>
+          <p class="blog-excerpt">The Philippine housing crisis explained</p>
+          <div class="blog-meta">Wed, 27 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxPZHQ2UlNNaUVlS1ktOXR4NTI1ZG1GR0ttSENIRnpTYVJNaU9zbXR3NWN4LXdHTk0zNkt4QWJ5VG50aW1VNDRXcHF1SUMtYTBfc0JIUm5CRXFIS2xyQ1Y2OUZqcnZGYk1KZ2VmbWtWRTRCNEhSM2tVWnhwdkpWSS1reFVPbVZOVkhBajFWZm5uYi10aklSN082U3VWLTJlYkZjNi04Y080UTZRMkhSdF9lak05d3pGVXllYUFLVk5FMUE?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMi4gFBVV95cUxQYWNMaGszeExna2NHREEwTUxzVjNqYWprZVFicE5WdXNhNnhuOTNhUzctNXNJZGlPY0ZGal9PUU9YOFBRZF8yM2lidkFZWHFWYldMaVlzM3FSUG9sRnE4THRadXNwLTZNRF9sOXZPSjFmSGU4SU16elM3MmwxVHlrNHUwM0JkVlpZNVphTVF4Q2RrZ3V0ZTE0SER5U0IxNUJtcnlEcGMyM3pLaXhHZDBXdU8wYm41R3JOWnpQMDJ1VDBPbVBHVHhUd3pDU0hKcmFEeXJnMXVfTndqU042Z19LdUtn?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Canberra Drive EC site launched for tender under tighter EC rules</h3>
-          <p class="news-excerpt">Canberra Drive EC site launched for tender under tighter EC rules</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">CNA</span>
+          <h3 class="blog-title">CNA938 Rewind - Why more Singapore families are fighting over property</h3>
+          <p class="blog-excerpt">CNA938 Rewind - Why more Singapore families are fighting over property</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on CNA</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxQbHFseThOVFdHYkxhTmZ4ZjJ6cm9aV1lKUC1RWWpwVE5EbXZlUG1PeDB0NEFYZnZscko4Zkt1bzk2d2JmVDg3eGJNWmpkb3l6SVp3dF9FdHMyRGhOQ2Z2NlA4SkUxTWtpY1d6VTh6SU1UekVrNWptanM5VjN1QlZENFpEcG8yaDlQUlF6OEZCRzdrS1lkcjNhZWhZb1o1UUJBaHN1TWllQndqNHpvNEJIV3lOeTU1Ti0tUlJTdHZIUWVoWDFRWjdGZmhabXg3Zw?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMi2gFBVV95cUxPM3I5VktNZS1TeGxvbU9HQTNtWWVabEtlMF9YcURVZnpDX3VHVWZ0cEhHd0k5NmJVYXRHN0l1MG5VOHRVbEZmZTR3VHlSUDlROFdsQVZoR2xpckliSnloRGhPcG9YeVExZEE3c21WYzNsVEZoQkdJLTA0UEJKNVpTRVEtLVdRU085aTUzZmotTUlwb0xwdzU4OUdWc29OU3Ewc1BsdnRiVmJzeFRqTWtIYzZrazhxejVQcjVQVm1ueFNtUXdwaENxYkpzdWhYVUNjTFJ5ZVNLd1lsUQ?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Canberra Drive EC site launched for tender under tighter EC rules</h3>
-          <p class="news-excerpt">Canberra Drive EC site launched for tender under tighter EC rules</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">CNA</span>
+          <h3 class="blog-title">CNA938 Rewind - RTS Link to boost Johor, Singapore property markets</h3>
+          <p class="blog-excerpt">CNA938 Rewind - RTS Link to boost Johor, Singapore property markets</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on CNA</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMijgFBVV95cUxPWFZsN1Y1NnJna2Z6XzRuVTU4U3pGNjRadG5yZ2ZFVUhoTUhUaFlhX3pjRGRfRjJqTGQwaDV1VVdkUm1xXzdOTnZiNy1BbUIxVnFQdm5EVTVDNXUxZ09Gb2k0SHU1d2otZEVPNXUtQ1dRUndnRl9taGxXYmI5RUxqeGRWYUV3MUNvUkFLYml30gGTAUFVX3lxTE0xNUtULTU4bmRhNXl2MEQzYjBmVkdqY0E1NzBpLW1wVF9oak1Wc0FmLVdldkZRbVJ4bDAteXh0LWIxcDlpa00zdUtoREVkWTVXOFFuMVM3cHFFaTA4Sjcya2pKUHZlMGFHOW9hVWhqckcxWlhQckhaWXlRNi1JaFhrdG5JUkRMOTl5UjVZYWtIc2tDaw?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxOQWRpbGxfWUxIR0NyQUxKZFN2cGlnaHVyMkxHQWdka2xyaFNmb1V3d1RESThvY1FSa2ROQndSN3hkd2dmS0d3dFFTaVpTVmZKTnlzVDhEcHRrX0pKeW1XOUpkX25YZVlfSU4xd1gtdW9qX21Penh4d18wTkUxZ3pOeFZpNHplU2JZTjRWcEV1ZFpQaWdISVRLMUd1QdIBoAFBVV95cUxNS1NtUzc0X0lER01aTkNtRFRNVmlqc3pzVE9fQ3hFY3UzcnctRG9sVUk4TjZJdXVIbWptUDh2RWxESmdxdFExbXAxME1YYmJfYmIzd1QxLWdNZW9SYkthN0hUUFdEQnA5M2Zla3Y1a3VwSjRJc3FuVHM5YVRyMmZPdVZXMVVPY1FUeEpDSVRQNE52QmltV3Q0alV6SlA5R203?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Four freehold retail units at Siglap V for sale at $13 mil</h3>
-          <p class="news-excerpt">Four freehold retail units at Siglap V for sale at $13 mil</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Your next property search in Singapore might start with an AI prompt</h3>
+          <p class="blog-excerpt">Your next property search in Singapore might start with an AI prompt</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxPOW95bVBMakg1dHozaVZPb1dNLWQ1SWhITFJzb1Q3RE1EY1AwWlA0SjJyMWZpX0ItVERldmdOSEZ1ZkFiSnB0bjFBNlR6aDdpLVFLZkpyNHJYNWtiX0dfSHZhYWJteElQMG1XRUV0eDBLaUc1Wm5JSEdnMmhTX0M2VTRNLWtwVXlpZU1BYTZpS09oZWFfMVgyejJpTFBwUEJMNUxZV3ptTkNBNkFJUUVCNzRvNC1ld2c2WHczWFNKbzTSAcYBQVVfeXFMT3B6MlhvbV9BR29VYVpqNHBzRUd3djJSNUdyRndabF9jYXNxUUV1cVdSQUl3SmxBLU1MeDVQam5UZHJUS05mTEQ5VE9YcDZVNGRrWkd4V0drdWJyc2gzczE2aVN2Z3lzeU8yY1V1aGRhMFFnVl9JZUh2M0JmZmx3amRIcUs3MWtEczJzQjNQQ3FhU1RHT0wya05sQ1Q1dF9SeVFSZXhaRGR1Q0hPN3NrZjZmVTdrTjZZMFhteUpWbU1DTWVZTXpn?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMioAFBVV95cUxPZ3JmSTdQT0Q5cnREOGlqemJ6YlVIZ3FBYVNBM1l5R3JBeWdXc1pMeEJDcHBINHpqVXF5a3NmOVFZYjVRLUtmejk5bVl5Uzl3TjVSQWVwUThZZm84c2NOdFEyUGh5WGdhODBlMTdFSWMwZjk0MnIxVmx2MWlPbUVKZnhDdExteFdfYUFST3N1RzUya05xZ2J5NnNPVHozNDF60gGmAUFVX3lxTE1mbmtqUm96eUJ3RWNzeGlScXZsaWNHNTVKSWlMY3hpNXl1Z2YxM1V2Y1c4MFFsZ1JCYUMzaGdocGJrcVJsZW9UUHdkNkZKbTRHMzNlZ2R1bEZTbFBGc0txeUhQemhOZjNqN1hKT3N4RS13TlY1QmJ6ekd5ZFduQy1UazRpeFhVaHhCYUNzVmpmT1lmMmxmLU1weFpmbHBoWndBSnEyWmc?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Investors turn to logistics, industrial, urban residential opportunities in Southeast A...</h3>
-          <p class="news-excerpt">Investors turn to logistics, industrial, urban residential opportunities in Southeast Asia: Aprea</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">FLCT buys four properties in Germany and the Netherlands for EUR294.9 mil</h3>
+          <p class="blog-excerpt">FLCT buys four properties in Germany and the Netherlands for EUR294.9 mil</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxOZ3UwYnpkVzFLUUpsdjZnMDVBdlU1SktidnVSLWNSTXlmbUVtLVhhOXpEdy1tYmtxUmQ0SzRDQXZCbzBPWS1RcHlaVWZReHpJOWtqNlBwSENKTnVmcm9LUi1IZTFtSktVbW9EZFN3MW9OS215WEpGSjhXMGVXdmh2ZmdHd0J5RWh5eW11aGhuWFpjcTltOFNOTm0zZkRwTGxzV0QwddIBqgFBVV95cUxPN0hMOEh5cFVyTm9vMUN1TFNldFJCc1hRS0ZuUDVDQksxUzNrRDhnMk5GblFmQ1Y5djJYLU1jNmI0eVlORGNNejdnWjc4UGZTXzZOc3paM2FhOV80c1pwWW9JYmRDaHduVnRMMkxGamg0R1VoZEdXQ2NfQ1Q3ekFyRl9fdm8wLXUzdXdGTXUwUkltZkRNY3VudWhmcjRualNTWktuMkJxZ3c4Zw?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMiugFBVV95cUxPZW1MZFBlRGJ0UnlvNkR6NXo5OXVYUHRpajRUenYyRTJ4eHgzQ0ZoRUdFZ3d0N05pazNzM3V6TTY0cTFVZWxPYko5ZUd5UEY3Q3VHb0YtSnE2Q0lScEdTdnFOb0lCS1preHk1MURXVDVDbEpoUkwzRjd3NzlPTF8td0paQk96cHJURHp4d0cxdFdVMHRPankxclFwUFdVYlc4RVVWMHFSQzYwcU1pN1pjdWxiNzBqblJoeUE?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">HDB launches tender for first site since tightened EC rules, at Canberra Drive</h3>
-          <p class="news-excerpt">HDB launches tender for first site since tightened EC rules, at Canberra...</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Can Australia make housing more affordable without hurting tech startups?</h3>
+          <p class="blog-excerpt">Can Australia make housing more affordable without hurting tech startups?</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPcHFXRHY4N1F0a19wS29EQ0R4SmtCMkUzZEJkdnAtTTFwZklKaE94ZnA4aFh3WnNSV2k3YlByc1hXS2d4U0l4d1JBc0lIQUQ1bXRlenJ4ZW1XNnM2QkRzaHR2OWJOOGdvbmZIdEppeHZOdzZSaksteFVONGl2dWpRZnJVQVl5bEhHdi04ZHV1MjFaMmc0bFE3QTJCWU9FZFRrSDBuWDM4cEtmMWhnR1FsVVAzc1JBaktT0gG-AUFVX3lxTE9nOXhETEo5ZFRNNklNN0Y4SnVVWjc2S0E4QTkxUTBIUTNkRWZSVlg2NGJlUmQ3dzhFTjJScnhiX1ZqRHZzaEhPdlpoUjBKUWN6QXE2WUFUU1lzbzNvaVA0NDJIS2dBVFlMbkdPN01ZVl9XSzAzNzBma1BNdGt6SU5EZTFmTWNtQzNGc3hHbTVoYXh4a2FLNjdPU0V2VFpmTkRWTWZEck5LUGsxUXBDUFI3Um5vWnFGQTRJdUFGQmc?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMisgFBVV95cUxNX2NCRmVTYnpEdW9KaVloS2pqUUZDbm8ySUo1a2QweWZGREhyMUZnYmJGVS12U1NqOWZTMzVwejB2akp0MGdXNkphT0k5RGVJSVdHQXFNN05mT1diQ28xMTdIcksyYXQ1X1NrbzZ5Wll2OVJ6Z2FwUnA0OHA1cnNFa05qaWo1VDV2WkQ3TnR3eEdsU3NsS05fV0NLRWdHQmtwdjkyUEp0ZVI4MGVSZ1labjBn?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Flex workspaces get pricier in Singapore, led by Marina Bay; demand rises in Jurong: re...</h3>
-          <p class="news-excerpt">Flex workspaces get pricier in Singapore, led by Marina Bay; demand rises...</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Canberra Drive EC site launched for tender under tighter EC rules</h3>
+          <p class="blog-excerpt">Canberra Drive EC site launched for tender under tighter EC rules</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMi-gFBVV95cUxOU3FOXzdVbTJUaHJNUnNkYVU4b1MxenhwalEyZVdSVndZNVpneWE1eXlhOVVTa0pkMEtWcFkwUUxhM3Z5SFo4YkZSNndCSUlTUkdrMkhaa25NMEx0a2RWb1FPSEk4YU1wclBWbTF1Sm41d0J6M1N6OEowT1RBSTJpWjk3WTMzMmdGS2ZkQm5NckxmeTY0SDhhN1k2am1pQS1heWhmV3hHT0tlZnVnQzZ4Y000UmpSRXdhSDVoLUx1dDExVE5WVkhWaEQ2UEtTNmhybm82TW1keUtZcXRiaGNnbHJBVjZtQ2g5aVNqckFuSEw0d0JkTEdDUjBR?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxPZHQ2UlNNaUVlS1ktOXR4NTI1ZG1GR0ttSENIRnpTYVJNaU9zbXR3NWN4LXdHTk0zNkt4QWJ5VG50aW1VNDRXcHF1SUMtYTBfc0JIUm5CRXFIS2xyQ1Y2OUZqcnZGYk1KZ2VmbWtWRTRCNEhSM2tVWnhwdkpWSS1reFVPbVZOVkhBajFWZm5uYi10aklSN082U3VWLTJlYkZjNi04Y080UTZRMkhSdF9lak05d3pGVXllYUFLVk5FMUE?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">IGIS X Asset Management and HOMA Partner to Launch HOMA Korea, a Premier Institutional ...</h3>
-          <p class="news-excerpt">IGIS X Asset Management and HOMA Partner to Launch HOMA Korea, a...</p>
-          <div class="news-meta">
-            <span>Tue, 26 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Canberra Drive EC site launched for tender under tighter EC rules</h3>
+          <p class="blog-excerpt">Canberra Drive EC site launched for tender under tighter EC rules</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMi4gFBVV95cUxQREwzeFBVREVtcVk1YXNienBoZENmOFhhcm1GdVE0UWgxaDBDTHJiaDhyM1h2SEUyaWwzT2pfRGN6dkZoT3FtWnlzb0c1bWFYQ3BZb0k2WUM2T1ZUZFhpd0h6aE9rZGwwQnU0ekVfcmpGNXhEMkFpa056Z0I2X2FDeGhJbFEwSllhc0ZvMGVDb2U4N3J0dVpZbDB0TXRwNXAtY292eHVaSWhxZjRPb0d5MzQ5bUo5WURJTW4xRmNINXVZY2lEMXV5OFlPMWhSM0xPVTRzb2RRSEQ0bVhHbHpGM3p3?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA" loading="lazy">
-          <span class="news-source">CNA</span>
+      <a href="https://news.google.com/rss/articles/CBMizgFBVV95cUxQbHFseThOVFdHYkxhTmZ4ZjJ6cm9aV1lKUC1RWWpwVE5EbXZlUG1PeDB0NEFYZnZscko4Zkt1bzk2d2JmVDg3eGJNWmpkb3l6SVp3dF9FdHMyRGhOQ2Z2NlA4SkUxTWtpY1d6VTh6SU1UekVrNWptanM5VjN1QlZENFpEcG8yaDlQUlF6OEZCRzdrS1lkcjNhZWhZb1o1UUJBaHN1TWllQndqNHpvNEJIV3lOeTU1Ti0tUlJTdHZIUWVoWDFRWjdGZmhabXg3Zw?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">CNA938 Rewind - Why more Singapore families are fighting over property</h3>
-          <p class="news-excerpt">CNA938 Rewind - Why more Singapore families are fighting over property</p>
-          <div class="news-meta">
-            <span>Mon, 25 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on CNA &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">Canberra Drive EC site launched for tender under tighter EC rules</h3>
+          <p class="blog-excerpt">Canberra Drive EC site launched for tender under tighter EC rules</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxQLWhPSk9qbWU1cEw3c0tpaEgwdmdIVUNLbGp0YUpJdEZad3kxZmJiTFRNQlhWaDRBRVU1Y3pxOWRJV3JVdHo0cUZJajlMUjdraXJSdG9IbTRMWmRsSkhDdVM3TzM4c2s1bmdMMGxIYmpkSnRpQXFhMzhPVDYydkZmQ3Z5VUV5bURKN255MEEzRlZFMHRFUUJQYlBzQXVrYUJKaGptRlJ2S3pvNW94cXFrR1BrekdwaWZpdjYwQkwwYnFTZXhGcWg1LVFZU2tRSE9VSnc?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMijgFBVV95cUxPWFZsN1Y1NnJna2Z6XzRuVTU4U3pGNjRadG5yZ2ZFVUhoTUhUaFlhX3pjRGRfRjJqTGQwaDV1VVdkUm1xXzdOTnZiNy1BbUIxVnFQdm5EVTVDNXUxZ09Gb2k0SHU1d2otZEVPNXUtQ1dRUndnRl9taGxXYmI5RUxqeGRWYUV3MUNvUkFLYml30gGTAUFVX3lxTE0xNUtULTU4bmRhNXl2MEQzYjBmVkdqY0E1NzBpLW1wVF9oak1Wc0FmLVdldkZRbVJ4bDAteXh0LWIxcDlpa00zdUtoREVkWTVXOFFuMVM3cHFFaTA4Sjcya2pKUHZlMGFHOW9hVWhqckcxWlhQckhaWXlRNi1JaFhrdG5JUkRMOTl5UjVZYWtIc2tDaw?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">TCL Zhonghuan Launches Next-Generation BC Module at Tianjin Manufacturing Base</h3>
-          <p class="news-excerpt">TCL Zhonghuan Launches Next-Generation BC Module at Tianjin Manufacturing Base</p>
-          <div class="news-meta">
-            <span>Mon, 25 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Four freehold retail units at Siglap V for sale at $13 mil</h3>
+          <p class="blog-excerpt">Four freehold retail units at Siglap V for sale at $13 mil</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxPX0RfTlFnZXdESTVmY08xRXZvUjM0YmFKLWJvZE8xSlprTVVvR1dSZ3FXZW90Q3ZQanlVUzN4aDV4VlFDMmlYeWxQeVE0bEl1VHZxRjlDTlljYjhqMDJJQVhpRkJ1UTQ2YVBHZGpUVzBvTXpKUkI1czByZktWNzU2R0RHQV9PTFhLeGtZWDBzeGJSd1B3WkVTWGxyMGtISk1YN1AzLVpQeDZJd0ZDZTI3VGlITkg0UTM2WGQzNUdPM1VaWlpfeUlfV0gyQVJYS1BOeDVlZGVpaw?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxPOW95bVBMakg1dHozaVZPb1dNLWQ1SWhITFJzb1Q3RE1EY1AwWlA0SjJyMWZpX0ItVERldmdOSEZ1ZkFiSnB0bjFBNlR6aDdpLVFLZkpyNHJYNWtiX0dfSHZhYWJteElQMG1XRUV0eDBLaUc1Wm5JSEdnMmhTX0M2VTRNLWtwVXlpZU1BYTZpS09oZWFfMVgyejJpTFBwUEJMNUxZV3ptTkNBNkFJUUVCNzRvNC1ld2c2WHczWFNKbzTSAcYBQVVfeXFMT3B6MlhvbV9BR29VYVpqNHBzRUd3djJSNUdyRndabF9jYXNxUUV1cVdSQUl3SmxBLU1MeDVQam5UZHJUS05mTEQ5VE9YcDZVNGRrWkd4V0drdWJyc2gzczE2aVN2Z3lzeU8yY1V1aGRhMFFnVl9JZUh2M0JmZmx3amRIcUs3MWtEczJzQjNQQ3FhU1RHT0wya05sQ1Q1dF9SeVFSZXhaRGR1Q0hPN3NrZjZmVTdrTjZZMFhteUpWbU1DTWVZTXpn?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">SC Unveils Thailand's Most Prestigious Ultra-Luxury Residences for the Global Elite</h3>
-          <p class="news-excerpt">SC Unveils Thailand's Most Prestigious Ultra-Luxury Residences for the Global Elite</p>
-          <div class="news-meta">
-            <span>Mon, 25 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Investors turn to logistics, industrial, urban residential opportunities in Southeast A...</h3>
+          <p class="blog-excerpt">Investors turn to logistics, industrial, urban residential opportunities in Southeast Asia: Aprea</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxPMENPYzAtRzhMLXlzTGtSMWxtX2JIU2tZdnU5NmszcVpPRGhyTDZPbW5NcVM1NEpXTGJaSGh0WjBxa05uaTZkR1poVWpyUHIwVWlZZ0hVdWkzQi1BMjlsOXNKMm13UllqSEpKalJQM0ZrTHZXVTB5T1pDYWMyWjQzZ25LUWc3dGR4Z0FmQU83T2hCZEtCR2M2TTRlb21fUWt1Z0xmRnY3XzZQQlgxeXM5NlgtRmo2ZVVvVzFteTIwOENoUQ?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMipAFBVV95cUxOZ3UwYnpkVzFLUUpsdjZnMDVBdlU1SktidnVSLWNSTXlmbUVtLVhhOXpEdy1tYmtxUmQ0SzRDQXZCbzBPWS1RcHlaVWZReHpJOWtqNlBwSENKTnVmcm9LUi1IZTFtSktVbW9EZFN3MW9OS215WEpGSjhXMGVXdmh2ZmdHd0J5RWh5eW11aGhuWFpjcTltOFNOTm0zZkRwTGxzV0QwddIBqgFBVV95cUxPN0hMOEh5cFVyTm9vMUN1TFNldFJCc1hRS0ZuUDVDQksxUzNrRDhnMk5GblFmQ1Y5djJYLU1jNmI0eVlORGNNejdnWjc4UGZTXzZOc3paM2FhOV80c1pwWW9JYmRDaHduVnRMMkxGamg0R1VoZEdXQ2NfQ1Q3ekFyRl9fdm8wLXUzdXdGTXUwUkltZkRNY3VudWhmcjRualNTWktuMkJxZ3c4Zw?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">High Court raps UOB over inconsistent legal positions on late mortgage payment charges</h3>
-          <p class="news-excerpt">High Court raps UOB over inconsistent legal positions on late mortgage payment...</p>
-          <div class="news-meta">
-            <span>Mon, 25 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">HDB launches tender for first site since tightened EC rules, at Canberra Drive</h3>
+          <p class="blog-excerpt">HDB launches tender for first site since tightened EC rules, at Canberra...</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNdUlQYk4zVjN2d2tpZlp6a0s0cEFWZ29uTXJBRTdCZHU3dUJ1ek44SjRhYlVGYm1sR0xJcmY2UUFHUE9lNHoxZEttX3h1N3MwX0ZOQ20tNGRlRS1OcFdJWXk4dXhCYUthaXVWNFl3azlJMmVnUFU4VTV4MWp4S2ZySllDcTVHTlRMaTkxNHBVTE0xaGFVa19XU2Z4akE4N3pvT3hRS0t3WkpiUQ?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
-          <span class="news-source">EDGEPROP</span>
+      <a href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxPcHFXRHY4N1F0a19wS29EQ0R4SmtCMkUzZEJkdnAtTTFwZklKaE94ZnA4aFh3WnNSV2k3YlByc1hXS2d4U0l4d1JBc0lIQUQ1bXRlenJ4ZW1XNnM2QkRzaHR2OWJOOGdvbmZIdEppeHZOdzZSaksteFVONGl2dWpRZnJVQVl5bEhHdi04ZHV1MjFaMmc0bFE3QTJCWU9FZFRrSDBuWDM4cEtmMWhnR1FsVVAzc1JBaktT0gG-AUFVX3lxTE9nOXhETEo5ZFRNNklNN0Y4SnVVWjc2S0E4QTkxUTBIUTNkRWZSVlg2NGJlUmQ3dzhFTjJScnhiX1ZqRHZzaEhPdlpoUjBKUWN6QXE2WUFUU1lzbzNvaVA0NDJIS2dBVFlMbkdPN01ZVl9XSzAzNzBma1BNdGt6SU5EZTFmTWNtQzNGc3hHbTVoYXh4a2FLNjdPU0V2VFpmTkRWTWZEck5LUGsxUXBDUFI3Um5vWnFGQTRJdUFGQmc?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">The Assembly Place to debut 'AI-powered' co-living property at Lorong 22 Geylang</h3>
-          <p class="news-excerpt">The Assembly Place to debut 'AI-powered' co-living property at Lorong 22 Geylang</p>
-          <div class="news-meta">
-            <span>Mon, 25 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on EdgeProp &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">EdgeProp</span>
+          <h3 class="blog-title">Flex workspaces get pricier in Singapore, led by Marina Bay; demand rises in Jurong: re...</h3>
+          <p class="blog-excerpt">Flex workspaces get pricier in Singapore, led by Marina Bay; demand rises...</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on EdgeProp</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxNUXl0cmYxY2trZXktVlhqZmFya0JZYndqaEV1c1pNSXpjSFdBQkYyWVpGQzh5SE1wVnBsU01tTFVtMUJ5UmRrVlBmX3k4MnNUMDhubTRiLXZhSE1BTnpiNENEQkMtdkt5LVFsaFpIZFRGTlZBRGJ6eFZzNUhEdnAwV3VlbGhzMjFMUUpLV091Qkk1SkZMRU1pZkszTzlBU0Nnd3FSREJPR3phQWJseFo4SzZFY2taa0ZSMFhBQ1hjcjFfdlB0S0xaYTk5TjRtcGYxTjE4?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMi-gFBVV95cUxOU3FOXzdVbTJUaHJNUnNkYVU4b1MxenhwalEyZVdSVndZNVpneWE1eXlhOVVTa0pkMEtWcFkwUUxhM3Z5SFo4YkZSNndCSUlTUkdrMkhaa25NMEx0a2RWb1FPSEk4YU1wclBWbTF1Sm41d0J6M1N6OEowT1RBSTJpWjk3WTMzMmdGS2ZkQm5NckxmeTY0SDhhN1k2am1pQS1heWhmV3hHT0tlZnVnQzZ4Y000UmpSRXdhSDVoLUx1dDExVE5WVkhWaEQ2UEtTNmhybm82TW1keUtZcXRiaGNnbHJBVjZtQ2g5aVNqckFuSEw0d0JkTEdDUjBR?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Nearly 15 years’ jail for man over death of woman, 19, who was tortured in Clementi flat</h3>
-          <p class="news-excerpt">Nearly 15 years’ jail for man over death of woman, 19, who...</p>
-          <div class="news-meta">
-            <span>Mon, 25 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">IGIS X Asset Management and HOMA Partner to Launch HOMA Korea, a Premier Institutional ...</h3>
+          <p class="blog-excerpt">IGIS X Asset Management and HOMA Partner to Launch HOMA Korea, a...</p>
+          <div class="blog-meta">Tue, 26 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMiogFBVV95cUxORlRMb1Z1ZTNOT0RrS0hORTdIaDQwNWpvcnFJeDE1cmNrSURxdlpVMVlIaWFnZWVOZVd6TTRtX1RTSjFNb01BY3E4a3FXeHNGSWVUelF2aC0xcXRUWFpqVkdwYWRCLTRXZzAxZUU5WDJSUUkyUUJHSkVYeTNhdzFhWE01RXNoaElqN2QtMGkzNG9XenFTeHd2cVNhOUZoQjc3YlE?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA" loading="lazy">
-          <span class="news-source">CNA</span>
+      <a href="https://news.google.com/rss/articles/CBMi4gFBVV95cUxQREwzeFBVREVtcVk1YXNienBoZENmOFhhcm1GdVE0UWgxaDBDTHJiaDhyM1h2SEUyaWwzT2pfRGN6dkZoT3FtWnlzb0c1bWFYQ3BZb0k2WUM2T1ZUZFhpd0h6aE9rZGwwQnU0ekVfcmpGNXhEMkFpa056Z0I2X2FDeGhJbFEwSllhc0ZvMGVDb2U4N3J0dVpZbDB0TXRwNXAtY292eHVaSWhxZjRPb0d5MzQ5bUo5WURJTW4xRmNINXVZY2lEMXV5OFlPMWhSM0xPVTRzb2RRSEQ0bVhHbHpGM3p3?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">More condominiums are exploring the use of solar panels. Are they worth it?</h3>
-          <p class="news-excerpt">More condominiums are exploring the use of solar panels. Are they worth...</p>
-          <div class="news-meta">
-            <span>Sun, 24 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on CNA &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">CNA</span>
+          <h3 class="blog-title">CNA938 Rewind - Why more Singapore families are fighting over property</h3>
+          <p class="blog-excerpt">CNA938 Rewind - Why more Singapore families are fighting over property</p>
+          <div class="blog-meta">Mon, 25 May 2026 &middot; Read on CNA</div>
         </div>
       </a>
 
-            <a href="https://news.google.com/rss/articles/CBMimwFBVV95cUxPeUViYV9tYnlsVE9URUN0c0NpQlhCbXBSeDRlVG5VWWdYSWFSOVJoazB5VVhLUHVZRkEwSXZUVGdaNU5vVTd3a3g3SXdjX09ZM25oUzl5OEs1R3hsc0lYV3VvVGNMM00zSWVwMDlzbGVpWkFmTEVhc1FBOHd3dm9kQ1dQSjZ5dnZub3BDOURrMU84dkxJY1hnWGI0bw?oc=5" target="_blank" rel="noopener" class="news-card">
-        <div class="news-img">
-          <img src="assets/images/blog/logos/st-logo.svg" alt="ST" loading="lazy">
-          <span class="news-source">ST</span>
+      <a href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxQLWhPSk9qbWU1cEw3c0tpaEgwdmdIVUNLbGp0YUpJdEZad3kxZmJiTFRNQlhWaDRBRVU1Y3pxOWRJV3JVdHo0cUZJajlMUjdraXJSdG9IbTRMWmRsSkhDdVM3TzM4c2s1bmdMMGxIYmpkSnRpQXFhMzhPVDYydkZmQ3Z5VUV5bURKN255MEEzRlZFMHRFUUJQYlBzQXVrYUJKaGptRlJ2S3pvNW94cXFrR1BrekdwaWZpdjYwQkwwYnFTZXhGcWg1LVFZU2tRSE9VSnc?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
         </div>
-        <div class="news-body">
-          <h3 class="news-title">Protesters march in Madrid over soaring housing costs</h3>
-          <p class="news-excerpt">Protesters march in Madrid over soaring housing costs</p>
-          <div class="news-meta">
-            <span>Sun, 24 May 2026</span>
-            <span>&middot;</span>
-            <span class="source-link">Read on ST &rarr;</span>
-          </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">TCL Zhonghuan Launches Next-Generation BC Module at Tianjin Manufacturing Base</h3>
+          <p class="blog-excerpt">TCL Zhonghuan Launches Next-Generation BC Module at Tianjin Manufacturing Base</p>
+          <div class="blog-meta">Mon, 25 May 2026 &middot; Read on ST</div>
+        </div>
+      </a>
+
+      <a href="https://news.google.com/rss/articles/CBMi1wFBVV95cUxPX0RfTlFnZXdESTVmY08xRXZvUjM0YmFKLWJvZE8xSlprTVVvR1dSZ3FXZW90Q3ZQanlVUzN4aDV4VlFDMmlYeWxQeVE0bEl1VHZxRjlDTlljYjhqMDJJQVhpRkJ1UTQ2YVBHZGpUVzBvTXpKUkI1czByZktWNzU2R0RHQV9PTFhLeGtZWDBzeGJSd1B3WkVTWGxyMGtISk1YN1AzLVpQeDZJd0ZDZTI3VGlITkg0UTM2WGQzNUdPM1VaWlpfeUlfV0gyQVJYS1BOeDVlZGVpaw?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
+        </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">SC Unveils Thailand's Most Prestigious Ultra-Luxury Residences for the Global Elite</h3>
+          <p class="blog-excerpt">SC Unveils Thailand's Most Prestigious Ultra-Luxury Residences for the Global Elite</p>
+          <div class="blog-meta">Mon, 25 May 2026 &middot; Read on ST</div>
+        </div>
+      </a>
+
+      <a href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxPMENPYzAtRzhMLXlzTGtSMWxtX2JIU2tZdnU5NmszcVpPRGhyTDZPbW5NcVM1NEpXTGJaSGh0WjBxa05uaTZkR1poVWpyUHIwVWlZZ0hVdWkzQi1BMjlsOXNKMm13UllqSEpKalJQM0ZrTHZXVTB5T1pDYWMyWjQzZ25LUWc3dGR4Z0FmQU83T2hCZEtCR2M2TTRlb21fUWt1Z0xmRnY3XzZQQlgxeXM5NlgtRmo2ZVVvVzFteTIwOENoUQ?oc=5" class="blog-card" target="_blank" rel="noopener">
+        <div class="blog-thumb">
+          <img src="assets/images/blog/logos/st-logo.svg" alt="ST property news" loading="lazy" style="object-fit:contain;padding:20px;background:#fff;">
+        </div>
+        <div class="blog-content">
+          <span class="blog-tag">ST</span>
+          <h3 class="blog-title">High Court raps UOB over inconsistent legal positions on late mortgage payment charges</h3>
+          <p class="blog-excerpt">High Court raps UOB over inconsistent legal positions on late mortgage payment...</p>
+          <div class="blog-meta">Mon, 25 May 2026 &middot; Read on ST</div>
         </div>
       </a>
 
@@ -983,79 +965,48 @@
   </div>
 </section>
 
-<!-- CTA Section -->
-<section class="section" style="background: var(--dark); text-align: center;">
-  <div class="container">
-    <div class="label reveal" style="color: var(--accent-light);">Stay in the Loop</div>
-    <h2 class="headline-md reveal" style="color: var(--white); margin-bottom: var(--space-4);">The Market Moves Fast.</h2>
-    <p class="body-lg reveal" style="color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto var(--space-8);">Get the latest guides, market updates, and INITIUM news sent straight to you. No spam. No fluff. Just what matters.</p>
-    <div class="reveal">
-      <a href="contact.html" class="btn btn-primary btn-lg">Join the List</a>
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div style="font-family:var(--font-display); font-weight:700; font-size:20px; color:var(--ig);">INITIUM</div>
+      <p style="font-size:13px; color:var(--ig-ink-3); margin-top:8px; max-width:240px;">Igniting Journeys</p>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Explore</div>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="services.html">Services</a>
+      <a href="new-launches.html">New Launches</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <a href="team.html">Team</a>
+      <a href="join.html">Join Us</a>
+      <a href="blog.html">Pulse</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-col">
+      <div class="footer-col-title">Connect</div>
+      <a href="https://wa.me/6588464814" target="_blank">WhatsApp</a>
+      <a href="https://www.instagram.com/initium.grp" target="_blank">Instagram</a>
+      <a href="mailto:hello@initium.sg">Email</a>
     </div>
   </div>
-</section>
-
-<!-- Footer -->
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">INITI<span>U</span>M</div>
-        <p class="footer-desc">Built on trust, systems, and the drive to lift everyone higher. Singapore, since 2010.</p>
-        <div class="footer-socials">
-          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-          </a>
-          <a href="https://www.facebook.com/Initiumsg/" target="_blank" rel="noopener" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-          </a>
-          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="TikTok">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
-          </a>
-          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="YouTube">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.5c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
-          </a>
-        </div>
-      </div>
-      <div class="footer-nav">
-        <div class="footer-heading">Quick Links</div>
-        <div class="footer-links">
-          <a href="new-launches.html" class="footer-link">
-            <span class="footer-link-title">New Launches</span>
-            <span class="footer-link-desc">Early access to Singapore's latest developments</span>
-          </a>
-          <a href="services.html" class="footer-link">
-            <span class="footer-link-title">Services</span>
-            <span class="footer-link-desc">Buy, sell, invest with precision</span>
-          </a>
-          <a href="about.html" class="footer-link">
-            <span class="footer-link-title">About</span>
-            <span class="footer-link-desc">Our story, team, and culture</span>
-          </a>
-          <a href="blog.html" class="footer-link">
-            <span class="footer-link-title">The Post</span>
-            <span class="footer-link-desc">Market insights and property stories</span>
-          </a>
-          <a href="contact.html" class="footer-link">
-            <span class="footer-link-title">Contact</span>
-            <span class="footer-link-desc">Start a conversation</span>
-          </a>
-          <a href="intm-shop.html" class="footer-link">
-            <span class="footer-link-title">INTM Shop</span>
-            <span class="footer-link-desc">Branded merchandise and tools</span>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>&copy; 2026 INITIUM. All rights reserved.</span>
-      <span>CEA Licence No: L3010858B</span>
+  <div class="footer-bottom">
+    <div class="footer-copy">&copy; 2026 INITIUM. Igniting Journeys.</div>
+    <div class="footer-legal">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
     </div>
   </div>
 </footer>
 
-<script src="js/nav.js"></script>
 <script>
+  // Nav scroll effect
+  window.addEventListener('scroll', function() {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
   // Archive search
   (function() {
     var searchInput = document.getElementById('archiveSearch');
@@ -1064,7 +1015,7 @@
     var countEl = document.querySelector('.archive-count');
     if (!searchInput || !grid) return;
 
-    var cards = grid.querySelectorAll('.news-card');
+    var cards = grid.querySelectorAll('.blog-card');
     var originalCount = cards.length;
 
     function filterArticles(query) {
@@ -1072,9 +1023,9 @@
       var visible = 0;
 
       cards.forEach(function(card) {
-        var title = (card.querySelector('.news-title') || {}).textContent || '';
-        var excerpt = (card.querySelector('.news-excerpt') || {}).textContent || '';
-        var tag = (card.querySelector('.news-source') || {}).textContent || '';
+        var title = (card.querySelector('.blog-title') || {}).textContent || '';
+        var excerpt = (card.querySelector('.blog-excerpt') || {}).textContent || '';
+        var tag = (card.querySelector('.blog-tag') || {}).textContent || '';
         var text = (title + ' ' + excerpt + ' ' + tag).toLowerCase();
 
         if (!query || text.indexOf(query) !== -1) {
@@ -1085,12 +1036,13 @@
         }
       });
 
+      // Toggle empty state
       var existing = grid.querySelector('.archive-empty');
       if (visible === 0) {
         if (!existing) {
           var p = document.createElement('p');
           p.className = 'archive-empty';
-          p.style.cssText = 'color:var(--text-tertiary); text-align:center; padding:60px 0; grid-column:1/-1;';
+          p.style.cssText = 'color:var(--ig-ink-3); text-align:center; padding:60px 0; grid-column:1/-1;';
           p.textContent = 'No articles match your search.';
           grid.appendChild(p);
         }
@@ -1098,10 +1050,12 @@
         existing.remove();
       }
 
+      // Update count
       if (countEl) {
         countEl.textContent = visible + (query ? ' of ' + originalCount : '') + ' article' + (visible !== 1 ? 's' : '');
       }
 
+      // Toggle clear button
       searchClear.classList.toggle('visible', query.length > 0);
     }
 
@@ -1115,26 +1069,6 @@
       searchInput.focus();
     });
   })();
-</script>
-<script>
-  // Reveal on scroll
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-  });
 </script>
 
 </body>

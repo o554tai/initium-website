@@ -1,41 +1,5 @@
 [
   {
-    "title": "Protesters march in Madrid over soaring housing costs - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPeUViYV9tYnlsVE9URUN0c0NpQlhCbXBSeDRlVG5VWWdYSWFSOVJoazB5VVhLUHVZRkEwSXZUVGdaNU5vVTd3a3g3SXdjX09ZM25oUzl5OEs1R3hsc0lYV3VvVGNMM00zSWVwMDlzbGVpWkFmTEVhc1FBOHd3dm9kQ1dQSjZ5dnZub3BDOURrMU84dkxJY1hnWGI0bw?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Sun, 24 May 2026 15:09:00 GMT",
-    "pub_ts": 1779635340.0,
-    "fetched_ts": 1779638468.651971,
-    "source_tag": "ST"
-  },
-  {
-    "title": "More condominiums are exploring the use of solar panels. Are they worth it? - CNA",
-    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxORlRMb1Z1ZTNOT0RrS0hORTdIaDQwNWpvcnFJeDE1cmNrSURxdlpVMVlIaWFnZWVOZVd6TTRtX1RTSjFNb01BY3E4a3FXeHNGSWVUelF2aC0xcXRUWFpqVkdwYWRCLTRXZzAxZUU5WDJSUUkyUUJHSkVYeTNhdzFhWE01RXNoaElqN2QtMGkzNG9XenFTeHd2cVNhOUZoQjc3YlE?oc=5",
-    "source": "CNA",
-    "pub_date": "Sun, 24 May 2026 22:00:00 GMT",
-    "pub_ts": 1779660000.0,
-    "fetched_ts": 1779663661.125252,
-    "source_tag": "CNA"
-  },
-  {
-    "title": "Nearly 15 years’ jail for man over death of woman, 19, who was tortured in Clementi flat - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNUXl0cmYxY2trZXktVlhqZmFya0JZYndqaEV1c1pNSXpjSFdBQkYyWVpGQzh5SE1wVnBsU01tTFVtMUJ5UmRrVlBmX3k4MnNUMDhubTRiLXZhSE1BTnpiNENEQkMtdkt5LVFsaFpIZFRGTlZBRGJ6eFZzNUhEdnAwV3VlbGhzMjFMUUpLV091Qkk1SkZMRU1pZkszTzlBU0Nnd3FSREJPR3phQWJseFo4SzZFY2taa0ZSMFhBQ1hjcjFfdlB0S0xaYTk5TjRtcGYxTjE4?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Mon, 25 May 2026 03:31:46 GMT",
-    "pub_ts": 1779679906.0,
-    "fetched_ts": 1779685228.104587,
-    "source_tag": "ST"
-  },
-  {
-    "title": "The Assembly Place to debut 'AI-powered' co-living property at Lorong 22 Geylang - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNdUlQYk4zVjN2d2tpZlp6a0s0cEFWZ29uTXJBRTdCZHU3dUJ1ek44SjRhYlVGYm1sR0xJcmY2UUFHUE9lNHoxZEttX3h1N3MwX0ZOQ20tNGRlRS1OcFdJWXk4dXhCYUthaXVWNFl3azlJMmVnUFU4VTV4MWp4S2ZySllDcTVHTlRMaTkxNHBVTE0xaGFVa19XU2Z4akE4N3pvT3hRS0t3WkpiUQ?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Mon, 25 May 2026 04:07:41 GMT",
-    "pub_ts": 1779682061.0,
-    "fetched_ts": 1779692419.938866,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "High Court raps UOB over inconsistent legal positions on late mortgage payment charges - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxPMENPYzAtRzhMLXlzTGtSMWxtX2JIU2tZdnU5NmszcVpPRGhyTDZPbW5NcVM1NEpXTGJaSGh0WjBxa05uaTZkR1poVWpyUHIwVWlZZ0hVdWkzQi1BMjlsOXNKMm13UllqSEpKalJQM0ZrTHZXVTB5T1pDYWMyWjQzZ25LUWc3dGR4Z0FmQU83T2hCZEtCR2M2TTRlb21fUWt1Z0xmRnY3XzZQQlgxeXM5NlgtRmo2ZVVvVzFteTIwOENoUQ?oc=5",
     "source": "The Straits Times",
@@ -448,5 +412,50 @@
     "pub_ts": 1780174800.0,
     "fetched_ts": 1780185646.56278,
     "source_tag": "ST"
+  },
+  {
+    "title": "Are executive condominiums increasingly out of reach for aspiring HDB upgraders? - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPVVV2cFNRc21tNW5YUFVZX3BoNm5LbGh0Sjl5TjZZc1pwelJ3ZTVBaU9qN001YlVGRldiVGlyb1JDd1otY1d6dWtwczNjSHdWeTRvMm91UEw4Q0poV0QzaFlfcVBvSnN3TEhuLTJpTGRRODAwR2huSHVOcHB0SWd2aExEcllJUVVMV1A1Tk1oeHpyQWkzTWFnVUZzZy12X0k2X3k4bHNYNVNKTzJnczVzdTdxVDViYXM?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Sun, 31 May 2026 21:00:00 GMT",
+    "pub_ts": 1780261200.0,
+    "fetched_ts": 1780293662.272995,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Vietjet to launch direct flights between Singapore and Nha Trang in Vietnam - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMkNsYUhKRTI4YV9aTU1hVjYwVlo4MFlYODQwWV81d185Q05VVmJFNy1pUVdybXZaQU5lbWh0VzJUUFJYOXRvSDhIWHRCSkxzc0RrMkpJdTRaWW9pQjl1YTBFME9lSWJTWGgtczZjS3RKVGV4b3ZHMm9aOW05czQ3cXljVUVFZzhUck12VkFfLW5nQ3VEOTJpM25uRmpoclhQWXlmRklPMVNuUUt1UG0yNGVjUVI?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Mon, 01 Jun 2026 02:00:00 GMT",
+    "pub_ts": 1780279200.0,
+    "fetched_ts": 1780293662.273143,
+    "source_tag": "ST"
+  },
+  {
+    "title": "S’pore launches nationwide movement to help families foster healthy digital habits - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxPTnU4eURiem1hRWNpTGZKaVBQS3F6bjJfbXIxb09uX2ZDR2ZFYmI4dXd3NHJuU1FfRE9TVS1UcmdyZzVfT3BidjJBanlFVDVSbE9rYlJoS0NSaFpFLUJlRzhNVXBIY3UwNkNTR3lZaFJMUFVTU3NlNzN0NFpCRW9PYnNfbnhJYTF5eXUwVm1CN01TMVRLRUp4S25Oamg5bU9xa2pwVHVMT0hoQnlGcTZ0M29RMks?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Sun, 31 May 2026 03:33:30 GMT",
+    "pub_ts": 1780198410.0,
+    "fetched_ts": 1780293662.273162,
+    "source_tag": "ST"
+  },
+  {
+    "title": "17 nations launch effort to protect subsea infrastructure - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOa0NKTEhRVzNPUnlzUElsX2JLWUVzRmxJUC1KMU9oLVVPR1ZnOWgxY2xSelEtcWZES19od19zM1ZqZC1QZkhUcmtkM2h2bmRxaDZwckQ1VWF2c0x0YXJRMVhCdTZVX1dsZk8zQjJpZ0g4OWVBdnNNajF3VUJYeVNpR1FFS0F3aFFQaFE4RXVMZkUteWswU0x4UEl6NTVOdnBsdjFaMUZrSW5JZjlrbENQX25xMG1yVk1VSW9BU0R5VU1Kazh2b0JOMzdJaFc?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Sat, 30 May 2026 08:45:00 GMT",
+    "pub_ts": 1780130700.0,
+    "fetched_ts": 1780293662.273266,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Three farms affected by Lim Chu Kang land-use changes seek lease extensions as expiry dates draw near - CNA",
+    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNcGQ3cXB2bEdIWEFnNVh6R3N1ZngtSmE1M1ZrQ2NVNXJ5RGhHV3EtY3dhN3FzbDFHU3JGSXlOZHZwWTllMmUwT09IWGl4OFRMQXdySmxhdkFrMnh3Ym5zaVNfS0thWC16N2VoSHFueFRrTm5JaEFUMHNHdGpEc19Fc2xaZWRmTFIybXF3OHdTbUxlVjU3M2dHb09TY3dlY2tLdllwWEVPdjVqUGl3NjR0NlVGVVJDNGpjV0Iw?oc=5",
+    "source": "CNA",
+    "pub_date": "Sun, 31 May 2026 22:00:00 GMT",
+    "pub_ts": 1780264800.0,
+    "fetched_ts": 1780293663.004612,
+    "source_tag": "CNA"
   }
 ]

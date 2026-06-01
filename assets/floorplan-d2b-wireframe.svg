@@ -1,0 +1,89 @@
+<?xml version="1.0" ?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-200 -200 1556 1002" width="1200" height="800" style="background:#ffffff;">
+  <style>
+  .wall { stroke: #1a1a1a; stroke-width: 3; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .thin-wall { stroke: #1a1a1a; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .door { stroke: #1a1a1a; stroke-width: 1.5; fill: none; stroke-dasharray: 4,4; }
+  .label { font-family: 'Space Grotesk', sans-serif; font-size: 10px; fill: #333; text-anchor: middle; }
+  .label-sm { font-family: 'Space Grotesk', sans-serif; font-size: 8px; fill: #666; text-anchor: middle; }
+  .dim { font-family: 'DM Sans', sans-serif; font-size: 7px; fill: #c00; text-anchor: middle; }
+</style>
+  <g transform="translate(20, 20) scale(0.08)">
+    <line x1="0" y1="0" x2="3220" y2="0" class="wall"/>
+    <line x1="3220" y1="0" x2="5500" y2="0" class="wall"/>
+    <line x1="5500" y1="0" x2="7200" y2="0" class="wall"/>
+    <line x1="7200" y1="0" x2="9810" y2="0" class="wall"/>
+    <line x1="9810" y1="0" x2="12820" y2="0" class="wall"/>
+    <line x1="12820" y1="0" x2="14460" y2="7530" class="wall"/>
+    <line x1="14460" y1="7530" x2="11450" y2="7530" class="wall"/>
+    <line x1="11450" y1="7530" x2="8840" y2="7530" class="wall"/>
+    <line x1="8840" y1="7530" x2="6230" y2="7530" class="wall"/>
+    <line x1="6230" y1="7530" x2="0" y2="7530" class="wall"/>
+    <line x1="0" y1="7530" x2="0" y2="0" class="wall"/>
+    <line x1="0" y1="2200" x2="12820" y2="2200" class="wall"/>
+    <line x1="0" y1="4800" x2="14460" y2="4800" class="wall"/>
+    <line x1="0" y1="6200" x2="14460" y2="6200" class="wall"/>
+    <line x1="9810" y1="0" x2="11450" y2="7530" class="wall"/>
+    <line x1="7200" y1="0" x2="8840" y2="7530" class="wall"/>
+    <line x1="5500" y1="0" x2="5500" y2="2200" class="wall"/>
+    <line x1="6230" y1="2200" x2="6230" y2="7530" class="wall"/>
+    <line x1="3220" y1="0" x2="3220" y2="2200" class="wall"/>
+    <line x1="7200" y1="0" x2="7200" y2="2200" class="wall"/>
+    <line x1="7200" y1="2200" x2="8840" y2="4800" class="wall"/>
+    <line x1="9810" y1="1100" x2="12820" y2="1100" class="wall"/>
+    <line x1="8840" y1="4800" x2="10300" y2="4800" class="wall"/>
+    <line x1="10300" y1="4800" x2="10300" y2="6200" class="wall"/>
+    <line x1="10300" y1="6200" x2="11450" y2="6200" class="wall"/>
+    <line x1="6230" y1="6200" x2="8840" y2="6200" class="wall"/>
+    <line x1="7540" y1="4800" x2="7540" y2="6200" class="wall"/>
+    <line x1="0" y1="7530" x2="6230" y2="7530" class="wall"/>
+    <line x1="0" y1="6200" x2="0" y2="7530" class="wall"/>
+    <line x1="6230" y1="6200" x2="6230" y2="7530" class="wall"/>
+    <line x1="5600" y1="0" x2="6800" y2="0" class="wall"/>
+    <line x1="6800" y1="0" x2="6800" y2="1800" class="wall"/>
+    <line x1="6800" y1="1800" x2="5600" y2="1800" class="wall"/>
+    <line x1="5600" y1="1800" x2="5600" y2="0" class="wall"/>
+    <text x="1600" y="1100" class="label">HS 3.8m²</text>
+    <text x="4350" y="1100" class="label">WET KITCHEN
+YARD 13.0m²</text>
+    <text x="7500" y="900" class="label">BED 4
+9.0m²</text>
+    <text x="10800" y="550" class="label">MASTER BATH
+5.1m²</text>
+    <text x="10800" y="1650" class="label">W.I.W
+3.5m²</text>
+    <text x="2600" y="3500" class="label">DINING
+18.7m²</text>
+    <text x="2600" y="5400" class="label">LIVING</text>
+    <text x="800" y="6870" class="label">BALCONY
+11.9m²</text>
+    <text x="6900" y="5400" class="label">FLEXI
+5.0m²</text>
+    <text x="8200" y="5400" class="label">BATH 1
+4.5m²</text>
+    <text x="8200" y="4000" class="label">BED 3
+8.9m²</text>
+    <text x="10100" y="4000" class="label">BED 2
+8.8m²</text>
+    <text x="12950" y="5400" class="label">MASTER BED
+14.8m²</text>
+    <text x="7800" y="3000" class="label">BATH 2
+4.2m²</text>
+    <text x="6200" y="900" class="label">PVT LIFT</text>
+    <text x="1610" y="-300" class="dim">3220</text>
+    <text x="4350" y="-300" class="dim">2280</text>
+    <text x="6350" y="-300" class="dim">1700</text>
+    <text x="8505" y="-300" class="dim">2610</text>
+    <text x="11315" y="-300" class="dim">3010</text>
+    <text x="-400" y="1100" class="dim">2100</text>
+    <text x="-400" y="3300" class="dim">2360</text>
+    <text x="-400" y="5500" class="dim">3360</text>
+    <text x="-400" y="6900" class="dim">2710</text>
+    <text x="3115" y="7830" class="dim">4420</text>
+    <text x="5575" y="7830" class="dim">1710</text>
+    <text x="7540" y="7830" class="dim">2610</text>
+    <text x="9860" y="7830" class="dim">2610</text>
+    <text x="12955" y="7830" class="dim">3010</text>
+    <text x="14860" y="3765" class="dim">7530</text>
+  </g>
+</svg>
