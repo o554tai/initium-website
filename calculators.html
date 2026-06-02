@@ -299,6 +299,74 @@
     }
     .results-section .label { color: var(--accent-light); }
     .results-section .headline-md { color: var(--white); }
+    .prog-tabs {
+      display: flex;
+      gap: var(--space-6);
+      margin-top: var(--space-6);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .prog-tab {
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: var(--space-3) 0;
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .prog-tab:hover { color: var(--white); }
+    .prog-tab.active {
+      color: var(--white);
+      border-bottom-color: var(--accent);
+    }
+    .timeline-list { display: flex; flex-direction: column; gap: var(--space-4); }
+    .timeline-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding: var(--space-4);
+      background: var(--dark);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-2); }
+    .timeline-date { font-family: var(--font-display); font-size: var(--text-sm); color: rgba(255,255,255,0.6); }
+    .timeline-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 600; color: var(--white); margin: 0; }
+    .timeline-note { font-size: var(--text-xs); color: rgba(255,255,255,0.5); margin-top: var(--space-1); }
+    .timeline-breakdown { margin-top: var(--space-2); }
+    .timeline-breakdown table { width: 100%; font-size: var(--text-sm); border-collapse: collapse; }
+    .timeline-breakdown td { padding: var(--space-1) 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .timeline-breakdown tr:last-child td { border-bottom: none; }
+    .timeline-breakdown td:last-child { text-align: right; font-weight: 600; }
+    .amort-toggle {
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-display);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: var(--accent);
+      transition: all var(--transition-fast);
+    }
+    .amort-toggle.active {
+      background: var(--accent);
+      color: var(--white);
+    }
+    .amort-table { min-width: 640px; }
+    .amort-table th,
+    .amort-table td { padding: var(--space-2) var(--space-3); text-align: left; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: var(--text-sm); }
+    .amort-table th { font-family: var(--font-display); font-weight: 500; color: rgba(255,255,255,0.6); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; }
+    .amort-table td:last-child,
+    .amort-table th:last-child { text-align: right; }
   </style>
 </head>
 <body>
@@ -632,43 +700,122 @@
       <div class="calc-card dark">
         <div class="calc-grid">
           <div class="calc-field">
-            <label class="calc-label">Property Price (S$)</label>
-            <input type="number" class="calc-input" id="prog-price" placeholder="e.g. 1,500,000" value="1500000">
+            <label class="calc-label">Property Type</label>
+            <select class="calc-select" id="prog-property-type">
+              <option value="private">Private</option>
+              <option value="ec">EC</option>
+            </select>
           </div>
           <div class="calc-field">
-            <label class="calc-label">Downpayment (%)</label>
-            <input type="number" class="calc-input" id="prog-dp" placeholder="e.g. 25" value="25">
+            <label class="calc-label">Residency</label>
+            <select class="calc-select" id="prog-residency">
+              <option value="sc">Singaporean</option>
+              <option value="pr">PR</option>
+              <option value="foreigner">Foreigner</option>
+            </select>
           </div>
           <div class="calc-field">
-            <label class="calc-label">Interest Rate (% p.a.)</label>
-            <input type="number" class="calc-input" id="prog-rate" placeholder="e.g. 3.5" value="3.5" step="0.01">
+            <label class="calc-label">Buying</label>
+            <select class="calc-select" id="prog-buying">
+              <option value="1">First Property</option>
+              <option value="2">Second Property</option>
+              <option value="3">Third and Subsequent Property</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Purchase Date</label>
+            <input type="date" class="calc-input" id="prog-purchase-date" value="2026-06-02">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Next Progressive Stage</label>
+            <select class="calc-select" id="prog-next-stage">
+              <option value="foundation">Foundation (10%)</option>
+              <option value="framework">Reinforce Concrete Framework (10%)</option>
+              <option value="brick">Brick, Walls (5%)</option>
+              <option value="ceiling">Ceiling (5%)</option>
+              <option value="doors">Door / Windows / M&E (5%)</option>
+              <option value="carparks">Carparks / Roads / Drains (5%)</option>
+              <option value="top">Temporary Occupation Permit (TOP) (25%)</option>
+              <option value="csc">Certificate of Statutory Completion (CSC) (15%)</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Next Progressive Stage Date</label>
+            <input type="date" class="calc-input" id="prog-next-stage-date" value="2027-04-28">
+          </div>
+          <div class="calc-field full" style="display:flex;align-items:center;gap:var(--space-2);margin-bottom:0;">
+            <input type="checkbox" id="prog-eot" style="width:auto;cursor:pointer;">
+            <label for="prog-eot" class="calc-label" style="margin-bottom:0;cursor:pointer;font-size:var(--text-sm);text-transform:none;letter-spacing:0;">Add EOT</label>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Purchase Price (S$)</label>
+            <input type="number" class="calc-input" id="prog-price" placeholder="e.g. 1,000,000" value="1000000">
+          </div>
+          <div class="calc-field full" style="margin-bottom:var(--space-2);">
+            <h6 style="color:var(--accent);cursor:pointer;font-size:var(--text-sm);margin:0;font-family:var(--font-display);font-weight:600;" onclick="toggleCompare()">Add Compare Option</h6>
+            <div id="prog-compare-box" style="display:none;margin-top:var(--space-3);"></div>
           </div>
           <div class="calc-field">
             <label class="calc-label">Loan Tenure (years)</label>
-            <input type="number" class="calc-input" id="prog-tenure" placeholder="e.g. 25" value="25">
+            <input type="number" class="calc-input" id="prog-tenure" placeholder="e.g. 30" value="30">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Interest Rate (% p.a.)</label>
+            <input type="number" class="calc-input" id="prog-rate" placeholder="e.g. 1.85" value="1.85" step="0.01">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Type Of Property</label>
+            <select class="calc-select" id="prog-type-property">
+              <option value="residential">Residential</option>
+              <option value="non-residential">Non Residential</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Loan to Value (%)</label>
+            <input type="number" class="calc-input" id="prog-ltv" placeholder="e.g. 75" value="75">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Total CPF to be used (S$)</label>
+            <input type="number" class="calc-input" id="prog-cpf" placeholder="Optional" value="">
           </div>
           <div class="calc-field full">
             <button class="calc-btn" onclick="calculateProgressive()">Calculate Schedule</button>
           </div>
         </div>
         <div class="calc-result-box" id="prog-result" style="display:none;">
+          <p class="calc-label" style="text-align:center;margin-bottom:var(--space-4);font-size:var(--text-sm);">Summary</p>
           <div class="calc-result-row">
-            <span class="calc-result-label">Property Price</span>
-            <span class="calc-result-value" id="prog-price-display">—</span>
+            <span class="calc-result-label">Purchase Price</span>
+            <span class="calc-result-value" id="prog-sum-price">—</span>
           </div>
           <div class="calc-result-row">
-            <span class="calc-result-label">Loan Amount</span>
-            <span class="calc-result-value" id="prog-loan">—</span>
+            <span class="calc-result-label">Total CPF</span>
+            <span class="calc-result-value" id="prog-sum-cpf">—</span>
           </div>
           <div class="calc-result-row">
-            <span class="calc-result-label">Cash + CPF (Downpayment)</span>
-            <span class="calc-result-value" id="prog-downpayment">—</span>
+            <span class="calc-result-label">Total Cash</span>
+            <span class="calc-result-value" id="prog-sum-cash">—</span>
           </div>
-          <div class="calc-result-row" style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 2px solid rgba(80,200,120,0.3);">
+          <div class="calc-result-row" style="border-top:2px solid rgba(80,200,120,0.3);margin-top:var(--space-2);padding-top:var(--space-4);">
             <span class="calc-result-label">Final Monthly Instalment</span>
-            <span class="calc-result-value accent large" id="prog-final-monthly">—</span>
+            <span class="calc-result-value accent large" id="prog-sum-monthly">—</span>
           </div>
-          <table class="calc-breakdown" id="prog-table" style="margin-top: var(--space-6);"></table>
+          <div class="prog-tabs">
+            <button class="prog-tab active" id="prog-tab-timeline" onclick="switchProgTab('timeline')">Timeline</button>
+            <button class="prog-tab" id="prog-tab-amortization" onclick="switchProgTab('amortization')">Amortization</button>
+          </div>
+          <div id="prog-timeline-panel" style="margin-top:var(--space-4);">
+            <div class="timeline-list" id="prog-timeline-list"></div>
+          </div>
+          <div id="prog-amortization-panel" style="display:none;margin-top:var(--space-4);">
+            <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-4);">
+              <button class="amort-toggle active" id="amort-month-btn" onclick="setAmortView('month')">Month</button>
+              <button class="amort-toggle" id="amort-year-btn" onclick="setAmortView('year')">Year</button>
+            </div>
+            <div style="overflow-x:auto;">
+              <table class="calc-breakdown amort-table" id="prog-amort-table"></table>
+            </div>
+          </div>
         </div>
         <p class="calc-note">Progressive payment schedule for new launch properties under construction in Singapore. Based on standard HDB/URA disbursement stages. Interest is charged on amounts drawn down. Actual disbursement dates and percentages may vary by developer.</p>
       </div>
@@ -918,58 +1065,226 @@ function calculateRenovation() {
 /* ========== Progressive Payment ========== */
 function calculateProgressive() {
   const price = +document.getElementById('prog-price').value || 0;
-  const dpPct = +document.getElementById('prog-dp').value || 0;
+  const residency = document.getElementById('prog-residency').value;
+  const buying = +document.getElementById('prog-buying').value || 1;
+  const propType = document.getElementById('prog-type-property').value;
+  const ltvPct = +document.getElementById('prog-ltv').value || 75;
   const rate = +document.getElementById('prog-rate').value || 0;
   const tenure = +document.getElementById('prog-tenure').value || 0;
+  const cpfUsed = +document.getElementById('prog-cpf').value || 0;
+  const purchaseDateStr = document.getElementById('prog-purchase-date').value;
+  const nextStage = document.getElementById('prog-next-stage').value;
+  const nextStageDateStr = document.getElementById('prog-next-stage-date').value;
 
-  const loan = price * (1 - dpPct / 100);
-  const downpayment = price * (dpPct / 100);
+  // BSD calculation
+  const tiers = [
+    { limit: 180000, rate: 0.01 },
+    { limit: 180000, rate: 0.02 },
+    { limit: 640000, rate: 0.03 },
+    { limit: 500000, rate: 0.04 },
+    { limit: 1500000, rate: 0.05 },
+    { limit: Infinity, rate: 0.06 }
+  ];
+  let rem = price, bsd = 0;
+  for (const t of tiers) {
+    if (rem <= 0) break;
+    const taxable = Math.min(rem, t.limit);
+    bsd += taxable * t.rate;
+    rem -= taxable;
+  }
 
+  // ABSD calculation
+  let absdRate = 0;
+  if (propType === 'residential') {
+    if (residency === 'sc') absdRate = buying === 1 ? 0 : buying === 2 ? 0.20 : 0.30;
+    else if (residency === 'pr') absdRate = buying === 1 ? 0.05 : 0.30;
+    else if (residency === 'foreigner') absdRate = 0.60;
+  }
+  const absd = price * absdRate;
+
+  const bookingFee = price * 0.05;
+  const downpayment = price * 0.15;
+  const totalCashUpfront = bookingFee + downpayment + bsd + absd;
+  const totalCashDisplay = Math.max(0, totalCashUpfront - cpfUsed);
+
+  const stageDefs = [
+    { key: 'foundation', name: 'Foundation (10%)', pct: 0.10, cashPct: 0.05, loanPct: 0.05, intervalMonths: 0 },
+    { key: 'framework', name: 'Reinforce Concrete Framework (10%)', pct: 0.10, cashPct: 0, loanPct: 0.10, intervalMonths: 9 },
+    { key: 'brick', name: 'Brick, Walls (5%)', pct: 0.05, cashPct: 0, loanPct: 0.05, intervalMonths: 3 },
+    { key: 'ceiling', name: 'Ceiling (5%)', pct: 0.05, cashPct: 0, loanPct: 0.05, intervalMonths: 3 },
+    { key: 'doors', name: 'Door / Windows / M&E (5%)', pct: 0.05, cashPct: 0, loanPct: 0.05, intervalMonths: 3 },
+    { key: 'carparks', name: 'Carparks / Roads / Drains (5%)', pct: 0.05, cashPct: 0, loanPct: 0.05, intervalMonths: 3 },
+    { key: 'top', name: 'Temporary Occupation Permit (TOP) (25%)', pct: 0.25, cashPct: 0, loanPct: 0.25, intervalMonths: 3 },
+    { key: 'csc', name: 'Certificate of Statutory Completion (CSC) (15%)', pct: 0.15, cashPct: 0, loanPct: 0.15, intervalMonths: 6 }
+  ];
+
+  const startIdx = stageDefs.findIndex(s => s.key === nextStage);
   const r = rate / 100 / 12;
   const n = tenure * 12;
 
+  function addMonths(date, months) {
+    const d = new Date(date);
+    d.setMonth(d.getMonth() + months);
+    return d;
+  }
+  function formatDate(d) {
+    return d.toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
+  }
+
+  // Build timeline
+  let timelineHTML = '';
+  const purchaseDate = new Date(purchaseDateStr);
+
+  timelineHTML += `<div class="timeline-item"><div class="timeline-header"><span class="timeline-date">${formatDate(purchaseDate)}</span><h6 class="timeline-title">Purchase Date</h6></div></div>`;
+
+  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Issuance of Option</div><div class="timeline-header"><span class="timeline-date">${formatDate(purchaseDate)}</span><h6 class="timeline-title">Booking Fee (5%)</h6></div><div class="timeline-breakdown"><table><tbody><tr><td>Cash</td><td>${fmt(bookingFee)}</td></tr></tbody></table></div></div>`;
+
+  const snpDate = new Date(purchaseDate); snpDate.setDate(snpDate.getDate() + 14);
+  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 2 weeks</div><div class="timeline-header"><span class="timeline-date">${formatDate(snpDate)}</span><h6 class="timeline-title">Sales & Purchase Agreement</h6></div></div>`;
+
+  const exerciseDate = new Date(purchaseDate); exerciseDate.setDate(exerciseDate.getDate() + 21);
+  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 3 weeks</div><div class="timeline-header"><span class="timeline-date">${formatDate(exerciseDate)}</span><h6 class="timeline-title">Deadline to Exercise</h6></div></div>`;
+
+  const stampDate = new Date(exerciseDate); stampDate.setDate(stampDate.getDate() + 14);
+  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 14 days from Exercise Date</div><div class="timeline-header"><span class="timeline-date">${formatDate(stampDate)}</span><h6 class="timeline-title">Stamp Duty</h6></div><div class="timeline-breakdown"><table><tbody><tr><td>BSD + ABSD</td><td></td></tr><tr><td>Cash</td><td>${fmt(bsd + absd)}</td></tr></tbody></table></div></div>`;
+
+  const dpDate = new Date(purchaseDate); dpDate.setDate(dpDate.getDate() + 56);
+  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 8 weeks from OTP date</div><div class="timeline-header"><span class="timeline-date">${formatDate(dpDate)}</span><h6 class="timeline-title">Downpayment (15%)</h6></div><div class="timeline-breakdown"><table><tbody><tr><td>Cash</td><td>${fmt(downpayment)}</td></tr></tbody></table></div></div>`;
+
+  let stageDate = new Date(nextStageDateStr);
+  let cumulativeLoan = 0;
   let finalMonthly = 0;
-  if (r === 0) {
-    finalMonthly = loan / n;
-  } else {
-    finalMonthly = loan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-  }
 
-  // Standard Singapore progressive payment stages
-  const stages = [
-    { name: 'Booking Fee', pct: 0.05, fundedBy: 'Cash' },
-    { name: 'S&P Agreement (Within 2 weeks)', pct: 0, fundedBy: 'Legal' },
-    { name: 'Exercise + Downpayment', pct: 0.15, fundedBy: 'Cash/CPF' },
-    { name: 'Foundation (10%)', pct: 0.10, fundedBy: 'Loan' },
-    { name: 'Reinforced Concrete Framework (10%)', pct: 0.10, fundedBy: 'Loan' },
-    { name: 'Brick Walls (5%)', pct: 0.05, fundedBy: 'Loan' },
-    { name: 'Ceiling / Roofing (5%)', pct: 0.05, fundedBy: 'Loan' },
-    { name: 'Doors / Windows / M&E (5%)', pct: 0.05, fundedBy: 'Loan' },
-    { name: 'Carparks / Roads / Drains (5%)', pct: 0.05, fundedBy: 'Loan' },
-    { name: 'TOP - Temporary Occupation Permit (25%)', pct: 0.25, fundedBy: 'Loan' },
-    { name: 'CSC - Statutory Completion (15%)', pct: 0.15, fundedBy: 'Loan' }
-  ];
+  for (let i = startIdx; i < stageDefs.length; i++) {
+    const stage = stageDefs[i];
+    const cashAmount = price * stage.cashPct;
+    const loanAmount = price * stage.loanPct;
+    cumulativeLoan += loanAmount;
 
-  let html = '<thead><tr><th>Stage</th><th>%</th><th>Amount</th><th>Funded By</th></tr></thead><tbody>';
-  let runningLoan = 0;
+    let monthly = 0;
+    if (r === 0) monthly = cumulativeLoan / n;
+    else monthly = cumulativeLoan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+    finalMonthly = monthly;
 
-  for (const stage of stages) {
-    if (stage.pct === 0) continue;
-    const amount = price * stage.pct;
-    if (stage.fundedBy === 'Loan') {
-      runningLoan += amount;
+    let intervalNote = '';
+    if (i > startIdx) {
+      const interval = stageDefs[i].intervalMonths;
+      if (interval === 9) intervalNote = '9 - 12 months';
+      else if (interval === 6) intervalNote = '6 - 12 months';
+      else intervalNote = '3 - 6 months';
     }
-    html += `<tr><td>${stage.name}</td><td>${(stage.pct * 100).toFixed(0)}%</td><td>${fmt(amount)}</td><td>${stage.fundedBy}</td></tr>`;
+
+    timelineHTML += `<div class="timeline-item">${intervalNote ? `<div class="timeline-note">${intervalNote}</div>` : ''}<div class="timeline-header"><span class="timeline-date">${formatDate(stageDate)}</span><h6 class="timeline-title">${stage.name}</h6></div><div class="timeline-breakdown"><table><tbody>${cashAmount > 0 ? `<tr><td>Cash</td><td>${fmt(cashAmount)}</td></tr>` : ''}${loanAmount > 0 ? `<tr><td>Loan</td><td>${fmt(monthly)}/month</td></tr>` : ''}</tbody></table></div></div>`;
+
+    if (i < stageDefs.length - 1) {
+      stageDate = addMonths(stageDate, stageDefs[i + 1].intervalMonths);
+    }
   }
 
-  html += '</tbody>';
+  document.getElementById('prog-sum-price').textContent = fmt(price);
+  document.getElementById('prog-sum-cpf').textContent = cpfUsed > 0 ? fmt(cpfUsed) : '-';
+  document.getElementById('prog-sum-cash').textContent = fmt(totalCashDisplay);
+  document.getElementById('prog-sum-monthly').textContent = fmt(finalMonthly);
+  document.getElementById('prog-timeline-list').innerHTML = timelineHTML;
 
-  document.getElementById('prog-price-display').textContent = fmt(price);
-  document.getElementById('prog-loan').textContent = fmt(loan);
-  document.getElementById('prog-downpayment').textContent = fmt(downpayment);
-  document.getElementById('prog-final-monthly').textContent = fmt(finalMonthly);
-  document.getElementById('prog-table').innerHTML = html;
+  buildAmortization(price, rate, tenure, stageDefs, startIdx, nextStageDateStr, purchaseDateStr);
   document.getElementById('prog-result').style.display = 'block';
+  switchProgTab('timeline');
+}
+
+function buildAmortization(price, rate, tenure, stageDefs, startIdx, firstStageDateStr, purchaseDateStr) {
+  const r = rate / 100 / 12;
+  const n = tenure * 12;
+  const purchaseDate = new Date(purchaseDateStr);
+  const firstStageDate = new Date(firstStageDateStr);
+
+  const draws = [];
+  let stageDate = new Date(firstStageDate);
+  for (let i = startIdx; i < stageDefs.length; i++) {
+    const loanAmount = price * stageDefs[i].loanPct;
+    if (loanAmount > 0) {
+      const monthsFromPurchase = Math.max(1, Math.round((stageDate - purchaseDate) / (1000 * 60 * 60 * 24 * 30.44)));
+      draws.push({ month: monthsFromPurchase, amount: loanAmount });
+    }
+    if (i < stageDefs.length - 1) {
+      stageDate = new Date(stageDate);
+      stageDate.setMonth(stageDate.getMonth() + stageDefs[i + 1].intervalMonths);
+    }
+  }
+
+  let balance = 0;
+  let payment = 0;
+  const schedule = [];
+  let drawIdx = 0;
+
+  for (let m = 1; m <= n; m++) {
+    let drawn = 0;
+    while (drawIdx < draws.length && draws[drawIdx].month === m) {
+      drawn += draws[drawIdx].amount;
+      drawIdx++;
+    }
+    if (drawn > 0) {
+      balance += drawn;
+      const remaining = n - m + 1;
+      if (r === 0) payment = balance / remaining;
+      else payment = balance * (r * Math.pow(1 + r, remaining)) / (Math.pow(1 + r, remaining) - 1);
+    }
+    const interest = balance * r;
+    const principal = payment - interest;
+    balance -= principal;
+    if (balance < 0) balance = 0;
+    schedule.push({ month: m, drawDown: drawn, rate: rate, payment: payment, principal: principal, interest: interest, balance: balance });
+  }
+
+  window.progAmortSchedule = schedule;
+  renderAmortization('month');
+}
+
+function renderAmortization(view) {
+  const schedule = window.progAmortSchedule || [];
+  if (!schedule.length) return;
+  let html = '<thead><tr><th>Month</th><th>Draw Down</th><th>Interest Rate</th><th>Monthly Instalment</th><th>Principal</th><th>Interest</th><th>Outstanding Balance</th></tr></thead><tbody>';
+
+  if (view === 'month') {
+    for (const row of schedule) {
+      html += `<tr><td>${row.month}</td><td>${row.drawDown > 0 ? fmt(row.drawDown) : '-'}</td><td>${row.rate.toFixed(2)}%</td><td>${fmt(row.payment)}</td><td>${fmt(row.principal)}</td><td>${fmt(row.interest)}</td><td>${fmt(row.balance)}</td></tr>`;
+    }
+  } else {
+    const yearData = {};
+    for (const row of schedule) {
+      const y = Math.ceil(row.month / 12);
+      if (!yearData[y]) yearData[y] = { drawDown: 0, payment: 0, principal: 0, interest: 0, endBalance: row.balance };
+      yearData[y].drawDown += row.drawDown;
+      yearData[y].payment += row.payment;
+      yearData[y].principal += row.principal;
+      yearData[y].interest += row.interest;
+      yearData[y].endBalance = row.balance;
+    }
+    for (const y of Object.keys(yearData).sort((a, b) => +a - +b)) {
+      const d = yearData[y];
+      html += `<tr><td>Year ${y}</td><td>${d.drawDown > 0 ? fmt(d.drawDown) : '-'}</td><td>${schedule[0].rate.toFixed(2)}%</td><td>${fmt(d.payment)}</td><td>${fmt(d.principal)}</td><td>${fmt(d.interest)}</td><td>${fmt(d.endBalance)}</td></tr>`;
+    }
+  }
+  html += '</tbody>';
+  document.getElementById('prog-amort-table').innerHTML = html;
+}
+
+function switchProgTab(tab) {
+  document.getElementById('prog-tab-timeline').classList.toggle('active', tab === 'timeline');
+  document.getElementById('prog-tab-amortization').classList.toggle('active', tab === 'amortization');
+  document.getElementById('prog-timeline-panel').style.display = tab === 'timeline' ? 'block' : 'none';
+  document.getElementById('prog-amortization-panel').style.display = tab === 'amortization' ? 'block' : 'none';
+}
+
+function setAmortView(view) {
+  document.getElementById('amort-month-btn').classList.toggle('active', view === 'month');
+  document.getElementById('amort-year-btn').classList.toggle('active', view === 'year');
+  renderAmortization(view);
+}
+
+function toggleCompare() {
+  const box = document.getElementById('prog-compare-box');
+  box.style.display = box.style.display === 'none' ? 'block' : 'none';
 }
 
 /* ========== Scroll Reveal ========== */
