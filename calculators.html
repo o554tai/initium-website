@@ -541,6 +541,88 @@
       </div>
     </div>
 
+    <!-- Renovation Calculator -->
+    <div class="calc-panel" id="panel-renovation">
+      <div class="calc-card">
+        <div class="calc-grid">
+          <div class="calc-field">
+            <label class="calc-label">Property Type</label>
+            <select class="calc-select" id="reno-type">
+              <option value="hdb">HDB</option>
+              <option value="condo">Condominium</option>
+              <option value="landed">Landed / Terrace</option>
+            </select>
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Property Size (sqft)</label>
+            <input type="number" class="calc-input" id="reno-sqft" placeholder="e.g. 1000" value="1000">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Bedrooms</label>
+            <input type="number" class="calc-input" id="reno-rooms" placeholder="e.g. 3" value="3">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Renovation Scope</label>
+            <select class="calc-select" id="reno-scope">
+              <option value="light">Light — paint, fixtures, minor touch-ups</option>
+              <option value="moderate" selected>Moderate — floors, carpentry, some hacking</option>
+              <option value="extensive">Extensive — full gut, reconfiguration, bespoke</option>
+            </select>
+          </div>
+          <div class="calc-field full">
+            <label class="calc-label">Finish Quality</label>
+            <select class="calc-select" id="reno-quality">
+              <option value="budget">Budget — value materials, standard brands</option>
+              <option value="mid" selected>Mid-range — quality laminates, solid surfaces</option>
+              <option value="high">High-end — marble, veneer, imported fittings</option>
+            </select>
+          </div>
+          <div class="calc-field full">
+            <button class="calc-btn" onclick="calculateRenovation()">Estimate Cost</button>
+          </div>
+        </div>
+        <div class="calc-result-box" id="reno-result" style="display:none;">
+          <div class="calc-result-row">
+            <span class="calc-result-label">Rate per sqft</span>
+            <span class="calc-result-value" id="reno-rate">—</span>
+          </div>
+          <div class="calc-result-row">
+            <span class="calc-result-label">Estimated Renovation</span>
+            <span class="calc-result-value accent large" id="reno-total">—</span>
+          </div>
+          <div class="calc-result-row" style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:1px solid rgba(0,0,0,0.06);">
+            <span class="calc-result-label">Kitchen</span>
+            <span class="calc-result-value" id="reno-kitchen">—</span>
+          </div>
+          <div class="calc-result-row">
+            <span class="calc-result-label">Bathrooms</span>
+            <span class="calc-result-value" id="reno-bath">—</span>
+          </div>
+          <div class="calc-result-row">
+            <span class="calc-result-label">Living / Common</span>
+            <span class="calc-result-value" id="reno-living">—</span>
+          </div>
+          <div class="calc-result-row">
+            <span class="calc-result-label">Bedrooms</span>
+            <span class="calc-result-value" id="reno-bedrooms">—</span>
+          </div>
+          <div class="calc-result-row" style="margin-top:var(--space-4);padding-top:var(--space-4);border-top:2px solid rgba(80,200,120,0.3);">
+            <span class="calc-result-label">Contingency (10%)</span>
+            <span class="calc-result-value" id="reno-contingency">—</span>
+          </div>
+          <div class="calc-result-row">
+            <span class="calc-result-label">Furniture & Appliances</span>
+            <span class="calc-result-value" id="reno-furniture">—</span>
+          </div>
+          <div class="calc-result-row" style="border-top:2px solid rgba(80,200,120,0.3);">
+            <span class="calc-result-label">All-in Budget</span>
+            <span class="calc-result-value accent large" id="reno-allin">—</span>
+          </div>
+        </div>
+        <p class="calc-note">Estimates are indicative based on typical Singapore renovation costs per sqft. Actual costs vary by contractor, material selection, and site conditions. Always get multiple quotes.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -589,7 +671,7 @@
           </a>
           <a href="calculators.html" class="footer-link">
             <span class="footer-link-title">Calculators</span>
-            <span class="footer-link-desc">Mortgage, stamp duty, rental yield</span>
+            <span class="footer-link-desc">Mortgage, stamp duty, rental yield, renovation</span>
           </a>
           <a href="about.html" class="footer-link">
             <span class="footer-link-title">About</span>
@@ -747,6 +829,39 @@ function calculateYield() {
   document.getElementById('yield-gross-pct').textContent = fmtPct(grossYield);
   document.getElementById('yield-net-pct').textContent = fmtPct(netYield);
   document.getElementById('yield-result').style.display = 'block';
+}
+
+/* ========== Renovation ========== */
+function calculateRenovation() {
+  const type = document.getElementById('reno-type').value;
+  const sqft = +document.getElementById('reno-sqft').value || 0;
+  const scope = document.getElementById('reno-scope').value;
+  const quality = document.getElementById('reno-quality').value;
+
+  const rates = {
+    hdb: { light: { budget: 25, mid: 40, high: 65 }, moderate: { budget: 45, mid: 70, high: 110 }, extensive: { budget: 70, mid: 110, high: 170 } },
+    condo: { light: { budget: 30, mid: 50, high: 80 }, moderate: { budget: 55, mid: 85, high: 130 }, extensive: { budget: 85, mid: 135, high: 200 } },
+    landed: { light: { budget: 35, mid: 60, high: 95 }, moderate: { budget: 65, mid: 105, high: 160 }, extensive: { budget: 100, mid: 160, high: 250 } }
+  };
+
+  const rate = rates[type][scope][quality];
+  const total = rate * sqft;
+
+  const kitchenPct = type === 'landed' ? 0.18 : 0.22;
+  const bathPct = type === 'hdb' ? 0.20 : type === 'condo' ? 0.18 : 0.15;
+  const livingPct = 0.25;
+  const bedroomPct = 1 - kitchenPct - bathPct - livingPct;
+
+  document.getElementById('reno-rate').textContent = 'S$' + rate + ' / sqft';
+  document.getElementById('reno-total').textContent = fmt(total);
+  document.getElementById('reno-kitchen').textContent = fmt(total * kitchenPct);
+  document.getElementById('reno-bath').textContent = fmt(total * bathPct);
+  document.getElementById('reno-living').textContent = fmt(total * livingPct);
+  document.getElementById('reno-bedrooms').textContent = fmt(total * bedroomPct);
+  document.getElementById('reno-contingency').textContent = fmt(total * 0.10);
+  document.getElementById('reno-furniture').textContent = fmt(total * 0.15);
+  document.getElementById('reno-allin').textContent = fmt(total * 1.25);
+  document.getElementById('reno-result').style.display = 'block';
 }
 
 /* ========== Scroll Reveal ========== */
