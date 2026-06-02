@@ -326,51 +326,50 @@
     }
     .timeline-wrapper {
       position: relative;
-      padding-left: 32px;
+      padding-left: 28px;
     }
     .timeline-wrapper::before {
       content: '';
       position: absolute;
-      left: 7px;
+      left: 5px;
       top: 8px;
       bottom: 8px;
       width: 2px;
-      background: #e5e7eb;
+      background: rgba(80,200,120,0.25);
     }
-    .timeline-list { display: flex; flex-direction: column; gap: var(--space-5); }
+    .timeline-list { display: flex; flex-direction: column; gap: var(--space-4); }
     .timeline-event { position: relative; }
     .timeline-event::before {
       content: '';
       position: absolute;
-      left: -28px;
-      top: 12px;
-      width: 14px;
-      height: 14px;
+      left: -25px;
+      top: 10px;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background: #f59e0b;
-      border: 2px solid #fff;
-      box-shadow: 0 0 0 2px #f59e0b;
+      background: var(--accent);
+      border: 2px solid var(--dark-2);
       z-index: 1;
     }
     .timeline-note-label {
       font-size: var(--text-xs);
-      color: #9ca3af;
+      color: rgba(255,255,255,0.4);
       margin-bottom: var(--space-2);
       margin-left: var(--space-1);
     }
     .timeline-card {
-      background: #fff;
-      border-radius: var(--radius-md);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      background: var(--dark);
+      border-radius: var(--radius-sm);
+      border: 1px solid rgba(255,255,255,0.06);
       overflow: hidden;
     }
     .timeline-card-header {
-      background: #fef3c7;
+      background: rgba(80,200,120,0.08);
       padding: var(--space-2) var(--space-4);
       font-family: var(--font-display);
       font-size: var(--text-sm);
       font-weight: 600;
-      color: #d97706;
+      color: var(--accent);
     }
     .timeline-card-body {
       padding: var(--space-4);
@@ -379,7 +378,7 @@
       font-family: var(--font-display);
       font-size: var(--text-base);
       font-weight: 600;
-      color: #1f2937;
+      color: var(--white);
       margin: 0 0 var(--space-1) 0;
     }
     .timeline-breakdown { margin-top: var(--space-3); }
@@ -388,7 +387,7 @@
       justify-content: space-between;
       align-items: center;
       padding: var(--space-2) 0;
-      border-top: 1px solid #f3f4f6;
+      border-top: 1px solid rgba(255,255,255,0.05);
     }
     .timeline-breakdown-row:first-child { border-top: none; }
     .timeline-breakdown-label {
@@ -396,20 +395,20 @@
       align-items: center;
       gap: var(--space-2);
       font-size: var(--text-sm);
-      color: #6b7280;
+      color: rgba(255,255,255,0.6);
     }
     .timeline-breakdown-amount {
       font-family: var(--font-display);
       font-size: var(--text-sm);
       font-weight: 600;
-      color: #1f2937;
+      color: var(--white);
     }
     .timeline-cash-icon {
       width: 20px;
       height: 20px;
       border-radius: 50%;
-      background: #fef3c7;
-      color: #d97706;
+      background: rgba(80,200,120,0.12);
+      color: var(--accent);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -942,15 +941,19 @@
             <span class="footer-link-title">Services</span>
             <span class="footer-link-desc">Buy, sell, invest with precision</span>
           </a>
-          <a href="calculators.html" class="footer-link">
-            <span class="footer-link-title">Calculators</span>
-            <span class="footer-link-desc">Mortgage, stamp duty, rental yield, renovation, progressive payment</span>
-          </a>
           <a href="about.html" class="footer-link">
             <span class="footer-link-title">About</span>
             <span class="footer-link-desc">Our story, team, and culture</span>
           </a>
-          <a href="pulse.html" class="footer-link">
+          <a href="team.html" class="footer-link">
+            <span class="footer-link-title">Team</span>
+            <span class="footer-link-desc">Meet the people behind INITIUM</span>
+          </a>
+          <a href="calculators.html" class="footer-link">
+            <span class="footer-link-title">Calculators</span>
+            <span class="footer-link-desc">Mortgage, stamp duty, rental yield, renovation, progressive payment</span>
+          </a>
+          <a href="blog.html" class="footer-link">
             <span class="footer-link-title">The Post</span>
             <span class="footer-link-desc">Market insights and property stories</span>
           </a>
@@ -961,6 +964,14 @@
           <a href="intm-shop.html" class="footer-link">
             <span class="footer-link-title">INTM Shop</span>
             <span class="footer-link-desc">Branded merchandise and tools</span>
+          </a>
+          <a href="development.html" class="footer-link">
+            <span class="footer-link-title">Development</span>
+            <span class="footer-link-desc">Project marketing and development sales</span>
+          </a>
+          <a href="virtual-tours.html" class="footer-link">
+            <span class="footer-link-title">Virtual Tours</span>
+            <span class="footer-link-desc">Immersive 3D property walkthroughs</span>
           </a>
         </div>
       </div>
