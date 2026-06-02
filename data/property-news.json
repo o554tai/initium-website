@@ -9,15 +9,6 @@
     "source_tag": "ST"
   },
   {
-    "title": "CNA938 Rewind - RTS Link to boost Johor, Singapore property markets - CNA",
-    "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPM3I5VktNZS1TeGxvbU9HQTNtWWVabEtlMF9YcURVZnpDX3VHVWZ0cEhHd0k5NmJVYXRHN0l1MG5VOHRVbEZmZTR3VHlSUDlROFdsQVZoR2xpckliSnloRGhPcG9YeVExZEE3c21WYzNsVEZoQkdJLTA0UEJKNVpTRVEtLVdRU085aTUzZmotTUlwb0xwdzU4OUdWc29OU3Ewc1BsdnRiVmJzeFRqTWtIYzZrazhxejVQcjVQVm1ueFNtUXdwaENxYkpzdWhYVUNjTFJ5ZVNLd1lsUQ?oc=5",
-    "source": "CNA",
-    "pub_date": "Tue, 26 May 2026 16:45:55 GMT",
-    "pub_ts": 1779813955.0,
-    "fetched_ts": 1779872468.563811,
-    "source_tag": "CNA"
-  },
-  {
     "title": "Australia introduces Bill to overhaul property tax breaks, capital gains rule - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPY0lKSFZQZ2pVOWxpREViUmF0dFJFQUJvbmViQ1ZqUzd5dDJnRWx2aDVIVFFHMFZvUjNyNHV3VlNXQ1FrbmdPQnIyb2FpUGFENEtaVU90U1BRNEVzbUhCcVhpUl9DSnktcnZWM0NnT3RDWFhzbG9SQ20wTWJvakRwU1AzTm1yZXJRaXJieVVQc252dlNHWnpMNVVJbVB1eEkwTklLTmpJVTBxbWlQNzBWOGJSQ2hOSGxEdm5WUFlZbw?oc=5",
     "source": "The Straits Times",
@@ -339,6 +330,15 @@
     "pub_date": "Tue, 02 Jun 2026 02:37:03 GMT",
     "pub_ts": 1780367823.0,
     "fetched_ts": 1780380053.744948,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "At Temasek Shophouse, century-old buildings save energy, bees find shelter, and pavements cool - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPb0w1RS1lMDBDZnBlVlhoelZPVGJiQldXUGNsT2V4bEhfSGJ6c21FeEQzTGJQeGlXM1FoVUlvdGw3TnBsVkszeXVGTWltN0hWY1FrZ2hRODMzT0Z3Q1pnUnRHbjFEbHhZVjhXWVR1SDRJaG1uZWdSa2hPbmloVy1MNHlCMWEwU2dVV3pFZEhvbzdtR214ZndLY2VGNFVheTg0aEdGV0tYdUtrUVZ6VmZuWlZkUU1yQkNyV2ZRZ2JqaWRIMzI1?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Tue, 02 Jun 2026 12:15:00 GMT",
+    "pub_ts": 1780402500.0,
+    "fetched_ts": 1780423274.369123,
     "source_tag": "EdgeProp"
   }
 ]
