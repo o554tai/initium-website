@@ -324,25 +324,98 @@
       color: var(--white);
       border-bottom-color: var(--accent);
     }
-    .timeline-list { display: flex; flex-direction: column; gap: var(--space-4); }
-    .timeline-item {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-2);
-      padding: var(--space-4);
-      background: var(--dark);
-      border-radius: var(--radius-sm);
-      border: 1px solid rgba(255,255,255,0.06);
+    .timeline-wrapper {
+      position: relative;
+      padding-left: 32px;
     }
-    .timeline-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: var(--space-2); }
-    .timeline-date { font-family: var(--font-display); font-size: var(--text-sm); color: rgba(255,255,255,0.6); }
-    .timeline-title { font-family: var(--font-display); font-size: var(--text-base); font-weight: 600; color: var(--white); margin: 0; }
-    .timeline-note { font-size: var(--text-xs); color: rgba(255,255,255,0.5); margin-top: var(--space-1); }
-    .timeline-breakdown { margin-top: var(--space-2); }
-    .timeline-breakdown table { width: 100%; font-size: var(--text-sm); border-collapse: collapse; }
-    .timeline-breakdown td { padding: var(--space-1) 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .timeline-breakdown tr:last-child td { border-bottom: none; }
-    .timeline-breakdown td:last-child { text-align: right; font-weight: 600; }
+    .timeline-wrapper::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: #e5e7eb;
+    }
+    .timeline-list { display: flex; flex-direction: column; gap: var(--space-5); }
+    .timeline-event { position: relative; }
+    .timeline-event::before {
+      content: '';
+      position: absolute;
+      left: -28px;
+      top: 12px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #f59e0b;
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px #f59e0b;
+      z-index: 1;
+    }
+    .timeline-note-label {
+      font-size: var(--text-xs);
+      color: #9ca3af;
+      margin-bottom: var(--space-2);
+      margin-left: var(--space-1);
+    }
+    .timeline-card {
+      background: #fff;
+      border-radius: var(--radius-md);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+    .timeline-card-header {
+      background: #fef3c7;
+      padding: var(--space-2) var(--space-4);
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: #d97706;
+    }
+    .timeline-card-body {
+      padding: var(--space-4);
+    }
+    .timeline-title {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-weight: 600;
+      color: #1f2937;
+      margin: 0 0 var(--space-1) 0;
+    }
+    .timeline-breakdown { margin-top: var(--space-3); }
+    .timeline-breakdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-2) 0;
+      border-top: 1px solid #f3f4f6;
+    }
+    .timeline-breakdown-row:first-child { border-top: none; }
+    .timeline-breakdown-label {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      color: #6b7280;
+    }
+    .timeline-breakdown-amount {
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      color: #1f2937;
+    }
+    .timeline-cash-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fef3c7;
+      color: #d97706;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
     .amort-toggle {
       padding: var(--space-2) var(--space-4);
       border-radius: var(--radius-sm);
@@ -805,7 +878,9 @@
             <button class="prog-tab" id="prog-tab-amortization" onclick="switchProgTab('amortization')">Amortization</button>
           </div>
           <div id="prog-timeline-panel" style="margin-top:var(--space-4);">
-            <div class="timeline-list" id="prog-timeline-list"></div>
+            <div class="timeline-wrapper">
+              <div class="timeline-list" id="prog-timeline-list"></div>
+            </div>
           </div>
           <div id="prog-amortization-panel" style="display:none;margin-top:var(--space-4);">
             <div style="display:flex;gap:var(--space-2);margin-bottom:var(--space-4);">
@@ -1139,21 +1214,42 @@ function calculateProgressive() {
   let timelineHTML = '';
   const purchaseDate = new Date(purchaseDateStr);
 
-  timelineHTML += `<div class="timeline-item"><div class="timeline-header"><span class="timeline-date">${formatDate(purchaseDate)}</span><h6 class="timeline-title">Purchase Date</h6></div></div>`;
+  function card(date, title, note, rows) {
+    let html = '<div class="timeline-event">';
+    if (note) html += `<div class="timeline-note-label">${note}</div>`;
+    html += `<div class="timeline-card"><div class="timeline-card-header">${formatDate(date)}</div><div class="timeline-card-body"><h6 class="timeline-title">${title}</h6>`;
+    if (rows && rows.length) {
+      html += '<div class="timeline-breakdown">';
+      for (const row of rows) {
+        html += `<div class="timeline-breakdown-row"><div class="timeline-breakdown-label"><span class="timeline-cash-icon">$</span>${row.label}</div><span class="timeline-breakdown-amount">${row.value}</span></div>`;
+      }
+      html += '</div>';
+    }
+    html += '</div></div></div>';
+    return html;
+  }
 
-  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Issuance of Option</div><div class="timeline-header"><span class="timeline-date">${formatDate(purchaseDate)}</span><h6 class="timeline-title">Booking Fee (5%)</h6></div><div class="timeline-breakdown"><table><tbody><tr><td>Cash</td><td>${fmt(bookingFee)}</td></tr></tbody></table></div></div>`;
+  timelineHTML += card(purchaseDate, 'Purchase Date', '', []);
+
+  timelineHTML += card(purchaseDate, 'Booking Fee (5%)', 'Issuance of Option', [
+    { label: 'Cash', value: fmt(bookingFee) }
+  ]);
 
   const snpDate = new Date(purchaseDate); snpDate.setDate(snpDate.getDate() + 14);
-  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 2 weeks</div><div class="timeline-header"><span class="timeline-date">${formatDate(snpDate)}</span><h6 class="timeline-title">Sales & Purchase Agreement</h6></div></div>`;
+  timelineHTML += card(snpDate, 'Sales & Purchase Agreement', 'Within 2 weeks', []);
 
   const exerciseDate = new Date(purchaseDate); exerciseDate.setDate(exerciseDate.getDate() + 21);
-  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 3 weeks</div><div class="timeline-header"><span class="timeline-date">${formatDate(exerciseDate)}</span><h6 class="timeline-title">Deadline to Exercise</h6></div></div>`;
+  timelineHTML += card(exerciseDate, 'Deadline to Exercise', 'Within 3 weeks', []);
 
   const stampDate = new Date(exerciseDate); stampDate.setDate(stampDate.getDate() + 14);
-  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 14 days from Exercise Date</div><div class="timeline-header"><span class="timeline-date">${formatDate(stampDate)}</span><h6 class="timeline-title">Stamp Duty</h6></div><div class="timeline-breakdown"><table><tbody><tr><td>BSD + ABSD</td><td></td></tr><tr><td>Cash</td><td>${fmt(bsd + absd)}</td></tr></tbody></table></div></div>`;
+  timelineHTML += card(stampDate, 'Stamp Duty', 'Within 14 days from Exercise Date', [
+    { label: 'Cash', value: fmt(bsd + absd) }
+  ]);
 
   const dpDate = new Date(purchaseDate); dpDate.setDate(dpDate.getDate() + 56);
-  timelineHTML += `<div class="timeline-item"><div class="timeline-note">Within 8 weeks from OTP date</div><div class="timeline-header"><span class="timeline-date">${formatDate(dpDate)}</span><h6 class="timeline-title">Downpayment (15%)</h6></div><div class="timeline-breakdown"><table><tbody><tr><td>Cash</td><td>${fmt(downpayment)}</td></tr></tbody></table></div></div>`;
+  timelineHTML += card(dpDate, 'Downpayment (15%)', 'Within 8 weeks from OTP date', [
+    { label: 'Cash', value: fmt(downpayment) }
+  ]);
 
   let stageDate = new Date(nextStageDateStr);
   let cumulativeLoan = 0;
@@ -1178,7 +1274,10 @@ function calculateProgressive() {
       else intervalNote = '3 - 6 months';
     }
 
-    timelineHTML += `<div class="timeline-item">${intervalNote ? `<div class="timeline-note">${intervalNote}</div>` : ''}<div class="timeline-header"><span class="timeline-date">${formatDate(stageDate)}</span><h6 class="timeline-title">${stage.name}</h6></div><div class="timeline-breakdown"><table><tbody>${cashAmount > 0 ? `<tr><td>Cash</td><td>${fmt(cashAmount)}</td></tr>` : ''}${loanAmount > 0 ? `<tr><td>Loan</td><td>${fmt(monthly)}/month</td></tr>` : ''}</tbody></table></div></div>`;
+    const rows = [];
+    if (cashAmount > 0) rows.push({ label: 'Cash', value: fmt(cashAmount) });
+    if (loanAmount > 0) rows.push({ label: 'Loan', value: fmt(monthly) + '/month' });
+    timelineHTML += card(stageDate, stage.name, intervalNote, rows);
 
     if (i < stageDefs.length - 1) {
       stageDate = addMonths(stageDate, stageDefs[i + 1].intervalMonths);
