@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Property Calculators — Mortgage, Stamp Duty & Yield | INITIUM</title>
-  <meta name="description" content="Free Singapore property calculators: mortgage repayments, Buyer's Stamp Duty (BSD), Additional Buyer's Stamp Duty (ABSD), Seller's Stamp Duty (SSD), and rental yield.">
+  <meta name="description" content="Free Singapore property calculators: mortgage repayments, Buyer's Stamp Duty (BSD), Additional Buyer's Stamp Duty (ABSD), Seller's Stamp Duty (SSD), rental yield, renovation costs, and progressive payment schedule for new launches.">
   <meta name="theme-color" content="#50C878">
   <link rel="canonical" href="https://initium.sg/calculators.html">
   <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
@@ -348,6 +348,7 @@
       <button class="calc-tab" data-calc="ssd">SSD</button>
       <button class="calc-tab" data-calc="yield">Rental Yield</button>
       <button class="calc-tab" data-calc="renovation">Renovation</button>
+      <button class="calc-tab" data-calc="progressive">Progressive</button>
     </div>
   </div>
 </section>
@@ -626,6 +627,53 @@
       </div>
     </div>
 
+    <!-- Progressive Payment Calculator -->
+    <div class="calc-panel" id="panel-progressive">
+      <div class="calc-card dark">
+        <div class="calc-grid">
+          <div class="calc-field">
+            <label class="calc-label">Property Price (S$)</label>
+            <input type="number" class="calc-input" id="prog-price" placeholder="e.g. 1,500,000" value="1500000">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Downpayment (%)</label>
+            <input type="number" class="calc-input" id="prog-dp" placeholder="e.g. 25" value="25">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Interest Rate (% p.a.)</label>
+            <input type="number" class="calc-input" id="prog-rate" placeholder="e.g. 3.5" value="3.5" step="0.01">
+          </div>
+          <div class="calc-field">
+            <label class="calc-label">Loan Tenure (years)</label>
+            <input type="number" class="calc-input" id="prog-tenure" placeholder="e.g. 25" value="25">
+          </div>
+          <div class="calc-field full">
+            <button class="calc-btn" onclick="calculateProgressive()">Calculate Schedule</button>
+          </div>
+        </div>
+        <div class="calc-result-box" id="prog-result" style="display:none;">
+          <div class="calc-result-row">
+            <span class="calc-result-label">Property Price</span>
+            <span class="calc-result-value" id="prog-price-display">—</span>
+          </div>
+          <div class="calc-result-row">
+            <span class="calc-result-label">Loan Amount</span>
+            <span class="calc-result-value" id="prog-loan">—</span>
+          </div>
+          <div class="calc-result-row">
+            <span class="calc-result-label">Cash + CPF (Downpayment)</span>
+            <span class="calc-result-value" id="prog-downpayment">—</span>
+          </div>
+          <div class="calc-result-row" style="margin-top: var(--space-4); padding-top: var(--space-4); border-top: 2px solid rgba(80,200,120,0.3);">
+            <span class="calc-result-label">Final Monthly Instalment</span>
+            <span class="calc-result-value accent large" id="prog-final-monthly">—</span>
+          </div>
+          <table class="calc-breakdown" id="prog-table" style="margin-top: var(--space-6);"></table>
+        </div>
+        <p class="calc-note">Progressive payment schedule for new launch properties under construction in Singapore. Based on standard HDB/URA disbursement stages. Interest is charged on amounts drawn down. Actual disbursement dates and percentages may vary by developer.</p>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -674,7 +722,7 @@
           </a>
           <a href="calculators.html" class="footer-link">
             <span class="footer-link-title">Calculators</span>
-            <span class="footer-link-desc">Mortgage, stamp duty, rental yield, renovation</span>
+            <span class="footer-link-desc">Mortgage, stamp duty, rental yield, renovation, progressive payment</span>
           </a>
           <a href="about.html" class="footer-link">
             <span class="footer-link-title">About</span>
@@ -865,6 +913,63 @@ function calculateRenovation() {
   document.getElementById('reno-furniture').textContent = fmt(total * 0.15);
   document.getElementById('reno-allin').textContent = fmt(total * 1.25);
   document.getElementById('reno-result').style.display = 'block';
+}
+
+/* ========== Progressive Payment ========== */
+function calculateProgressive() {
+  const price = +document.getElementById('prog-price').value || 0;
+  const dpPct = +document.getElementById('prog-dp').value || 0;
+  const rate = +document.getElementById('prog-rate').value || 0;
+  const tenure = +document.getElementById('prog-tenure').value || 0;
+
+  const loan = price * (1 - dpPct / 100);
+  const downpayment = price * (dpPct / 100);
+
+  const r = rate / 100 / 12;
+  const n = tenure * 12;
+
+  let finalMonthly = 0;
+  if (r === 0) {
+    finalMonthly = loan / n;
+  } else {
+    finalMonthly = loan * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+  }
+
+  // Standard Singapore progressive payment stages
+  const stages = [
+    { name: 'Booking Fee', pct: 0.05, fundedBy: 'Cash' },
+    { name: 'S&P Agreement (Within 2 weeks)', pct: 0, fundedBy: 'Legal' },
+    { name: 'Exercise + Downpayment', pct: 0.15, fundedBy: 'Cash/CPF' },
+    { name: 'Foundation (10%)', pct: 0.10, fundedBy: 'Loan' },
+    { name: 'Reinforced Concrete Framework (10%)', pct: 0.10, fundedBy: 'Loan' },
+    { name: 'Brick Walls (5%)', pct: 0.05, fundedBy: 'Loan' },
+    { name: 'Ceiling / Roofing (5%)', pct: 0.05, fundedBy: 'Loan' },
+    { name: 'Doors / Windows / M&E (5%)', pct: 0.05, fundedBy: 'Loan' },
+    { name: 'Carparks / Roads / Drains (5%)', pct: 0.05, fundedBy: 'Loan' },
+    { name: 'TOP - Temporary Occupation Permit (25%)', pct: 0.25, fundedBy: 'Loan' },
+    { name: 'CSC - Statutory Completion (15%)', pct: 0.15, fundedBy: 'Loan' }
+  ];
+
+  let html = '<thead><tr><th>Stage</th><th>%</th><th>Amount</th><th>Funded By</th></tr></thead><tbody>';
+  let runningLoan = 0;
+
+  for (const stage of stages) {
+    if (stage.pct === 0) continue;
+    const amount = price * stage.pct;
+    if (stage.fundedBy === 'Loan') {
+      runningLoan += amount;
+    }
+    html += `<tr><td>${stage.name}</td><td>${(stage.pct * 100).toFixed(0)}%</td><td>${fmt(amount)}</td><td>${stage.fundedBy}</td></tr>`;
+  }
+
+  html += '</tbody>';
+
+  document.getElementById('prog-price-display').textContent = fmt(price);
+  document.getElementById('prog-loan').textContent = fmt(loan);
+  document.getElementById('prog-downpayment').textContent = fmt(downpayment);
+  document.getElementById('prog-final-monthly').textContent = fmt(finalMonthly);
+  document.getElementById('prog-table').innerHTML = html;
+  document.getElementById('prog-result').style.display = 'block';
 }
 
 /* ========== Scroll Reveal ========== */
