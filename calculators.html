@@ -895,6 +895,153 @@
         <p class="calc-note">Progressive payment schedule for new launch properties under construction in Singapore. Based on standard HDB/URA disbursement stages. Interest is charged on amounts drawn down. Actual disbursement dates and percentages may vary by developer.</p>
       </div>
     </div>
+    <!-- Pledge / Unpledge Calculator -->
+    <div class="calc-panel" id="panel-pledge">
+      <div class="calc-card dark">
+        <div class="pledge-inner-tabs">
+          <button class="pledge-inner-tab active" id="pledge-tab-income" onclick="switchPledgeTab('income')">Income To Pledge</button>
+          <button class="pledge-inner-tab" id="pledge-tab-shortfall" onclick="switchPledgeTab('shortfall')">Shortfall To Pledge</button>
+        </div>
+
+        <!-- Income To Pledge -->
+        <div class="pledge-panel active" id="pledge-panel-income">
+          <div id="pledge-income-summary" style="display:none;">
+            <div class="pledge-summary">
+              <div class="pledge-summary-box">
+                <div class="pledge-summary-label">Pledge Amount for Shortfall</div>
+                <div class="pledge-summary-value" id="pledge-income-pledge-amount">—</div>
+              </div>
+              <div class="pledge-summary-box">
+                <div class="pledge-summary-label">Unpledge Amount for Shortfall</div>
+                <div class="pledge-summary-value muted" id="pledge-income-unpledge-amount">—</div>
+              </div>
+            </div>
+          </div>
+          <div class="calc-grid">
+            <div class="calc-field">
+              <label class="calc-label">Property Type</label>
+              <select class="calc-select" id="pledge-property-type">
+                <option value="private">Private</option>
+                <option value="hdb">HDB / EC</option>
+              </select>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Purchase Price (S$)</label>
+              <input type="number" class="calc-input" id="pledge-purchase-price" placeholder="e.g. 1,000,000" value="1000000">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Loan to Value (%)</label>
+              <input type="number" class="calc-input" id="pledge-ltv" placeholder="e.g. 75" value="75">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Loan Amount (S$)</label>
+              <input type="number" class="calc-input" id="pledge-loan-amount" placeholder="Auto-calculated" value="750000">
+            </div>
+            <div class="calc-field full">
+              <div class="client-grid">
+                <div>
+                  <h6 class="client-heading">Client 1</h6>
+                  <div class="calc-field">
+                    <label class="calc-label">Monthly Income (S$)</label>
+                    <input type="number" class="calc-input" id="pledge-c1-income" placeholder="0" value="">
+                  </div>
+                  <div class="calc-field">
+                    <label class="calc-label">Variable Income (S$)</label>
+                    <input type="number" class="calc-input" id="pledge-c1-variable" placeholder="0" value="">
+                  </div>
+                  <div class="calc-field">
+                    <label class="calc-label">Age</label>
+                    <input type="number" class="calc-input" id="pledge-c1-age" placeholder="e.g. 35" value="">
+                  </div>
+                  <div class="calc-field">
+                    <label class="calc-label">Other Loans / Month (S$)</label>
+                    <input type="number" class="calc-input" id="pledge-c1-other" placeholder="0" value="">
+                  </div>
+                </div>
+                <div>
+                  <h6 class="client-heading">Client 2</h6>
+                  <div class="calc-field">
+                    <label class="calc-label">Monthly Income (S$)</label>
+                    <input type="number" class="calc-input" id="pledge-c2-income" placeholder="0" value="">
+                  </div>
+                  <div class="calc-field">
+                    <label class="calc-label">Variable Income (S$)</label>
+                    <input type="number" class="calc-input" id="pledge-c2-variable" placeholder="0" value="">
+                  </div>
+                  <div class="calc-field">
+                    <label class="calc-label">Age</label>
+                    <input type="number" class="calc-input" id="pledge-c2-age" placeholder="e.g. 35" value="">
+                  </div>
+                  <div class="calc-field">
+                    <label class="calc-label">Other Loans / Month (S$)</label>
+                    <input type="number" class="calc-input" id="pledge-c2-other" placeholder="0" value="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">TDSR Stress Test Rate (%)</label>
+              <input type="number" class="calc-input" id="pledge-stress-rate" placeholder="e.g. 4.0" value="4.0" step="0.01">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Interest Rate (%)</label>
+              <input type="number" class="calc-input" id="pledge-interest-rate" placeholder="e.g. 1.85" value="1.85" step="0.01">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Estimated Monthly Instalment (S$)</label>
+              <input type="text" class="calc-input" id="pledge-est-instalment" disabled value="—">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Pledge Rate (% p.a.)</label>
+              <input type="number" class="calc-input" id="pledge-pledge-rate" placeholder="e.g. 25" value="25">
+            </div>
+            <div class="calc-field full">
+              <button class="calc-btn" onclick="calculatePledgeIncome()">Calculate</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Shortfall To Pledge -->
+        <div class="pledge-panel" id="pledge-panel-shortfall">
+          <div id="pledge-shortfall-summary" style="display:none;">
+            <div class="pledge-summary">
+              <div class="pledge-summary-box">
+                <div class="pledge-summary-label">Pledge Amount</div>
+                <div class="pledge-summary-value" id="pledge-shortfall-pledge-amount">—</div>
+              </div>
+              <div class="pledge-summary-box">
+                <div class="pledge-summary-label">Unpledge Amount</div>
+                <div class="pledge-summary-value muted" id="pledge-shortfall-unpledge-amount">—</div>
+              </div>
+            </div>
+          </div>
+          <div class="calc-grid">
+            <div class="calc-field">
+              <label class="calc-label">Loan Shortfall Amount (S$)</label>
+              <input type="number" class="calc-input" id="pledge-shortfall-amount" placeholder="e.g. 200,000" value="">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Loan Tenure (Years)</label>
+              <input type="number" class="calc-input" id="pledge-shortfall-tenure" placeholder="e.g. 30" value="30">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Stress Test Rate (%)</label>
+              <input type="number" class="calc-input" id="pledge-shortfall-rate" placeholder="e.g. 4.0" value="4.0" step="0.01">
+            </div>
+            <div class="calc-field">
+              <label class="calc-label">Pledge Rate (% p.a.)</label>
+              <input type="number" class="calc-input" id="pledge-shortfall-pledge-rate" placeholder="e.g. 25" value="25">
+            </div>
+            <div class="calc-field full">
+              <button class="calc-btn" onclick="calculatePledgeShortfall()">Calculate</button>
+            </div>
+          </div>
+          <p class="calc-note">On 29 Sep 2022, MAS raised the medium-term interest rate floor used to compute TDSR and MSR to 4%. Applicable to loans for properties where the OTP is granted on or after 30 Sep 2022.</p>
+        </div>
+
+        <p class="calc-note">TDSR limit is 55% for private properties and 30% MSR for HDB / EC. Variable income is typically haircut at 30% (only 70% counted). Pledge amount = monthly shortfall × 12 / pledge rate. Figures are indicative — actual bank policies may vary.</p>
+      </div>
+    </div>
 
   </div>
 </section>
