@@ -13,7 +13,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css?v=4">
+  <link rel="stylesheet" href="css/components.css?v=5">
   <style>
     /* Page hero */
     .page-hero {
@@ -545,17 +545,6 @@
 </script>
 
 <script src="js/nav.js"></script>
-<script>
-  (function() {
-    var t = document.getElementById('navToggle');
-    var l = document.getElementById('navLinks');
-    if (t && l) {
-      t.addEventListener('click', function() { l.classList.toggle('open'); });
-      l.querySelectorAll('a').forEach(function(a) {
-        a.addEventListener('click', function() { l.classList.remove('open'); });
-      });
-    }
-  })();
-</script>
+
 </body>
 </html>
