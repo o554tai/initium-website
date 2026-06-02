@@ -668,7 +668,7 @@
 <script src="js/nav.js"></script>
 <script>
   const products = [
-    { id: 'ignite-cardigan', name: 'INITIUM Ignite Cardigan', desc: 'Soft knit cardigan with embroidered INITIUM Ignite logo. Layer up for viewings in style.', price: 38, originalPrice: 58, emoji: '🦑', badge: 'Best Seller', images: { white: 'assets/images/products/cardigan-white-front.png', green: 'assets/images/products/cardigan-green-front.png' } },
+    { id: 'ignite-cardigan', name: 'INITIUM Ignite Cardigan', desc: 'Soft knit cardigan with embroidered INITIUM Ignite logo. Layer up for viewings in style.', price: 38, originalPrice: 58, emoji: '🦑', badge: 'Best Seller', images: { white: 'assets/images/products/cardigan-white-front.png' } },
     { id: 'ignite-tee', name: 'INITIUM Ignite Tee', desc: 'Essential cotton tee with INITIUM Ignite print. Comfortable fit for the daily grind.', price: 15, originalPrice: null, emoji: '👕', badge: 'Must Have' },
     { id: 'ignite-tote', name: 'INITIUM Ignite Canvas Tote', desc: 'Durable canvas tote with INITIUM Ignite branding. Fits documents, laptop, and daily essentials.', price: 20, originalPrice: 48, emoji: '🛍️', badge: null },
     { id: 'ignite-decal', name: 'INITIUM Ignite Car Decal', desc: 'Vinyl car decal with INITIUM Ignite logo. Weatherproof, easy to apply. Rep the brand on the road.', price: 1, originalPrice: null, emoji: '🚘', badge: null },
@@ -689,14 +689,11 @@
   function renderProducts() {
     const grid = document.getElementById('shopGrid');
     grid.innerHTML = products.map(p => {
-      const hasImages = p.images && p.images.white && p.images.green;
-      const imgHtml = hasImages
-        ? '<img src="' + p.images.white + '" class="cardigan-img" data-color="white" id="img-' + p.id + '" alt="' + p.name + '" onclick="openProductModal(&quot;' + p.id + '&quot;)">'
+      const hasImage = p.images && p.images.white;
+      const imgHtml = hasImage
+        ? '<img src="' + p.images.white + '" class="cardigan-img" id="img-' + p.id + '" alt="' + p.name + '" onclick="openProductModal(&quot;' + p.id + '&quot;)">'
         : '<span class="emoji">' + p.emoji + '</span>';
-      const colorBar = hasImages
-        ? '<div class="product-color-bar"><button class="color-dot active" data-color="white" data-product="' + p.id + '" onclick="toggleCardiganColor(&quot;' + p.id + '&quot;, &quot;white&quot;)" aria-label="White logo"></button><button class="color-dot" data-color="green" data-product="' + p.id + '" onclick="toggleCardiganColor(&quot;' + p.id + '&quot;, &quot;green&quot;)" aria-label="Green logo"></button></div>'
-        : '';
-      return '<div class="product-card"><div class="product-img">' + (p.badge ? '<div class="product-badge">' + p.badge + '</div>' : '') + imgHtml + (hasImages ? '<span class="swipe-hint">&larr; Swipe &rarr;</span>' : '') + '</div>' + colorBar + '<div class="product-info"><div class="product-name">' + p.name + '</div><div class="product-desc">' + p.desc + '</div><div class="product-footer"><div class="product-price">S$' + p.price + (p.originalPrice ? '<span class="original">S$' + p.originalPrice + '</span>' : '') + '</div><button class="add-to-cart" data-product="' + p.id + '" onclick="addToCart(&quot;' + p.id + '&quot;)"><span>Add to Cart</span></button></div></div></div>';
+      return '<div class="product-card"><div class="product-img">' + (p.badge ? '<div class="product-badge">' + p.badge + '</div>' : '') + imgHtml + '</div><div class="product-info"><div class="product-name">' + p.name + '</div><div class="product-desc">' + p.desc + '</div><div class="product-footer"><div class="product-price">S$' + p.price + (p.originalPrice ? '<span class="original">S$' + p.originalPrice + '</span>' : '') + '</div><button class="add-to-cart" data-product="' + p.id + '" onclick="addToCart(&quot;' + p.id + '&quot;)"><span>Add to Cart</span></button></div></div></div>';
     }).join('');
   }
 
@@ -766,14 +763,11 @@
     const hasImages = product.images && product.images.white;
     document.getElementById('pdModalImg').src = hasImages ? product.images.white : '';
     document.getElementById('pdModalImg').style.display = hasImages ? 'block' : 'none';
-    document.getElementById('pdSwipeHint').style.display = hasImages ? 'block' : 'none';
+    document.getElementById('pdSwipeHint').style.display = 'none';
     document.getElementById('pdModalName').textContent = product.name;
     document.getElementById('pdModalDesc').textContent = product.desc;
     document.getElementById('pdModalPrice').textContent = 'S$' + product.price;
-    const colorsDiv = document.getElementById('pdModalColors');
-    if (product.images && product.images.white && product.images.green) {
-      colorsDiv.innerHTML = '<button class="color-dot active" data-color="white" onclick="setModalColor(&quot;white&quot;)" aria-label="White logo"></button><button class="color-dot" data-color="green" onclick="setModalColor(&quot;green&quot;)" aria-label="Green logo"></button>';
-    } else { colorsDiv.innerHTML = ''; }
+    document.getElementById('pdModalColors').innerHTML = '';
     document.getElementById('pdModalOverlay').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
@@ -806,30 +800,6 @@
       dot.classList.toggle('active', dot.dataset.color === color);
     });
   }
-
-  (function initSwipe() {
-    let startX = 0, startY = 0, currentId = null;
-    document.querySelectorAll('.product-img').forEach(el => {
-      el.addEventListener('touchstart', e => {
-        startX = e.touches[0].clientX; startY = e.touches[0].clientY;
-        const img = el.querySelector('img'); currentId = img ? img.id.replace('img-', '') : null;
-      }, { passive: true });
-      el.addEventListener('touchend', e => {
-        if (!currentId) return;
-        const dx = e.changedTouches[0].clientX - startX;
-        const dy = e.changedTouches[0].clientY - startY;
-        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
-          const product = products.find(p => p.id === currentId);
-          if (product && product.images) {
-            const img = document.getElementById('img-' + currentId);
-            const currentColor = img.dataset.color || 'white';
-            toggleCardiganColor(currentId, currentColor === 'white' ? 'green' : 'white');
-          }
-        }
-        currentId = null;
-      }, { passive: true });
-    });
-  })();
 
   (function() {
     const params = new URLSearchParams(window.location.search);
