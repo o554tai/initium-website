@@ -489,6 +489,7 @@
       <button class="calc-tab" data-calc="yield">Rental Yield</button>
       <button class="calc-tab" data-calc="renovation">Renovation</button>
       <button class="calc-tab" data-calc="progressive">Progressive</button>
+      <button class="calc-tab" data-calc="pledge">Pledge</button>
     </div>
   </div>
 </section>
@@ -965,14 +966,6 @@
             <span class="footer-link-title">INTM Shop</span>
             <span class="footer-link-desc">Branded merchandise and tools</span>
           </a>
-          <a href="development.html" class="footer-link">
-            <span class="footer-link-title">Development</span>
-            <span class="footer-link-desc">Project marketing and development sales</span>
-          </a>
-          <a href="virtual-tours.html" class="footer-link">
-            <span class="footer-link-title">Virtual Tours</span>
-            <span class="footer-link-desc">Immersive 3D property walkthroughs</span>
-          </a>
         </div>
       </div>
     </div>
@@ -1399,6 +1392,125 @@ function setAmortView(view) {
 function toggleCompare() {
   const box = document.getElementById('prog-compare-box');
   box.style.display = box.style.display === 'none' ? 'block' : 'none';
+}
+
+
+/* ========== Pledge / Unpledge ========== */
+
+// Auto-update loan amount when price or LTV changes
+document.getElementById('pledge-purchase-price')?.addEventListener('input', updatePledgeLoan);
+document.getElementById('pledge-ltv')?.addEventListener('input', updatePledgeLoan);
+function updatePledgeLoan() {
+  const price = +document.getElementById('pledge-purchase-price').value || 0;
+  const ltv = +document.getElementById('pledge-ltv').value || 75;
+  document.getElementById('pledge-loan-amount').value = Math.round(price * (ltv / 100));
+}
+function switchPledgeTab(tab) {
+  document.getElementById('pledge-tab-income').classList.toggle('active', tab === 'income');
+  document.getElementById('pledge-tab-shortfall').classList.toggle('active', tab === 'shortfall');
+  document.getElementById('pledge-panel-income').classList.toggle('active', tab === 'income');
+  document.getElementById('pledge-panel-shortfall').classList.toggle('active', tab === 'shortfall');
+}
+
+function calculatePledgeIncome() {
+  const propType = document.getElementById('pledge-property-type').value;
+  const price = +document.getElementById('pledge-purchase-price').value || 0;
+  const ltv = +document.getElementById('pledge-ltv').value || 75;
+  const loan = price * (ltv / 100);
+  document.getElementById('pledge-loan-amount').value = Math.round(loan);
+
+  const c1Income = +document.getElementById('pledge-c1-income').value || 0;
+  const c1Variable = +document.getElementById('pledge-c1-variable').value || 0;
+  const c1Age = +document.getElementById('pledge-c1-age').value || 35;
+  const c1Other = +document.getElementById('pledge-c1-other').value || 0;
+
+  const c2Income = +document.getElementById('pledge-c2-income').value || 0;
+  const c2Variable = +document.getElementById('pledge-c2-variable').value || 0;
+  const c2Age = +document.getElementById('pledge-c2-age').value || 35;
+  const c2Other = +document.getElementById('pledge-c2-other').value || 0;
+
+  const stressRate = +document.getElementById('pledge-stress-rate').value || 4.0;
+  const interestRate = +document.getElementById('pledge-interest-rate').value || 1.85;
+  const pledgeRatePct = +document.getElementById('pledge-pledge-rate').value || 25;
+
+  // Determine max tenure based on age
+  const maxTenurePrivate = 30;
+  const maxTenureHDB = 25;
+  const retirementAge = 65;
+  const c1MaxTenure = Math.min(propType === 'private' ? maxTenurePrivate : maxTenureHDB, Math.max(0, retirementAge - c1Age));
+  const c2MaxTenure = c2Age > 0 ? Math.min(propType === 'private' ? maxTenurePrivate : maxTenureHDB, Math.max(0, retirementAge - c2Age)) : c1MaxTenure;
+  const tenure = Math.max(c1MaxTenure, c2MaxTenure);
+  const n = tenure * 12;
+
+  // Stress-tested installment
+  const rStress = stressRate / 100 / 12;
+  let stressMonthly = 0;
+  if (rStress === 0) stressMonthly = loan / n;
+  else stressMonthly = loan * (rStress * Math.pow(1 + rStress, n)) / (Math.pow(1 + rStress, n) - 1);
+
+  // Actual installment
+  const rActual = interestRate / 100 / 12;
+  let actualMonthly = 0;
+  if (rActual === 0) actualMonthly = loan / n;
+  else actualMonthly = loan * (rActual * Math.pow(1 + rActual, n)) / (Math.pow(1 + rActual, n) - 1);
+
+  document.getElementById('pledge-est-instalment').value = fmt(actualMonthly);
+
+  // Total income (variable haircut 30%)
+  const totalIncome = (c1Income + c2Income) + (c1Variable + c2Variable) * 0.70;
+  const totalOtherLoans = c1Other + c2Other;
+
+  // TDSR / MSR limit
+  const tdsrLimit = propType === 'private' ? 0.55 : 0.30;
+
+  // Required income
+  const totalObligations = stressMonthly + totalOtherLoans;
+  const requiredIncome = totalObligations / tdsrLimit;
+
+  const pledgeFactor = 12 / (pledgeRatePct / 100);
+
+  const summaryBox = document.getElementById('pledge-income-summary');
+  const pledgeEl = document.getElementById('pledge-income-pledge-amount');
+  const unpledgeEl = document.getElementById('pledge-income-unpledge-amount');
+
+  if (totalIncome >= requiredIncome) {
+    const excess = totalIncome - requiredIncome;
+    const unpledgeAmount = excess * pledgeFactor;
+    pledgeEl.textContent = 'No Shortfall';
+    pledgeEl.classList.add('muted');
+    pledgeEl.classList.remove('accent');
+    unpledgeEl.textContent = fmt(unpledgeAmount);
+    unpledgeEl.classList.remove('muted');
+  } else {
+    const shortfall = requiredIncome - totalIncome;
+    const pledgeAmount = shortfall * pledgeFactor;
+    pledgeEl.textContent = fmt(pledgeAmount);
+    pledgeEl.classList.remove('muted');
+    pledgeEl.classList.add('accent');
+    unpledgeEl.textContent = 'N/A';
+    unpledgeEl.classList.add('muted');
+  }
+  summaryBox.style.display = 'block';
+}
+
+function calculatePledgeShortfall() {
+  const shortfallAmount = +document.getElementById('pledge-shortfall-amount').value || 0;
+  const tenure = +document.getElementById('pledge-shortfall-tenure').value || 30;
+  const rate = +document.getElementById('pledge-shortfall-rate').value || 4.0;
+  const pledgeRatePct = +document.getElementById('pledge-shortfall-pledge-rate').value || 25;
+
+  const n = tenure * 12;
+  const r = rate / 100 / 12;
+  let monthly = 0;
+  if (r === 0) monthly = shortfallAmount / n;
+  else monthly = shortfallAmount * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
+
+  const pledgeFactor = 12 / (pledgeRatePct / 100);
+  const pledgeAmount = monthly * pledgeFactor;
+
+  document.getElementById('pledge-shortfall-pledge-amount').textContent = fmt(pledgeAmount);
+  document.getElementById('pledge-shortfall-unpledge-amount').textContent = 'N/A';
+  document.getElementById('pledge-shortfall-summary').style.display = 'block';
 }
 
 /* ========== Scroll Reveal ========== */
