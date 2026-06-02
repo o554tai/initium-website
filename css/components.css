@@ -169,20 +169,25 @@
     position: fixed;
     top: 64px;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--white);
+    width: 100%;
+    height: calc(100vh - 64px);
+    background: #FFFFFF;
     z-index: 100;
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     padding: var(--space-8) var(--space-6);
     gap: var(--space-6);
     transform: translateX(100%);
-    transition: transform var(--transition-base);
+    -webkit-transform: translateX(100%);
+    transition: transform var(--transition-base), -webkit-transform var(--transition-base);
+    box-shadow: -4px 0 24px rgba(0,0,0,0.08);
+    overflow-y: auto;
   }
 
   .nav-links.open {
     transform: translateX(0);
+    -webkit-transform: translateX(0);
   }
 
   .nav-link {
@@ -198,6 +203,9 @@
 
   .nav-toggle {
     display: flex;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
 }
 
