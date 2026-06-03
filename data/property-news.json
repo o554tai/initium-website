@@ -1,14 +1,5 @@
 [
   {
-    "title": "The Philippine housing crisis explained - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxOa2pxWGZvUkFSZ3g4MzlIcmZmOUJKUDEyQU4xSkMwSk1ET1UxRDhLeS05WDRaSzV4WFJqSTNFd1ZVdjJzZDV1LUV4WnhMVFE4S3d6enozZ3NDT0VNWDZfMmk2dGhSdkE5cUJWUkZ1Zk41Vk5qSWFUOXlIY1hNTlFHbVZ5SEh5VHYyR2xzS09EamVHUDBBcGlrSk1MM0p5MHJRci05TGhUZmd6YlptQzYzTkNvdDg0WFR1U1RERGlrMXR3TXdHN0E1MA?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Wed, 27 May 2026 05:40:00 GMT",
-    "pub_ts": 1779860400.0,
-    "fetched_ts": 1779861652.151534,
-    "source_tag": "ST"
-  },
-  {
     "title": "Australia introduces Bill to overhaul property tax breaks, capital gains rule - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxPY0lKSFZQZ2pVOWxpREViUmF0dFJFQUJvbmViQ1ZqUzd5dDJnRWx2aDVIVFFHMFZvUjNyNHV3VlNXQ1FrbmdPQnIyb2FpUGFENEtaVU90U1BRNEVzbUhCcVhpUl9DSnktcnZWM0NnT3RDWFhzbG9SQ20wTWJvakRwU1AzTm1yZXJRaXJieVVQc252dlNHWnpMNVVJbVB1eEkwTklLTmpJVTBxbWlQNzBWOGJSQ2hOSGxEdm5WUFlZbw?oc=5",
     "source": "The Straits Times",
@@ -340,5 +331,23 @@
     "pub_ts": 1780308000.0,
     "fetched_ts": 1780444854.449456,
     "source_tag": "ST"
+  },
+  {
+    "title": "Government to release land for over 4,700 new private homes in second half of 2026 - CNA",
+    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxPOFJmNGlzTzZpejVnVDJkcE5yaklYYkY3ZWJ0Y0JrdzhqNG9kTHJSYlF6dnBxT1RVZW9PbldEUnI3Y2lGQnozbXBGdXJzZnQ4eFNlX3JpZlB3RXdDZGM4TVBEQ25LYmlFQmtJbmo5bF84YkczaEItaDZsS2dmQ0E3NW1BNi10eU9oWG8yOGZ0RzhZREJjU1ZjQnhzSU1VWExTNHc?oc=5",
+    "source": "CNA",
+    "pub_date": "Wed, 03 Jun 2026 02:53:00 GMT",
+    "pub_ts": 1780455180.0,
+    "fetched_ts": 1780466440.922744,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "Freehold residential property on Upper East Coast Road for sale at $14.1 mil - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQR1JLZ0tpakFOZENKLXpLU3h6Y0xka1RWMU03TWpaYUI1YWFNOVBYODUwY3U5ZHN0cFFhMzN6OVlWZll5ZmpIajhCR1QyMmU4M2hCeVFuODByblQ3OUhMenBMSzdKNjZDLW5MVXhna3FJYWxKQkF1bkdsQXRzdVQ4M2RwOHFVblhLX05CQlI2cHFnWXVHbnVpVldGWmxOZG5yZ2lqWdIBqgFBVV95cUxPR3c3UFRRR01pUGw4MzNKazJFOEZVcjl2X2E5M2dBRE1kRGN4U2ZGbnNYZG1IZHpCNDA1RWRPQS04eWgyTFE3TkJMWktxWVlFLTZOU0pYbGpmUElkTlEwWTdUNHQ4amd5eVNIOVhRNUlTQnlWQ3c2eVdOUks3Z041RVdFalpISUN1SXJYVEZWOG1zNHUtWktOazRsZlF6VGFudXhLZkl0U2RZUQ?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Wed, 03 Jun 2026 02:50:58 GMT",
+    "pub_ts": 1780455058.0,
+    "fetched_ts": 1780466441.534384,
+    "source_tag": "EdgeProp"
   }
 ]
