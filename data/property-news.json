@@ -18,15 +18,6 @@
     "source_tag": "ST"
   },
   {
-    "title": "CNA938 Rewind - Why more Singapore families are fighting over property - CNA",
-    "url": "https://news.google.com/rss/articles/CBMi4gFBVV95cUxQYWNMaGszeExna2NHREEwTUxzVjNqYWprZVFicE5WdXNhNnhuOTNhUzctNXNJZGlPY0ZGal9PUU9YOFBRZF8yM2lidkFZWHFWYldMaVlzM3FSUG9sRnE4THRadXNwLTZNRF9sOXZPSjFmSGU4SU16elM3MmwxVHlrNHUwM0JkVlpZNVphTVF4Q2RrZ3V0ZTE0SER5U0IxNUJtcnlEcGMyM3pLaXhHZDBXdU8wYm41R3JOWnpQMDJ1VDBPbVBHVHhUd3pDU0hKcmFEeXJnMXVfTndqU042Z19LdUtn?oc=5",
-    "source": "CNA",
-    "pub_date": "Tue, 26 May 2026 23:40:46 GMT",
-    "pub_ts": 1779838846.0,
-    "fetched_ts": 1779948050.049867,
-    "source_tag": "CNA"
-  },
-  {
     "title": "Japanese family office buys Keong Saik Road corner conservation shophouse for $22 mil - EdgeProp.sg",
     "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPYmNmUGRZQWJUSExWWmMwU0djRGVXc3gtVFRHMVZES1FYQTF6Q3cteFFWaXAxOTR6SG5xN09ZTGFMdl9aQ0xFdzFUNTkzSHBYdThHMk9PVWZHVlRoS2V0c0VpTDRLUUdqT3NueTY5SjFDN1VqMU83a3ZKbjBhaTduUGppQlN6TXVRSHNFRTZ3dUpsRFVnVFhjZ3ZGb1pFT0p3NGJSemFqOXZaUHRRbVFqRnN2OWVlWDhzQVHSAb8BQVVfeXFMT0VzUkhhQl9DYkNGZHZzQmNpOTBKM0wyVXV2TFZWWXJKZDJoZE0zZk5Td3dTblBHMDZIMzk1WXVZalU2M05rTGM2OTF6SXFUMktHeTdzR2prSHQ2RlpNZzRIbFFkVW40RHVGcW15eGJCb1hqZmxMRlNzVWxGMGYwMVFCZEJUcTBVOVRTc1hoTmN6b29EMkZQcjZIMUNzaTZtVkk0N2NYbVlLd2N3WkoxYWJtVmU5aS1NR2VIcWJkWEU?oc=5",
     "source": "EdgeProp.sg",
@@ -340,5 +331,14 @@
     "pub_ts": 1780402500.0,
     "fetched_ts": 1780423274.369123,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Pudu Robotics and Shenzhen CTID Co. Ltd Launch the World's First Full-Scenario Robot-Serviced Hotel Project - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMi9gFBVV95cUxNWkoxdXZwWWhOOEtmQmhlR1RMVGlYN3JERUZKWHBma1o0anhSNGwwS0VteVd1eXlDN043UENLMHNWT0YyZ2QwUEk0RGJoOG1fc2NRUG1WQ1AtS1V0SWxhWkhhQXFzVWRmeGc4SnRId21GZ0R1NmZLMW1XMjQyMXM5UjBhek1HQ2F2UGFIdjBIVFNPU3BUeHN2YVA4ZzBXRGNvbVNHOUZaRTVob1JQRWJLZnVhbVVWVkdmUTQ3eFB1c2ZVbUc3SmpKUEV4aVpyMmFuNkYwZndHTlZHMlFhT2xyTnRfdmk3bGFDZTlIZXpFT1ZGdlNmVXc?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Mon, 01 Jun 2026 10:00:00 GMT",
+    "pub_ts": 1780308000.0,
+    "fetched_ts": 1780444854.449456,
+    "source_tag": "ST"
   }
 ]
