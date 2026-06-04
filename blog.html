@@ -295,6 +295,73 @@
       .news-card { flex: 0 0 280px; }
       .page-hero { min-height: 40vh; padding: var(--space-16) var(--page-pad-x) var(--space-10); }
     }
+
+    /* Market Intel */
+    .intel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+    .intel-card {
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .intel-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(80,200,120,0.2);
+    }
+    .intel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-3);
+    }
+    .intel-tag {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+    }
+    .intel-tag.launch { background: rgba(80,200,120,0.12); color: #50C878; }
+    .intel-tag.policy { background: rgba(59,130,246,0.12); color: #60a5fa; }
+    .intel-tag.market { background: rgba(245,158,11,0.12); color: #fbbf24; }
+    .intel-tag.alert { background: rgba(239,68,68,0.12); color: #f87171; }
+    .intel-date {
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.4);
+    }
+    .intel-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: var(--space-2);
+      line-height: 1.35;
+    }
+    .intel-body {
+      font-size: var(--text-sm);
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+    }
+    .intel-source {
+      display: inline-block;
+      margin-top: var(--space-3);
+      font-size: var(--text-xs);
+      color: #50C878;
+      text-decoration: none;
+    }
+    .intel-source:hover { text-decoration: underline; }
+    .intel-empty {
+      text-align: center;
+      padding: var(--space-16) 0;
+      color: rgba(255,255,255,0.4);
+    }
   </style>
 </head>
 <body>
@@ -545,6 +612,18 @@
         </div>
       </a>
       </div>
+
+      <!-- Market Intel -->
+      <div class="section-header" style="margin-top:var(--space-16)">
+        <div>
+          <div class="section-label reveal">Team Intel</div>
+          <h2 class="headline-md reveal">Market Intel</h2>
+        </div>
+      </div>
+      <div class="intel-grid reveal" id="intelGrid">
+        <div class="intel-empty">Loading intel...</div>
+      </div>
+
       <div class="footer-nav">
         <div class="footer-heading">Quick Links</div>
         <div class="footer-links">
@@ -613,6 +692,41 @@
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
   });
+
+  // Market Intel feed
+  async function loadIntel() {
+    try {
+      const res = await fetch('/api/intel');
+      const data = await res.json();
+      const grid = document.getElementById('intelGrid');
+      if (!data.intel || !data.intel.length) {
+        grid.innerHTML = '<div class="intel-empty">No intel yet. Check back soon.</div>';
+        return;
+      }
+      grid.innerHTML = data.intel.map(item => {
+        const dateStr = item.date
+          ? new Date(item.date).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' })
+          : (item.created_at
+              ? new Date(item.created_at).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' })
+              : '');
+        return `
+          <div class="intel-card">
+            <div class="intel-header">
+              <span class="intel-tag ${item.tag || 'market'}">${item.tag_label || item.tag || 'Market'}</span>
+              <span class="intel-date">${dateStr}</span>
+            </div>
+            <div class="intel-title">${item.title}</div>
+            <div class="intel-body">${item.body}</div>
+            ${item.source_url ? `<a href="${item.source_url}" target="_blank" rel="noopener" class="intel-source">Read source →</a>` : ''}
+          </div>
+        `;
+      }).join('');
+    } catch (e) {
+      console.error('Intel load failed', e);
+      document.getElementById('intelGrid').innerHTML = '<div class="intel-empty">Unable to load intel.</div>';
+    }
+  }
+  loadIntel();
 </script>
 
 <script src="js/nav.js"></script>

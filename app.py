@@ -1454,6 +1454,16 @@ def api_my_delete_brief(brief_id):
 # INTEL (team-wide market feed)
 # ═════════════════════════════════════════════════════════════════════════════
 
+@app.route("/api/intel", methods=["GET"])
+def api_intel():
+    """Public intel feed for The Post page."""
+    intel = db.load_intel()
+    tag_filter = request.args.get("tag", "").strip().lower() or None
+    if tag_filter:
+        intel = [item for item in intel if item.get("tag", "").lower() == tag_filter]
+    return jsonify({"count": len(intel), "intel": intel})
+
+
 @app.route("/api/my/intel", methods=["GET"])
 @require_api_key
 def api_my_intel():
