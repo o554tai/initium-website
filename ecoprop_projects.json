@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-06-04T08:00:36.617650+00:00",
+  "scraped_at": "2026-06-04T09:00:54.185152+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6361,7 +6361,7 @@
       "property_type": "Private Condominium",
       "tenure": "Freehold",
       "min_price": 1480000.0,
-      "max_price": 5879000.0,
+      "max_price": 5501000.0,
       "currency": "$",
       "units": "816",
       "completion_date": "Q2 2027",
