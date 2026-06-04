@@ -669,54 +669,7 @@
         </div>
       </div>
       <div class="intel-grid reveal" id="intelGrid">
-      <div class="intel-card">
-        <div class="intel-header">
-          <span class="intel-tag launch">New Launch</span>
-          <span class="intel-date">4 Jun 2026</span>
-        </div>
-        <div class="intel-title">Lentor Modern — 85% sold in Phase 1</div>
-        <div class="intel-body">Remaining 2-bed units from $1.68M. 3-bed dual-key layouts still available. Developer extending early-bird discount until 30 June.</div>
-      </div>
-      <div class="intel-card">
-        <div class="intel-header">
-          <span class="intel-tag policy">Policy</span>
-          <span class="intel-date">1 Jun 2026</span>
-        </div>
-        <div class="intel-title">ABSD rates held in June 2026 review</div>
-        <div class="intel-body">No changes to Additional Buyer Stamp Duty. Foreigners remain at 60%, entities at 65%. PR first-home stays at 5%, second at 30%.</div>
-      </div>
-      <div class="intel-card">
-        <div class="intel-header">
-          <span class="intel-tag market">Market</span>
-          <span class="intel-date">28 May 2026</span>
-        </div>
-        <div class="intel-title">Rental index up 2.1% in Q2 2026</div>
-        <div class="intel-body">URA flash estimate shows continued recovery. Core Central Region leading at +2.8%. Outside Central Region +1.7%. Landed +1.9%.</div>
-      </div>
-      <div class="intel-card">
-        <div class="intel-header">
-          <span class="intel-tag launch">New Launch</span>
-          <span class="intel-date">25 May 2026</span>
-        </div>
-        <div class="intel-title">Chuan Park relaunch — pricing leaked</div>
-        <div class="intel-body">Expected PSF $2,400–$2,600. 916 units over two 24-storey towers. Preview expected mid-June. Agent briefing 12 June.</div>
-      </div>
-      <div class="intel-card">
-        <div class="intel-header">
-          <span class="intel-tag alert">Alert</span>
-          <span class="intel-date">20 May 2026</span>
-        </div>
-        <div class="intel-title">CEA enforcement: unlicensed marketing</div>
-        <div class="intel-body">Three agents fined for unlicensed property ads on Carousell. All listings must show CEA registration number.</div>
-      </div>
-      <div class="intel-card">
-        <div class="intel-header">
-          <span class="intel-tag market">Market</span>
-          <span class="intel-date">4 Jun 2026</span>
-        </div>
-        <div class="intel-title">Mortgage rates: 3M SORA at 3.42%</div>
-        <div class="intel-body">Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.</div>
-      </div>
+        <div class="intel-empty" id="intelLoading">Loading market intel...</div>
       </div>
 
   </div>
@@ -810,6 +763,66 @@
     el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
     observer.observe(el);
   });
+
+  // ——— Market Intel ———
+  const API_BASE = 'https://initium-video-studio.onrender.com';
+  const INTEL_FALLBACK = [
+    { tag:'launch', tag_label:'New Launch', date:'2026-06-04', title:'Lentor Modern — 85% sold in Phase 1', body:'Remaining 2-bed units from $1.68M. 3-bed dual-key layouts still available. Developer extending early-bird discount until 30 June.', source_url:'' },
+    { tag:'policy', tag_label:'Policy', date:'2026-06-01', title:'ABSD rates held in June 2026 review', body:'No changes to Additional Buyer Stamp Duty. Foreigners remain at 60%, entities at 65%. PR first-home stays at 5%, second at 30%.', source_url:'' },
+    { tag:'market', tag_label:'Market', date:'2026-05-28', title:'Rental index up 2.1% in Q2 2026', body:'URA flash estimate shows continued recovery. Core Central Region leading at +2.8%. Outside Central Region +1.7%. Landed +1.9%.', source_url:'' },
+    { tag:'launch', tag_label:'New Launch', date:'2026-05-25', title:'Chuan Park relaunch — pricing leaked', body:'Expected PSF $2,400–$2,600. 916 units over two 24-storey towers. Preview expected mid-June. Agent briefing 12 June.', source_url:'' },
+    { tag:'alert', tag_label:'Alert', date:'2026-05-20', title:'CEA enforcement: unlicensed marketing', body:'Three agents fined for unlicensed property ads on Carousell. All listings must show CEA registration number.', source_url:'' },
+    { tag:'market', tag_label:'Market', date:'2026-06-04', title:'Mortgage rates: 3M SORA at 3.42%', body:'Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.', source_url:'' }
+  ];
+
+  function escIntel(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function fmtDate(d) {
+    if (!d) return '';
+    const dt = new Date(d);
+    if (isNaN(dt)) return d;
+    return dt.toLocaleDateString('en-SG',{day:'numeric',month:'short',year:'numeric'});
+  }
+
+  function renderIntel(items) {
+    const grid = document.getElementById('intelGrid');
+    if (!items || !items.length) {
+      grid.innerHTML = '<div class="intel-empty">No market intel yet. Check back soon.</div>';
+      return;
+    }
+    grid.innerHTML = items.map(item => `
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag ${escIntel(item.tag)}">${escIntel(item.tag_label || item.tag)}</span>
+          <span class="intel-date">${escIntel(fmtDate(item.date || item.created_at))}</span>
+        </div>
+        <div class="intel-title">${escIntel(item.title)}</div>
+        <div class="intel-body">${escIntel(item.body)}</div>
+        ${item.source_url ? `<a href="${escIntel(item.source_url)}" target="_blank" rel="noopener" class="intel-source">Read source ↗</a>` : ''}
+      </div>
+    `).join('');
+  }
+
+  async function loadIntel() {
+    try {
+      const res = await fetch(API_BASE + '/api/intel');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (data.intel && data.intel.length) {
+        renderIntel(data.intel);
+      } else {
+        renderIntel(INTEL_FALLBACK);
+      }
+    } catch (e) {
+      console.warn('Intel backend down, showing fallback:', e.message);
+      renderIntel(INTEL_FALLBACK);
+    }
+  }
+
+  loadIntel();
 
 </script>
 
