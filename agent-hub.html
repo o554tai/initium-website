@@ -571,9 +571,20 @@ async function loadCrm() {
     leads = l.leads || [];
     briefs = b.briefs || [];
     updateStats(s);
+    populateProjectFilter();
     renderLeads();
     renderBriefs();
   } catch(e) { toast('CRM load failed'); }
+}
+
+function populateProjectFilter() {
+  const select = document.getElementById('filter-project');
+  if (!select) return;
+  const current = select.value;
+  const projects = [...new Set(leads.map(l => l.project_name).filter(Boolean))].sort();
+  select.innerHTML = '<option value="">All Projects</option>' +
+    projects.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('');
+  select.value = current;
 }
 
 function updateStats(s) {
