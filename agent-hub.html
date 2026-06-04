@@ -908,8 +908,11 @@ async function loadInstagramStatus() {
       document.getElementById('ig-publish-form').style.display = 'none';
     }
   } catch (e) {
-    document.getElementById('ig-status-loading').textContent = 'Unable to load status';
-    console.error(e);
+    console.error('[Instagram Status Error]', e);
+    document.getElementById('ig-status-loading').style.display = 'none';
+    document.getElementById('ig-status-connected').style.display = 'none';
+    document.getElementById('ig-status-disconnected').style.display = 'block';
+    document.getElementById('ig-publish-form').style.display = 'none';
   }
 }
 
