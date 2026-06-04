@@ -1,0 +1,178 @@
+{
+  "registry_version": "1.0.0",
+  "last_updated": "2026-06-03",
+  "brand": {
+    "name": "INITIUM",
+    "tagline": "Igniting Journeys",
+    "industry": "Real Estate",
+    "headquarters": "Singapore",
+    "founded": 2010,
+    "website": "https://initium.sg",
+    "contact": "legal@initium.sg"
+  },
+  "trademarks": {
+    "status": "pending_filing",
+    "jurisdiction": "SG",
+    "authority": "IPOS",
+    "classes": [
+      {
+        "class": 35,
+        "description": "Advertising; business management; office functions; business administration; franchising services",
+        "status": "draft"
+      },
+      {
+        "class": 36,
+        "description": "Real estate services; property management; real estate brokerage; valuation services; leasing",
+        "status": "draft"
+      },
+      {
+        "class": 41,
+        "description": "Education; training; workshops; seminars in real estate and property investment",
+        "status": "draft"
+      },
+      {
+        "class": 42,
+        "description": "Software development; online platforms; databases for property listings and management",
+        "status": "draft"
+      }
+    ],
+    "marks": [
+      { "type": "word", "text": "INITIUM", "classes": [35, 36, 41, 42], "status": "draft" },
+      { "type": "word", "text": "Igniting Journeys", "classes": [35, 36], "status": "draft" },
+      { "type": "device", "description": "INITIUM mountain icon + wordmark lockup", "classes": [35, 36], "status": "draft" }
+    ]
+  },
+  "assets": [
+    {
+      "id": "logo-main",
+      "name": "Logo Main Lockup",
+      "type": "logo",
+      "formats": ["png", "svg"],
+      "paths": {
+        "png": "assets/images/logo-main.png",
+        "svg": "assets/images/favicon.svg"
+      },
+      "usage": ["hero_sections", "presentations", "print", "email_headers"],
+      "protection": "trademark",
+      "clear_space": "height_of_I_in_INITIUM",
+      "minimum_size": "120px_width",
+      "color_variants": [
+        { "name": "primary", "bg": "#FFFFFF", "fg": "#50C878" },
+        { "name": "reverse", "bg": "#1A1A1A", "fg": "#FFFFFF" }
+      ],
+      "restrictions": ["no_color_change", "no_stretch", "no_effects", "no_rotation"]
+    },
+    {
+      "id": "logo-nav",
+      "name": "Logo Navigation Crop",
+      "type": "logo",
+      "formats": ["png"],
+      "paths": { "png": "assets/images/logo-nav-crop.png" },
+      "usage": ["nav_bars", "headers", "small_spaces"],
+      "protection": "trademark",
+      "clear_space": "height_of_I_in_INITIUM",
+      "minimum_size": "80px_width"
+    },
+    {
+      "id": "favicon",
+      "name": "Favicon / App Icon",
+      "type": "icon",
+      "formats": ["svg", "png"],
+      "paths": {
+        "svg": "assets/images/favicon.svg",
+        "png_192": "assets/images/icon-192.png",
+        "png_512": "assets/images/icon-512.png"
+      },
+      "usage": ["browser_tabs", "app_icons", "bookmarks", "PWA"],
+      "protection": "trademark"
+    },
+    {
+      "id": "color-primary",
+      "name": "Brand Color Emerald",
+      "type": "color",
+      "value": "#50C878",
+      "rgb": [80, 200, 120],
+      "cmyk": [60, 0, 40, 22],
+      "pantone": "7481 C (approx)",
+      "usage": ["primary_accent", "buttons", "highlights", "watermarks"],
+      "protection": "trade_dress"
+    },
+    {
+      "id": "color-dark",
+      "name": "Brand Color Dark",
+      "type": "color",
+      "value": "#1A1A1A",
+      "usage": ["text", "dark_backgrounds", "footer"]
+    },
+    {
+      "id": "color-surface",
+      "name": "Brand Color Surface",
+      "type": "color",
+      "value": "#F7F8F5",
+      "usage": ["page_backgrounds", "cards"]
+    },
+    {
+      "id": "font-display",
+      "name": "Space Grotesk",
+      "type": "typography",
+      "category": "display",
+      "provider": "Google Fonts",
+      "license": "OFL",
+      "weights": [400, 500, 600, 700],
+      "usage": ["headlines", "labels", "nav", "stats"]
+    },
+    {
+      "id": "font-body",
+      "name": "DM Sans",
+      "type": "typography",
+      "category": "body",
+      "provider": "Google Fonts",
+      "license": "OFL",
+      "weights": [400, 500, 600],
+      "usage": ["body_text", "descriptions", "forms"]
+    },
+    {
+      "id": "font-editorial",
+      "name": "Playfair Display",
+      "type": "typography",
+      "category": "editorial",
+      "provider": "Google Fonts",
+      "license": "OFL",
+      "weights": [400, 700],
+      "usage": ["quotes", "editorial_headlines", "culture_sections"]
+    },
+    {
+      "id": "og-image",
+      "name": "Open Graph Image",
+      "type": "image",
+      "dimensions": [1200, 630],
+      "formats": ["jpg", "png"],
+      "usage": ["social_previews", "link_sharing"],
+      "protection": "copyright"
+    },
+    {
+      "id": "hero-video",
+      "name": "Hero Video Reel",
+      "type": "video",
+      "formats": ["mp4"],
+      "paths": {
+        "interior": "assets/videos/hero-cinematic.mp4",
+        "skyline": "assets/videos/hero-skyline.mp4"
+      },
+      "usage": ["website_hero", "presentations"],
+      "protection": "copyright"
+    }
+  ],
+  "legal_templates": [
+    { "id": "cease-desist", "name": "Cease & Desist", "path": "legal-templates/cease-and-desist.html", "type": "enforcement" },
+    { "id": "agent-license", "name": "Agent Brand License", "path": "legal-templates/agent-license.html", "type": "license" },
+    { "id": "co-branding", "name": "Co-Branding Agreement", "path": "legal-templates/co-branding.html", "type": "partnership" },
+    { "id": "copyright", "name": "Copyright Notice Standards", "path": "legal-templates/copyright-notice.html", "type": "standards" }
+  ],
+  "monitoring": {
+    "google_alerts": ["INITIUM real estate", "Initium Singapore", "Igniting Journeys"],
+    "social_platforms": ["instagram", "tiktok", "facebook", "linkedin"],
+    "domain_watch": ["initium.com", "initium.net", "initium.org", "initium-realestate.com", "initium-property.com"],
+    "reverse_image_search": ["logo-main.png", "logo-nav-crop.png"]
+  }
+}

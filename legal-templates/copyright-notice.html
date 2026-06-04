@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Copyright Notice & Watermark Standards — INITIUM</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root { --accent:#50C878; --dark:#1A1A1A; --surface:#F7F8F5; --ink:#1A1A1A; --ink-secondary:#6B7B6E; --border:#E2E8E4; --radius:2px; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:var(--surface); color:var(--ink); line-height:1.7; padding:40px 20px; }
+.doc { max-width:800px; margin:0 auto; background:#fff; border:1px solid var(--border); border-radius:var(--radius); padding:56px; }
+.doc-header { text-align:center; margin-bottom:40px; padding-bottom:24px; border-bottom:2px solid var(--accent); }
+.doc-header img { height:48px; margin-bottom:16px; }
+.doc-header h1 { font-family:'Space Grotesk',sans-serif; font-size:1.5rem; font-weight:700; color:var(--dark); }
+h2 { font-family:'Space Grotesk',sans-serif; font-size:1.05rem; font-weight:600; margin:28px 0 10px; color:var(--dark); }
+p { margin-bottom:12px; font-size:0.95rem; }
+.code-block { background:var(--dark); color:#fff; padding:16px 20px; border-radius:var(--radius); font-family:'SF Mono',monospace; font-size:0.82rem; line-height:1.6; overflow-x:auto; margin:12px 0; }
+.code-block .comment { color:var(--ink-tertiary); }
+.preview-box { border:1px solid var(--border); padding:20px; border-radius:var(--radius); margin:12px 0; text-align:center; }
+.print-btn { position:fixed; top:20px; right:20px; background:var(--accent); color:#fff; border:none; padding:10px 20px; font-family:'Space Grotesk',sans-serif; font-weight:600; cursor:pointer; border-radius:var(--radius); }
+.print-btn:hover { background:var(--dark); }
+@media print { .print-btn { display:none; } .doc { border:none; padding:0; } body { background:#fff; padding:0; } }
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()">🖨️ Print / Save PDF</button>
+
+<div class="doc">
+  <div class="doc-header">
+    <img src="../assets/images/logo-main.png" alt="INITIUM">
+    <h1>COPYRIGHT NOTICE & WATERMARK STANDARDS</h1>
+  </div>
+
+  <h2>1. Standard Copyright Notice</h2>
+  <p>Use this exact text in footers, document headers, and image metadata:</p>
+  <div class="code-block">
+© <span id="year"></span> INITIUM. All rights reserved.<br>
+INITIUM® and Igniting Journeys™ are trademarks of the INITIUM collective.<br>
+Unauthorized use, reproduction, or distribution is prohibited.
+  </div>
+
+  <h2>2. Website Footer Notice</h2>
+  <p>Insert into the footer of all INITIUM web properties:</p>
+  <div class="code-block">
+&lt;footer&gt;<br>
+&nbsp;&nbsp;&lt;p&gt;&amp;copy; &lt;span id="year"&gt;&lt;/span&gt; INITIUM. All rights reserved.&lt;/p&gt;<br>
+&nbsp;&nbsp;&lt;p&gt;INITIUM&amp;reg; and Igniting Journeys&amp;trade; are trademarks of the INITIUM collective.&lt;/p&gt;<br>
+&nbsp;&nbsp;&lt;p&gt;&lt;a href="/ip-hub.html"&gt;Brand &amp; IP Policy&lt;/a&gt;&lt;/p&gt;<br>
+&lt;/footer&gt;
+  </div>
+
+  <h2>3. Image Watermark Spec</h2>
+  <p>All property photography, team photos, and branded graphics published by INITIUM agents must carry a watermark. Standard spec:</p>
+  <ul style="margin-left:24px;margin-bottom:16px;">
+    <li><strong>Text:</strong> "INITIUM" or "© INITIUM"</li>
+    <li><strong>Position:</strong> Bottom-right corner, inset 2% from edges</li>
+    <li><strong>Size:</strong> 4-6% of image width</li>
+    <li><strong>Opacity:</strong> 50-70% on photos, 100% on graphics</li>
+    <li><strong>Color:</strong> White on dark images, #50C878 on light images</li>
+    <li><strong>Font:</strong> Space Grotesk, weight 600, uppercase</li>
+  </ul>
+
+  <div class="preview-box" style="background:url('https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800') center/cover; min-height:180px; position:relative; color:#fff; display:flex; align-items:flex-end; justify-content:flex-end;">
+    <span style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:1.2rem; text-transform:uppercase; opacity:0.6; margin:12px;">INITIUM</span>
+  </div>
+  <p style="text-align:center;font-size:0.78rem;color:var(--ink-secondary);">Watermark preview — bottom-right, 60% opacity, white text</p>
+
+  <h2>4. Social Media Attribution</h2>
+  <p>For Instagram, TikTok, and Facebook posts:</p>
+  <ul style="margin-left:24px;margin-bottom:16px;">
+    <li>Tag <strong>@initium.grp</strong> in every post</li>
+    <li>Use hashtag <strong>#INITIUMsg</strong> on property content</li>
+    <li>Story reshares: retain original watermark or add INITIUM sticker</li>
+    <li>Reels/TikTok: end card with INITIUM logo + "Follow @initium.grp"</li>
+  </ul>
+
+  <h2>5. Document Header Notice</h2>
+  <p>For PDF proposals, listing kits, and contracts:</p>
+  <div class="code-block">
+CONFIDENTIAL — PROPRIETARY TO INITIUM<br>
+© <span class="year-placeholder"></span> INITIUM. All rights reserved.<br>
+This document contains confidential and proprietary information.<br>
+Unauthorized disclosure, copying, or distribution is strictly prohibited.
+  </div>
+
+  <h2>6. EXIF Metadata Standard</h2>
+  <p>When exporting property images, embed the following IPTC/EXIF fields:</p>
+  <div class="code-block">
+Copyright: © INITIUM. All rights reserved.<br>
+Creator: INITIUM Collective<br>
+Credit: INITIUM<br>
+Source: initium.sg<br>
+CopyrightNotice: © <span class="year-placeholder"></span> INITIUM
+  </div>
+
+  <h2>7. Penalty for Removal</h2>
+  <p>Removing, cropping, or obscuring INITIUM watermarks or copyright notices from published materials constitutes willful copyright infringement and triggers immediate termination of the Agent Brand License.</p>
+
+  <p style="margin-top:40px;font-size:0.78rem;color:var(--ink-secondary);text-align:center;border-top:1px solid var(--border);padding-top:16px;">
+    INITIUM® — All Rights Reserved. This is an internal standards document.
+  </p>
+</div>
+
+<script>
+  document.querySelectorAll('#year, .year-placeholder').forEach(el => el.textContent = new Date().getFullYear());
+</script>
+</body>
+</html>

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INITIUM IP Hub — Brand Asset & Intellectual Property Management</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #50C878;
+  --accent-dark: #3DA35F;
+  --accent-light: #E8F5EE;
+  --dark: #1A1A1A;
+  --surface: #F7F8F5;
+  --ink: #1A1A1A;
+  --ink-secondary: #6B7B6E;
+  --ink-tertiary: #A8B5AC;
+  --white: #FFFFFF;
+  --danger: #E74C3C;
+  --warning: #F39C12;
+  --success: #27AE60;
+  --border: #E2E8E4;
+  --radius: 2px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--surface);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container { max-width: 1400px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+.ip-header {
+  background: var(--dark);
+  padding: 20px 0;
+  border-bottom: 2px solid var(--accent);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.ip-header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logo-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-lockup img { height: 36px; width: auto; }
+
+.logo-lockup span {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--white);
+  letter-spacing: 0.08em;
+}
+
+.logo-lockup .badge {
+  background: var(--accent);
+  color: var(--dark);
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: var(--radius);
+  letter-spacing: 0.1em;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 0.8rem;
+  color: var(--ink-tertiary);
+}
+
+.header-meta .status-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  display: inline-block;
+  margin-right: 4px;
+}
+
+/* Hero */
+.ip-hero {
+  background: var(--dark);
+  padding: 48px 0 40px;
+  color: var(--white);
+}
+
+.ip-hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.ip-hero p {
+  color: var(--ink-tertiary);
+  font-size: 1rem;
+  max-width: 600px;
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin: -24px 0 32px;
+}
+
+.stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.stat-card .number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  line-height: 1;
+}
+
+.stat-card .label {
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 6px;
+}
+
+/* Grid Layout */
+.ip-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 900px) {
+  .ip-grid { grid-template-columns: 1fr; }
+}
+
+/* Sidebar */
+.ip-sidebar {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  height: fit-content;
+  position: sticky;
+  top: 88px;
+}
+
+.ip-sidebar h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-tertiary);
+  margin-bottom: 12px;
+}
+
+.ip-sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  color: var(--ink);
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 500;
+  transition: all 0.15s;
+}
+
+.ip-sidebar nav a:hover,
+.ip-sidebar nav a.active {
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.ip-sidebar nav a .icon {
+  width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.9rem;
+}
+
+/* Main Content */
+.ip-main {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.panel-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.panel-header h2 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.panel-header .meta {
+  font-size: 0.78rem;
+  color: var(--ink-tertiary);
+}
+
+.panel-body { padding: 20px 24px; }
+
+/* Asset Grid */
+.asset-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.asset-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.asset-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.asset-preview {
+  aspect-ratio: 16/10;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.asset-preview img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.asset-preview .format-badge {
+  position: absolute;
+  top: 8px; right: 8px;
+  background: rgba(26,26,26,0.8);
+  color: var(--white);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 2px 6px;
+  border-radius: var(--radius);
+  text-transform: uppercase;
+}
+
+.asset-info { padding: 14px; }
+
+.asset-info .name {
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.asset-info .detail {
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+.asset-info .tag {
+  display: inline-block;
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: var(--radius);
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.tag-protected {
+  background: var(--accent-light);
+  color: var(--accent-dark);
+}
+
+.tag-license {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.tag-public {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+
+/* Table */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 12px;
+  font-weight: 600;
+  color: var(--ink-secondary);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  border-bottom: 2px solid var(--border);
+}
+
+.data-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.data-table tr:hover td {
+  background: var(--surface);
+}
+
+.status-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 100px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-filed { background: var(--accent-light); color: var(--accent-dark); }
+.status-pending { background: #FFF3E0; color: #E65100; }
+.status-draft { background: #F5F5F5; color: var(--ink-secondary); }
+.status-protected { background: #E8F5EE; color: var(--accent-dark); }
+
+/* Checklist */
+.checklist {
+  list-style: none;
+}
+
+.checklist li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checklist li:last-child { border-bottom: none; }
+
+.checklist .check {
+  width: 20px; height: 20px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.75rem;
+  color: var(--white);
+}
+
+.checklist .check.done {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checklist .check-text {
+  flex: 1;
+}
+
+.checklist .check-text strong {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.checklist .check-text span {
+  font-size: 0.8rem;
+  color: var(--ink-secondary);
+}
+
+/* Quick Actions */
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.action-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-decoration: none;
+  color: var(--ink);
+  transition: all 0.15s;
+}
+
+.action-card:hover {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+
+.action-card .action-icon {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.action-card .action-title {
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 4px;
+}
+
+.action-card .action-desc {
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+}
+
+/* Footer */
+.ip-footer {
+  background: var(--dark);
+  color: var(--ink-tertiary);
+  padding: 32px 0;
+  margin-top: 48px;
+  font-size: 0.78rem;
+  text-align: center;
+}
+
+.ip-footer strong { color: var(--white); }
+
+/* Print */
+@media print {
+  .ip-header, .ip-sidebar, .ip-footer { display: none; }
+  .ip-grid { grid-template-columns: 1fr; }
+  .panel { break-inside: avoid; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="ip-header">
+  <div class="container">
+    <div class="logo-lockup">
+      <img src="assets/images/logo-nav-crop.png" alt="INITIUM">
+      <span>INITIUM</span>
+      <span class="badge">IP Hub</span>
+    </div>
+    <div class="header-meta">
+      <span><span class="status-dot"></span>Registry Active</span>
+      <span>Last updated: <span id="lastUpdated"></span></span>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="ip-hero">
+  <div class="container">
+    <h1>Intellectual Property Command Center</h1>
+    <p>Brand assets, trademark status, legal templates, and usage governance for the INITIUM real estate collective.</p>
+  </div>
+</section>
+
+<div class="container">
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card">
+      <div class="number">12</div>
+      <div class="label">Registered Assets</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">4</div>
+      <div class="label">Trademark Classes</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">3</div>
+      <div class="label">Legal Templates</div>
+    </div>
+    <div class="stat-card">
+      <div class="number">70+</div>
+      <div class="label">Licensed Users</div>
+    </div>
+  </div>
+
+  <div class="ip-grid">
+    <!-- Sidebar -->
+    <aside class="ip-sidebar">
+      <h3>Navigation</h3>
+      <nav>
+        <a href="#assets" class="active"><span class="icon">🎨</span> Asset Registry</a>
+        <a href="#trademarks"><span class="icon">™️</span> Trademarks</a>
+        <a href="#legal"><span class="icon">📋</span> Legal Templates</a>
+        <a href="#guidelines"><span class="icon">📐</span> Usage Guidelines</a>
+        <a href="#monitoring"><span class="icon">🔍</span> IP Monitoring</a>
+        <a href="#licenses"><span class="icon">🔑</span> Agent Licenses</a>
+      </nav>
+
+      <h3 style="margin-top:24px">Quick Links</h3>
+      <nav>
+        <a href="guidelines.html" target="_blank"><span class="icon">↗️</span> Brand Guidelines</a>
+        <a href="https://www.ipos.gov.sg" target="_blank"><span class="icon">↗️</span> IPOS Singapore</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="ip-main">
+
+      <!-- Asset Registry -->
+      <div class="panel" id="assets">
+        <div class="panel-header">
+          <h2>🎨 Brand Asset Registry</h2>
+          <span class="meta">Canonical source of truth for all INITIUM brand assets</span>
+        </div>
+        <div class="panel-body">
+          <div class="asset-grid">
+            <div class="asset-card">
+              <div class="asset-preview">
+                <img src="assets/images/logo-main.png" alt="INITIUM Logo Main">
+                <span class="format-badge">PNG</span>
+              </div>
+              <div class="asset-info">
+                <div class="name">Logo — Main Lockup</div>
+                <div class="detail">Full logo with icon + wordmark + tagline. Use for hero sections, presentations.</div>
+                <span class="tag tag-protected">™ Protected</span>
+              </div>
+            </div>
+            <div class="asset-card">
+              <div class="asset-preview">
+                <img src="assets/images/logo-nav-crop.png" alt="INITIUM Logo Nav">
+                <span class="format-badge">PNG</span>
+              </div>
+              <div class="asset-info">
+                <div class="name">Logo — Navigation</div>
+                <div class="detail">Compact crop for nav bars, headers, small spaces. Transparent background.</div>
+                <span class="tag tag-protected">™ Protected</span>
+              </div>
+            </div>
+            <div class="asset-card">
+              <div class="asset-preview">
+                <img src="assets/images/favicon.svg" alt="Favicon">
+                <span class="format-badge">SVG</span>
+              </div>
+              <div class="asset-info">
+                <div class="name">Favicon / Icon</div>
+                <div class="detail">Scalable icon mark for browsers, app icons, bookmarks.</div>
+                <span class="tag tag-protected">™ Protected</span>
+              </div>
+            </div>
+            <div class="asset-card">
+              <div class="asset-preview" style="background: linear-gradient(135deg, #50C878 0%, #3DA35F 100%);">
+                <span style="color:white;font-family:'Space Grotesk';font-weight:700;font-size:1.2rem;">#50C878</span>
+                <span class="format-badge">HEX</span>
+              </div>
+              <div class="asset-info">
+                <div class="name">Brand Color — Emerald</div>
+                <div class="detail">Primary accent. RGB(80,200,120). CMYK: 60/0/40/22. Pantone approx 7481 C.</div>
+                <span class="tag tag-protected">™ Protected</span>
+              </div>
+            </div>
+            <div class="asset-card">
+              <div class="asset-preview" style="background: #1A1A1A; display:flex;flex-direction:column;gap:4px;align-items:center;justify-content:center;">
+                <span style="color:#fff;font-family:'Space Grotesk';font-size:0.9rem;">Space Grotesk</span>
+                <span style="color:#aaa;font-family:'DM Sans';font-size:0.8rem;">DM Sans Body</span>
+                <span style="color:#888;font-family:serif;font-size:0.8rem;font-style:italic;">Playfair Display</span>
+                <span class="format-badge">FONT</span>
+              </div>
+              <div class="asset-info">
+                <div class="name">Typography Stack</div>
+                <div class="detail">Space Grotesk (display), Playfair Display (editorial), DM Sans (body). Google Fonts.</div>
+                <span class="tag tag-license">License: OFL</span>
+              </div>
+            </div>
+            <div class="asset-card">
+              <div class="asset-preview" style="background: #F7F8F5;">
+                <div style="width:60%;height:60%;border:2px solid #1A1A1A;border-radius:2px;display:flex;align-items:center;justify-content:center;">
+                  <span style="font-family:'Space Grotesk';font-weight:700;color:#1A1A1A;">OG</span>
+                </div>
+                <span class="format-badge">JPG</span>
+              </div>
+              <div class="asset-info">
+                <div class="name">OG Image — Social</div>
+                <div class="detail">1200×630px Open Graph image for link previews. Never crop or alter.</div>
+                <span class="tag tag-protected">™ Protected</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trademarks -->
+      <div class="panel" id="trademarks">
+        <div class="panel-header">
+          <h2>™️ Trademark Portfolio</h2>
+          <span class="meta">Singapore — IPOS | Class 36 (Real Estate) + 35 (Advertising) + 41 (Education) + 42 (Software)</span>
+        </div>
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Mark</th>
+                <th>Class</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Filed</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>INITIUM</strong> (word)</td>
+                <td>36</td>
+                <td>Real estate services, property management, brokerage, valuation</td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><strong>INITIUM</strong> (word)</td>
+                <td>35</td>
+                <td>Advertising, business management, office functions, franchising</td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><strong>INITIUM</strong> (word)</td>
+                <td>41</td>
+                <td>Training, education, workshops, seminars in real estate</td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><strong>INITIUM</strong> (word)</td>
+                <td>42</td>
+                <td>Software, online platforms, databases for property listings</td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><strong>Device Mark</strong> (logo)</td>
+                <td>36, 35</td>
+                <td>The INITIUM mountain icon + wordmark lockup</td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>—</td>
+              </tr>
+              <tr>
+                <td><strong>Igniting Journeys</strong></td>
+                <td>35, 36</td>
+                <td>Tagline / slogan for real estate services</td>
+                <td><span class="status-pill status-draft">Draft</span></td>
+                <td>—</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:16px;font-size:0.82rem;color:var(--ink-secondary);">
+            <strong>Next step:</strong> File via IPOS eTrademarks portal. Estimated cost: S$240 per mark per class (S$341 if using pre-approved description). Total estimated: S$1,400–2,000 for full portfolio.
+            <a href="https://www.ipos.gov.sg/resources/trade-marks/apply-for-trade-mark" target="_blank" style="color:var(--accent-dark);">IPOS Filing Guide →</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Legal Templates -->
+      <div class="panel" id="legal">
+        <div class="panel-header">
+          <h2>📋 Legal Templates</h2>
+          <span class="meta">Ready-to-use documents. Review with your lawyer before sending.</span>
+        </div>
+        <div class="panel-body">
+          <div class="action-grid">
+            <a class="action-card" href="legal-templates/cease-and-desist.html">
+              <div class="action-icon">⚠️</div>
+              <div class="action-title">Cease & Desist</div>
+              <div class="action-desc">Unauthorized logo/name usage by third parties. Demand immediate takedown.</div>
+            </a>
+            <a class="action-card" href="legal-templates/agent-license.html">
+              <div class="action-icon">🤝</div>
+              <div class="action-title">Agent Brand License</div>
+              <div class="action-desc">Terms for INITIUM agents using brand assets in personal marketing.</div>
+            </a>
+            <a class="action-card" href="legal-templates/co-branding.html">
+              <div class="action-icon">🏢</div>
+              <div class="action-title">Co-Branding Agreement</div>
+              <div class="action-desc">Partnerships with developers, banks, or media. Logo placement rules.</div>
+            </a>
+            <a class="action-card" href="legal-templates/copyright-notice.html">
+              <div class="action-icon">©️</div>
+              <div class="action-title">Copyright Notice</div>
+              <div class="action-desc">Website footer, document headers, image watermarks.</div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Usage Guidelines -->
+      <div class="panel" id="guidelines">
+        <div class="panel-header">
+          <h2>📐 Brand Usage Governance</h2>
+          <span class="meta">Rules every agent and partner must follow</span>
+        </div>
+        <div class="panel-body">
+          <ul class="checklist">
+            <li>
+              <div class="check done">✓</div>
+              <div class="check-text">
+                <strong>Minimum Clear Space</strong>
+                <span>Logo must have padding equal to the height of the "I" in INITIUM on all sides. Never crowd with text or imagery.</span>
+              </div>
+            </li>
+            <li>
+              <div class="check done">✓</div>
+              <div class="check-text">
+                <strong>Color Lock</strong>
+                <span>Primary: #50C878 on white/light. Reverse: white on #1A1A1A. Never: gold, orange, gradient overlays, or color-shifted versions.</span>
+              </div>
+            </li>
+            <li>
+              <div class="check done">✓</div>
+              <div class="check-text">
+                <strong>No Distortion</strong>
+                <span>Never stretch, rotate, apply shadows, outlines, or effects to the logo. Maintain aspect ratio at all sizes.</span>
+              </div>
+            </li>
+            <li>
+              <div class="check done">✓</div>
+              <div class="check-text">
+                <strong>Typography Discipline</strong>
+                <span>Space Grotesk for headlines and labels. DM Sans for body. Playfair Display for editorial quotes only. Never substitute with system fonts.</span>
+              </div>
+            </li>
+            <li>
+              <div class="check done">✓</div>
+              <div class="check-text">
+                <strong>Tagline Pairing</strong>
+                <span>"Igniting Journeys" always appears below the wordmark, never above. Never alter the wording or translate without written approval.</span>
+              </div>
+            </li>
+            <li>
+              <div class="check"></div>
+              <div class="check-text">
+                <strong>Social Media Watermark</strong>
+                <span>All property photos, reels, and carousels posted by agents must include the INITIUM logo watermark or brand credit. Pending: batch watermark script.</span>
+              </div>
+            </li>
+            <li>
+              <div class="check"></div>
+              <div class="check-text">
+                <strong>Namecard Standard</strong>
+                <span>All business cards must use the approved template. No custom designs, no competing logos alongside INITIUM on the front face.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- IP Monitoring -->
+      <div class="panel" id="monitoring">
+        <div class="panel-header">
+          <h2>🔍 IP Monitoring & Enforcement</h2>
+          <span class="meta">How to detect and respond to unauthorized usage</span>
+        </div>
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Channel</th>
+                <th>What to Watch</th>
+                <th>Frequency</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Google Alerts</strong></td>
+                <td>"INITIUM real estate", "Initium Singapore", "Igniting Journeys"</td>
+                <td>Daily emails</td>
+                <td>Review for impersonation or misuse</td>
+              </tr>
+              <tr>
+                <td><strong>Social Media</strong></td>
+                <td>Instagram, TikTok, Facebook for fake INITIUM accounts</td>
+                <td>Weekly scan</td>
+                <td>Report for impersonation → platform takedown</td>
+              </tr>
+              <tr>
+                <td><strong>Domain Watch</strong></td>
+                <td>initium.sg variants (.com, .net, .org, hyphenated)</td>
+                <td>Monthly</td>
+                <td>Cybersquatting: UDRP or negotiate purchase</td>
+              </tr>
+              <tr>
+                <td><strong>CEA Registry</strong></td>
+                <td>Agents falsely claiming INITIUM affiliation</td>
+                <td>Quarterly</td>
+                <td>Report to CEA for false advertising</td>
+              </tr>
+              <tr>
+                <td><strong>Image Reverse Search</strong></td>
+                <td>Google Lens / TinEye on logo files</td>
+                <td>Quarterly</td>
+                <td>Identify unauthorized logo usage</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:16px;font-size:0.82rem;color:var(--ink-secondary);">
+            <strong>Escalation path:</strong> Detection → Screenshot evidence → Cease & Desist letter (7-day deadline) → IPOS complaint / UDRP → Legal counsel if unresolved.
+          </p>
+        </div>
+      </div>
+
+      <!-- Agent Licenses -->
+      <div class="panel" id="licenses">
+        <div class="panel-header">
+          <h2>🔑 Agent Brand License Tracker</h2>
+          <span class="meta">Track which agents are authorized to use INITIUM brand assets</span>
+        </div>
+        <div class="panel-body">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>License Type</th>
+                <th>Assets Permitted</th>
+                <th>Status</th>
+                <th>Renewal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>All Active Agents</strong></td>
+                <td>Standard Agent License</td>
+                <td>Logo (nav), namecard template, email signature, social templates</td>
+                <td><span class="status-pill status-protected">Active</span></td>
+                <td>Annual</td>
+              </tr>
+              <tr>
+                <td><strong>Division Leaders</strong></td>
+                <td>Extended License</td>
+                <td>+ Presentation decks, recruitment materials, team sub-brands</td>
+                <td><span class="status-pill status-protected">Active</span></td>
+                <td>Annual</td>
+              </tr>
+              <tr>
+                <td><strong>Ex-Agents</strong></td>
+                <td>Terminated</td>
+                <td>None — all brand asset usage must cease within 7 days of departure</td>
+                <td><span class="status-pill status-pending">Monitor</span></td>
+                <td>N/A</td>
+              </tr>
+            </tbody>
+          </table>
+          <p style="margin-top:16px;font-size:0.82rem;color:var(--ink-secondary);">
+            <strong>Note:</strong> Upon termination, agents must remove INITIUM branding from all social profiles, namecards, email signatures, and property listings within 7 days. Failure = automatic Cease & Desist.
+          </p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="ip-footer">
+  <div class="container">
+    <p>© <span id="year"></span> INITIUM. All rights reserved. <strong>Trademark Pending.</strong></p>
+    <p style="margin-top:4px;">This IP Hub is a living document. Updates must be logged with date and approver.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('lastUpdated').textContent = new Date().toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' });
+
+  // Smooth scroll for sidebar nav
+  document.querySelectorAll('.ip-sidebar nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      document.querySelectorAll('.ip-sidebar nav a').forEach(a => a.classList.remove('active'));
+      link.classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
