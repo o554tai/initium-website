@@ -162,8 +162,7 @@ def save_and_commit(projects):
                 ["git", "commit", "-m", f"Auto-update EcoProp projects: {len(projects)} projects"],
                 check=True, capture_output=True
             )
-            subprocess.run(["git", "push", "origin", "main"], check=True, capture_output=True)
-            print(f"[{datetime.now()}] Committed and pushed to GitHub")
+            print(f"[{datetime.now()}] Committed locally (daily pusher handles sync)")
         else:
             print(f"[{datetime.now()}] No changes to commit")
     except Exception as e:

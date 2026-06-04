@@ -158,8 +158,7 @@ def save_and_commit(projects):
                 ["git", "commit", "-m", f"Auto-update projects from SingMap: {len(projects)} projects"],
                 check=True, capture_output=True
             )
-            subprocess.run(["git", "push", "origin", "main"], check=True, capture_output=True)
-            print(f"[{datetime.now()}] Committed and pushed")
+            print(f"[{datetime.now()}] Committed locally (daily pusher handles sync)")
     except Exception as e:
         print(f"[{datetime.now()}] Git error: {e}")
 
