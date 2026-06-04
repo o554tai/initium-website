@@ -17,7 +17,7 @@ import requests
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_DIR = os.path.dirname(SCRIPT_DIR)
 DATA_FILE = os.path.join(REPO_DIR, "data", "property-news.json")
-BLOG_HTML = os.path.join(REPO_DIR, "blog.html")
+THE_POST_HTML = os.path.join(REPO_DIR, "the-post.html")
 ARCHIVE_HTML = os.path.join(REPO_DIR, "news-archive.html")
 
 # Source brand logos — used as card thumbnails since article hero images
@@ -258,7 +258,7 @@ def prune_old_articles(articles: list[dict]) -> list[dict]:
 def update_blog_html(fresh: list[dict]):
     # Cap at 50 most recent articles; scroll container shows ~6 at a time
     fresh = fresh[:50]
-    with open(BLOG_HTML, "r", encoding="utf-8") as f:
+    with open(THE_POST_HTML, "r", encoding="utf-8") as f:
         content = f.read()
 
     cards_html = "\n\n".join(build_card_html(a) for a in fresh)
@@ -274,14 +274,14 @@ def update_blog_html(fresh: list[dict]):
             new = match.group(1) + "\n\n" + cards_html + "\n      " + match.group(3)
             content = content.replace(old, new)
         else:
-            print("  ERROR: Could not find news-grid in blog.html")
+            print("  ERROR: Could not find news-grid in the-post.html")
             return False
     else:
         old = match.group(0)
         new = match.group(1) + "\n\n" + cards_html + match.group(3)
         content = content.replace(old, new)
 
-    with open(BLOG_HTML, "w", encoding="utf-8") as f:
+    with open(THE_POST_HTML, "w", encoding="utf-8") as f:
         f.write(content)
     return True
 
@@ -716,7 +716,7 @@ def generate_archive_html(archived: list[dict]):
     <li><a href="new-launches.html">New Launches</a></li>
     <li><a href="team.html">Team</a></li>
     <li><a href="join.html">Join Us</a></li>
-    <li><a href="blog.html">Pulse</a></li>
+    <li><a href="the-post.html">Pulse</a></li>
     <li><a href="intm-studio.html">INTM Studio</a></li>
     <li><a href="intm-shop.html">INTM Shop</a></li>
     <li><a href="contact.html">Contact</a></li>
@@ -727,7 +727,7 @@ def generate_archive_html(archived: list[dict]):
   <div class="page-hero-label">Market Watch</div>
   <h1 class="page-hero-title">Property News Archive</h1>
   <p class="page-hero-sub">Past headlines from The Straits Times, CNA, and EdgeProp.</p>
-  <a href="blog.html" class="archive-link">&larr; Back to Pulse</a>
+  <a href="the-post.html" class="archive-link">&larr; Back to Pulse</a>
 </div>
 
 <section style="background:#fff;">
@@ -771,7 +771,7 @@ def generate_archive_html(archived: list[dict]):
       <div class="footer-col-title">Company</div>
       <a href="team.html">Team</a>
       <a href="join.html">Join Us</a>
-      <a href="blog.html">Pulse</a>
+      <a href="the-post.html">Pulse</a>
       <a href="contact.html">Contact</a>
     </div>
     <div class="footer-col">
@@ -927,7 +927,7 @@ def main():
     ok2 = generate_archive_html(archived)
     save_articles(all_articles)
     if not ok1:
-        print("      WARNING: blog.html update failed")
+        print("      WARNING: the-post.html update failed")
     if not ok2:
         print("      WARNING: archive.html generation failed")
 
