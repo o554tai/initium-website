@@ -189,6 +189,58 @@
   .card-actions .btn-delete:hover { background: rgba(231,76,60,0.08); }
   .empty { text-align: center; padding: var(--space-10) var(--space-6); color: var(--text-secondary); font-size: var(--text-sm); }
 
+  /* CRM filter pills */
+  .filter-bar {
+    display: flex; gap: var(--space-2); margin-bottom: var(--space-3);
+    overflow-x: auto; scrollbar-width: none; -ms-overflow-style: none;
+  }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-pill {
+    flex-shrink: 0; padding: 6px 14px; border-radius: 20px;
+    border: 1px solid rgba(0,0,0,0.08); background: var(--surface);
+    color: var(--text-secondary); font-size: var(--text-xs); font-weight: 600;
+    cursor: pointer; font-family: var(--font-display); text-transform: uppercase;
+    letter-spacing: 0.04em; transition: all var(--transition-fast);
+  }
+  .filter-pill.active { background: var(--accent); color: var(--white); border-color: var(--accent); }
+  .sort-bar {
+    display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3);
+  }
+  .sort-bar label {
+    font-size: var(--text-xs); color: var(--text-secondary);
+    text-transform: uppercase; letter-spacing: 0.06em; font-family: var(--font-display); font-weight: 500;
+  }
+  .sort-bar select {
+    background: var(--surface); border: 1px solid rgba(0,0,0,0.08); border-radius: var(--radius-md);
+    padding: var(--space-2) var(--space-3); color: var(--text-primary); font-size: var(--text-sm);
+    font-family: var(--font-body); outline: none;
+  }
+
+  /* ─── Intel styles ─── */
+  .intel-wrap { padding: var(--space-4); padding-bottom: var(--space-6); }
+  .intel-card {
+    background: var(--white); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg);
+    padding: var(--space-5); margin-bottom: var(--space-3); box-shadow: var(--shadow-sm);
+  }
+  .intel-header { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); }
+  .intel-tag {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+    font-family: var(--font-display);
+  }
+  .intel-tag.launch { background: rgba(80,200,120,0.12); color: var(--accent-dark); }
+  .intel-tag.policy { background: rgba(0,150,255,0.12); color: #0077cc; }
+  .intel-tag.market { background: rgba(155,89,182,0.12); color: #7d3c98; }
+  .intel-tag.alert { background: rgba(231,76,60,0.12); color: #c0392b; }
+  .intel-date { font-size: var(--text-xs); color: var(--text-tertiary); margin-left: auto; }
+  .intel-title {
+    font-family: var(--font-display); font-size: var(--text-base); font-weight: 700;
+    color: var(--text-primary); margin-bottom: var(--space-2); line-height: 1.35;
+  }
+  .intel-body { font-size: var(--text-sm); color: var(--text-secondary); line-height: 1.6; }
+  .intel-body a { color: var(--accent); text-decoration: none; }
+  .intel-body a:hover { text-decoration: underline; }
+
   /* ─── Modal ─── */
   .modal-overlay {
     position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: none;
@@ -273,7 +325,7 @@
 
   /* ─── Desktop polish ─── */
   @media (min-width: 768px) {
-    .crm-wrap { max-width: 720px; margin: 0 auto; padding: var(--space-8); }
+    .crm-wrap, .intel-wrap { max-width: 720px; margin: 0 auto; padding: var(--space-8); }
     .tools-grid { max-width: 900px; margin: 0 auto; padding: var(--space-8); }
     .modal-sheet { max-width: 520px; border-radius: var(--radius-lg); margin: auto; max-height: 90vh; }
     .modal-overlay { align-items: center; }
@@ -330,6 +382,16 @@
             <div class="stat-card"><div class="num" id="stat-leads-new">0</div><div class="label">New</div></div>
           </div>
           <div class="section-header"><h2>My Leads</h2><button class="btn btn-primary" onclick="openModal('lead')">+ Add</button></div>
+          <div class="sort-bar"><label>Sort</label><select id="sort-leads" onchange="renderLeads()"><option value="newest">Newest</option><option value="name">Name</option><option value="budget">Budget</option></select></div>
+          <div class="filter-bar" id="filter-leads">
+            <button class="filter-pill active" data-status="all" onclick="setLeadFilter('all')">All</button>
+            <button class="filter-pill" data-status="new" onclick="setLeadFilter('new')">New</button>
+            <button class="filter-pill" data-status="contacted" onclick="setLeadFilter('contacted')">Contacted</button>
+            <button class="filter-pill" data-status="viewing" onclick="setLeadFilter('viewing')">Viewing</button>
+            <button class="filter-pill" data-status="offer" onclick="setLeadFilter('offer')">Offer</button>
+            <button class="filter-pill" data-status="closed" onclick="setLeadFilter('closed')">Closed</button>
+            <button class="filter-pill" data-status="lost" onclick="setLeadFilter('lost')">Lost</button>
+          </div>
           <input type="text" class="search-box" id="search-leads" placeholder="Search client, area..." oninput="renderLeads()">
           <div id="list-leads"></div>
         </div>
@@ -340,9 +402,24 @@
             <div class="stat-card"><div class="num" id="stat-briefs-active">0</div><div class="label">Active</div></div>
           </div>
           <div class="section-header"><h2>My Briefs</h2><button class="btn btn-primary" onclick="openModal('brief')">+ Add</button></div>
+          <div class="sort-bar"><label>Sort</label><select id="sort-briefs" onchange="renderBriefs()"><option value="newest">Newest</option><option value="name">Name</option><option value="date">Date</option></select></div>
+          <div class="filter-bar" id="filter-briefs">
+            <button class="filter-pill active" data-status="all" onclick="setBriefFilter('all')">All</button>
+            <button class="filter-pill" data-status="active" onclick="setBriefFilter('active')">Active</button>
+            <button class="filter-pill" data-status="closed" onclick="setBriefFilter('closed')">Closed</button>
+            <button class="filter-pill" data-status="lost" onclick="setBriefFilter('lost')">Lost</button>
+          </div>
           <input type="text" class="search-box" id="search-briefs" placeholder="Search client, property..." oninput="renderBriefs()">
           <div id="list-briefs"></div>
         </div>
+      </div>
+    </div>
+
+    <!-- Intel -->
+    <div id="tab-intel" class="tab-view">
+      <div class="intel-wrap">
+        <div class="section-header"><h2>Market Intel</h2></div>
+        <div id="intel-feed"></div>
       </div>
     </div>
 
@@ -359,20 +436,30 @@
           <h3>Brand Guide</h3>
           <p>Logo, colors, voice rules</p>
         </a>
-        <a class="tool-card" href="/api-keys/index.html" target="_blank">
-          <div class="icon">&#128273;</div>
-          <h3>API Keys</h3>
-          <p>Manage team access keys</p>
+        <a class="tool-card" href="calculators.html" target="_blank">
+          <div class="icon">&#128290;</div>
+          <h3>Calculators</h3>
+          <p>Mortgage, BSD, ABSD, rental yield</p>
+        </a>
+        <a class="tool-card" href="new-launches.html" target="_blank">
+          <div class="icon">&#127969;</div>
+          <h3>New Launches</h3>
+          <p>Latest developments & early access</p>
+        </a>
+        <a class="tool-card" href="blog.html" target="_blank">
+          <div class="icon">&#128240;</div>
+          <h3>Pulse</h3>
+          <p>Market news, guides & insights</p>
         </a>
         <a class="tool-card" href="ops.html" target="_blank">
           <div class="icon">&#128202;</div>
           <h3>Ops Dashboard</h3>
           <p>Full admin CRM view</p>
         </a>
-        <a class="tool-card" href="3d-tour-workflow.md" target="_blank">
+        <a class="tool-card" href="office-scan-guide.html" target="_blank">
           <div class="icon">&#127758;</div>
-          <h3>3D Tour Guide</h3>
-          <p>Workflow & best practices</p>
+          <h3>3D Scan Guide</h3>
+          <p>Matterport workflow & best practices</p>
         </a>
         <a class="tool-card" href="virtual-tours.html" target="_blank">
           <div class="icon">&#127909;</div>
@@ -396,6 +483,10 @@
     <button class="nav-btn" onclick="switchTab(this,'crm')">
       <span class="icon">&#128101;</span>
       <span>CRM</span>
+    </button>
+    <button class="nav-btn" onclick="switchTab(this,'intel')">
+      <span class="icon">&#128161;</span>
+      <span>Intel</span>
     </button>
     <button class="nav-btn" onclick="switchTab(this,'tools')">
       <span class="icon">&#128295;</span>
@@ -424,6 +515,8 @@ let leads = [];
 let briefs = [];
 let editingId = null;
 let editingType = null;
+let leadFilter = 'all';
+let briefFilter = 'all';
 
 const keyInput = document.getElementById('keyInput');
 const loginBtn = document.getElementById('loginBtn');
@@ -458,6 +551,7 @@ function enterApp() {
   document.getElementById('app').style.display = 'flex';
   document.getElementById('userName').textContent = agentName;
   loadCrm();
+  renderIntel();
 }
 
 function logout() {
@@ -494,6 +588,18 @@ function switchCrm(tab) {
   document.querySelectorAll('.crm-view').forEach(v => v.classList.remove('active'));
   document.getElementById('crm-tab-' + tab).classList.add('active');
   document.getElementById('crm-' + tab).classList.add('active');
+}
+
+function setLeadFilter(status) {
+  leadFilter = status;
+  document.querySelectorAll('#filter-leads .filter-pill').forEach(p => p.classList.toggle('active', p.dataset.status === status));
+  renderLeads();
+}
+
+function setBriefFilter(status) {
+  briefFilter = status;
+  document.querySelectorAll('#filter-briefs .filter-pill').forEach(p => p.classList.toggle('active', p.dataset.status === status));
+  renderBriefs();
 }
 
 // CRM API
@@ -545,7 +651,16 @@ function esc(s) { const d = document.createElement('div'); d.textContent = s; re
 
 function renderLeads() {
   const q = document.getElementById('search-leads').value.toLowerCase();
-  const list = leads.filter(l => !q || [l.client_name, l.area, l.source, l.budget, l.notes].some(v => (v||'').toLowerCase().includes(q)));
+  const sort = document.getElementById('sort-leads').value;
+  let list = leads.filter(l => !q || [l.client_name, l.area, l.source, l.budget, l.notes].some(v => (v||'').toLowerCase().includes(q)));
+  if (leadFilter !== 'all') list = list.filter(l => (l.status||'new') === leadFilter);
+  if (sort === 'name') list.sort((a,b) => (a.client_name||'').localeCompare(b.client_name||''));
+  else if (sort === 'budget') list.sort((a,b) => {
+    const av = parseFloat((a.budget||'0').replace(/[^0-9.]/g,'')) || 0;
+    const bv = parseFloat((b.budget||'0').replace(/[^0-9.]/g,'')) || 0;
+    return bv - av;
+  });
+  else list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
   const el = document.getElementById('list-leads');
   if (!list.length) { el.innerHTML = '<div class="empty">No leads yet. Tap + Add to start.</div>'; return; }
   el.innerHTML = list.map(l => `
@@ -566,7 +681,12 @@ function renderLeads() {
 
 function renderBriefs() {
   const q = document.getElementById('search-briefs').value.toLowerCase();
-  const list = briefs.filter(b => !q || [b.client_name, b.property, b.area, b.notes].some(v => (v||'').toLowerCase().includes(q)));
+  const sort = document.getElementById('sort-briefs').value;
+  let list = briefs.filter(b => !q || [b.client_name, b.property, b.area, b.notes].some(v => (v||'').toLowerCase().includes(q)));
+  if (briefFilter !== 'all') list = list.filter(b => (b.status||'active') === briefFilter);
+  if (sort === 'name') list.sort((a,b) => (a.client_name||'').localeCompare(b.client_name||''));
+  else if (sort === 'date') list.sort((a,b) => new Date(b.viewing_date||0) - new Date(a.viewing_date||0));
+  else list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
   const el = document.getElementById('list-briefs');
   if (!list.length) { el.innerHTML = '<div class="empty">No briefs yet. Tap + Add to start.</div>'; return; }
   el.innerHTML = list.map(b => `
@@ -697,6 +817,30 @@ async function deleteBrief(id) {
   if (!confirm('Delete this brief?')) return;
   await api('/api/my/briefs/' + id, { method: 'DELETE' });
   toast('Deleted'); await loadCrm();
+}
+
+// ─── Intel Feed ───
+const intelData = [
+  { tag:'launch', tagLabel:'New Launch', title:'Lentor Modern — 85% sold in Phase 1', body:'Remaining 2-bed units from $1.68M. 3-bed dual-key layouts still available. Developer extending early-bird discount until 30 June.', date:'4 Jun 2026' },
+  { tag:'policy', tagLabel:'Policy', title:'ABSD rates held in June 2026 review', body:'No changes to Additional Buyer Stamp Duty. Foreigners remain at 60%, entities at 65%. PR first-home stays at 5%, second at 30%.', date:'1 Jun 2026' },
+  { tag:'market', tagLabel:'Market', title:'Rental index up 2.1% in Q2 2026', body:'URA flash estimate shows continued recovery. Core Central Region leading at +2.8%. Outside Central Region +1.7%. Landed +1.9%.', date:'28 May 2026' },
+  { tag:'launch', tagLabel:'New Launch', title:'Chuan Park relaunch — pricing leaked', body:'Expected PSF $2,400–$2,600. 916 units over two 24-storey towers. Preview expected mid-June. Agent briefing 12 June.', date:'25 May 2026' },
+  { tag:'alert', tagLabel:'Alert', title:'CEA enforcement: unlicensed marketing', body:'Three agents fined for unlicensed property ads on Carousell. All listings must show CEA registration number.', date:'20 May 2026' },
+  { tag:'market', tagLabel:'Market', title:'Mortgage rates: 3M SORA at 3.42%', body:'Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.', date:'15 May 2026' },
+];
+
+function renderIntel() {
+  const el = document.getElementById('intel-feed');
+  el.innerHTML = intelData.map(item => `
+    <div class="intel-card">
+      <div class="intel-header">
+        <span class="intel-tag ${esc(item.tag)}">${esc(item.tagLabel)}</span>
+        <span class="intel-date">${esc(item.date)}</span>
+      </div>
+      <div class="intel-title">${esc(item.title)}</div>
+      <div class="intel-body">${esc(item.body)}</div>
+    </div>
+  `).join('');
 }
 </script>
 </body>
