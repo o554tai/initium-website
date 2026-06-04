@@ -60,9 +60,9 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             --border: rgba(255,255,255,0.06);
             --text: #e2e2e8;
             --text-muted: #6b6b7b;
-            --accent: #6366f1;
-            --accent-glow: rgba(99,102,241,0.3);
-            --accent-secondary: #c084fc;
+            --accent: #50C878;
+            --accent-glow: rgba(80,200,120,0.3);
+            --accent-secondary: #3DA35F;
             --success: #22c55e;
             --error: #ef4444;
             --warning: #f59e0b;
@@ -231,7 +231,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         }
         .drop-zone:hover, .drop-zone.drag-over {
             border-color: var(--accent);
-            background: rgba(99,102,241,0.06);
+            background: rgba(80,200,120,0.06);
             color: var(--text);
         }
         .drop-zone .drop-icon {
@@ -271,7 +271,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
             padding: 4px 12px; border-radius: 20px;
         }
-        .job-status.submitted { background: rgba(99,102,241,0.15); color: var(--accent); }
+        .job-status.submitted { background: rgba(80,200,120,0.15); color: var(--accent); }
         .job-status.running { background: rgba(245,158,11,0.15); color: var(--warning); }
         .job-status.completed { background: rgba(34,197,94,0.15); color: var(--success); }
         .job-status.failed { background: rgba(239,68,68,0.15); color: var(--error); }
@@ -334,7 +334,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         .sub-tab:hover { color: var(--text); background: rgba(255,255,255,0.02); }
         .sub-tab.active {
             color: var(--accent); border-bottom-color: var(--accent);
-            background: rgba(99,102,241,0.06);
+            background: rgba(80,200,120,0.06);
         }
         .sub-panel { display: none; }
         .sub-panel.active { display: block; }
@@ -352,7 +352,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         }
         .template-card:hover {
             border-color: var(--accent); transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(99,102,241,0.1);
+            box-shadow: 0 8px 24px rgba(80,200,120,0.1);
         }
         .template-card:active { transform: translateY(0); }
         .template-card .template-preview {
@@ -373,7 +373,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         }
         .template-tags span {
             padding: 4px 10px; border-radius: 6px;
-            background: rgba(99,102,241,0.1); color: var(--accent);
+            background: rgba(80,200,120,0.1); color: var(--accent);
             font-size: 0.6875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em;
         }
         .template-copied {
@@ -410,7 +410,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         }
         .tour-card .tour-badge-pill {
             display: inline-block; padding: 3px 10px; border-radius: 6px;
-            background: rgba(99,102,241,0.12); color: var(--accent);
+            background: rgba(80,200,120,0.12); color: var(--accent);
             font-size: 0.6875rem; font-weight: 600;
         }
         .tour-card .tour-preview-iframe {
@@ -515,7 +515,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     <!-- INITIUM Nav -->
     <nav style="position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:56px;background:rgba(10,10,15,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);">
         <a href="https://initium.sg" style="display:flex;align-items:center;gap:8px;text-decoration:none;color:#e2e2e8;font-weight:700;font-size:15px;letter-spacing:-0.3px;">
-            <svg width="22" height="22" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="#6366f1" stroke-width="6"/><path d="M35 65V35l30 15-30 15z" fill="#c084fc"/></svg>
+            <svg width="22" height="22" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" stroke="#50C878" stroke-width="6"/><path d="M35 65V35l30 15-30 15z" fill="#3DA35F"/></svg>
             INITIUM
         </a>
         <a href="https://initium.sg" style="font-size:12px;color:#6b6b7b;text-decoration:none;font-weight:500;">&larr; Back to initium.sg</a>
@@ -838,7 +838,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                         <div class="panel" style="min-height:500px;">
                             <h3><span class="icon">📋</span> Team Tours</h3>
                             <!-- Admin controls (hidden unless admin key present) -->
-                            <div id="tourAdminBar" style="display:none;margin-bottom:16px;padding:12px 16px;background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.2);border-radius:12px;">
+                            <div id="tourAdminBar" style="display:none;margin-bottom:16px;padding:12px 16px;background:rgba(80,200,120,0.08);border:1px solid rgba(80,200,120,0.2);border-radius:12px;">
                                 <span style="font-size:0.8125rem;color:var(--accent);font-weight:600;">🔐 Admin Mode</span>
                                 <span style="font-size:0.75rem;color:var(--text-muted);margin-left:8px;">Approve or reject pending submissions</span>
                             </div>

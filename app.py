@@ -1547,6 +1547,293 @@ def api_my_stats():
     })
 
 
+
+# ═══════════════════════════════════════════════════════════
+# PER-AGENT META / INSTAGRAM OAUTH
+# ═══════════════════════════════════════════════════════════
+
+META_APP_ID = os.environ.get("META_APP_ID", "")
+META_APP_SECRET = os.environ.get("META_APP_SECRET", "")
+META_REDIRECT_URI = os.environ.get("META_REDIRECT_URI", "https://initium-video-studio.onrender.com/auth/meta/callback")
+META_OAUTH_SCOPES = "instagram_basic,instagram_content_publish,pages_read_engagement,pages_show_list"
+
+# In-memory state store for OAuth CSRF protection
+_oauth_states = {}
+_OAUTH_STATE_TTL = 600  # 10 minutes
+
+
+def _clean_oauth_states():
+    now = time.time()
+    expired = [s for s, v in _oauth_states.items() if now - v["ts"] > _OAUTH_STATE_TTL]
+    for s in expired:
+        _oauth_states.pop(s, None)
+
+
+def _make_oauth_state(agent_name: str) -> str:
+    """Generate a short-lived state token for OAuth flow."""
+    _clean_oauth_states()
+    state = secrets.token_urlsafe(24)
+    _oauth_states[state] = {"agent_name": agent_name, "ts": time.time()}
+    return state
+
+
+def _verify_oauth_state(state: str) -> str | None:
+    """Return agent_name if state is valid, else None."""
+    _clean_oauth_states()
+    entry = _oauth_states.pop(state, None)
+    return entry["agent_name"] if entry else None
+
+
+def _meta_graph_get(url: str) -> dict:
+    """Generic GET to Meta Graph API."""
+    req = urllib.request.Request(url, method="GET")
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def _meta_graph_post(url: str, data: dict = None) -> dict:
+    """Generic POST to Meta Graph API."""
+    body = urllib.parse.urlencode(data or {}).encode("utf-8")
+    req = urllib.request.Request(url, data=body, method="POST")
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def _exchange_code_for_token(code: str) -> str | None:
+    """Exchange OAuth code for short-lived access token."""
+    if not META_APP_ID or not META_APP_SECRET:
+        return None
+    url = (
+        f"https://graph.facebook.com/v25.0/oauth/access_token"
+        f"?client_id={META_APP_ID}"
+        f"&client_secret={META_APP_SECRET}"
+        f"&redirect_uri={urllib.parse.quote(META_REDIRECT_URI, safe='')}"
+        f"&code={code}"
+    )
+    try:
+        data = _meta_graph_get(url)
+        return data.get("access_token")
+    except Exception as e:
+        print(f"[META] Code exchange failed: {e}")
+        return None
+
+
+def _exchange_for_long_lived_token(short_token: str) -> str | None:
+    """Exchange short-lived token for long-lived token."""
+    if not META_APP_ID or not META_APP_SECRET:
+        return None
+    url = (
+        f"https://graph.facebook.com/v25.0/oauth/access_token"
+        f"?grant_type=fb_exchange_token"
+        f"&client_id={META_APP_ID}"
+        f"&client_secret={META_APP_SECRET}"
+        f"&fb_exchange_token={short_token}"
+    )
+    try:
+        data = _meta_graph_get(url)
+        return data.get("access_token")
+    except Exception as e:
+        print(f"[META] Long-lived exchange failed: {e}")
+        return None
+
+
+def _resolve_ig_account(access_token: str) -> dict | None:
+    """Query /me/accounts to find Page + connected IG Business Account."""
+    url = (
+        f"https://graph.facebook.com/v25.0/me/accounts"
+        f"?access_token={access_token}"
+        f"&fields=name,id,connected_instagram_account,instagram_business_account"
+    )
+    try:
+        data = _meta_graph_get(url)
+        pages = data.get("data", [])
+        if not pages:
+            return None
+        for page in pages:
+            ig = page.get("instagram_business_account") or page.get("connected_instagram_account")
+            if ig:
+                return {
+                    "page_id": page.get("id"),
+                    "page_name": page.get("name"),
+                    "ig_business_account_id": ig.get("id"),
+                }
+        return None
+    except Exception as e:
+        print(f"[META] IG account resolution failed: {e}")
+        return None
+
+
+@app.route("/api/my/instagram/connect", methods=["GET"])
+@require_api_key
+def api_instagram_connect():
+    """Return the Meta OAuth URL for this agent to connect their Instagram."""
+    if not META_APP_ID:
+        return jsonify({"error": "Meta app not configured"}), 503
+    agent_name = _my_name()
+    state = _make_oauth_state(agent_name)
+    scopes = urllib.parse.quote(META_OAUTH_SCOPES, safe="")
+    oauth_url = (
+        f"https://www.facebook.com/v25.0/dialog/oauth"
+        f"?client_id={META_APP_ID}"
+        f"&redirect_uri={urllib.parse.quote(META_REDIRECT_URI, safe='')}"
+        f"&scope={scopes}"
+        f"&response_type=code"
+        f"&state={state}"
+    )
+    return jsonify({"oauth_url": oauth_url})
+
+
+@app.route("/auth/meta/callback", methods=["GET"])
+def meta_oauth_callback():
+    """Handle Meta OAuth redirect. Exchange code for token and store per-agent."""
+    code = request.args.get("code", "").strip()
+    state = request.args.get("state", "").strip()
+    error = request.args.get("error", "").strip()
+    error_reason = request.args.get("error_reason", "").strip()
+    error_description = request.args.get("error_description", "").strip()
+
+    if error:
+        return jsonify({
+            "error": error,
+            "reason": error_reason,
+            "description": error_description,
+        }), 400
+
+    agent_name = _verify_oauth_state(state)
+    if not agent_name:
+        return jsonify({"error": "Invalid or expired state. Please try again."}), 400
+
+    if not code:
+        return jsonify({"error": "Missing authorization code"}), 400
+
+    short_token = _exchange_code_for_token(code)
+    if not short_token:
+        return jsonify({"error": "Failed to exchange authorization code"}), 500
+
+    long_token = _exchange_for_long_lived_token(short_token)
+    if not long_token:
+        long_token = short_token
+
+    ig_info = _resolve_ig_account(long_token)
+    if not ig_info:
+        return jsonify({"error": "No Instagram Business Account found. Ensure your Facebook Page is linked to a Professional Instagram account."}), 400
+
+    db.save_agent_meta_token({
+        "agent_name": agent_name,
+        "access_token": long_token,
+        "ig_business_account_id": ig_info.get("ig_business_account_id", ""),
+        "page_id": ig_info.get("page_id", ""),
+        "page_name": ig_info.get("page_name", ""),
+    })
+
+    return """<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Instagram Connected</title>
+<style>body{font-family:system-ui,sans-serif;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;}
+.card{background:#141414;border:1px solid #2a2a2a;border-radius:16px;padding:40px;max-width:400px;}
+.icon{font-size:48px;margin-bottom:16px;}
+h2{margin:0 0 8px;font-size:1.4rem;}
+p{color:#94a3b8;margin:0 0 20px;}
+.btn{background:#50C878;color:#000;border:none;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;}
+</style></head>
+<body>
+<div class="card">
+<div class="icon">✅</div>
+<h2>Instagram Connected</h2>
+<p>Your Instagram Business Account is now linked. You can close this window and return to Agent Hub.</p>
+<a class="btn" href="/agent-hub.html">Open Agent Hub</a>
+</div>
+</body></html>""", 200
+
+
+@app.route("/api/my/instagram/status", methods=["GET"])
+@require_api_key
+def api_instagram_status():
+    """Return connection status for this agent's Instagram."""
+    agent_name = _my_name()
+    token_data = db.get_agent_meta_token(agent_name)
+    if not token_data:
+        return jsonify({"connected": False})
+    return jsonify({
+        "connected": True,
+        "page_name": token_data.get("page_name", ""),
+        "ig_business_account_id": token_data.get("ig_business_account_id", ""),
+        "connected_at": token_data.get("connected_at", ""),
+    })
+
+
+@app.route("/api/my/instagram/disconnect", methods=["DELETE"])
+@require_api_key
+def api_instagram_disconnect():
+    """Remove this agent's stored Meta token."""
+    agent_name = _my_name()
+    db.delete_agent_meta_token(agent_name)
+    return jsonify({"message": "Disconnected"})
+
+
+@app.route("/api/my/instagram/publish", methods=["POST"])
+@require_api_key
+def api_instagram_publish():
+    """Publish a photo or Reel to the agent's own Instagram Business Account."""
+    agent_name = _my_name()
+    token_data = db.get_agent_meta_token(agent_name)
+    if not token_data:
+        return jsonify({"error": "Instagram not connected. Connect first."}), 400
+
+    data = request.get_json(force=True) or {}
+    media_url = data.get("media_url", "").strip()
+    caption = data.get("caption", "").strip()
+    media_type = data.get("media_type", "IMAGE").strip().upper()
+
+    if not media_url:
+        return jsonify({"error": "media_url is required"}), 400
+
+    ig_id = token_data.get("ig_business_account_id", "")
+    access_token = token_data.get("access_token", "")
+    if not ig_id or not access_token:
+        return jsonify({"error": "Incomplete Instagram connection"}), 400
+
+    try:
+        if media_type == "REELS":
+            container_url = (
+                f"https://graph.facebook.com/v25.0/{ig_id}/media"
+                f"?media_type=REELS"
+                f"&video_url={urllib.parse.quote(media_url, safe='')}"
+                f"&caption={urllib.parse.quote(caption, safe='')}"
+                f"&access_token={access_token}"
+            )
+        else:
+            container_url = (
+                f"https://graph.facebook.com/v25.0/{ig_id}/media"
+                f"?image_url={urllib.parse.quote(media_url, safe='')}"
+                f"&caption={urllib.parse.quote(caption, safe='')}"
+                f"&access_token={access_token}"
+            )
+
+        container_resp = _meta_graph_post(container_url)
+        creation_id = container_resp.get("id")
+        if not creation_id:
+            return jsonify({"error": "Failed to create media container", "details": container_resp}), 500
+
+        publish_url = (
+            f"https://graph.facebook.com/v25.0/{ig_id}/media_publish"
+            f"?creation_id={creation_id}"
+            f"&access_token={access_token}"
+        )
+        publish_resp = _meta_graph_post(publish_url)
+        return jsonify({
+            "success": True,
+            "media_id": publish_resp.get("id"),
+            "permalink": f"https://instagram.com/p/{publish_resp.get('id')}",
+        })
+
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8")
+        print(f"[META] Publish failed for {agent_name}: {body}")
+        return jsonify({"error": "Meta API error", "details": body}), 502
+    except Exception as e:
+        print(f"[META] Publish failed for {agent_name}: {e}")
+        return jsonify({"error": str(e)}), 500
+
 # ═══════════════════════════════════════════════════════════
 # WEBHOOK — Lead Auto-Capture (Meta / Direct)
 # ═══════════════════════════════════════════════════════════

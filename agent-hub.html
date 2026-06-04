@@ -352,6 +352,7 @@
         <div class="crm-tabs">
           <div class="crm-tab active" onclick="switchCrm('leads')" id="crm-tab-leads">Leads</div>
           <div class="crm-tab" onclick="switchCrm('briefs')" id="crm-tab-briefs">Briefs</div>
+          <div class="crm-tab" onclick="switchCrm('social')" id="crm-tab-social">Social</div>
         </div>
 
         <div id="crm-leads" class="crm-view active">
@@ -394,6 +395,35 @@
           </div>
           <input type="text" class="search-box" id="search-briefs" placeholder="Search client, property..." oninput="renderBriefs()">
           <div id="list-briefs"></div>
+        </div>
+
+        <div id="crm-social" class="crm-view">
+          <div class="section-header"><h2>Instagram</h2></div>
+          <div id="ig-status-card" style="background:var(--surface);border:1px solid rgba(0,0,0,0.08);border-radius:var(--radius-lg);padding:var(--space-4);margin-bottom:var(--space-4);">
+            <div id="ig-status-loading">Loading...</div>
+            <div id="ig-status-connected" style="display:none;">
+              <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+                <div style="width:48px;height:48px;border-radius:50%;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);display:flex;align-items:center;justify-content:center;font-size:24px;">📸</div>
+                <div>
+                  <div style="font-weight:600;font-size:1rem;" id="ig-page-name"></div>
+                  <div style="font-size:var(--text-sm);color:var(--text-secondary);" id="ig-connected-at"></div>
+                </div>
+              </div>
+              <button class="btn btn-primary" onclick="disconnectInstagram()" style="background:transparent;color:var(--danger);border:1px solid var(--danger);">Disconnect</button>
+            </div>
+            <div id="ig-status-disconnected" style="display:none;">
+              <p style="color:var(--text-secondary);margin-bottom:16px;">Connect your Instagram Business Account to publish content directly from Agent Hub.</p>
+              <button class="btn btn-primary" onclick="connectInstagram()">Connect Instagram</button>
+            </div>
+          </div>
+          <div id="ig-publish-form" style="display:none;background:var(--surface);border:1px solid rgba(0,0,0,0.08);border-radius:var(--radius-lg);padding:var(--space-4);">
+            <h3 style="margin:0 0 12px;font-size:1rem;">Publish Post</h3>
+            <div class="form-group"><label>Media URL</label><input type="text" id="ig-media-url" placeholder="https://... (image or video URL)"></div>
+            <div class="form-group"><label>Caption</label><textarea id="ig-caption" rows="3" placeholder="Write your caption..."></textarea></div>
+            <div class="form-group"><label>Type</label><select id="ig-media-type"><option value="IMAGE">Photo</option><option value="REELS">Reel</option></select></div>
+            <button class="btn btn-primary" onclick="publishInstagram()" style="width:100%;">Publish</button>
+            <div id="ig-publish-result" style="margin-top:12px;font-size:var(--text-sm);"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -529,6 +559,7 @@ function switchCrm(tab) {
   document.querySelectorAll('.crm-view').forEach(v => v.classList.remove('active'));
   document.getElementById('crm-tab-' + tab).classList.add('active');
   document.getElementById('crm-' + tab).classList.add('active');
+  if (tab === 'social') loadInstagramStatus();
 }
 
 function setLeadFilter(status) {
@@ -858,6 +889,81 @@ async function deleteIntel(id) {
   await api('/api/my/intel/' + id, { method: 'DELETE' });
   toast('Deleted');
   await loadIntel();
+}
+
+// ——— Instagram ———
+async function loadInstagramStatus() {
+  try {
+    const data = await api('/api/my/instagram/status');
+    document.getElementById('ig-status-loading').style.display = 'none';
+    if (data.connected) {
+      document.getElementById('ig-status-connected').style.display = 'block';
+      document.getElementById('ig-status-disconnected').style.display = 'none';
+      document.getElementById('ig-publish-form').style.display = 'block';
+      document.getElementById('ig-page-name').textContent = data.page_name || 'Connected';
+      document.getElementById('ig-connected-at').textContent = data.connected_at ? 'Connected ' + new Date(data.connected_at).toLocaleDateString('en-SG') : '';
+    } else {
+      document.getElementById('ig-status-connected').style.display = 'none';
+      document.getElementById('ig-status-disconnected').style.display = 'block';
+      document.getElementById('ig-publish-form').style.display = 'none';
+    }
+  } catch (e) {
+    document.getElementById('ig-status-loading').textContent = 'Unable to load status';
+    console.error(e);
+  }
+}
+
+async function connectInstagram() {
+  try {
+    const data = await api('/api/my/instagram/connect');
+    if (data.oauth_url) {
+      window.open(data.oauth_url, '_blank');
+    } else {
+      toast(data.error || 'Unable to generate connection link');
+    }
+  } catch (e) {
+    toast('Error: ' + (e.message || e));
+  }
+}
+
+async function disconnectInstagram() {
+  if (!confirm('Disconnect your Instagram account?')) return;
+  try {
+    await api('/api/my/instagram/disconnect', { method: 'DELETE' });
+    toast('Disconnected');
+    loadInstagramStatus();
+  } catch (e) {
+    toast('Error: ' + (e.message || e));
+  }
+}
+
+async function publishInstagram() {
+  const mediaUrl = document.getElementById('ig-media-url').value.trim();
+  const caption = document.getElementById('ig-caption').value.trim();
+  const mediaType = document.getElementById('ig-media-type').value;
+  const resultEl = document.getElementById('ig-publish-result');
+
+  if (!mediaUrl) {
+    resultEl.textContent = 'Media URL is required';
+    resultEl.style.color = '#ef4444';
+    return;
+  }
+
+  resultEl.textContent = 'Publishing...';
+  resultEl.style.color = 'var(--text-secondary)';
+
+  try {
+    const data = await api('/api/my/instagram/publish', {
+      method: 'POST',
+      body: JSON.stringify({ media_url: mediaUrl, caption: caption, media_type: mediaType })
+    });
+    resultEl.innerHTML = '<span style="color:#50C878">✅ Published!</span> <a href="' + data.permalink + '" target="_blank" style="color:#50C878">View post</a>';
+    document.getElementById('ig-media-url').value = '';
+    document.getElementById('ig-caption').value = '';
+  } catch (e) {
+    resultEl.textContent = 'Error: ' + (e.message || e);
+    resultEl.style.color = '#ef4444';
+  }
 }
 </script>
 </body>
