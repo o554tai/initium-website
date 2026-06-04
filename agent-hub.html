@@ -302,33 +302,11 @@
   }
   .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
 
-  /* ─── Tools grid ─── */
-  .tools-grid {
-    display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3);
-    padding: var(--space-4);
-  }
-  .tool-card {
-    background: var(--white); border: 1px solid rgba(0,0,0,0.06); border-radius: var(--radius-lg);
-    padding: var(--space-5) var(--space-4); text-align: center; text-decoration: none;
-    color: var(--text-primary); box-shadow: var(--shadow-sm);
-    transition: all var(--transition-base);
-  }
-  .tool-card .icon { font-size: 28px; margin-bottom: var(--space-3); line-height: 1; }
-  .tool-card h3 { font-family: var(--font-display); font-size: var(--text-sm); font-weight: 700; margin-bottom: var(--space-1); }
-  .tool-card p { font-size: var(--text-xs); color: var(--text-secondary); line-height: 1.4; }
-  .tool-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-2px); }
-  .tool-card:active { border-color: var(--accent); }
 
-  @media (min-width: 600px) {
-    .tools-grid { grid-template-columns: repeat(3, 1fr); }
-  }
-
-  /* ─── Desktop polish ─── */
   @media (min-width: 768px) {
-    .crm-wrap, .intel-wrap { max-width: 720px; margin: 0 auto; padding: var(--space-8); }
-    .tools-grid { max-width: 900px; margin: 0 auto; padding: var(--space-8); }
-    .modal-sheet { max-width: 520px; border-radius: var(--radius-lg); margin: auto; max-height: 90vh; }
-    .modal-overlay { align-items: center; }
+   .crm-wrap, .intel-wrap { max-width: 720px; margin: 0 auto; padding: var(--space-8); }
+   .modal-sheet { max-width: 520px; border-radius: var(--radius-lg); margin: auto; max-height: 90vh; }
+   .modal-overlay { align-items: center; }
   }
 </style>
 </head>
@@ -423,56 +401,7 @@
       </div>
     </div>
 
-    <!-- Tools -->
-    <div id="tab-tools" class="tab-view">
-      <div class="tools-grid">
-        <a class="tool-card" href="social-templates.html" target="_blank">
-          <div class="icon">&#128247;</div>
-          <h3>Social Templates</h3>
-          <p>Instagram, Stories, Reels assets</p>
-        </a>
-        <a class="tool-card" href="guidelines.html" target="_blank">
-          <div class="icon">&#128220;</div>
-          <h3>Brand Guide</h3>
-          <p>Logo, colors, voice rules</p>
-        </a>
-        <a class="tool-card" href="calculators.html" target="_blank">
-          <div class="icon">&#128290;</div>
-          <h3>Calculators</h3>
-          <p>Mortgage, BSD, ABSD, rental yield</p>
-        </a>
-        <a class="tool-card" href="new-launches.html" target="_blank">
-          <div class="icon">&#127969;</div>
-          <h3>New Launches</h3>
-          <p>Latest developments & early access</p>
-        </a>
-        <a class="tool-card" href="blog.html" target="_blank">
-          <div class="icon">&#128240;</div>
-          <h3>Pulse</h3>
-          <p>Market news, guides & insights</p>
-        </a>
-        <a class="tool-card" href="ops.html" target="_blank">
-          <div class="icon">&#128202;</div>
-          <h3>Ops Dashboard</h3>
-          <p>Full admin CRM view</p>
-        </a>
-        <a class="tool-card" href="office-scan-guide.html" target="_blank">
-          <div class="icon">&#127758;</div>
-          <h3>3D Scan Guide</h3>
-          <p>Matterport workflow & best practices</p>
-        </a>
-        <a class="tool-card" href="virtual-tours.html" target="_blank">
-          <div class="icon">&#127909;</div>
-          <h3>Virtual Tours</h3>
-          <p>Published 3D showcases</p>
-        </a>
-        <a class="tool-card" href="video-editor.html">
-          <div class="icon">&#9999;&#65039;</div>
-          <h3>Video Editor</h3>
-          <p>OpenCut — trim, caption, export</p>
-        </a>
-      </div>
-    </div>
+
   </div>
 
   <div class="bottom-nav">
@@ -487,10 +416,6 @@
     <button class="nav-btn" onclick="switchTab(this,'intel')">
       <span class="icon">&#128161;</span>
       <span>Intel</span>
-    </button>
-    <button class="nav-btn" onclick="switchTab(this,'tools')">
-      <span class="icon">&#128295;</span>
-      <span>Tools</span>
     </button>
   </div>
 </div>
