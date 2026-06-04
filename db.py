@@ -266,6 +266,103 @@ def brief_stats() -> dict:
 
 
 # ═════════════════════════════════════════════════════════════════════════════
+#  INTEL
+# ═════════════════════════════════════════════════════════════════════════════
+
+INTEL_JSON = BASE_DIR / "intel.json"
+
+
+def save_intel(data: dict) -> str:
+    intel_id = data.get("id") or str(uuid.uuid4())
+    now = datetime.utcnow().isoformat()
+    payload = {
+        "id": intel_id,
+        "title": data.get("title", ""),
+        "body": data.get("body", ""),
+        "tag": data.get("tag", "market"),
+        "tag_label": data.get("tag_label", "Market"),
+        "date": data.get("date", ""),
+        "source_url": data.get("source_url", ""),
+        "agent_name": data.get("agent_name", ""),
+        "created_at": data.get("created_at") or now,
+        "updated_at": now,
+    }
+
+    if USE_REST:
+        try:
+            _rest_post("ops_intel", payload)
+            return intel_id
+        except requests.HTTPError as e:
+            if e.response.status_code == 409:
+                _rest_patch("ops_intel", intel_id, payload)
+                return intel_id
+            raise
+    else:
+        intel = _load_json(INTEL_JSON)
+        intel.append(payload)
+        _save_json(INTEL_JSON, intel)
+        return intel_id
+
+
+def load_intel() -> list:
+    if USE_REST:
+        try:
+            return _rest_get("ops_intel", {"select": "*", "order": "date.desc"})
+        except Exception:
+            return []
+    else:
+        return _load_json(INTEL_JSON)
+
+
+def get_intel(intel_id: str) -> dict | None:
+    if USE_REST:
+        try:
+            rows = _rest_get("ops_intel", {"id": f"eq.{intel_id}"})
+            return rows[0] if rows else None
+        except Exception:
+            return None
+    else:
+        for item in _load_json(INTEL_JSON):
+            if item.get("id") == intel_id:
+                return item
+        return None
+
+
+def update_intel(intel_id: str, data: dict) -> bool:
+    now = datetime.utcnow().isoformat()
+    payload = {k: v for k, v in data.items() if k != "id"}
+    payload["updated_at"] = now
+
+    if USE_REST:
+        _rest_patch("ops_intel", intel_id, payload)
+        return True
+    else:
+        intel = _load_json(INTEL_JSON)
+        for i, item in enumerate(intel):
+            if item.get("id") == intel_id:
+                intel[i].update(payload)
+                _save_json(INTEL_JSON, intel)
+                return True
+        return False
+
+
+def delete_intel(intel_id: str) -> bool:
+    if USE_REST:
+        _rest_delete("ops_intel", intel_id)
+        return True
+    else:
+        intel = _load_json(INTEL_JSON)
+        intel = [item for item in intel if item.get("id") != intel_id]
+        _save_json(INTEL_JSON, intel)
+        return True
+
+
+def intel_stats() -> dict:
+    intel = load_intel()
+    return {"total": len(intel)}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
 #  Health check
 # ═════════════════════════════════════════════════════════════════════════════
 

@@ -395,10 +395,18 @@
 
     <!-- Intel -->
     <div id="tab-intel" class="tab-view">
-      <div class="intel-wrap">
-        <div class="section-header"><h2>Market Intel</h2></div>
-        <div id="intel-feed"></div>
+      <div class="crm-header">
+        <h2 style="margin:0;font-size:1.05rem">Market Intel</h2>
+        <button class="btn-add" onclick="openModal('intel')">+ Add Intel</button>
       </div>
+      <div class="filter-bar" style="margin-bottom:12px" id="filter-intel">
+        <button class="filter-pill active" data-tag="all" onclick="setIntelFilter('all')">All</button>
+        <button class="filter-pill" data-tag="launch" onclick="setIntelFilter('launch')">New Launch</button>
+        <button class="filter-pill" data-tag="policy" onclick="setIntelFilter('policy')">Policy</button>
+        <button class="filter-pill" data-tag="market" onclick="setIntelFilter('market')">Market</button>
+        <button class="filter-pill" data-tag="alert" onclick="setIntelFilter('alert')">Alert</button>
+      </div>
+      <div id="intel-feed"></div>
     </div>
 
 
@@ -441,6 +449,8 @@ let briefs = [];
 let editingId = null;
 let editingType = null;
 let leadFilter = 'all';
+let intel = [];
+let intelTagFilter = 'all';
 let briefFilter = 'all';
 
 const keyInput = document.getElementById('keyInput');
@@ -476,7 +486,7 @@ function enterApp() {
   document.getElementById('app').style.display = 'flex';
   document.getElementById('userName').textContent = agentName;
   loadCrm();
-  renderIntel();
+  loadIntel();
 }
 
 function logout() {
@@ -505,6 +515,7 @@ function switchTab(btn, tab) {
   document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
   btn.classList.add('active');
   document.getElementById('tab-' + tab).classList.add('active');
+  if (tab === 'intel') loadIntel();
 }
 
 function switchCrm(tab) {
@@ -662,7 +673,7 @@ function openModal(type, id=null) {
       <div class="form-group"><label>Area</label><input id="f-l-area" value="${esc(l.area||'')}" placeholder="e.g. District 26, Lentor..."></div>
       <div class="form-group"><label>Notes</label><textarea id="f-l-notes">${esc(l.notes||'')}</textarea></div>
     `;
-  } else {
+  } else if (type === 'brief') {
     const b = isEdit ? briefs.find(x=>x.id===id)||{} : {};
     document.getElementById('modalTitle').textContent = isEdit ? 'Edit Brief' : 'Add Brief';
     body.innerHTML = `
@@ -679,6 +690,23 @@ function openModal(type, id=null) {
         </select>
       </div>
       <div class="form-group"><label>Notes</label><textarea id="f-b-notes">${esc(b.notes||'')}</textarea></div>
+    `;
+  } else if (type === 'intel') {
+    const item = isEdit ? intel.find(x=>x.id===id)||{} : {};
+    document.getElementById('modalTitle').textContent = isEdit ? 'Edit Intel' : 'Add Intel';
+    body.innerHTML = `
+      <div class="form-group"><label>Title *</label><input id="f-i-title" value="${esc(item.title||'')}"></div>
+      <div class="form-group"><label>Body</label><textarea id="f-i-body" rows="4">${esc(item.body||'')}</textarea></div>
+      <div class="form-group"><label>Tag</label>
+        <select id="f-i-tag">
+          <option value="launch" ${(item.tag||'')==='launch'?'selected':''}>New Launch</option>
+          <option value="policy" ${(item.tag||'')==='policy'?'selected':''}>Policy</option>
+          <option value="market" ${(item.tag||'')==='market'?'selected':''}>Market</option>
+          <option value="alert" ${(item.tag||'')==='alert'?'selected':''}>Alert</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Date</label><input type="date" id="f-i-date" value="${esc(item.date||'')}"></div>
+      <div class="form-group"><label>Source URL</label><input id="f-i-url" value="${esc(item.source_url||'')}" placeholder="https://..."></div>
     `;
   }
   document.getElementById('modal').classList.add('open');
@@ -706,7 +734,7 @@ async function submitForm() {
         await api('/api/my/leads', { method: 'POST', body: JSON.stringify(payload) });
         toast('Lead added');
       }
-    } else {
+    } else if (editingType === 'brief') {
       const payload = {
         client_name: document.getElementById('f-b-client').value.trim(),
         contact: document.getElementById('f-b-contact').value.trim(),
@@ -724,10 +752,31 @@ async function submitForm() {
         await api('/api/my/briefs', { method: 'POST', body: JSON.stringify(payload) });
         toast('Brief added');
       }
+      closeModal();
+      await loadCrm();
+    } else if (editingType === 'intel') {
+      const tag = document.getElementById('f-i-tag').value;
+      const tagLabels = { launch: 'New Launch', policy: 'Policy', market: 'Market', alert: 'Alert' };
+      const payload = {
+        title: document.getElementById('f-i-title').value.trim(),
+        body: document.getElementById('f-i-body').value.trim(),
+        tag: tag,
+        tag_label: tagLabels[tag] || 'Market',
+        date: document.getElementById('f-i-date').value,
+        source_url: document.getElementById('f-i-url').value.trim(),
+      };
+      if (!payload.title) { toast('Title required'); return; }
+      if (editingId) {
+        await api('/api/my/intel/' + editingId, { method: 'PUT', body: JSON.stringify(payload) });
+        toast('Intel updated');
+      } else {
+        await api('/api/my/intel', { method: 'POST', body: JSON.stringify(payload) });
+        toast('Intel added');
+      }
+      closeModal();
+      await loadIntel();
     }
-    closeModal();
-    await loadCrm();
-  } catch(e) { toast(e.message || 'Error'); }
+  } catch (e) { toast('Error: ' + (e.message||e)); console.error(e); }
 }
 
 function editLead(id) { openModal('lead', id); }
@@ -745,27 +794,51 @@ async function deleteBrief(id) {
 }
 
 // ─── Intel Feed ───
-const intelData = [
-  { tag:'launch', tagLabel:'New Launch', title:'Lentor Modern — 85% sold in Phase 1', body:'Remaining 2-bed units from $1.68M. 3-bed dual-key layouts still available. Developer extending early-bird discount until 30 June.', date:'4 Jun 2026' },
-  { tag:'policy', tagLabel:'Policy', title:'ABSD rates held in June 2026 review', body:'No changes to Additional Buyer Stamp Duty. Foreigners remain at 60%, entities at 65%. PR first-home stays at 5%, second at 30%.', date:'1 Jun 2026' },
-  { tag:'market', tagLabel:'Market', title:'Rental index up 2.1% in Q2 2026', body:'URA flash estimate shows continued recovery. Core Central Region leading at +2.8%. Outside Central Region +1.7%. Landed +1.9%.', date:'28 May 2026' },
-  { tag:'launch', tagLabel:'New Launch', title:'Chuan Park relaunch — pricing leaked', body:'Expected PSF $2,400–$2,600. 916 units over two 24-storey towers. Preview expected mid-June. Agent briefing 12 June.', date:'25 May 2026' },
-  { tag:'alert', tagLabel:'Alert', title:'CEA enforcement: unlicensed marketing', body:'Three agents fined for unlicensed property ads on Carousell. All listings must show CEA registration number.', date:'20 May 2026' },
-  { tag:'market', tagLabel:'Market', title:'Mortgage rates: 3M SORA at 3.42%', body:'Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.', date:'15 May 2026' },
-];
+async function loadIntel() {
+  try {
+    const data = await api('/api/my/intel' + (intelTagFilter !== 'all' ? '?tag=' + intelTagFilter : ''));
+    intel = data.intel || [];
+    renderIntel();
+  } catch (e) {
+    toast('Failed to load intel');
+    console.error(e);
+  }
+}
+
+function setIntelFilter(tag) {
+  intelTagFilter = tag;
+  document.querySelectorAll('#filter-intel .filter-pill').forEach(p => p.classList.toggle('active', p.dataset.tag === tag));
+  loadIntel();
+}
 
 function renderIntel() {
   const el = document.getElementById('intel-feed');
-  el.innerHTML = intelData.map(item => `
+  if (!intel.length) {
+    el.innerHTML = '<div class="empty" style="padding:40px 0;text-align:center;color:#94a3b8">No intel yet. Tap + Add Intel to share market updates.</div>';
+    return;
+  }
+  el.innerHTML = intel.map(item => `
     <div class="intel-card">
       <div class="intel-header">
-        <span class="intel-tag ${esc(item.tag)}">${esc(item.tagLabel)}</span>
-        <span class="intel-date">${esc(item.date)}</span>
+        <span class="intel-tag ${esc(item.tag)}">${esc(item.tag_label || item.tag)}</span>
+        <span class="intel-date">${esc(item.date || item.created_at ? new Date(item.date||item.created_at).toLocaleDateString('en-SG',{day:'numeric',month:'short',year:'numeric'}) : '')}</span>
       </div>
       <div class="intel-title">${esc(item.title)}</div>
       <div class="intel-body">${esc(item.body)}</div>
+      ${item.source_url ? `<a href="${esc(item.source_url)}" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;font-size:0.78rem;color:#50C878">Read source &#8599;</a>` : ''}
+      <div style="display:flex;gap:12px;margin-top:10px">
+        <button class="crm-action" onclick="openModal('intel','${esc(item.id)}')">Edit</button>
+        <button class="crm-action" style="color:#ef4444" onclick="deleteIntel('${esc(item.id)}')">Delete</button>
+      </div>
     </div>
   `).join('');
+}
+
+async function deleteIntel(id) {
+  if (!confirm('Delete this intel?')) return;
+  await api('/api/my/intel/' + id, { method: 'DELETE' });
+  toast('Deleted');
+  await loadIntel();
 }
 </script>
 </body>

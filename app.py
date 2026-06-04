@@ -1448,6 +1448,74 @@ def api_my_delete_brief(brief_id):
     return jsonify({"error": "Brief not found"}), 404
 
 
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# INTEL (team-wide market feed)
+# ═════════════════════════════════════════════════════════════════════════════
+
+@app.route("/api/my/intel", methods=["GET"])
+@require_api_key
+def api_my_intel():
+    intel = db.load_intel()
+    tag_filter = request.args.get("tag", "").strip().lower() or None
+    if tag_filter:
+        intel = [item for item in intel if item.get("tag", "").lower() == tag_filter]
+    return jsonify({"count": len(intel), "intel": intel})
+
+
+@app.route("/api/my/intel", methods=["POST"])
+@require_api_key
+def api_my_create_intel():
+    data = request.get_json(force=True) or {}
+    title = data.get("title", "").strip()
+    if not title:
+        return jsonify({"error": "title is required"}), 400
+    item = db.save_intel({
+        "title": title,
+        "body": data.get("body", "").strip(),
+        "tag": data.get("tag", "market").strip().lower(),
+        "tag_label": data.get("tag_label", "Market").strip(),
+        "date": data.get("date", "").strip(),
+        "source_url": data.get("source_url", "").strip(),
+        "agent_name": _my_name(),
+    })
+    return jsonify({"intel": item}), 201
+
+
+@app.route("/api/my/intel/<intel_id>", methods=["GET"])
+@require_api_key
+def api_my_get_intel(intel_id):
+    item = db.get_intel(intel_id)
+    if not item:
+        return jsonify({"error": "Intel not found"}), 404
+    return jsonify({"intel": item})
+
+
+@app.route("/api/my/intel/<intel_id>", methods=["PUT"])
+@require_api_key
+def api_my_update_intel(intel_id):
+    item = db.get_intel(intel_id)
+    if not item:
+        return jsonify({"error": "Intel not found"}), 404
+    data = request.get_json(force=True) or {}
+    data.pop("agent_name", None)
+    item = db.update_intel(intel_id, data)
+    if item:
+        return jsonify({"intel": item})
+    return jsonify({"error": "Intel not found"}), 404
+
+
+@app.route("/api/my/intel/<intel_id>", methods=["DELETE"])
+@require_api_key
+def api_my_delete_intel(intel_id):
+    item = db.get_intel(intel_id)
+    if not item:
+        return jsonify({"error": "Intel not found"}), 404
+    if db.delete_intel(intel_id):
+        return jsonify({"message": "Intel deleted"})
+    return jsonify({"error": "Intel not found"}), 404
+
 @app.route("/api/my/stats", methods=["GET"])
 @require_api_key
 def api_my_stats():
