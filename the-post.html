@@ -669,7 +669,54 @@
         </div>
       </div>
       <div class="intel-grid reveal" id="intelGrid">
-        <div class="intel-empty">Loading intel...</div>
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag launch">New Launch</span>
+          <span class="intel-date">4 Jun 2026</span>
+        </div>
+        <div class="intel-title">Lentor Modern — 85% sold in Phase 1</div>
+        <div class="intel-body">Remaining 2-bed units from $1.68M. 3-bed dual-key layouts still available. Developer extending early-bird discount until 30 June.</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag policy">Policy</span>
+          <span class="intel-date">1 Jun 2026</span>
+        </div>
+        <div class="intel-title">ABSD rates held in June 2026 review</div>
+        <div class="intel-body">No changes to Additional Buyer Stamp Duty. Foreigners remain at 60%, entities at 65%. PR first-home stays at 5%, second at 30%.</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag market">Market</span>
+          <span class="intel-date">28 May 2026</span>
+        </div>
+        <div class="intel-title">Rental index up 2.1% in Q2 2026</div>
+        <div class="intel-body">URA flash estimate shows continued recovery. Core Central Region leading at +2.8%. Outside Central Region +1.7%. Landed +1.9%.</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag launch">New Launch</span>
+          <span class="intel-date">25 May 2026</span>
+        </div>
+        <div class="intel-title">Chuan Park relaunch — pricing leaked</div>
+        <div class="intel-body">Expected PSF $2,400–$2,600. 916 units over two 24-storey towers. Preview expected mid-June. Agent briefing 12 June.</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag alert">Alert</span>
+          <span class="intel-date">20 May 2026</span>
+        </div>
+        <div class="intel-title">CEA enforcement: unlicensed marketing</div>
+        <div class="intel-body">Three agents fined for unlicensed property ads on Carousell. All listings must show CEA registration number.</div>
+      </div>
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag market">Market</span>
+          <span class="intel-date">15 May 2026</span>
+        </div>
+        <div class="intel-title">Mortgage rates: 3M SORA at 3.42%</div>
+        <div class="intel-body">Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.</div>
+      </div>
       </div>
 
   </div>
@@ -764,40 +811,6 @@
     observer.observe(el);
   });
 
-  // Market Intel feed
-  async function loadIntel() {
-    try {
-      const res = await fetch('https://initium-video-studio.onrender.com/api/intel');
-      const data = await res.json();
-      const grid = document.getElementById('intelGrid');
-      if (!data.intel || !data.intel.length) {
-        grid.innerHTML = '<div class="intel-empty">No intel yet. Check back soon.</div>';
-        return;
-      }
-      grid.innerHTML = data.intel.map(item => {
-        const dateStr = item.date
-          ? new Date(item.date).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' })
-          : (item.created_at
-              ? new Date(item.created_at).toLocaleDateString('en-SG', { day: 'numeric', month: 'short', year: 'numeric' })
-              : '');
-        return `
-          <div class="intel-card">
-            <div class="intel-header">
-              <span class="intel-tag ${item.tag || 'market'}">${item.tag_label || item.tag || 'Market'}</span>
-              <span class="intel-date">${dateStr}</span>
-            </div>
-            <div class="intel-title">${item.title}</div>
-            <div class="intel-body">${item.body}</div>
-            ${item.source_url ? `<a href="${item.source_url}" target="_blank" rel="noopener" class="intel-source">Read source →</a>` : ''}
-          </div>
-        `;
-      }).join('');
-    } catch (e) {
-      console.error('Intel load failed', e);
-      document.getElementById('intelGrid').innerHTML = '<div class="intel-empty">Unable to load intel.</div>';
-    }
-  }
-  loadIntel();
 </script>
 
 <script src="js/nav.js"></script>
