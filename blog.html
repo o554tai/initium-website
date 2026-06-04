@@ -696,7 +696,7 @@
   // Market Intel feed
   async function loadIntel() {
     try {
-      const res = await fetch('/api/intel');
+      const res = await fetch('https://initium-video-studio.onrender.com/api/intel');
       const data = await res.json();
       const grid = document.getElementById('intelGrid');
       if (!data.intel || !data.intel.length) {
