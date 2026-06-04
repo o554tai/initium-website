@@ -88,6 +88,8 @@ def save_lead(data: dict) -> str:
         "status": data.get("status", "new"),
         "budget": data.get("budget", ""),
         "area": data.get("area", ""),
+        "project_name": data.get("project_name", ""),
+        "property_address": data.get("property_address", ""),
         "agent_name": data.get("agent_name", ""),
         "notes": data.get("notes", ""),
         "created_at": data.get("created_at") or now,

@@ -1184,6 +1184,8 @@ def ops_create_lead():
         "agent_name": data.get("agent_name", "").strip(),
         "budget": data.get("budget", "").strip(),
         "area": data.get("area", "").strip(),
+        "project_name": data.get("project_name", "").strip(),
+        "property_address": data.get("property_address", "").strip(),
         "notes": data.get("notes", "").strip(),
     })
     return jsonify({"lead": lead}), 201
@@ -1343,6 +1345,8 @@ def api_my_create_lead():
         "agent_name": _my_name(),
         "budget": data.get("budget", "").strip(),
         "area": data.get("area", "").strip(),
+        "project_name": data.get("project_name", "").strip(),
+        "property_address": data.get("property_address", "").strip(),
         "notes": data.get("notes", "").strip(),
     })
     return jsonify({"lead": lead}), 201

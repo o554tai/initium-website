@@ -370,7 +370,12 @@
             <button class="filter-pill" data-status="closed" onclick="setLeadFilter('closed')">Closed</button>
             <button class="filter-pill" data-status="lost" onclick="setLeadFilter('lost')">Lost</button>
           </div>
-          <input type="text" class="search-box" id="search-leads" placeholder="Search client, area..." oninput="renderLeads()">
+          <div class="sort-bar" style="margin-top:8px;">
+            <select id="filter-project" onchange="renderLeads()" style="flex:1;background:var(--surface);border:1px solid rgba(0,0,0,0.08);border-radius:var(--radius-md);padding:var(--space-2) var(--space-3);color:var(--text-primary);font-size:var(--text-sm);font-family:var(--font-body);outline:none;">
+              <option value="">All Projects</option>
+            </select>
+          </div>
+          <input type="text" class="search-box" id="search-leads" placeholder="Search client, area, project..." oninput="renderLeads()">
           <div id="list-leads"></div>
         </div>
 
@@ -582,14 +587,15 @@ function badgeClass(status) {
   const map = { new:'badge-new', contacted:'badge-contacted', viewing:'badge-viewing', offer:'badge-offer', closed:'badge-closed', lost:'badge-lost', active:'badge-active' };
   return map[status] || 'badge-default';
 }
-
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
 function renderLeads() {
   const q = document.getElementById('search-leads').value.toLowerCase();
   const sort = document.getElementById('sort-leads').value;
-  let list = leads.filter(l => !q || [l.client_name, l.area, l.source, l.budget, l.notes].some(v => (v||'').toLowerCase().includes(q)));
+  const projectFilter = document.getElementById('filter-project').value;
+  let list = leads.filter(l => !q || [l.client_name, l.area, l.source, l.budget, l.notes, l.project_name, l.property_address].some(v => (v||'').toLowerCase().includes(q)));
   if (leadFilter !== 'all') list = list.filter(l => (l.status||'new') === leadFilter);
+  if (projectFilter) list = list.filter(l => (l.project_name || '') === projectFilter);
   if (sort === 'name') list.sort((a,b) => (a.client_name||'').localeCompare(b.client_name||''));
   else if (sort === 'budget') list.sort((a,b) => {
     const av = parseFloat((a.budget||'0').replace(/[^0-9.]/g,'')) || 0;
@@ -597,16 +603,19 @@ function renderLeads() {
     return bv - av;
   });
   else list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
+
   const el = document.getElementById('list-leads');
   if (!list.length) { el.innerHTML = '<div class="empty">No leads yet. Tap + Add to start.</div>'; return; }
   el.innerHTML = list.map(l => `
     <div class="crm-card">
       <div class="card-header"><div class="card-title">${esc(l.client_name)}</div><div class="badge ${badgeClass(l.status)}">${l.status||'new'}</div></div>
       <div class="card-row"><strong>Type</strong> ${esc(l.enquiry_type||'-')}</div>
+      <div class="card-row"><strong>Project</strong> ${esc(l.project_name||'-')}</div>
       <div class="card-row"><strong>Area</strong> ${esc(l.area||'-')}</div>
       <div class="card-row"><strong>Budget</strong> ${esc(l.budget||'-')}</div>
       <div class="card-row"><strong>Source</strong> ${esc(l.source||'-')}</div>
       <div class="card-row"><strong>Contact</strong> ${esc(l.contact||'-')}</div>
+      ${l.property_address ? `<div class="card-row"><strong>Address</strong> ${esc(l.property_address)}</div>` : ''}
       ${l.notes ? `<div class="card-notes">${esc(l.notes)}</div>` : ''}
       <div class="card-actions">
         <button class="btn-edit" onclick="editLead('${l.id}')">Edit</button>
@@ -614,7 +623,6 @@ function renderLeads() {
       </div>
     </div>`).join('');
 }
-
 function renderBriefs() {
   const q = document.getElementById('search-briefs').value.toLowerCase();
   const sort = document.getElementById('sort-briefs').value;

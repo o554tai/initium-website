@@ -149,7 +149,17 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
       <div class="stat-card"><div class="num" id="stat-leads-new">0</div><div class="label">New</div></div>
     </div>
     <div class="section-header"><h2>Lead Database</h2><button class="btn-primary" onclick="openModal('lead')">+ Add</button></div>
-    <input type="text" class="search-box" id="search-leads" placeholder="Search client, agent, area..." oninput="renderLeads()">
+    <input type="text" class="search-box" id="search-leads" placeholder="Search client, agent, area, project..." oninput="renderLeads()">
+    <div class="sort-bar" style="display:flex;gap:8px;margin-bottom:10px;">
+      <select id="sort-leads" onchange="renderLeads()" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);font-size:13px;">
+        <option value="newest">Sort: Newest</option>
+        <option value="name">Sort: Name</option>
+        <option value="budget">Sort: Budget (High)</option>
+      </select>
+      <select id="filter-project" onchange="renderLeads()" style="flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 12px;color:var(--text);font-size:13px;">
+        <option value="">All Projects</option>
+      </select>
+    </div>
     <div id="list-leads"></div>
   </div>
 
@@ -235,9 +245,27 @@ async function loadAll() {
     leads = l.leads || [];
     briefs = b.briefs || [];
     updateStats(s);
+    populateProjectFilter();
     renderLeads();
     renderBriefs();
   } catch(e) { toast('Load failed: ' + e.message); }
+}
+
+function populateProjectFilter() {
+  const select = document.getElementById('filter-project');
+  const current = select.value;
+  const projects = [...new Set(leads.map(l => l.project_name).filter(Boolean))].sort();
+  select.innerHTML = '<option value="">All Projects</option>' +
+    projects.map(p => `<option value="${esc(p)}">${esc(p)}</option>`).join('');
+  select.value = current;
+}
+
+function toggleDetail(id) {
+  // Simple expand: re-render with detail view (future enhancement)
+  // For now, clicking just highlights the card
+  document.querySelectorAll('.card').forEach(c => c.style.borderColor = '');
+  const card = document.querySelector(`.card[onclick*="'${id}'"]`);
+  if (card) card.style.borderColor = 'var(--accent)';
 }
 
 function updateStats(s) {
@@ -262,25 +290,40 @@ function badgeClass(status) {
 
 function renderLeads() {
   const q = document.getElementById('search-leads').value.toLowerCase();
-  const list = leads.filter(l =>
-    !q || [l.client_name, l.agent_name, l.area, l.source, l.budget, l.notes].some(v => (v||'').toLowerCase().includes(q))
+  const sort = document.getElementById('sort-leads').value;
+  const projectFilter = document.getElementById('filter-project').value;
+  let list = leads.filter(l =>
+    !q || [l.client_name, l.agent_name, l.area, l.source, l.budget, l.notes, l.project_name, l.property_address].some(v => (v||'').toLowerCase().includes(q))
   );
+  if (projectFilter) {
+    list = list.filter(l => (l.project_name || '') === projectFilter);
+  }
+  if (sort === 'name') list.sort((a,b) => (a.client_name||'').localeCompare(b.client_name||''));
+  else if (sort === 'budget') list.sort((a,b) => {
+    const av = parseFloat((a.budget||'0').replace(/[^0-9.]/g,'')) || 0;
+    const bv = parseFloat((b.budget||'0').replace(/[^0-9.]/g,'')) || 0;
+    return bv - av;
+  });
+  else list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
+
   const el = document.getElementById('list-leads');
   if (!list.length) { el.innerHTML = '<div class="empty">No leads yet. Tap + Add to start.</div>'; return; }
   el.innerHTML = list.map(l => `
-    <div class="card">
+    <div class="card" onclick="toggleDetail('${l.id}')" style="cursor:pointer;">
       <div class="card-header">
         <div class="card-title">${esc(l.client_name)}</div>
         <div class="badge ${badgeClass(l.status)}">${l.status||'new'}</div>
       </div>
       <div class="card-row"><strong>Type</strong> ${esc(l.enquiry_type||'-')}</div>
       <div class="card-row"><strong>Agent</strong> ${esc(l.agent_name||'-')}</div>
+      <div class="card-row"><strong>Project</strong> ${esc(l.project_name||'-')}</div>
       <div class="card-row"><strong>Area</strong> ${esc(l.area||'-')}</div>
       <div class="card-row"><strong>Budget</strong> ${esc(l.budget||'-')}</div>
       <div class="card-row"><strong>Source</strong> ${esc(l.source||'-')}</div>
       <div class="card-row"><strong>Contact</strong> ${esc(l.contact||'-')}</div>
+      ${l.property_address ? `<div class="card-row"><strong>Address</strong> ${esc(l.property_address)}</div>` : ''}
       ${l.notes ? `<div class="card-notes">${esc(l.notes)}</div>` : ''}
-      <div class="card-actions">
+      <div class="card-actions" onclick="event.stopPropagation();">
         <button class="btn-edit" onclick="editLead('${l.id}')">Edit</button>
         <button class="btn-delete" onclick="deleteLead('${l.id}')">Delete</button>
       </div>
@@ -351,6 +394,8 @@ function openModal(type, id=null) {
           <option value="lost" ${l.status==='lost'?'selected':''}>Lost</option>
         </select>
       </div>
+      <div class="form-group"><label>Project Name</label><input id="f-l-project" value="${esc(l.project_name||'')}" placeholder="e.g. The Arcady, Lentor Modern..."></div>
+      <div class="form-group"><label>Property Address</label><input id="f-l-address" value="${esc(l.property_address||'')}" placeholder="e.g. 123 Orchard Road #12-34..."></div>
       <div class="form-group"><label>Agent</label><input id="f-l-agent" value="${esc(l.agent_name||'')}" placeholder="e.g. Ainsley, William..."></div>
       <div class="form-group"><label>Budget</label><input id="f-l-budget" value="${esc(l.budget||'')}" placeholder="e.g. 2.5M"></div>
       <div class="form-group"><label>Area</label><input id="f-l-area" value="${esc(l.area||'')}" placeholder="e.g. District 26, Lentor..."></div>
@@ -389,6 +434,8 @@ async function submitForm() {
         source: document.getElementById('f-l-source').value.trim(),
         enquiry_type: document.getElementById('f-l-type').value,
         status: document.getElementById('f-l-status').value,
+        project_name: document.getElementById('f-l-project').value.trim(),
+        property_address: document.getElementById('f-l-address').value.trim(),
         agent_name: document.getElementById('f-l-agent').value.trim(),
         budget: document.getElementById('f-l-budget').value.trim(),
         area: document.getElementById('f-l-area').value.trim(),

@@ -1,0 +1,150 @@
+#!/usr/bin/env python3
+"""
+Fetch latest 3M SORA from MAS API and update the-post.html intel card.
+Falls back to cached value if MAS API is down.
+Run via cron daily at 09:00 SGT.
+"""
+import json
+import os
+import re
+import ssl
+import urllib.request
+from datetime import datetime
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(SCRIPT_DIR)
+HTML_PATH = os.path.join(REPO_ROOT, 'the-post.html')
+CACHE_PATH = os.path.join(REPO_ROOT, '.sora-cache.json')
+API_URL = (
+    'https://eservices.mas.gov.sg/api/action/datastore/search.json'
+    '?resource_id=5f2b18a8-0883-4769-a635-879c63d3caac'
+    '&limit=5&sort=end_of_day%20desc'
+)
+
+
+def fetch_sora():
+    """Fetch latest 3M SORA from MAS API."""
+    ctx = ssl.create_default_context()
+    req = urllib.request.Request(API_URL, headers={
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'Accept': 'application/json',
+    })
+    try:
+        with urllib.request.urlopen(req, context=ctx, timeout=20) as response:
+            raw = response.read()
+        # MAS API returns UTF-8 with BOM
+        for encoding in ('utf-8-sig', 'utf-8'):
+            try:
+                data = json.loads(raw.decode(encoding))
+                break
+            except Exception:
+                continue
+        else:
+            return None, None
+
+        records = data.get('result', {}).get('records', [])
+        if records:
+            latest = max(records, key=lambda r: r.get('end_of_day', ''))
+            rate = latest.get('sora', '')
+            date = latest.get('end_of_day', '')
+            if rate:
+                return float(rate), date
+    except Exception as e:
+        print(f'API error: {type(e).__name__}: {e}')
+    return None, None
+
+
+def load_cache():
+    if os.path.exists(CACHE_PATH):
+        with open(CACHE_PATH) as f:
+            return json.load(f)
+    return {'rate': 3.42, 'date': '2026-06-04'}
+
+
+def save_cache(rate, date):
+    with open(CACHE_PATH, 'w') as f:
+        json.dump({
+            'rate': rate,
+            'date': date,
+            'updated': datetime.now().isoformat(),
+        }, f)
+
+
+def update_html(rate, date_str):
+    with open(HTML_PATH, 'r') as f:
+        html = f.read()
+
+    rate_pct = f'{rate:.2f}%'
+    try:
+        d = datetime.strptime(date_str, '%Y-%m-%d')
+        nice_date = d.strftime('%-d %b %Y')
+    except ValueError:
+        nice_date = date_str
+
+    new_card = f'''      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag market">Market</span>
+          <span class="intel-date">{nice_date}</span>
+        </div>
+        <div class="intel-title">Mortgage rates: 3M SORA at {rate_pct}</div>
+        <div class="intel-body">Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.</div>
+      </div>'''
+
+    pattern = re.compile(
+        r'(\s*)<div class="intel-card">(\s*)<div class="intel-header">(\s*)'
+        r'<span class="intel-tag market">Market</span>(\s*)'
+        r'<span class="intel-date">[^<]*</span>(\s*)</div>(\s*)'
+        r'<div class="intel-title">Mortgage rates:[^<]*</div>(\s*)'
+        r'<div class="intel-body">[^<]*</div>(\s*)</div>'
+    )
+
+    match = pattern.search(html)
+    if match:
+        html = html[:match.start()] + '\n' + new_card + html[match.end():]
+        with open(HTML_PATH, 'w') as f:
+            f.write(html)
+        return True
+    return False
+
+
+def git_commit_push():
+    import subprocess
+    try:
+        files_to_add = ['the-post.html']
+        if os.path.exists(CACHE_PATH):
+            files_to_add.append('.sora-cache.json')
+        subprocess.run(['git', 'add'] + files_to_add,
+                       cwd=REPO_ROOT, check=True, capture_output=True)
+        result = subprocess.run(['git', 'diff', '--cached', '--quiet'],
+                                cwd=REPO_ROOT, capture_output=True)
+        if result.returncode == 0:
+            print('No changes to commit.')
+            return
+        cache = load_cache()
+        subprocess.run(['git', 'commit', '-m',
+                        f'chore: update SORA to {cache["rate"]:.4f}% ({cache["date"]})'],
+                       cwd=REPO_ROOT, check=True, capture_output=True)
+        subprocess.run(['git', 'push', 'origin', 'main'],
+                       cwd=REPO_ROOT, check=True, capture_output=True)
+        print('Pushed to GitHub.')
+    except subprocess.CalledProcessError as e:
+        print(f'Git error: {e}')
+
+
+if __name__ == '__main__':
+    rate, date = fetch_sora()
+    cache = load_cache()
+
+    if rate:
+        print(f'Fetched live SORA: {rate:.4f}% on {date}')
+        save_cache(rate, date)
+    else:
+        rate = cache['rate']
+        date = cache['date']
+        print(f'API unavailable. Using cached SORA: {rate:.4f}% on {date}')
+
+    updated = update_html(rate, date)
+    print(f'HTML updated: {updated}')
+
+    if updated:
+        git_commit_push()

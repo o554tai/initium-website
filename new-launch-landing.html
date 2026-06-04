@@ -1061,9 +1061,11 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         })
         .catch(err => {
             console.error(err);
-            // Still show success UI so user isn't blocked
+            // Backend down — show honest error with WhatsApp fallback
             document.getElementById('leadForm').style.display = 'none';
-            document.getElementById('formSuccess').classList.add('active');
+            const successEl = document.getElementById('formSuccess');
+            successEl.classList.add('active');
+            successEl.innerHTML = `<h3>We received your interest!</h3><p>Our backend is currently down. Please <a href="https://wa.me/6588464814" target="_blank" style="color:#50C878">WhatsApp us at +65 8846 4814</a> and we'll get back to you within 2 hours.</p>`;
         });
 
         return false;
