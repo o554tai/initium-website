@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-06-05T01:00:32.747271+00:00",
+  "scraped_at": "2026-06-05T02:00:51.130639+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -177,31 +177,6 @@
       "latitude": "1.3128959601409536",
       "longitude": "103.82831772432716",
       "cover_image": "https://img.singmap.com/upload/broke/ccebe384b5234eec8b78e66325fa7c43/b87e1770aeeb4edaa5927143b6cebe0c/imgs/20250312/05d4f2de9a72431da010f527caf3106e.png"
-    },
-    {
-      "project_name": "21 New Industrial Road",
-      "district": "D14",
-      "location": "D14 - Eunos / Geylang / Paya Lebar",
-      "address": "21 New Industrial Road",
-      "property_type": "Industrial",
-      "tenure": "Freehold",
-      "min_price": 0,
-      "max_price": 0,
-      "currency": "$",
-      "units": "0",
-      "completion_date": "",
-      "expected_top": "Dec 2028",
-      "launch_date": [
-        2026,
-        7,
-        4,
-        0,
-        0
-      ],
-      "sold_out": false,
-      "latitude": "1.3431158940841563",
-      "longitude": "103.88534655315189",
-      "cover_image": "https://img.singmap.com/upload/broke/458ddee6111847498a3221706f8499ba/afac3a972b2949c0be0e89e42e9f2a09/imgs/20260414/ade831e9f1a24dbd9b3b4f500a2194d4.png"
     },
     {
       "project_name": "26 Newton",
@@ -5927,6 +5902,31 @@
       "latitude": "1.315475",
       "longitude": "103.879405",
       "cover_image": "https://img.singmap.com/upload/broke/458ddee6111847498a3221706f8499ba/8bb6b8be65a5461a870b9333373967c6/imgs/b9b4f39968074d1e83baeeb37e577a7a.jpg"
+    },
+    {
+      "project_name": "SPACE NOVA",
+      "district": "D14",
+      "location": "D14 - Eunos / Geylang / Paya Lebar",
+      "address": "21 New Industrial Road",
+      "property_type": "Industrial",
+      "tenure": "Freehold",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "0",
+      "completion_date": "",
+      "expected_top": "Dec 2028",
+      "launch_date": [
+        2026,
+        7,
+        4,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.3431158940841563",
+      "longitude": "103.88534655315189",
+      "cover_image": "https://img.singmap.com/upload/broke/458ddee6111847498a3221706f8499ba/afac3a972b2949c0be0e89e42e9f2a09/imgs/20260414/ade831e9f1a24dbd9b3b4f500a2194d4.png"
     },
     {
       "project_name": "Springleaf Collection",
