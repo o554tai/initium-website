@@ -633,7 +633,14 @@
               <div style="text-align:center;margin:8px 0;color:var(--text-secondary);font-size:var(--text-sm);">— or —</div>
               <input type="text" id="ig-media-url" placeholder="https://... (image or video URL)">
             </div>
-            <div class="form-group"><label>Caption</label><textarea id="ig-caption" rows="3" placeholder="Write your caption..."></textarea></div>
+            <div class="form-group">
+              <label style="display:flex;justify-content:space-between;align-items:center;">
+                Caption
+                <button type="button" onclick="generateAiCaption()" style="background:transparent;border:1px solid var(--border);color:var(--accent);padding:4px 10px;border-radius:var(--radius-pill);font-size:var(--text-xs);font-family:var(--font-display);font-weight:600;cursor:pointer;transition:all var(--transition-fast);text-transform:uppercase;letter-spacing:0.04em;">✨ Generate with AI</button>
+              </label>
+              <textarea id="ig-caption" rows="3" placeholder="Write your caption..."></textarea>
+              <div id="ig-caption-loading" style="display:none;color:var(--text-secondary);font-size:var(--text-sm);margin-top:4px;">Generating caption...</div>
+            </div>
             <div class="form-group"><label>Type</label><select id="ig-media-type"><option value="IMAGE">Photo</option><option value="REELS">Reel</option></select></div>
             <button class="btn-submit" onclick="publishInstagram()" style="width:100%;">Publish</button>
             <div id="ig-publish-result" style="margin-top:12px;font-size:var(--text-sm);"></div>
@@ -1307,6 +1314,31 @@ async function handleIgFileSelect(input) {
     }
   });
 })();
+
+async function generateAiCaption() {
+  const captionEl = document.getElementById('ig-caption');
+  const loadingEl = document.getElementById('ig-caption-loading');
+  const mediaType = document.getElementById('ig-media-type').value;
+  const mediaUrl = document.getElementById('ig-media-url').value.trim();
+
+  loadingEl.style.display = 'block';
+  captionEl.placeholder = 'Generating caption...';
+
+  try {
+    const context = mediaUrl ? 'a property listing' : '';
+    const data = await api('/api/my/instagram/generate-caption', {
+      method: 'POST',
+      body: JSON.stringify({ context: context, media_type: mediaType })
+    });
+    captionEl.value = data.caption;
+    toast('Caption generated');
+  } catch (e) {
+    toast('AI generation failed: ' + (e.message || e));
+  } finally {
+    loadingEl.style.display = 'none';
+    captionEl.placeholder = 'Write your caption...';
+  }
+}
 
 async function publishInstagram() {
   const mediaUrl = document.getElementById('ig-media-url').value.trim();
