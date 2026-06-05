@@ -95,8 +95,9 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .card-actions .btn-edit { border-color: var(--accent); color: var(--accent); }
   .card-actions .btn-delete { border-color: var(--danger); color: var(--danger); }
 
-  .kanban-board { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; margin-top: 12px; }
-  .kanban-col { flex: 1; min-width: 220px; max-width: 280px; display: flex; flex-direction: column; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; }
+  .kanban-board { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; margin-top: 12px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .kanban-board::-webkit-scrollbar { display: none; }
+  .kanban-col { flex: 1; min-width: 220px; max-width: 280px; display: flex; flex-direction: column; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius); padding: 10px; scroll-snap-align: start; }
   .kanban-header { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
   .kanban-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
   .kanban-dot.new { background: #ffaa00; }
@@ -136,6 +137,36 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
   .btn-submit { width: 100%; background: var(--accent); color: #000; border: none; padding: 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; margin-top: 4px; }
   .btn-submit:active { opacity: 0.85; }
+
+  /* Move Sheet (mobile quick-move) */
+  .move-sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 250; display: none; align-items: flex-end; justify-content: center; }
+  .move-sheet-overlay.open { display: flex; }
+  .move-sheet { background: var(--surface); width: 100%; max-width: 480px; border-radius: var(--radius) var(--radius) 0 0; padding: 20px 16px 40px; border: 1px solid var(--border); border-bottom: none; transform: translateY(100%); transition: transform 0.25s ease; }
+  .move-sheet-overlay.open .move-sheet { transform: translateY(0); }
+  .move-sheet h4 { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 16px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
+  .move-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .move-grid button { padding: 12px 8px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); color: var(--text); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; }
+  .move-grid button:active { background: #333; border-color: var(--accent); color: var(--accent); }
+  .move-cancel { width: 100%; margin-top: 16px; padding: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border); background: var(--surface2); color: var(--text2); font-size: 14px; font-weight: 700; cursor: pointer; }
+  .move-cancel:active { background: #333; }
+
+  @media (max-width: 640px) {
+    .kanban-board { gap: 8px; padding-bottom: 4px; }
+    .kanban-col { min-width: 160px; max-width: 200px; padding: 8px; }
+    .kanban-header { font-size: 11px; gap: 6px; margin-bottom: 8px; }
+    .kanban-card { padding: 8px 10px; margin-bottom: 6px; }
+    .kanban-card .card-title { font-size: 13px; }
+    .kanban-card .card-meta { gap: 6px; font-size: 10px; }
+    .kanban-card .card-followup { font-size: 10px; }
+    .stats { grid-template-columns: repeat(4, minmax(70px, 1fr)); gap: 8px; }
+    .stat-card { padding: 12px; }
+    .stat-card .num { font-size: 22px; }
+    .stat-card .label { font-size: 10px; }
+    .section-header { margin: 16px 0 10px; }
+    .section-header h2 { font-size: 16px; }
+    .sort-bar { flex-wrap: wrap; }
+    .sort-bar select { flex: 1; min-width: 100px; }
+  }
 
   .auth-screen { position: fixed; inset: 0; background: var(--bg); z-index: 300; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
   .auth-screen h2 { font-size: 22px; margin-bottom: 8px; }
@@ -235,6 +266,22 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     <div class="modal-head"><h3 id="modalTitle">Add</h3><button class="modal-close" onclick="closeModal()">&times;</button></div>
     <div id="modalBody"></div>
     <button class="btn-submit" id="modalSubmit" onclick="submitForm()">Save</button>
+  </div>
+</div>
+
+<!-- Move Sheet (mobile quick-move) -->
+<div class="move-sheet-overlay" id="moveSheet" onclick="if(event.target===this)closeMoveSheet()">
+  <div class="move-sheet">
+    <h4>Move to</h4>
+    <div class="move-grid">
+      <button onclick="doMove('new')">New</button>
+      <button onclick="doMove('contacted')">Contacted</button>
+      <button onclick="doMove('viewing')">Viewing</button>
+      <button onclick="doMove('offer')">Offer</button>
+      <button onclick="doMove('closed')">Closed</button>
+      <button onclick="doMove('lost')">Lost</button>
+    </div>
+    <button class="move-cancel" onclick="closeMoveSheet()">Cancel</button>
   </div>
 </div>
 
@@ -396,7 +443,7 @@ function renderLeads() {
       const today = new Date().toISOString().split('T')[0];
       const followClass = l.next_follow_up && l.next_follow_up < today ? 'overdue' : l.next_follow_up === today ? 'due' : '';
       const followText = l.next_follow_up ? (l.next_follow_up < today ? 'Overdue: ' : l.next_follow_up === today ? 'Due today: ' : '') + l.next_follow_up : '';
-      return `<div class="kanban-card" draggable="true" ondragstart="dragLead(event,'${esc(l.id)}')" onclick="editLead('${esc(l.id)}')">
+      return `<div class="kanban-card" data-id="${esc(l.id)}" draggable="true" ondragstart="dragLead(event,'${esc(l.id)}')" onclick="editLead('${esc(l.id)}')">
         <div class="priority-dot ${esc(l.priority||'medium')}"></div>
         <div class="card-title">${esc(l.client_name)}</div>
         <div class="card-meta">
@@ -425,6 +472,54 @@ async function dropLead(ev, status) {
     renderLeads();
     toast('Moved to ' + status);
   } catch(e) { toast('Move failed'); }
+}
+
+/* Mobile quick-move via long-press */
+let moveLeadId = null;
+let touchTimer = null;
+let touchStartPos = null;
+
+function openMoveSheet(id) {
+  moveLeadId = id;
+  document.getElementById('moveSheet').classList.add('open');
+}
+function closeMoveSheet() {
+  document.getElementById('moveSheet').classList.remove('open');
+  moveLeadId = null;
+}
+async function doMove(status) {
+  if (!moveLeadId) return;
+  const lead = leads.find(l => l.id === moveLeadId);
+  if (!lead || lead.status === status) { closeMoveSheet(); return; }
+  try {
+    await api('/ops/leads/' + moveLeadId, { method: 'PUT', body: JSON.stringify({status}) });
+    lead.status = status;
+    renderLeads();
+    toast('Moved to ' + status);
+  } catch(e) { toast('Move failed'); }
+  closeMoveSheet();
+}
+
+if ('ontouchstart' in window) {
+  document.addEventListener('touchstart', e => {
+    const card = e.target.closest('.kanban-card');
+    if (!card) return;
+    touchStartPos = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    touchTimer = setTimeout(() => {
+      const id = card.dataset.id;
+      if (id) { openMoveSheet(id); if (navigator.vibrate) navigator.vibrate(20); }
+    }, 500);
+  }, {passive: true});
+  document.addEventListener('touchmove', e => {
+    if (!touchTimer || !touchStartPos) return;
+    const dx = Math.abs(e.touches[0].clientX - touchStartPos.x);
+    const dy = Math.abs(e.touches[0].clientY - touchStartPos.y);
+    if (dx > 10 || dy > 10) { clearTimeout(touchTimer); touchTimer = null; }
+  }, {passive: true});
+  document.addEventListener('touchend', () => {
+    if (touchTimer) { clearTimeout(touchTimer); touchTimer = null; }
+    touchStartPos = null;
+  }, {passive: true});
 }
 function renderBriefs() {
   const q = document.getElementById('search-briefs').value.toLowerCase();
