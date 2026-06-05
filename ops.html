@@ -145,6 +145,13 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--accent); }
   .btn-submit { width: 100%; background: var(--accent); color: #000; border: none; padding: 14px; border-radius: var(--radius-sm); font-size: 16px; font-weight: 700; margin-top: 4px; }
   .btn-submit:active { opacity: 0.85; }
+  .btn-delete-modal {
+    width: 100%; background: transparent; color: #ff4444; border: 1px solid rgba(255,68,68,0.4);
+    padding: 14px; border-radius: var(--radius-sm);
+    font-size: 16px; font-weight: 700;
+    margin-top: 10px; cursor: pointer;
+  }
+  .btn-delete-modal:active { opacity: 0.85; }
 
   /* Move Sheet (mobile quick-move) */
   .move-sheet-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 250; display: none; align-items: flex-end; justify-content: center; }
@@ -274,6 +281,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     <div class="modal-head"><h3 id="modalTitle">Add</h3><button class="modal-close" onclick="closeModal()">&times;</button></div>
     <div id="modalBody"></div>
     <button class="btn-submit" id="modalSubmit" onclick="submitForm()">Save</button>
+    <button class="btn-delete-modal" id="modalDelete" onclick="deleteCurrent()" style="display:none;">Delete</button>
   </div>
 </div>
 
@@ -665,6 +673,7 @@ function openModal(type, id=null) {
       <div class="form-group"><label>Notes</label><textarea id="f-b-notes">${esc(b.notes||'')}</textarea></div>
     `;
   }
+  document.getElementById('modalDelete').style.display = (isEdit && (type === 'lead' || type === 'brief')) ? 'block' : 'none';
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); editingId = null; }
@@ -736,6 +745,12 @@ async function deleteBrief(id) {
   if (!confirm('Delete this brief?')) return;
   await api('/ops/briefs/' + id, { method: 'DELETE' });
   toast('Deleted'); await loadAll();
+}
+async function deleteCurrent() {
+  if (!editingId) return;
+  if (editingType === 'lead') await deleteLead(editingId);
+  else if (editingType === 'brief') await deleteBrief(editingId);
+  closeModal();
 }
 
 if (adminKey) init();

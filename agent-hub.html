@@ -431,6 +431,14 @@
   }
   .btn-submit:hover { background: var(--accent-dark); }
   .btn-submit:active { opacity: 0.9; }
+  .btn-delete-modal {
+    width: 100%; background: transparent; color: #f87171; border: 1px solid rgba(239,68,68,0.4);
+    padding: var(--space-4); border-radius: var(--radius-md);
+    font-family: var(--font-display); font-size: var(--text-base); font-weight: 700;
+    margin-top: var(--space-3); cursor: pointer; transition: all var(--transition-base);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .btn-delete-modal:hover { background: rgba(239,68,68,0.1); }
 
   /* ─── Move Sheet (mobile quick-move) ─── */
   .move-sheet-overlay {
@@ -741,6 +749,7 @@
     <div class="modal-head"><h3 id="modalTitle">Add</h3><button class="modal-close" onclick="closeModal()">&times;</button></div>
     <div id="modalBody"></div>
     <button class="btn-submit" id="modalSubmit" onclick="submitForm()">Save</button>
+    <button class="btn-delete-modal" id="modalDelete" onclick="deleteCurrent()" style="display:none;">Delete</button>
   </div>
 </div>
 
@@ -1183,6 +1192,7 @@ function openModal(type, id=null) {
       <div class="form-group"><label>Source URL</label><input id="f-i-url" value="${esc(item.source_url||'')}" placeholder="https://..."></div>
     `;
   }
+  document.getElementById('modalDelete').style.display = (isEdit && (type === 'lead' || type === 'brief')) ? 'block' : 'none';
   document.getElementById('modal').classList.add('open');
 }
 function closeModal() { document.getElementById('modal').classList.remove('open'); editingId = null; }
@@ -1271,6 +1281,12 @@ async function deleteBrief(id) {
   if (!confirm('Delete this brief?')) return;
   await api('/api/my/briefs/' + id, { method: 'DELETE' });
   toast('Deleted'); await loadCrm();
+}
+async function deleteCurrent() {
+  if (!editingId) return;
+  if (editingType === 'lead') await deleteLead(editingId);
+  else if (editingType === 'brief') await deleteBrief(editingId);
+  closeModal();
 }
 
 // ─── Intel Feed ───
