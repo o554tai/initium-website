@@ -128,6 +128,15 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     opacity: 0.7; transition: opacity 0.15s ease, background 0.15s ease;
   }
   .kanban-card:hover .card-delete { opacity: 1; background: rgba(255,68,68,0.35); }
+  .kanban-card .card-convert {
+    position: absolute; bottom: 6px; left: 6px;
+    font-size: 11px; color: var(--accent);
+    background: rgba(80,200,120,0.1); border: 1px solid rgba(80,200,120,0.25);
+    border-radius: 6px; padding: 2px 8px; cursor: pointer;
+    opacity: 0.7; transition: opacity 0.15s ease, background 0.15s ease;
+    font-weight: 600; letter-spacing: 0.02em; line-height: 1.4;
+  }
+  .kanban-card:hover .card-convert { opacity: 1; background: rgba(80,200,120,0.2); }
 
   .empty { text-align: center; padding: 40px 20px; color: var(--text2); font-size: 14px; }
 
@@ -470,6 +479,8 @@ function renderLeads() {
           ${l.agent_name ? `<span style="color:var(--accent)">${esc(l.agent_name)}</span>` : ''}
         </div>
         ${followText ? `<div class="card-followup ${followClass}">${esc(followText)}</div>` : ''}
+        <button class="card-convert" onclick="event.stopPropagation(); convertToBrief('${esc(l.id)}')">→ Brief</button>
+        <button class="card-delete" onclick="event.stopPropagation(); deleteLead('${esc(l.id)}')">×</button>
       </div>`;
     }).join('');
   });
@@ -735,6 +746,18 @@ async function submitForm() {
 
 function editLead(id) { openModal('lead', id); }
 function editBrief(id) { openModal('brief', id); }
+
+function convertToBrief(id) {
+  const lead = leads.find(l => l.id === id);
+  if (!lead) return;
+  openModal('brief');
+  setTimeout(() => {
+    document.getElementById('f-b-client').value = lead.client_name || '';
+    document.getElementById('f-b-contact').value = lead.contact || '';
+    document.getElementById('f-b-area').value = lead.area || '';
+    document.getElementById('f-b-notes').value = lead.notes ? ('Converted from lead.\n' + (lead.notes||'')) : '';
+  }, 50);
+}
 
 async function deleteLead(id) {
   if (!confirm('Delete this lead?')) return;
