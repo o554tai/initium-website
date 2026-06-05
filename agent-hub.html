@@ -326,6 +326,15 @@
   .kanban-card .priority-dot.high { background: #ef4444; }
   .kanban-card .priority-dot.medium { background: #f59e0b; }
   .kanban-card .priority-dot.low { background: #6b7280; }
+  .kanban-card .card-delete {
+    position: absolute; bottom: 6px; right: 6px; width: 20px; height: 20px;
+    border-radius: 50%; border: none; background: rgba(239,68,68,0.15);
+    color: #f87171; font-size: 14px; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; padding: 0;
+    opacity: 0; transition: opacity 0.15s ease;
+  }
+  .kanban-card:hover .card-delete { opacity: 1; }
+  .kanban-card .card-delete:active { background: rgba(239,68,68,0.3); }
 
   .sort-bar {
     display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3);
@@ -479,6 +488,25 @@
     background: var(--surface-elevated) !important; border: 1px solid var(--border) !important;
     border-radius: var(--radius-lg) !important; padding: var(--space-4) !important;
     margin-bottom: var(--space-4) !important;
+  }
+
+  @media (max-width: 640px) {
+    .kanban-board { gap: 8px; padding-bottom: 4px; }
+    .kanban-col { min-width: 160px; max-width: 200px; padding: 8px; scroll-snap-align: start; }
+    .kanban-header { font-size: 11px; gap: 6px; margin-bottom: 8px; }
+    .kanban-card { padding: 8px 10px; margin-bottom: 6px; }
+    .kanban-card .card-title { font-size: 13px; }
+    .kanban-card .card-meta { gap: 6px; font-size: 10px; }
+    .kanban-card .card-followup { font-size: 10px; }
+    .kanban-card .card-delete { opacity: 0.7; }
+    .stats { grid-template-columns: repeat(4, minmax(80px, 1fr)); gap: 8px; }
+    .stat-card { padding: var(--space-3); }
+    .stat-card .num { font-size: var(--text-2xl); }
+    .stat-card .label { font-size: 10px; }
+    .section-header { margin: var(--space-4) 0 var(--space-3); }
+    .section-header h2 { font-size: var(--text-base); }
+    .sort-bar { flex-wrap: wrap; }
+    .sort-bar select { flex: 1; min-width: 120px; }
   }
 
   @media (min-width: 768px) {
