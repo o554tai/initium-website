@@ -637,152 +637,167 @@ def serve_upload(filename):
 
 
 # ═══════════════════════════════════════════════════════════
-# AI PROMPT ENHANCER
+# AI PROMPT ENHANCER  —  zero-API, template-based prompt builder
 # ═══════════════════════════════════════════════════════════
 
 import random
 
-# Keyword-to-fragment mappings for smart prompt expansion
-_VIDEO_KEYWORDS = {
-    "condo": ["modern Singapore condominium", "floor-to-ceiling windows", "city skyline view"],
-    "landed": ["luxury landed property", "tropical garden", "private driveway"],
-    "hdb": ["HDB flat", "spacious living area", "natural daylight"],
-    "showroom": ["property showroom", "polished interiors", "ambient lighting"],
-    "walkthrough": ["smooth camera walkthrough", "steady dolly movement", "cinematic pacing"],
-    "tour": ["guided property tour", "slow pan across rooms", "revealing shots"],
-    "agent": ["professional real estate agent", "confident posture", "approachable expression"],
-    "intro": ["agent introduction", "clean background", "soft studio lighting"],
-    "drone": ["aerial drone shot", "bird's eye view", "sweeping landscape"],
-    "sunset": ["golden hour lighting", "warm amber tones", "dramatic sky"],
-    "luxury": ["premium finishes", "marble accents", "designer furnishings"],
-    "family": ["family-friendly space", "open-plan living", "warm atmosphere"],
-    "investment": ["prime investment property", "high rental yield area", "strong capital appreciation"],
+# ---- keyword fragment libraries ----
+
+_VIDEO_SUBJECTS = {
+    "condo":       ["a modern Singapore condominium living room", "a sleek condo interior with panoramic windows", "a high-rise apartment with unblocked city views"],
+    "landed":      ["a luxury landed property entrance", "an elegant semi-detached home with tropical landscaping", "a spacious bungalow with a private garden"],
+    "hdb":         ["a well-designed HDB flat interior", "a spacious HDB living area with natural light", "a renovated resale HDB with modern finishes"],
+    "showroom":    ["a polished property showroom", "a developer showflat with premium fittings", "a branded sales gallery"],
+    "agent":       ["a professional real estate agent", "a confident property consultant", "an approachable agent in business attire"],
+    "intro":       ["an agent introduction scene", "a welcoming host speaking to camera", "a confident professional addressing the viewer"],
+    "bedroom":     ["a master bedroom suite with ensuite", "a spacious bedroom with soft natural light", "a cosy bedroom with designer furnishings"],
+    "kitchen":     ["a modern open-concept kitchen", "a sleek kitchen with marble island", "a gourmet kitchen with premium appliances"],
+    "bathroom":    ["a spa-inspired bathroom", "a luxurious ensuite with rain shower", "a modern bathroom with designer tiles"],
+    "living":      ["a grand living room with double-height ceiling", "a cosy living area with designer sofa", "an open-plan living and dining space"],
+    "balcony":     ["a private balcony with outdoor seating", "a rooftop terrace with city skyline views", "a lush balcony garden"],
+    "pool":        ["an infinity pool at sunset", "a resort-style pool deck", "a private pool with tropical landscaping"],
+    "gym":         ["a state-of-the-art fitness centre", "a modern condo gym with floor-to-ceiling windows", "a well-equipped private gym"],
+    "lobby":       ["a grand condominium lobby", "a hotel-style arrival lobby", "a modern reception area with concierge"],
+    "drone":       ["an aerial view of a residential district", "a sweeping drone shot over the property", "a bird's-eye view of the neighbourhood"],
+    "sunset":      ["a property bathed in golden hour light", "a warm sunset view from the balcony", "an evening scene with amber sky"],
+    "luxury":      ["a premium penthouse suite", "a designer-furnished luxury home", "an opulent master suite with bespoke details"],
+    "family":      ["a family-friendly open-plan home", "a child-friendly living space", "a warm family home with play area"],
+    "investment":  ["a prime investment property in a growth district", "a high-yield rental property", "a newly launched development"],
 }
 
-_IMAGE_KEYWORDS = {
-    "condo": ["modern Singapore condo interior", "sleek finishes", "panoramic windows"],
-    "landed": ["elegant landed home", "lush landscaping", "grand entrance"],
-    "hdb": ["spacious HDB interior", "bright and airy", "functional layout"],
-    "exterior": ["property exterior shot", "blue hour lighting", "professional real estate photography"],
-    "interior": ["luxurious interior design", "warm ambient lighting", "high-end finishes"],
-    "kitchen": ["modern kitchen", "marble countertops", "premium appliances"],
-    "bedroom": ["master bedroom suite", "soft natural light", "plush furnishings"],
-    "living": ["spacious living room", "designer sofa", "statement lighting"],
-    "bathroom": ["spa-like bathroom", "marble tiles", "rain shower"],
-    "balcony": ["private balcony", "outdoor seating", "city view"],
-    "pool": ["infinity pool", "tropical poolside", "resort-style living"],
-    "agent": ["professional headshot", "modern office backdrop", "confident expression"],
-    "floorplan": ["3D floor plan render", "isometric view", "clean line art"],
-    "aerial": ["aerial property view", "drone photography", "surrounding neighbourhood"],
+_IMAGE_SUBJECTS = {
+    "condo":       ["modern Singapore condo interior", "sleek condominium living space", "high-rise apartment with panoramic views"],
+    "landed":      ["elegant landed home exterior", "luxury bungalow with tropical garden", "semi-detached house with modern facade"],
+    "hdb":         ["spacious HDB flat interior", "renovated HDB with contemporary design", "bright and airy HDB living room"],
+    "exterior":    ["stunning property exterior at dusk", "modern architectural facade", "tropical home exterior with lush greenery"],
+    "interior":    ["luxurious interior with designer finishes", "warm ambient living space", "high-end residential interior"],
+    "kitchen":     ["modern gourmet kitchen", "sleek kitchen with marble island", "open-concept kitchen and dining"],
+    "bedroom":     ["master bedroom with city views", "cosy bedroom with soft lighting", "spacious bedroom with walk-in wardrobe"],
+    "living":      ["spacious living room with designer furniture", "elegant lounge area", "open-plan living space"],
+    "bathroom":    ["spa-like bathroom with freestanding tub", "modern bathroom with marble tiles", "luxurious ensuite bathroom"],
+    "balcony":     ["private balcony with outdoor furniture", "rooftop terrace with panoramic views", "lush balcony garden"],
+    "pool":        ["infinity pool with tropical landscaping", "resort-style pool deck", "private pool at sunset"],
+    "agent":       ["professional real estate headshot", "confident agent portrait", "corporate headshot with modern backdrop"],
+    "floorplan":   ["3D isometric floor plan render", "clean architectural floor plan", "modern unit layout visualization"],
+    "aerial":      ["aerial drone photograph of property", "bird's-eye view of residential area", "drone shot of neighbourhood"],
+    "sunset":      ["property exterior at golden hour", "balcony view at sunset", "warm evening property shot"],
+    "luxury":      ["luxury penthouse interior", "designer home with bespoke finishes", "opulent master suite"],
 }
 
-_CAMERA_MOVEMENTS = [
-    "slow dolly forward",
-    "gentle pan from left to right",
-    "steady tracking shot",
-    "smooth orbit around the subject",
-    "gradual pull-back reveal",
+_VIDEO_CAMERA = [
+    "slow dolly forward through",
+    "steady tracking shot moving through",
+    "gentle pan across",
+    "smooth orbit around",
+    "gradual pull-back reveal of",
+    "cinematic walkthrough of",
+    "slow push-in on",
+    "steady handheld glide through",
 ]
 
-_LIGHTING_MOODS = [
+_VIDEO_LIGHTING = [
+    "warm golden hour sunlight streaming through large windows",
+    "soft diffused natural light with gentle shadows",
+    "dramatic evening ambient lighting with warm tones",
+    "bright and airy daylight filling the space",
+    "cinematic low-key lighting with subtle highlights",
+    "golden sunset glow casting long shadows",
+    "clean white studio lighting",
+]
+
+_IMAGE_LIGHTING = [
     "warm golden hour sunlight streaming through windows",
-    "soft diffused natural light with subtle shadows",
-    "dramatic evening ambient lighting",
+    "soft diffused natural light with gentle shadows",
+    "dramatic blue-hour twilight ambiance",
     "bright and airy daylight photography",
-    "cinematic low-key lighting with warm tones",
+    "cinematic low-key lighting with warm accents",
+    "professional studio lighting setup",
 ]
 
-_CINEMATIC_QUALITIES = [
-    "4K resolution, cinematic colour grading",
-    "shallow depth of field, film-like quality",
-    "crisp detail, professional real estate cinematography",
-    "smooth motion, high dynamic range",
+_VIDEO_STYLE = [
+    "4K resolution, cinematic colour grading, shallow depth of field",
+    "smooth motion, high dynamic range, professional real estate cinematography",
+    "crisp detail, film-like quality, steady camera work",
+    "premium production value, smooth gimbal movement, vibrant colours",
 ]
+
+_IMAGE_STYLE = [
+    "ultra-detailed, photorealistic, professional real estate photography",
+    "high-resolution architectural photography, crisp detail, perfect exposure",
+    "magazine-quality interior shot, balanced composition, rich textures",
+    "premium property marketing photography, vivid colours, sharp focus",
+]
+
+_VIDEO_CLOSERS = [
+    "Professional real estate video, smooth and steady motion.",
+    "Premium property showcase, cinematic and inviting.",
+    "High-end real estate cinematography, polished and engaging.",
+]
+
+_IMAGE_CLOSERS = [
+    "Ultra-detailed, photorealistic, ready for marketing use.",
+    "Premium property marketing image, crisp and vibrant.",
+    "Magazine-quality real estate photography.",
+]
+
+
+def _extract_subjects(description: str, mode: str = "video") -> list:
+    """Find matching subject fragments from the description."""
+    desc_lower = description.lower()
+    library = _VIDEO_SUBJECTS if mode == "video" else _IMAGE_SUBJECTS
+    matched = []
+    for keyword, subjects in library.items():
+        if keyword in desc_lower:
+            matched.extend(subjects)
+    return matched
+
+
+def _build_video_prompt(description: str) -> str:
+    """Assemble a detailed video generation prompt from a simple description."""
+    subjects = _extract_subjects(description, "video")
+
+    if subjects:
+        subject = random.choice(subjects)
+    else:
+        # No keywords matched — wrap their raw text elegantly
+        subject = description.strip().rstrip(".")
+        if not subject.lower().startswith(("a ", "an ", "the ")):
+            subject = "a " + subject
+
+    camera = random.choice(_VIDEO_CAMERA)
+    lighting = random.choice(_VIDEO_LIGHTING)
+    style = random.choice(_VIDEO_STYLE)
+    closer = random.choice(_VIDEO_CLOSERS)
+
+    return f"{camera} {subject}. {lighting}. {style}. {closer}"
+
+
+def _build_image_prompt(description: str) -> str:
+    """Assemble a detailed image generation prompt from a simple description."""
+    subjects = _extract_subjects(description, "image")
+
+    if subjects:
+        subject = random.choice(subjects)
+    else:
+        subject = description.strip().rstrip(".")
+        if not subject.lower().startswith(("a ", "an ", "the ")):
+            subject = "a " + subject
+
+    lighting = random.choice(_IMAGE_LIGHTING)
+    style = random.choice(_IMAGE_STYLE)
+    closer = random.choice(_IMAGE_CLOSERS)
+
+    return f"{subject}. {lighting}. {style}. {closer}"
+
 
 def _enhance_prompt(description: str, mode: str = "video") -> str:
     """Expand a simple description into a detailed AI generation prompt.
-    
-    Uses keyword matching + random cinematic fragments.
-    Falls back to OpenAI if OPENAI_API_KEY is configured.
+    Pure template-based — no external APIs required.
     """
-    description_lower = description.lower()
-    keywords_map = _VIDEO_KEYWORDS if mode == "video" else _IMAGE_KEYWORDS
-    
-    # Extract matched keywords
-    matched_fragments = []
-    for keyword, fragments in keywords_map.items():
-        if keyword in description_lower:
-            matched_fragments.extend(fragments)
-    
-    # If no keywords matched, use the description as-is with generic enhancers
-    if not matched_fragments:
-        matched_fragments = [description]
-    
-    # Deduplicate while preserving order
-    seen = set()
-    unique_fragments = []
-    for f in matched_fragments:
-        if f not in seen:
-            seen.add(f)
-            unique_fragments.append(f)
-    
-    # Build the prompt
     if mode == "video":
-        camera = random.choice(_CAMERA_MOVEMENTS)
-        lighting = random.choice(_LIGHTING_MOODS)
-        quality = random.choice(_CINEMATIC_QUALITIES)
-        subject = ", ".join(unique_fragments[:3])
-        prompt = f"{camera} of {subject}. {lighting}. {quality}. Professional real estate video, smooth and steady motion."
-    else:
-        lighting = random.choice(_LIGHTING_MOODS)
-        quality = random.choice(_CINEMATIC_QUALITIES)
-        subject = ", ".join(unique_fragments[:3])
-        prompt = f"{subject}. {lighting}. {quality}. Ultra-detailed, photorealistic."
-    
-    # Try OpenAI if available for even better results
-    openai_key = os.environ.get("OPENAI_API_KEY", "")
-    if openai_key and len(openai_key) > 20:
-        try:
-            return _enhance_prompt_with_openai(description, mode, openai_key)
-        except Exception:
-            pass  # Fall back to template
-    
-    return prompt
-
-
-def _enhance_prompt_with_openai(description: str, mode: str, api_key: str) -> str:
-    """Call OpenAI to generate a detailed prompt."""
-    system_msg = (
-        "You are an expert prompt engineer for AI video and image generation. "
-        "Transform simple user descriptions into detailed, vivid prompts that produce "
-        "high-quality real estate content. Include camera movement, lighting, mood, "
-        "and specific visual details. Keep prompts under 150 words."
-    )
-    user_msg = f"Create a detailed {mode} generation prompt for: {description}"
-    
-    payload = json.dumps({
-        "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "system", "content": system_msg},
-            {"role": "user", "content": user_msg}
-        ],
-        "temperature": 0.7,
-        "max_tokens": 300,
-    }).encode("utf-8")
-    
-    req = urllib.request.Request(
-        "https://api.openai.com/v1/chat/completions",
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {api_key}",
-        },
-        method="POST",
-    )
-    
-    with urllib.request.urlopen(req, timeout=15) as resp:
-        data = json.loads(resp.read().decode("utf-8"))
-        return data["choices"][0]["message"]["content"].strip()
+        return _build_video_prompt(description)
+    return _build_image_prompt(description)
 
 
 @app.route("/api/enhance-prompt", methods=["POST"])
@@ -792,12 +807,12 @@ def api_enhance_prompt():
     data = request.get_json(force=True) or {}
     description = data.get("description", "").strip()
     mode = data.get("mode", "video").lower()
-    
+
     if not description:
         return jsonify({"error": "Description is required"}), 400
     if mode not in ("video", "image"):
         mode = "video"
-    
+
     try:
         enhanced = _enhance_prompt(description, mode)
         return jsonify({"prompt": enhanced, "mode": mode})
