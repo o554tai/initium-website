@@ -29,6 +29,7 @@ HEADERS = {
 BASE_DIR = Path(__file__).parent
 LEADS_JSON = BASE_DIR / "leads.json"
 BRIEFS_JSON = BASE_DIR / "briefs.json"
+AGENT_TOKENS_JSON = BASE_DIR / "agent_tokens.json"
 
 
 def _load_json(path):
@@ -376,3 +377,45 @@ def db_status() -> dict:
         return {"mode": "supabase_rest", "connected": True, "url": SUPABASE_URL}
     except Exception as e:
         return {"mode": "supabase_rest", "connected": False, "error": str(e)}
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+#  Agent Meta Token (per-agent Instagram OAuth)
+# ═════════════════════════════════════════════════════════════════════════════
+
+def save_agent_meta_token(data: dict) -> str:
+    agent_name = data.get("agent_name", "").strip()
+    if not agent_name:
+        raise ValueError("agent_name is required")
+    now = datetime.utcnow().isoformat()
+    tokens = _load_json(AGENT_TOKENS_JSON)
+    existing = [t for t in tokens if t.get("agent_name") != agent_name]
+    payload = {
+        "agent_name": agent_name,
+        "access_token": data.get("access_token", ""),
+        "ig_business_account_id": data.get("ig_business_account_id", ""),
+        "page_id": data.get("page_id", ""),
+        "page_name": data.get("page_name", ""),
+        "connected_at": now,
+        "updated_at": now,
+    }
+    existing.append(payload)
+    _save_json(AGENT_TOKENS_JSON, existing)
+    return agent_name
+
+
+def get_agent_meta_token(agent_name: str) -> dict | None:
+    tokens = _load_json(AGENT_TOKENS_JSON)
+    for t in tokens:
+        if t.get("agent_name", "").lower() == agent_name.lower():
+            return t
+    return None
+
+
+def delete_agent_meta_token(agent_name: str) -> bool:
+    tokens = _load_json(AGENT_TOKENS_JSON)
+    filtered = [t for t in tokens if t.get("agent_name", "").lower() != agent_name.lower()]
+    if len(filtered) == len(tokens):
+        return False
+    _save_json(AGENT_TOKENS_JSON, filtered)
+    return True
