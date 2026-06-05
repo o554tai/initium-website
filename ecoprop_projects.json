@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-06-05T02:00:56.428916+00:00",
+  "scraped_at": "2026-06-05T03:00:14.425840+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5905,17 +5905,17 @@
     },
     {
       "project_name": "SPACE NOVA",
-      "district": "D14",
-      "location": "D14 - Eunos / Geylang / Paya Lebar",
+      "district": "D19",
+      "location": "D19 - Hougang / Punggol / Sengkang",
       "address": "21 New Industrial Road",
       "property_type": "Industrial",
       "tenure": "Freehold",
       "min_price": 0,
       "max_price": 0,
       "currency": "$",
-      "units": "0",
-      "completion_date": "",
-      "expected_top": "Dec 2028",
+      "units": "47",
+      "completion_date": "Q2 2028",
+      "expected_top": "Q2 2028",
       "launch_date": [
         2026,
         7,
@@ -6282,7 +6282,7 @@
       "project_name": "The Bronze",
       "district": "D12",
       "location": "D12 - Balestier / Toa Payoh",
-      "address": "Boon Teck Road",
+      "address": "46 Boon Teck Road",
       "property_type": "Residential Highrise",
       "tenure": "Freehold",
       "min_price": 0,
@@ -6301,7 +6301,7 @@
       "sold_out": false,
       "latitude": "1.3276855617385632",
       "longitude": "103.85093215360884",
-      "cover_image": null
+      "cover_image": "https://img.singmap.com/upload/broke/171316632a3341ffbc338e5bfb313653/7979d492e2b34eaba527a9e7ddaff924/imgs/20260605/392af3be8b5a455da4774a404009a22b.png"
     },
     {
       "project_name": "The Brooks I & The Brooks II @ Springside (D26)",
