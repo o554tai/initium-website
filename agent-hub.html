@@ -577,7 +577,17 @@
           </div>
           <div id="ig-publish-form" style="display:none;">
             <h3 style="margin:0 0 12px;font-size:1rem;color:var(--text-primary);">Publish Post</h3>
-            <div class="form-group"><label>Media URL</label><input type="text" id="ig-media-url" placeholder="https://... (image or video URL)"></div>
+            <div class="form-group">
+              <label>Media</label>
+              <div id="ig-file-drop" style="border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:border-color .2s;" onclick="document.getElementById('ig-file-input').click()">
+                <div style="font-size:32px;margin-bottom:8px;">📁</div>
+                <div style="color:var(--text-secondary);font-size:var(--text-sm);">Click to upload or drag & drop</div>
+                <div id="ig-file-name" style="color:var(--accent);font-size:var(--text-sm);margin-top:8px;display:none;"></div>
+              </div>
+              <input type="file" id="ig-file-input" accept="image/*,video/*" style="display:none;" onchange="handleIgFileSelect(this)">
+              <div style="text-align:center;margin:8px 0;color:var(--text-secondary);font-size:var(--text-sm);">— or —</div>
+              <input type="text" id="ig-media-url" placeholder="https://... (image or video URL)">
+            </div>
             <div class="form-group"><label>Caption</label><textarea id="ig-caption" rows="3" placeholder="Write your caption..."></textarea></div>
             <div class="form-group"><label>Type</label><select id="ig-media-type"><option value="IMAGE">Photo</option><option value="REELS">Reel</option></select></div>
             <button class="btn-submit" onclick="publishInstagram()" style="width:100%;">Publish</button>
@@ -887,6 +897,52 @@ function openModal(type, id=null) {
           <option value="lost" ${l.status==='lost'?'selected':''}>Lost</option>
         </select>
       </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group"><label>Priority</label>
+          <select id="f-l-priority">
+            <option value="high" ${l.priority==='high'?'selected':''}>High</option>
+            <option value="medium" ${(l.priority||'medium')==='medium'?'selected':''}>Medium</option>
+            <option value="low" ${l.priority==='low'?'selected':''}>Low</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Property Type</label>
+          <select id="f-l-property-type">
+            <option value="" ${!l.property_type?'selected':''}>—</option>
+            <option value="hdb" ${l.property_type==='hdb'?'selected':''}>HDB</option>
+            <option value="condo" ${l.property_type==='condo'?'selected':''}>Condo</option>
+            <option value="landed" ${l.property_type==='landed'?'selected':''}>Landed</option>
+            <option value="commercial" ${l.property_type==='commercial'?'selected':''}>Commercial</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group"><label>Bedrooms</label>
+          <select id="f-l-bedrooms">
+            <option value="" ${!l.bedrooms?'selected':''}>—</option>
+            <option value="studio" ${l.bedrooms==='studio'?'selected':''}>Studio</option>
+            <option value="1" ${l.bedrooms==='1'?'selected':''}>1</option>
+            <option value="2" ${l.bedrooms==='2'?'selected':''}>2</option>
+            <option value="3" ${l.bedrooms==='3'?'selected':''}>3</option>
+            <option value="4" ${l.bedrooms==='4'?'selected':''}>4</option>
+            <option value="5+" ${l.bedrooms==='5+'?'selected':''}>5+</option>
+            <option value="penthouse" ${l.bedrooms==='penthouse'?'selected':''}>Penthouse</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Timeline</label>
+          <select id="f-l-timeline">
+            <option value="" ${!l.timeline?'selected':''}>—</option>
+            <option value="immediate" ${l.timeline==='immediate'?'selected':''}>Immediate</option>
+            <option value="3m" ${l.timeline==='3m'?'selected':''}>3 months</option>
+            <option value="6m" ${l.timeline==='6m'?'selected':''}>6 months</option>
+            <option value="1y" ${l.timeline==='1y'?'selected':''}>1 year</option>
+            <option value="browsing" ${l.timeline==='browsing'?'selected':''}>Just browsing</option>
+          </select>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="form-group"><label>Next Follow-up</label><input type="date" id="f-l-followup" value="${esc(l.next_follow_up||'')}"></div>
+        <div class="form-group"><label>Last Contacted</label><input type="date" id="f-l-contacted" value="${esc(l.last_contacted||'')}"></div>
+      </div>
       <div class="form-group"><label>Budget</label><input id="f-l-budget" value="${esc(l.budget||'')}" placeholder="e.g. 2.5M"></div>
       <div class="form-group"><label>Area</label><input id="f-l-area" value="${esc(l.area||'')}" placeholder="e.g. District 26, Lentor..."></div>
       <div class="form-group"><label>Notes</label><textarea id="f-l-notes">${esc(l.notes||'')}</textarea></div>
@@ -943,6 +999,12 @@ async function submitForm() {
         budget: document.getElementById('f-l-budget').value.trim(),
         area: document.getElementById('f-l-area').value.trim(),
         notes: document.getElementById('f-l-notes').value.trim(),
+        next_follow_up: document.getElementById('f-l-followup').value,
+        priority: document.getElementById('f-l-priority').value,
+        property_type: document.getElementById('f-l-property-type').value,
+        timeline: document.getElementById('f-l-timeline').value,
+        last_contacted: document.getElementById('f-l-contacted').value,
+        bedrooms: document.getElementById('f-l-bedrooms').value,
       };
       if (!payload.client_name) { toast('Client name required'); return; }
       if (editingId) {
@@ -1108,6 +1170,72 @@ async function disconnectInstagram() {
   }
 }
 
+// File upload for Instagram publishing
+let _igUploadedUrl = '';
+
+async function handleIgFileSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+
+  const nameEl = document.getElementById('ig-file-name');
+  const dropEl = document.getElementById('ig-file-drop');
+  nameEl.textContent = 'Uploading ' + file.name + '...';
+  nameEl.style.display = 'block';
+  dropEl.style.borderColor = 'var(--accent)';
+
+  const formData = new FormData();
+  formData.append('file', file);
+
+  try {
+    const resp = await fetch('/api/upload', {
+      method: 'POST',
+      headers: { 'X-API-Key': localStorage.getItem('agentKey') || '' },
+      body: formData
+    });
+    const data = await resp.json();
+    if (!resp.ok) throw new Error(data.error || 'Upload failed');
+
+    _igUploadedUrl = data.url;
+    document.getElementById('ig-media-url').value = data.url;
+    nameEl.textContent = '✅ ' + file.name + ' (' + (data.size / 1024 / 1024).toFixed(2) + ' MB)';
+    dropEl.style.borderColor = 'var(--accent)';
+  } catch (e) {
+    nameEl.textContent = '❌ Upload failed: ' + (e.message || e);
+    nameEl.style.color = 'var(--danger)';
+    dropEl.style.borderColor = 'var(--danger)';
+  }
+}
+
+// Drag & drop support
+(function() {
+  const dropEl = document.getElementById('ig-file-drop');
+  if (!dropEl) return;
+  ['dragenter','dragover'].forEach(ev => {
+    dropEl.addEventListener(ev, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropEl.style.borderColor = 'var(--accent)';
+      dropEl.style.background = 'rgba(80,200,120,0.05)';
+    });
+  });
+  ['dragleave','drop'].forEach(ev => {
+    dropEl.addEventListener(ev, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      dropEl.style.borderColor = 'var(--border)';
+      dropEl.style.background = 'transparent';
+    });
+  });
+  dropEl.addEventListener('drop', (e) => {
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      const input = document.getElementById('ig-file-input');
+      input.files = files;
+      handleIgFileSelect(input);
+    }
+  });
+})();
+
 async function publishInstagram() {
   const mediaUrl = document.getElementById('ig-media-url').value.trim();
   const caption = document.getElementById('ig-caption').value.trim();
@@ -1115,7 +1243,7 @@ async function publishInstagram() {
   const resultEl = document.getElementById('ig-publish-result');
 
   if (!mediaUrl) {
-    resultEl.textContent = 'Media URL is required';
+    resultEl.textContent = 'Please upload a file or enter a media URL';
     resultEl.style.color = 'var(--danger)';
     return;
   }
@@ -1131,6 +1259,9 @@ async function publishInstagram() {
     resultEl.innerHTML = '<span style="color:var(--accent)">&#9989; Published!</span> <a href="' + data.permalink + '" target="_blank" style="color:var(--accent)">View post</a>';
     document.getElementById('ig-media-url').value = '';
     document.getElementById('ig-caption').value = '';
+    document.getElementById('ig-file-name').style.display = 'none';
+    document.getElementById('ig-file-input').value = '';
+    _igUploadedUrl = '';
   } catch (e) {
     resultEl.textContent = 'Error: ' + (e.message || e);
     resultEl.style.color = 'var(--danger)';
