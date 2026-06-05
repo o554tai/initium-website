@@ -23,6 +23,8 @@ import urllib.parse
 from datetime import datetime
 from pathlib import Path
 
+BASE_DIR = Path(__file__).parent
+
 from flask import Flask, request, jsonify, send_from_directory, abort
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
@@ -1558,31 +1560,53 @@ META_APP_SECRET = os.environ.get("META_APP_SECRET", "")
 META_REDIRECT_URI = os.environ.get("META_REDIRECT_URI", "https://initium-video-studio.onrender.com/auth/meta/callback")
 META_OAUTH_SCOPES = "instagram_basic,instagram_content_publish,pages_read_engagement,pages_show_list"
 
-# In-memory state store for OAuth CSRF protection
-_oauth_states = {}
+# File-based state store for OAuth CSRF protection (survives Render workers + restarts)
+_OAUTH_STATE_JSON = BASE_DIR / "oauth_states.json"
 _OAUTH_STATE_TTL = 600  # 10 minutes
+
+
+def _load_oauth_states() -> dict:
+    if _OAUTH_STATE_JSON.exists():
+        try:
+            with open(_OAUTH_STATE_JSON, "r") as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+
+def _save_oauth_states(states: dict):
+    with open(_OAUTH_STATE_JSON, "w") as f:
+        json.dump(states, f)
 
 
 def _clean_oauth_states():
     now = time.time()
-    expired = [s for s, v in _oauth_states.items() if now - v["ts"] > _OAUTH_STATE_TTL]
+    states = _load_oauth_states()
+    expired = [s for s, v in states.items() if now - v.get("ts", 0) > _OAUTH_STATE_TTL]
     for s in expired:
-        _oauth_states.pop(s, None)
+        states.pop(s, None)
+    _save_oauth_states(states)
 
 
 def _make_oauth_state(agent_name: str) -> str:
     """Generate a short-lived state token for OAuth flow."""
     _clean_oauth_states()
     state = secrets.token_urlsafe(24)
-    _oauth_states[state] = {"agent_name": agent_name, "ts": time.time()}
+    states = _load_oauth_states()
+    states[state] = {"agent_name": agent_name, "ts": time.time()}
+    _save_oauth_states(states)
     return state
 
 
 def _verify_oauth_state(state: str) -> str | None:
     """Return agent_name if state is valid, else None."""
     _clean_oauth_states()
-    entry = _oauth_states.pop(state, None)
-    return entry["agent_name"] if entry else None
+    states = _load_oauth_states()
+    entry = states.pop(state, None)
+    if entry:
+        _save_oauth_states(states)
+    return entry.get("agent_name") if entry else None
 
 
 def _meta_graph_get(url: str) -> dict:
