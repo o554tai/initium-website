@@ -300,6 +300,33 @@
   }
   .filter-pill:hover { background: var(--surface-hover); color: var(--text-primary); }
   .filter-pill.active { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+
+  /* Kanban */
+  .kanban-board { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; margin-top: 12px; }
+  .kanban-col { flex: 1; min-width: 220px; max-width: 280px; display: flex; flex-direction: column; background: var(--surface-elevated); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px; }
+  .kanban-header { display: flex; align-items: center; gap: 8px; font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); margin-bottom: 10px; font-family: var(--font-display); text-transform: uppercase; letter-spacing: 0.04em; }
+  .kanban-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .kanban-dot.new { background: #eab308; }
+  .kanban-dot.contacted { background: #60a5fa; }
+  .kanban-dot.viewing { background: #a78bfa; }
+  .kanban-dot.offer { background: #f97316; }
+  .kanban-dot.closed { background: var(--accent); }
+  .kanban-dot.lost { background: #ef4444; }
+  .kanban-count { margin-left: auto; font-size: var(--text-xs); color: var(--text-secondary); background: var(--surface); padding: 2px 8px; border-radius: var(--radius-pill); }
+  .kanban-dropzone { flex: 1; min-height: 80px; }
+  .kanban-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 12px; margin-bottom: 8px; cursor: grab; transition: transform 0.15s ease, box-shadow 0.15s ease; position: relative; }
+  .kanban-card:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); border-color: var(--border-strong); }
+  .kanban-card.dragging { opacity: 0.5; }
+  .kanban-card .card-title { font-size: var(--text-sm); font-weight: 600; color: var(--text-primary); margin-bottom: 4px; }
+  .kanban-card .card-meta { font-size: var(--text-xs); color: var(--text-secondary); display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+  .kanban-card .card-followup { font-size: var(--text-xs); font-weight: 500; }
+  .kanban-card .card-followup.overdue { color: var(--danger); }
+  .kanban-card .card-followup.due { color: var(--accent); }
+  .kanban-card .priority-dot { position: absolute; top: 8px; right: 8px; width: 6px; height: 6px; border-radius: 50%; }
+  .kanban-card .priority-dot.high { background: #ef4444; }
+  .kanban-card .priority-dot.medium { background: #f59e0b; }
+  .kanban-card .priority-dot.low { background: #6b7280; }
+
   .sort-bar {
     display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3);
   }
@@ -518,25 +545,43 @@
           <div class="stats">
             <div class="stat-card"><div class="num" id="stat-leads-total">0</div><div class="label">Total</div></div>
             <div class="stat-card"><div class="num" id="stat-leads-new">0</div><div class="label">New</div></div>
+            <div class="stat-card"><div class="num" id="stat-leads-due">0</div><div class="label">Due Today</div></div>
+            <div class="stat-card"><div class="num" id="stat-leads-overdue">0</div><div class="label" style="color:var(--danger)">Overdue</div></div>
           </div>
-          <div class="section-header"><h2>My Leads</h2><button class="btn-primary" onclick="openModal('lead')">+ Add</button></div>
-          <div class="sort-bar"><label>Sort</label><select id="sort-leads" onchange="renderLeads()"><option value="newest">Newest</option><option value="name">Name</option><option value="budget">Budget</option></select></div>
-          <div class="filter-bar" id="filter-leads">
-            <button class="filter-pill active" data-status="all" onclick="setLeadFilter('all')">All</button>
-            <button class="filter-pill" data-status="new" onclick="setLeadFilter('new')">New</button>
-            <button class="filter-pill" data-status="contacted" onclick="setLeadFilter('contacted')">Contacted</button>
-            <button class="filter-pill" data-status="viewing" onclick="setLeadFilter('viewing')">Viewing</button>
-            <button class="filter-pill" data-status="offer" onclick="setLeadFilter('offer')">Offer</button>
-            <button class="filter-pill" data-status="closed" onclick="setLeadFilter('closed')">Closed</button>
-            <button class="filter-pill" data-status="lost" onclick="setLeadFilter('lost')">Lost</button>
-          </div>
+          <div class="section-header"><h2>My Pipeline</h2><button class="btn-primary" onclick="openModal('lead')">+ Add Lead</button></div>
+          <div class="sort-bar"><label>Sort</label><select id="sort-leads" onchange="renderLeads()"><option value="newest">Newest</option><option value="name">Name</option><option value="budget">Budget</option><option value="priority">Priority</option></select></div>
           <div class="sort-bar" style="margin-top:8px;">
             <select id="filter-project" onchange="renderLeads()" style="flex:1;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:var(--space-2) var(--space-3);color:var(--text-primary);font-size:var(--text-sm);font-family:var(--font-body);outline:none;">
               <option value="">All Projects</option>
             </select>
           </div>
           <input type="text" class="search-box" id="search-leads" placeholder="Search client, area, project..." oninput="renderLeads()">
-          <div id="list-leads"></div>
+          <div class="kanban-board" id="kanban-leads">
+            <div class="kanban-col" data-status="new">
+              <div class="kanban-header"><span class="kanban-dot new"></span>New <span class="kanban-count" id="count-new">0</span></div>
+              <div class="kanban-dropzone" id="col-new" ondrop="dropLead(event,'new')" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="kanban-col" data-status="contacted">
+              <div class="kanban-header"><span class="kanban-dot contacted"></span>Contacted <span class="kanban-count" id="count-contacted">0</span></div>
+              <div class="kanban-dropzone" id="col-contacted" ondrop="dropLead(event,'contacted')" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="kanban-col" data-status="viewing">
+              <div class="kanban-header"><span class="kanban-dot viewing"></span>Viewing <span class="kanban-count" id="count-viewing">0</span></div>
+              <div class="kanban-dropzone" id="col-viewing" ondrop="dropLead(event,'viewing')" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="kanban-col" data-status="offer">
+              <div class="kanban-header"><span class="kanban-dot offer"></span>Offer <span class="kanban-count" id="count-offer">0</span></div>
+              <div class="kanban-dropzone" id="col-offer" ondrop="dropLead(event,'offer')" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="kanban-col" data-status="closed">
+              <div class="kanban-header"><span class="kanban-dot closed"></span>Closed <span class="kanban-count" id="count-closed">0</span></div>
+              <div class="kanban-dropzone" id="col-closed" ondrop="dropLead(event,'closed')" ondragover="allowDrop(event)"></div>
+            </div>
+            <div class="kanban-col" data-status="lost">
+              <div class="kanban-header"><span class="kanban-dot lost"></span>Lost <span class="kanban-count" id="count-lost">0</span></div>
+              <div class="kanban-dropzone" id="col-lost" ondrop="dropLead(event,'lost')" ondragover="allowDrop(event)"></div>
+            </div>
+          </div>
         </div>
 
         <div id="crm-briefs" class="crm-view">
@@ -740,12 +785,6 @@ function switchCrm(tab) {
   if (tab === 'social') loadInstagramStatus();
 }
 
-function setLeadFilter(status) {
-  leadFilter = status;
-  document.querySelectorAll('#filter-leads .filter-pill').forEach(p => p.classList.toggle('active', p.dataset.status === status));
-  renderLeads();
-}
-
 function setBriefFilter(status) {
   briefFilter = status;
   document.querySelectorAll('#filter-briefs .filter-pill').forEach(p => p.classList.toggle('active', p.dataset.status === status));
@@ -801,6 +840,15 @@ function updateStats(s) {
   document.getElementById('stat-leads-new').textContent = s.leads?.by_status?.new || 0;
   document.getElementById('stat-briefs-total').textContent = s.briefs?.total || 0;
   document.getElementById('stat-briefs-active').textContent = s.briefs?.by_status?.active || 0;
+  const today = new Date().toISOString().split('T')[0];
+  let due = 0, overdue = 0;
+  leads.forEach(l => {
+    if (!l.next_follow_up || l.status === 'closed' || l.status === 'lost') return;
+    if (l.next_follow_up === today) due++;
+    else if (l.next_follow_up < today) overdue++;
+  });
+  document.getElementById('stat-leads-due').textContent = due;
+  document.getElementById('stat-leads-overdue').textContent = overdue;
 }
 
 function badgeClass(status) {
@@ -814,7 +862,6 @@ function renderLeads() {
   const sort = document.getElementById('sort-leads').value;
   const projectFilter = document.getElementById('filter-project').value;
   let list = leads.filter(l => !q || [l.client_name, l.area, l.source, l.budget, l.notes, l.project_name, l.property_address].some(v => (v||'').toLowerCase().includes(q)));
-  if (leadFilter !== 'all') list = list.filter(l => (l.status||'new') === leadFilter);
   if (projectFilter) list = list.filter(l => (l.project_name || '') === projectFilter);
   if (sort === 'name') list.sort((a,b) => (a.client_name||'').localeCompare(b.client_name||''));
   else if (sort === 'budget') list.sort((a,b) => {
@@ -822,26 +869,51 @@ function renderLeads() {
     const bv = parseFloat((b.budget||'0').replace(/[^0-9.]/g,'')) || 0;
     return bv - av;
   });
+  else if (sort === 'priority') {
+    const order = { high: 3, medium: 2, low: 1 };
+    list.sort((a,b) => (order[b.priority]||0) - (order[a.priority]||0));
+  }
   else list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
 
-  const el = document.getElementById('list-leads');
-  if (!list.length) { el.innerHTML = '<div class="empty">No leads yet. Tap + Add to start.</div>'; return; }
-  el.innerHTML = list.map(l => `
-    <div class="crm-card">
-      <div class="card-header"><div class="card-title">${esc(l.client_name)}</div><div class="badge ${badgeClass(l.status)}">${l.status||'new'}</div></div>
-      <div class="card-row"><strong>Type</strong> ${esc(l.enquiry_type||'-')}</div>
-      <div class="card-row"><strong>Project</strong> ${esc(l.project_name||'-')}</div>
-      <div class="card-row"><strong>Area</strong> ${esc(l.area||'-')}</div>
-      <div class="card-row"><strong>Budget</strong> ${esc(l.budget||'-')}</div>
-      <div class="card-row"><strong>Source</strong> ${esc(l.source||'-')}</div>
-      <div class="card-row"><strong>Contact</strong> ${esc(l.contact||'-')}</div>
-      ${l.property_address ? `<div class="card-row"><strong>Address</strong> ${esc(l.property_address)}</div>` : ''}
-      ${l.notes ? `<div class="card-notes">${esc(l.notes)}</div>` : ''}
-      <div class="card-actions">
-        <button class="btn-edit" onclick="editLead('${l.id}')">Edit</button>
-        <button class="btn-delete" onclick="deleteLead('${l.id}')">Delete</button>
-      </div>
-    </div>`).join('');
+  const statuses = ['new','contacted','viewing','offer','closed','lost'];
+  statuses.forEach(st => {
+    const col = document.getElementById('col-' + st);
+    const count = document.getElementById('count-' + st);
+    const items = list.filter(l => (l.status||'new') === st);
+    count.textContent = items.length;
+    if (!items.length) { col.innerHTML = '<div class="empty" style="padding:20px 0;text-align:center;color:var(--text-secondary);font-size:var(--text-xs)">Drop here</div>'; return; }
+    col.innerHTML = items.map(l => {
+      const today = new Date().toISOString().split('T')[0];
+      const followClass = l.next_follow_up && l.next_follow_up < today ? 'overdue' : l.next_follow_up === today ? 'due' : '';
+      const followText = l.next_follow_up ? (l.next_follow_up < today ? 'Overdue: ' : l.next_follow_up === today ? 'Due today: ' : '') + l.next_follow_up : '';
+      return `<div class="kanban-card" draggable="true" ondragstart="dragLead(event,'${esc(l.id)}')" onclick="editLead('${esc(l.id)}')">
+        <div class="priority-dot ${esc(l.priority||'medium')}"></div>
+        <div class="card-title">${esc(l.client_name)}</div>
+        <div class="card-meta">
+          ${l.budget ? `<span>${esc(l.budget)}</span>` : ''}
+          ${l.area ? `<span>${esc(l.area)}</span>` : ''}
+          ${l.property_type ? `<span style="text-transform:uppercase;font-size:10px;">${esc(l.property_type)}</span>` : ''}
+          ${l.bedrooms ? `<span>${esc(l.bedrooms)}BR</span>` : ''}
+        </div>
+        ${followText ? `<div class="card-followup ${followClass}">${esc(followText)}</div>` : ''}
+      </div>`;
+    }).join('');
+  });
+}
+function allowDrop(ev) { ev.preventDefault(); }
+function dragLead(ev, id) { ev.dataTransfer.setData('text', id); ev.target.classList.add('dragging'); }
+async function dropLead(ev, status) {
+  ev.preventDefault();
+  const id = ev.dataTransfer.getData('text');
+  document.querySelectorAll('.kanban-card.dragging').forEach(c => c.classList.remove('dragging'));
+  const lead = leads.find(l => l.id === id);
+  if (!lead || lead.status === status) return;
+  try {
+    await api('/api/my/leads/' + id, { method: 'PUT', body: JSON.stringify({status}) });
+    lead.status = status;
+    renderLeads();
+    toast('Moved to ' + status);
+  } catch(e) { toast('Move failed'); }
 }
 function renderBriefs() {
   const q = document.getElementById('search-briefs').value.toLowerCase();
