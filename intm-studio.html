@@ -315,6 +315,10 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             animation: spin 0.8s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.85); }
+        }
 
         .user-pill {
             display: flex; align-items: center; gap: 8px;
@@ -534,7 +538,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             <div style="display:flex;align-items:center;gap:16px;">
                 <div class="api-status" id="apiStatus">
                     <div class="dot"></div>
-                    <span>Checking...</span>
+                    <span>Connecting...</span>
                 </div>
                 <div class="user-pill" id="userPill" style="display:none;">
                     <span>👤 <strong id="userName">-</strong></span>
@@ -546,14 +550,14 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         <!-- Auth Gate -->
         <div class="auth-gate" id="authGate">
             <h2>🔐 Enter Access Key</h2>
-            <p>Contact your admin (Hermes Honcho) to get a team API key.</p>
+            <p>Get your key from the team admin to unlock the studio.</p>
             <div class="input-group">
                 <label>API Key</label>
                 <input type="text" id="apiKeyInput" placeholder="initium-xxxxxxxx..."
                     autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                     onkeydown="if(event.key==='Enter')login()">
                 <p style="font-size:0.75rem;color:var(--text-muted);margin-top:6px;">
-                    ⚠️ If you saved an old key in iCloud Keychain, Safari may autofill it. Use the copy-to-clipboard page to paste cleanly.</p>
+                    ℹ️ Tip: If Safari autofills an old key, clear the field and paste the current one.</p>
             </div>
             <button class="btn btn-primary" onclick="login()" id="loginBtn" style="width:100%;">
                 Unlock Studio
@@ -576,9 +580,15 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                         <div class="panel">
                             <h3><span class="icon">✍️</span> New Video</h3>
                             <div class="input-group">
-                                <label>Prompt</label>
+                                <label>Prompt <span style="font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;">— the more detail, the better the result</span></label>
                                 <textarea id="promptInput"
                                     placeholder="Describe your scene: camera movement, lighting, mood, subjects..."></textarea>
+                                <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">
+                                    <span style="font-size:0.75rem;color:var(--text-muted);">Quick start:</span>
+                                    <button type="button" onclick="fillPrompt('Slow dolly shot through a modern Singapore condo living room, warm golden hour lighting, marble floors, floor-to-ceiling windows overlooking the city skyline, cinematic, 4K quality')" style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:inherit;">🏢 Condo tour</button>
+                                    <button type="button" onclick="fillPrompt('Elegant walkthrough of a landed property entrance, lush tropical garden, water feature, ambient evening lighting, premium feel')" style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:inherit;">🏡 Landed home</button>
+                                    <button type="button" onclick="fillPrompt('Professional agent standing in a showroom, confident posture, modern interior background, soft studio lighting, approachable smile')" style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:inherit;">👤 Agent intro</button>
+                                </div>
                             </div>
                             <div class="input-row">
                                 <div class="input-group">
@@ -599,13 +609,13 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                             </div>
 
                             <div class="input-group">
-                                <label>Reference Media (optional)</label>
+                                <label>Reference Media <span style="font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;">(optional — use a photo of the property or agent)</span></label>
                                 <div class="media-inputs" id="mediaInputs"></div>
                                 <div class="drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
                                     <span class="drop-icon">📁</span>
-                                    <div class="drop-text">Drop image, video, or audio here</div>
-                                    <div class="drop-hint">or click to browse · max 50MB</div>
-                                    <input type="file" id="fileInput" style="display:none" accept="image/*,video/*,audio/*" onchange="handleFiles(this.files)">
+                                    <div class="drop-text">Drop image or video here</div>
+                                    <div class="drop-hint">or click to browse · max 50MB · JPG, PNG, MP4</div>
+                                    <input type="file" id="fileInput" style="display:none" accept="image/*,video/*" onchange="handleFiles(this.files)">
                                     <div class="upload-progress" id="uploadProgress"><div class="bar" id="uploadBar"></div></div>
                                 </div>
                                 <div class="media-add">
@@ -613,9 +623,19 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                                     <select id="mediaTypeInput">
                                         <option value="image">Image</option>
                                         <option value="video">Video</option>
-                                        <option value="audio">Audio</option>
                                     </select>
-                                    <button class="btn btn-sm btn-secondary" onclick="addMedia()">+</button>
+                                    <button class="btn btn-sm btn-secondary" onclick="addMedia()" title="Add URL to references">Add</button>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom:16px;padding:14px;background:var(--bg-elevated);border-radius:12px;border:1px solid var(--border);">
+                                <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                    <span style="font-size:0.875rem;">⏱️</span>
+                                    <span style="font-size:0.8125rem;color:var(--text-muted);">Typical generation time: <strong style="color:var(--text);">2–5 minutes</strong></span>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:8px;">
+                                    <span style="font-size:0.875rem;">💳</span>
+                                    <span style="font-size:0.8125rem;color:var(--text-muted);">You pay only when you click <strong style="color:var(--text);">Pay & Generate</strong>. Review everything first.</span>
                                 </div>
                             </div>
 
@@ -631,7 +651,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                             <div class="jobs-list" id="jobsList">
                                 <div class="empty-state">
                                     <div class="empty-icon">🎬</div>
-                                    <p>No generations yet. Create your first video!</p>
+                                    <p style="margin-bottom:8px;font-weight:500;color:var(--text);">No videos yet</p>
+                                    <p style="font-size:0.8125rem;max-width:260px;margin:0 auto;line-height:1.6;">Fill in the prompt on the left, pick your ratio and duration, then hit generate. Your finished videos will appear here.</p>
                                 </div>
                             </div>
                         </div>
@@ -646,9 +667,15 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                         <div class="panel">
                             <h3><span class="icon">✍️</span> New Image</h3>
                             <div class="input-group">
-                                <label>Prompt</label>
+                                <label>Prompt <span style="font-weight:400;color:var(--text-muted);text-transform:none;letter-spacing:0;">— describe style, lighting, and subject</span></label>
                                 <textarea id="imgPromptInput"
                                     placeholder="Describe the image: interior design, architectural style, lighting, mood..."></textarea>
+                                <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;">
+                                    <span style="font-size:0.75rem;color:var(--text-muted);">Quick start:</span>
+                                    <button type="button" onclick="fillImgPrompt('Luxurious Singapore condo living room, floor-to-ceiling windows, marble flooring, warm ambient lighting, modern minimalist furniture, city skyline view, architectural photography')" style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:inherit;">🏢 Interior</button>
+                                    <button type="button" onclick="fillImgPrompt('Modern tropical landed house exterior, lush greenery, swimming pool, warm sunset lighting, Singapore architecture, premium real estate photography')" style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:inherit;">🏡 Exterior</button>
+                                    <button type="button" onclick="fillImgPrompt('Professional real estate agent portrait, modern office background, confident posture, soft studio lighting, emerald green accent, corporate headshot style')" style="background:var(--bg-elevated);border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:0.75rem;color:var(--text-muted);cursor:pointer;transition:all 0.2s;font-family:inherit;">👤 Portrait</button>
+                                </div>
                             </div>
                             <div class="input-row">
                                 <div class="input-group">
@@ -684,7 +711,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                             <div class="jobs-list" id="imgJobsList">
                                 <div class="empty-state">
                                     <div class="empty-icon">🖼️</div>
-                                    <p>No images yet. Create your first one!</p>
+                                    <p style="margin-bottom:8px;font-weight:500;color:var(--text);">No images yet</p>
+                                    <p style="font-size:0.8125rem;max-width:260px;margin:0 auto;line-height:1.6;">Describe the image you want, choose a ratio and model, then generate. Results appear here in seconds.</p>
                                 </div>
                             </div>
                         </div>
@@ -883,9 +911,9 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             toast(`Welcome, ${data.key.name}!`, 'success');
             loadJobs();
         } catch (e) {
-            let msg = 'Invalid API key. Contact admin.';
+            let msg = 'Key not recognised. Ask admin for a current key.';
             if (e.name === 'TypeError' || e.message.includes('fetch')) {
-                msg = 'Network blocked. Check iCloud Private Relay, content blockers, or VPN.';
+                msg = 'Can\'t reach the server. Check your internet or try again in a moment.';
             }
             toast(msg, 'error');
             console.error('Login error:', e);
@@ -1130,7 +1158,16 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     // ── Generate ──
     async function generate() {
         const prompt = document.getElementById('promptInput').value.trim();
-        if (!prompt) return toast('Enter a prompt first', 'error');
+        if (!prompt) return toast('Enter a prompt first. Try one of the quick-start examples below.', 'error');
+
+        // Auto-add any pending URL
+        const pendingUrl = document.getElementById('mediaUrlInput').value.trim();
+        if (pendingUrl) {
+            const pendingType = document.getElementById('mediaTypeInput').value;
+            mediaList.push({ url: pendingUrl, type: pendingType });
+            renderMedia();
+            document.getElementById('mediaUrlInput').value = '';
+        }
 
         const duration = parseInt(document.getElementById('durationInput').value);
 
@@ -1202,7 +1239,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Failed');
 
-            toast('Task submitted! Polling for result...', 'success');
+            toast('Video submitted! It\'ll be ready in 2–5 minutes. Check back here.', 'success');
             document.getElementById('promptInput').value = '';
             mediaList = []; renderMedia();
             loadJobs();
@@ -1218,7 +1255,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     // ── Image Generation ──
     async function generateImage() {
         const prompt = document.getElementById('imgPromptInput').value.trim();
-        if (!prompt) return toast('Enter a prompt first', 'error');
+        if (!prompt) return toast('Enter a prompt first. Try one of the quick-start examples below.', 'error');
 
         const btn = document.getElementById('imgGenBtn');
         const spinner = document.getElementById('imgGenSpinner');
@@ -1243,7 +1280,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || 'Failed');
 
-            toast('Image task submitted! Polling...', 'success');
+            toast('Image submitted! It\'ll be ready in under a minute.', 'success');
             document.getElementById('imgPromptInput').value = '';
             loadJobs();
         } catch (e) {
@@ -1285,7 +1322,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             videoEl.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-icon">🎬</div>
-                    <p>No generations yet. Create your first video!</p>
+                    <p style="margin-bottom:8px;font-weight:500;color:var(--text);">No videos yet</p>
+                    <p style="font-size:0.8125rem;max-width:260px;margin:0 auto;line-height:1.6;">Fill in the prompt on the left, pick your ratio and duration, then hit generate. Your finished videos will appear here.</p>
                 </div>`;
         } else {
             videoEl.innerHTML = videoJobs.map(j => `
@@ -1316,7 +1354,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             imageEl.innerHTML = `
                 <div class="empty-state">
                     <div class="empty-icon">🖼️</div>
-                    <p>No images yet. Create your first one!</p>
+                    <p style="margin-bottom:8px;font-weight:500;color:var(--text);">No images yet</p>
+                    <p style="font-size:0.8125rem;max-width:260px;margin:0 auto;line-height:1.6;">Describe the image you want, choose a ratio and model, then generate. Results appear here in seconds.</p>
                 </div>`;
         } else {
             imageEl.innerHTML = imageJobs.map(j => `
@@ -1356,8 +1395,23 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         setTimeout(() => el.classList.remove('show'), 3500);
     }
 
+    function fillPrompt(text) {
+        const el = document.getElementById('promptInput');
+        el.value = text;
+        el.focus();
+        el.setSelectionRange(text.length, text.length);
+    }
+
+    function fillImgPrompt(text) {
+        const el = document.getElementById('imgPromptInput');
+        el.value = text;
+        el.focus();
+        el.setSelectionRange(text.length, text.length);
+    }
+
     async function checkHealth() {
         const statusEl = document.getElementById('apiStatus');
+        statusEl.querySelector('.dot').style.animation = 'pulse 1.2s ease-in-out infinite';
         try {
             const res = await fetch(`${API_BASE}/api/me`, {
                 headers: { 'X-API-Key': apiKey || 'test' }
@@ -1370,6 +1424,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             statusEl.classList.add('error');
             statusEl.querySelector('span').textContent = 'Offline';
         }
+        statusEl.querySelector('.dot').style.animation = '';
     }
 
     // ══ Tour Studio ══
@@ -1558,18 +1613,21 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         updatePriceLabel();
     }
     </script>
-    <!-- Payment Modal -->
     <div id="paymentModal" style="display:none; position:fixed; inset:0; z-index:2000; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); align-items:center; justify-content:center;">
         <div style="background:var(--bg-card); border:1px solid var(--border); border-radius:16px; padding:28px; width:100%; max-width:420px; margin:20px;">
-            <h3 style="margin:0 0 4px; font-size:1.1rem;">Pay with PayNow</h3>
-            <p id="paymentDesc" style="margin:0 0 20px; color:var(--text-muted); font-size:0.85rem;">Scan the QR code with your banking app after confirming</p>
+            <h3 style="margin:0 0 4px; font-size:1.1rem;">Confirm Payment</h3>
+            <p id="paymentDesc" style="margin:0 0 20px; color:var(--text-muted); font-size:0.85rem;">Review your order below, then enter your card details.</p>
 
             <div style="background:var(--bg-elevated); border-radius:10px; padding:14px; margin-bottom:16px;">
                 <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
                     <span style="color:var(--text-muted); font-size:0.8rem;">Duration</span>
                     <span id="payDuration" style="font-weight:600;">5s</span>
                 </div>
-                <div style="display:flex; justify-content:space-between;">
+                <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+                    <span style="color:var(--text-muted); font-size:0.8rem;">Deliverable</span>
+                    <span style="font-weight:600; font-size:0.85rem;">1 AI-generated video</span>
+                </div>
+                <div style="border-top:1px solid var(--border); margin:10px 0; padding-top:10px; display:flex; justify-content:space-between;">
                     <span style="color:var(--text-muted); font-size:0.8rem;">Total</span>
                     <span id="payAmount" style="font-weight:700; color:var(--accent-secondary); font-size:1.1rem;">S$5.00</span>
                 </div>
@@ -1580,9 +1638,9 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 
             <button id="payBtn" onclick="confirmPayment()" class="btn btn-primary" style="width:100%; margin-bottom:10px;">
                 <span id="paySpinner" style="display:none;">Processing...</span>
-                <span id="payBtnText">Pay & Generate</span>
+                <span id="payBtnText">Pay & Generate Video</span>
             </button>
-            <button onclick="closePaymentModal()" class="btn btn-secondary" style="width:100%;">Cancel</button>
+            <button onclick="closePaymentModal()" class="btn btn-secondary" style="width:100%;">Cancel — Go Back</button>
         </div>
     </div>
 
