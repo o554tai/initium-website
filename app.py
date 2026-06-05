@@ -1859,9 +1859,87 @@ def api_instagram_publish():
         print(f"[META] Publish failed for {agent_name}: {e}")
         return jsonify({"error": str(e)}), 500
 
-# ═══════════════════════════════════════════════════════════
+
+# ═════════════════════════════════════════════════════════════════════════════
+# AI CAPTION GENERATOR (Template-based — no external API needed)
+# ═════════════════════════════════════════════════════════════════════════════
+
+import random
+
+_CAPTION_HOOKS = [
+    "This isn't just a unit. It's the layout you actually want to live in.",
+    "Some projects get the details right. This is one of them.",
+    "Location matters. But so does how the space actually feels.",
+    "The difference between browsing and buying? Walking the actual unit.",
+    "Not every new launch is worth the wait. This one might be.",
+    "Stop scrolling. Start viewing.",
+    "The numbers work. The space works harder.",
+    "Premium doesn't have to mean overpriced.",
+    "What if your next home was already waiting?",
+    "Rarely does a project tick this many boxes.",
+]
+
+_CAPTION_BODIES = [
+    "Unblocked views, functional layouts, and a developer that delivers. Worth a closer look.",
+    "Smart design meets solid location. If you're in the market, add this to your shortlist.",
+    "Good light. Good flow. Good proximity to what matters. That's the brief — and it checks out.",
+    "We've walked the showflat. The materials, spacing, and finishing hold up under scrutiny.",
+    "Competitive psf, strong surrounding infrastructure, and a unit mix that makes sense.",
+    "It's not about hype. It's about whether the space works for real life. This one does.",
+    "The kind of project where you stop comparing and start calculating.",
+    "For buyers who read floor plans before marketing brochures.",
+    "Well-connected, well-designed, and surprisingly well-priced for what you get.",
+    "If you've been waiting for the right entry point, this might be it.",
+]
+
+_CAPTION_CLOSERS = [
+    "DM us to arrange a private viewing. No pressure, just facts.",
+    "Want the full stack — floor plans, pricing, availability? Drop us a message.",
+    "We don't do hard sells. We do honest walkthroughs. Let's go.",
+    "Serious buyers only. Let's talk numbers.",
+    "Viewing slots are limited. Priority to registered interest.",
+    "Ask us what other agents won't tell you.",
+    "Ready when you are. Link in bio or DM directly.",
+]
+
+_HASHTAG_SETS = [
+    "#SingaporeProperty #NewLaunch #PropertyInvestment #SGRealEstate #INITIUM",
+    "#SGProperty #CondoLiving #DistrictUpgrade #RealEstateSG #INITIUM",
+    "#PropertySingapore #NewLaunch2026 #HomeHunting #InvestmentProperty #INITIUM",
+    "#SingaporeHomes #PropertyMarket #LuxuryLiving #DistrictLiving #INITIUM",
+    "#SGHomes #RealEstateInvesting #NewCondo #PropertyTalk #INITIUM",
+]
+
+
+def _generate_caption_with_ai(context: str, media_type: str) -> str:
+    """Generate a property marketing caption using rotating templates."""
+    hook = random.choice(_CAPTION_HOOKS)
+    body = random.choice(_CAPTION_BODIES)
+    closer = random.choice(_CAPTION_CLOSERS)
+    hashtags = random.choice(_HASHTAG_SETS)
+
+    lines = [hook, "", body, "", closer, "", hashtags]
+    return "\n".join(lines)
+
+
+@app.route("/api/my/instagram/generate-caption", methods=["POST"])
+@require_api_key
+def api_instagram_generate_caption():
+    """Generate an AI-powered Instagram caption (template-based)."""
+    data = request.get_json(force=True) or {}
+    context = data.get("context", "").strip()
+    media_type = data.get("media_type", "IMAGE").strip().upper()
+
+    try:
+        caption = _generate_caption_with_ai(context, media_type)
+        return jsonify({"caption": caption})
+    except Exception as e:
+        print(f"[AI Caption] Failed: {e}")
+        return jsonify({"error": str(e)}), 500
+
+# ═════════════════════════════════════════════════════════════════════════════
 # WEBHOOK — Lead Auto-Capture (Meta / Direct)
-# ═══════════════════════════════════════════════════════════
+# ═════════════════════════════════════════════════════════════════════════════
 
 META_PAGE_TOKEN = os.environ.get("META_PAGE_TOKEN", "")
 WEBHOOK_SECRET = os.environ.get("WEBHOOK_SECRET", "")
