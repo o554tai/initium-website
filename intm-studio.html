@@ -1409,6 +1409,50 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         el.setSelectionRange(text.length, text.length);
     }
 
+    async function enhancePrompt(mode) {
+        const descId = mode === 'video' ? 'aiVideoDesc' : 'aiImgDesc';
+        const btnId = mode === 'video' ? 'aiVideoBtn' : 'aiImgBtn';
+        const spinnerId = mode === 'video' ? 'aiVideoSpinner' : 'aiImgSpinner';
+        const btnTextId = mode === 'video' ? 'aiVideoBtnText' : 'aiImgBtnText';
+        const targetId = mode === 'video' ? 'promptInput' : 'imgPromptInput';
+
+        const description = document.getElementById(descId).value.trim();
+        if (!description) return toast('Describe what you want first', 'error');
+
+        const btn = document.getElementById(btnId);
+        const spinner = document.getElementById(spinnerId);
+        const btnText = document.getElementById(btnTextId);
+
+        btn.disabled = true;
+        spinner.style.display = 'block';
+        btnText.textContent = 'Thinking...';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/enhance-prompt`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify({ description, mode })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to generate prompt');
+
+            const target = document.getElementById(targetId);
+            target.value = data.prompt;
+            target.focus();
+            target.setSelectionRange(data.prompt.length, data.prompt.length);
+            toast('Prompt generated! Review and tweak it before generating.', 'success');
+        } catch (e) {
+            toast(e.message, 'error');
+        } finally {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.textContent = 'Generate';
+        }
+    }
+
     async function checkHealth() {
         const statusEl = document.getElementById('apiStatus');
         statusEl.querySelector('.dot').style.animation = 'pulse 1.2s ease-in-out infinite';

@@ -637,6 +637,176 @@ def serve_upload(filename):
 
 
 # ═══════════════════════════════════════════════════════════
+# AI PROMPT ENHANCER
+# ═══════════════════════════════════════════════════════════
+
+import random
+
+# Keyword-to-fragment mappings for smart prompt expansion
+_VIDEO_KEYWORDS = {
+    "condo": ["modern Singapore condominium", "floor-to-ceiling windows", "city skyline view"],
+    "landed": ["luxury landed property", "tropical garden", "private driveway"],
+    "hdb": ["HDB flat", "spacious living area", "natural daylight"],
+    "showroom": ["property showroom", "polished interiors", "ambient lighting"],
+    "walkthrough": ["smooth camera walkthrough", "steady dolly movement", "cinematic pacing"],
+    "tour": ["guided property tour", "slow pan across rooms", "revealing shots"],
+    "agent": ["professional real estate agent", "confident posture", "approachable expression"],
+    "intro": ["agent introduction", "clean background", "soft studio lighting"],
+    "drone": ["aerial drone shot", "bird's eye view", "sweeping landscape"],
+    "sunset": ["golden hour lighting", "warm amber tones", "dramatic sky"],
+    "luxury": ["premium finishes", "marble accents", "designer furnishings"],
+    "family": ["family-friendly space", "open-plan living", "warm atmosphere"],
+    "investment": ["prime investment property", "high rental yield area", "strong capital appreciation"],
+}
+
+_IMAGE_KEYWORDS = {
+    "condo": ["modern Singapore condo interior", "sleek finishes", "panoramic windows"],
+    "landed": ["elegant landed home", "lush landscaping", "grand entrance"],
+    "hdb": ["spacious HDB interior", "bright and airy", "functional layout"],
+    "exterior": ["property exterior shot", "blue hour lighting", "professional real estate photography"],
+    "interior": ["luxurious interior design", "warm ambient lighting", "high-end finishes"],
+    "kitchen": ["modern kitchen", "marble countertops", "premium appliances"],
+    "bedroom": ["master bedroom suite", "soft natural light", "plush furnishings"],
+    "living": ["spacious living room", "designer sofa", "statement lighting"],
+    "bathroom": ["spa-like bathroom", "marble tiles", "rain shower"],
+    "balcony": ["private balcony", "outdoor seating", "city view"],
+    "pool": ["infinity pool", "tropical poolside", "resort-style living"],
+    "agent": ["professional headshot", "modern office backdrop", "confident expression"],
+    "floorplan": ["3D floor plan render", "isometric view", "clean line art"],
+    "aerial": ["aerial property view", "drone photography", "surrounding neighbourhood"],
+}
+
+_CAMERA_MOVEMENTS = [
+    "slow dolly forward",
+    "gentle pan from left to right",
+    "steady tracking shot",
+    "smooth orbit around the subject",
+    "gradual pull-back reveal",
+]
+
+_LIGHTING_MOODS = [
+    "warm golden hour sunlight streaming through windows",
+    "soft diffused natural light with subtle shadows",
+    "dramatic evening ambient lighting",
+    "bright and airy daylight photography",
+    "cinematic low-key lighting with warm tones",
+]
+
+_CINEMATIC_QUALITIES = [
+    "4K resolution, cinematic colour grading",
+    "shallow depth of field, film-like quality",
+    "crisp detail, professional real estate cinematography",
+    "smooth motion, high dynamic range",
+]
+
+def _enhance_prompt(description: str, mode: str = "video") -> str:
+    """Expand a simple description into a detailed AI generation prompt.
+    
+    Uses keyword matching + random cinematic fragments.
+    Falls back to OpenAI if OPENAI_API_KEY is configured.
+    """
+    description_lower = description.lower()
+    keywords_map = _VIDEO_KEYWORDS if mode == "video" else _IMAGE_KEYWORDS
+    
+    # Extract matched keywords
+    matched_fragments = []
+    for keyword, fragments in keywords_map.items():
+        if keyword in description_lower:
+            matched_fragments.extend(fragments)
+    
+    # If no keywords matched, use the description as-is with generic enhancers
+    if not matched_fragments:
+        matched_fragments = [description]
+    
+    # Deduplicate while preserving order
+    seen = set()
+    unique_fragments = []
+    for f in matched_fragments:
+        if f not in seen:
+            seen.add(f)
+            unique_fragments.append(f)
+    
+    # Build the prompt
+    if mode == "video":
+        camera = random.choice(_CAMERA_MOVEMENTS)
+        lighting = random.choice(_LIGHTING_MOODS)
+        quality = random.choice(_CINEMATIC_QUALITIES)
+        subject = ", ".join(unique_fragments[:3])
+        prompt = f"{camera} of {subject}. {lighting}. {quality}. Professional real estate video, smooth and steady motion."
+    else:
+        lighting = random.choice(_LIGHTING_MOODS)
+        quality = random.choice(_CINEMATIC_QUALITIES)
+        subject = ", ".join(unique_fragments[:3])
+        prompt = f"{subject}. {lighting}. {quality}. Ultra-detailed, photorealistic."
+    
+    # Try OpenAI if available for even better results
+    openai_key = os.environ.get("OPENAI_API_KEY", "")
+    if openai_key and len(openai_key) > 20:
+        try:
+            return _enhance_prompt_with_openai(description, mode, openai_key)
+        except Exception:
+            pass  # Fall back to template
+    
+    return prompt
+
+
+def _enhance_prompt_with_openai(description: str, mode: str, api_key: str) -> str:
+    """Call OpenAI to generate a detailed prompt."""
+    system_msg = (
+        "You are an expert prompt engineer for AI video and image generation. "
+        "Transform simple user descriptions into detailed, vivid prompts that produce "
+        "high-quality real estate content. Include camera movement, lighting, mood, "
+        "and specific visual details. Keep prompts under 150 words."
+    )
+    user_msg = f"Create a detailed {mode} generation prompt for: {description}"
+    
+    payload = json.dumps({
+        "model": "gpt-4o-mini",
+        "messages": [
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 300,
+    }).encode("utf-8")
+    
+    req = urllib.request.Request(
+        "https://api.openai.com/v1/chat/completions",
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+        },
+        method="POST",
+    )
+    
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
+        return data["choices"][0]["message"]["content"].strip()
+
+
+@app.route("/api/enhance-prompt", methods=["POST"])
+@require_api_key
+def api_enhance_prompt():
+    """Enhance a simple description into a detailed AI generation prompt."""
+    data = request.get_json(force=True) or {}
+    description = data.get("description", "").strip()
+    mode = data.get("mode", "video").lower()
+    
+    if not description:
+        return jsonify({"error": "Description is required"}), 400
+    if mode not in ("video", "image"):
+        mode = "video"
+    
+    try:
+        enhanced = _enhance_prompt(description, mode)
+        return jsonify({"prompt": enhanced, "mode": mode})
+    except Exception as e:
+        print(f"[Enhance Prompt] Failed: {e}")
+        return jsonify({"error": str(e)}), 500
+
+
+# ═══════════════════════════════════════════════════════════
 # PAYMENT API (Stripe)
 # ═══════════════════════════════════════════════════════════
 
