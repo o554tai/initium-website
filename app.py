@@ -1558,7 +1558,7 @@ def api_my_stats():
 META_APP_ID = os.environ.get("META_APP_ID", "")
 META_APP_SECRET = os.environ.get("META_APP_SECRET", "")
 META_REDIRECT_URI = os.environ.get("META_REDIRECT_URI", "https://initium-video-studio.onrender.com/auth/meta/callback")
-META_OAUTH_SCOPES = "instagram_basic,instagram_content_publish,pages_read_engagement,pages_show_list"
+META_OAUTH_SCOPES = "instagram_basic,instagram_content_publish,instagram_manage_insights,pages_read_engagement,pages_show_list"
 
 # File-based state store for OAuth CSRF protection (survives Render workers + restarts)
 _OAUTH_STATE_JSON = BASE_DIR / "oauth_states.json"
