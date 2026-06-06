@@ -1,0 +1,13 @@
+AAPL | $307.34 | 📈 TREND UP | RSI 60.8 | EMA bullish, RSI 60.8
+TSLA | $391.00 | 📈 TREND UP | RSI 40.4 | EMA bullish, RSI 40.4
+NVDA | $205.10 | 📈 TREND UP | RSI 44.0 | EMA bullish, RSI 44.0
+AMD | $466.38 | 📈 TREND UP | RSI 54.5 | EMA bullish, RSI 54.5
+COIN | $152.40 | 📉 TREND DOWN | RSI 33.1 | EMA bearish, RSI 33.1
+MSFT | $416.67 | 📈 TREND UP | RSI 47.7 | EMA bullish, RSI 47.7
+AMZN | $246.03 | 🔴 SELL | RSI 37.8 | EMA crossunder (259.28 < 259.70)
+PLTR | $135.53 | 📈 TREND UP | RSI 44.8 | EMA bullish, RSI 44.8
+D05.SI | $63.78 | 📈 TREND UP | RSI 71.3 | EMA bullish, RSI 71.3
+U11.SI | $38.55 | 📈 TREND UP | RSI 67.9 | EMA bullish, RSI 67.9
+O39.SI | $23.94 | 📈 TREND UP | RSI 64.8 | EMA bullish, RSI 64.8
+SPY | $737.55 | 📈 TREND UP | RSI 49.5 | EMA bullish, RSI 49.5
+QQQ | $705.06 | 📈 TREND UP | RSI 48.3 | EMA bullish, RSI 48.3

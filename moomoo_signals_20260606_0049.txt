@@ -1,0 +1,5 @@
+AMD | $466.38 | 📈 TREND UP | RSI 54.5 | EMA bullish, RSI 54.5
+COIN | $152.40 | 📉 TREND DOWN | RSI 33.1 | EMA bearish, RSI 33.1
+PLTR | $135.53 | 📈 TREND UP | RSI 44.8 | EMA bullish, RSI 44.8
+MSFT | $416.67 | 📈 TREND UP | RSI 47.7 | EMA bullish, RSI 47.7
+AMZN | $246.03 | 🔴 SELL | RSI 37.8 | EMA crossunder (259.28 < 259.70)
