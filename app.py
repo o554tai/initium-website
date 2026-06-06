@@ -20,6 +20,7 @@ import time
 import secrets
 import urllib.request
 import urllib.parse
+import urllib.error
 from datetime import datetime
 from pathlib import Path
 
@@ -791,10 +792,57 @@ def _build_image_prompt(description: str) -> str:
     return f"{subject}. {lighting}. {style}. {closer}"
 
 
+def _enhance_prompt_with_kimi(description: str, mode: str, api_key: str) -> str:
+    """Call Moonshot/Kimi API to generate a detailed prompt."""
+    system_msg = (
+        "You are an expert prompt engineer for AI video and image generation. "
+        "Transform simple user descriptions into detailed, vivid prompts that produce "
+        "high-quality real estate content. Include camera movement, lighting, mood, "
+        "and specific visual details. Keep prompts under 150 words."
+    )
+    user_msg = f"Create a detailed {mode} generation prompt for: {description}"
+
+    payload = json.dumps({
+        "model": "kimi-k2.6",
+        "messages": [
+            {"role": "system", "content": system_msg},
+            {"role": "user", "content": user_msg}
+        ],
+        "temperature": 0.7,
+        "max_tokens": 300,
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.moonshot.cn/v1/chat/completions",
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {api_key}",
+        },
+        method="POST",
+    )
+
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        data = json.loads(resp.read().decode("utf-8"))
+        return data["choices"][0]["message"]["content"].strip()
+
+
 def _enhance_prompt(description: str, mode: str = "video") -> str:
     """Expand a simple description into a detailed AI generation prompt.
-    Pure template-based — no external APIs required.
+    Tries Kimi first, falls back to template-based builder on any error.
     """
+    kimi_key = os.environ.get("KIMI_API_KEY", "")
+    if kimi_key and len(kimi_key) > 20:
+        try:
+            return _enhance_prompt_with_kimi(description, mode, kimi_key)
+        except urllib.error.HTTPError as e:
+            if e.code == 401:
+                print(f"[Enhance Prompt] Kimi 401 — account issue, using templates")
+            else:
+                print(f"[Enhance Prompt] Kimi HTTP {e.code} — using templates")
+        except Exception as e:
+            print(f"[Enhance Prompt] Kimi failed ({e}) — using templates")
+
     if mode == "video":
         return _build_video_prompt(description)
     return _build_image_prompt(description)
