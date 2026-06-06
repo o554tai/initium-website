@@ -419,3 +419,91 @@ def delete_agent_meta_token(agent_name: str) -> bool:
         return False
     _save_json(AGENT_TOKENS_JSON, filtered)
     return True
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+#  AD PACKAGES (Creative Factory)
+# ═════════════════════════════════════════════════════════════════════════════
+
+AD_PACKAGES_JSON = BASE_DIR / "ad_packages.json"
+
+
+def save_ad_package(data: dict) -> dict:
+    package_id = data.get("id") or str(uuid.uuid4())
+    now = datetime.utcnow().isoformat()
+    payload = {
+        "id": package_id,
+        "agent_name": data.get("agent_name", "").strip(),
+        "project_name": data.get("project_name", "").strip(),
+        "location": data.get("location", "").strip(),
+        "top_year": data.get("top_year", ""),
+        "daily_budget_sgd": data.get("daily_budget_sgd", ""),
+        "duration_days": data.get("duration_days", ""),
+        "angle": data.get("angle", "").strip(),
+        "creative": data.get("creative", {}),
+        "targeting": data.get("targeting", {}),
+        "campaign_name": data.get("campaign_name", "").strip(),
+        "adset_name": data.get("adset_name", "").strip(),
+        "paste_guide": data.get("paste_guide", "").strip(),
+        "whatsapp_caption": data.get("whatsapp_caption", "").strip(),
+        "created_at": data.get("created_at") or now,
+        "updated_at": now,
+    }
+    if USE_REST:
+        try:
+            rows = _rest_post("ops_ad_packages", payload)
+            return rows[0] if rows else payload
+        except Exception as e:
+            if "23505" in str(e) or "duplicate" in str(e).lower():
+                _rest_patch("ops_ad_packages", package_id, payload)
+                return payload
+            raise
+    else:
+        packages = _load_json(AD_PACKAGES_JSON)
+        existing = [p for p in packages if p.get("id") != package_id]
+        existing.append(payload)
+        _save_json(AD_PACKAGES_JSON, existing)
+        return payload
+
+
+def load_ad_packages(agent_name: str | None = None) -> list:
+    if USE_REST:
+        try:
+            params = {"select": "*", "order": "created_at.desc"}
+            if agent_name:
+                params["agent_name"] = f"eq.{agent_name}"
+            return _rest_get("ops_ad_packages", params)
+        except Exception:
+            return []
+    else:
+        packages = _load_json(AD_PACKAGES_JSON)
+        if agent_name:
+            packages = [p for p in packages if p.get("agent_name", "").lower() == agent_name.lower()]
+        return sorted(packages, key=lambda x: x.get("created_at", ""), reverse=True)
+
+
+def get_ad_package(package_id: str) -> dict | None:
+    if USE_REST:
+        try:
+            rows = _rest_get("ops_ad_packages", {"id": f"eq.{package_id}"})
+            return rows[0] if rows else None
+        except Exception:
+            return None
+    else:
+        for p in _load_json(AD_PACKAGES_JSON):
+            if p.get("id") == package_id:
+                return p
+        return None
+
+
+def delete_ad_package(package_id: str) -> bool:
+    if USE_REST:
+        _rest_delete("ops_ad_packages", package_id)
+        return True
+    else:
+        packages = _load_json(AD_PACKAGES_JSON)
+        filtered = [p for p in packages if p.get("id") != package_id]
+        if len(filtered) == len(packages):
+            return False
+        _save_json(AD_PACKAGES_JSON, filtered)
+        return True

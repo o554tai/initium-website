@@ -2332,7 +2332,321 @@ def ops_webhook_lead():
     return jsonify({"message": "Created", "count": len(created), "ids": created}), 201
 
 
-# ═══════════════════════════════════════════════════════════
+# ═════════════════════════════════════════════════════════════════════════════
+#  AD LAUNCH — Creative Factory (B-Mode: paste guide only)
+# ═════════════════════════════════════════════════════════════════════════════
+
+META_AD_SCOPES = "ads_management,ads_read,business_management"
+META_AD_REDIRECT_URI = os.environ.get("META_AD_REDIRECT_URI", "https://initium-video-studio.onrender.com/auth/meta/ads/callback")
+
+
+def _resolve_ad_account(access_token: str) -> dict | None:
+    """Fetch the first active ad account for this user."""
+    url = (
+        f"https://graph.facebook.com/v25.0/me/adaccounts"
+        f"?access_token={access_token}"
+        f"&fields=id,name,account_status"
+    )
+    try:
+        data = _meta_graph_get(url)
+        accounts = data.get("data", [])
+        for acc in accounts:
+            if acc.get("account_status") == 1:  # 1 = active
+                return {
+                    "ad_account_id": acc.get("id"),
+                    "ad_account_name": acc.get("name"),
+                }
+        return {"ad_account_id": accounts[0].get("id"), "ad_account_name": accounts[0].get("name")} if accounts else None
+    except Exception as e:
+        print(f"[META ADS] Ad account resolution failed: {e}")
+        return None
+
+
+@app.route("/api/my/ad-launch/connect", methods=["GET"])
+@require_api_key
+def api_ad_launch_connect():
+    """Return Meta OAuth URL for ad account connection."""
+    if not META_APP_ID:
+        return jsonify({"error": "Meta app not configured"}), 503
+    agent_name = _my_name()
+    state = _make_oauth_state(agent_name)
+    scopes = urllib.parse.quote(META_AD_SCOPES, safe="")
+    oauth_url = (
+        f"https://www.facebook.com/v25.0/dialog/oauth"
+        f"?client_id={META_APP_ID}"
+        f"&redirect_uri={urllib.parse.quote(META_AD_REDIRECT_URI, safe='')}"
+        f"&scope={scopes}"
+        f"&response_type=code"
+        f"&state={state}"
+    )
+    return jsonify({"oauth_url": oauth_url})
+
+
+@app.route("/auth/meta/ads/callback", methods=["GET"])
+def meta_ads_callback():
+    """Handle Meta Ads OAuth redirect."""
+    code = request.args.get("code", "").strip()
+    state = request.args.get("state", "").strip()
+    error = request.args.get("error", "").strip()
+    error_reason = request.args.get("error_reason", "").strip()
+    error_description = request.args.get("error_description", "").strip()
+
+    if error:
+        return jsonify({"error": error, "reason": error_reason, "description": error_description}), 400
+
+    agent_name = _verify_oauth_state(state)
+    if not agent_name:
+        return jsonify({"error": "Invalid or expired state. Please try again."}), 400
+
+    if not code:
+        return jsonify({"error": "Missing authorization code"}), 400
+
+    short_token = _exchange_code_for_token(code)
+    if not short_token:
+        return jsonify({"error": "Failed to exchange authorization code"}), 500
+
+    long_token = _exchange_for_long_lived_token(short_token)
+    if not long_token:
+        long_token = short_token
+
+    ad_info = _resolve_ad_account(long_token)
+    if not ad_info:
+        return jsonify({"error": "No Meta Ad Account found. Ensure you have admin access to a Business Manager ad account."}), 400
+
+    # Update or create token entry with ad account fields
+    existing = db.get_agent_meta_token(agent_name) or {}
+    db.save_agent_meta_token({
+        "agent_name": agent_name,
+        "access_token": long_token,
+        "ig_business_account_id": existing.get("ig_business_account_id", ""),
+        "page_id": existing.get("page_id", ""),
+        "page_name": existing.get("page_name", ""),
+        "ad_account_id": ad_info.get("ad_account_id", ""),
+        "ad_account_name": ad_info.get("ad_account_name", ""),
+    })
+
+    return """<!DOCTYPE html>
+<html><head><meta charset="utf-8"><title>Meta Ads Connected</title>
+<style>body{font-family:system-ui,sans-serif;background:#0a0a0a;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;text-align:center;}
+.card{background:#141414;border:1px solid #2a2a2a;border-radius:16px;padding:40px;max-width:400px;}
+.icon{font-size:48px;margin-bottom:16px;}
+h2{margin:0 0 8px;font-size:1.4rem;}
+p{color:#94a3b8;margin:0 0 20px;}
+.btn{background:#50C878;color:#000;border:none;padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block;}
+</style></head>
+<body>
+<div class="card">
+<div class="icon">✅</div>
+<h2>Meta Ads Connected</h2>
+<p>Your Meta Ads account is now linked. You can close this window and return to INTM Studio.</p>
+<a class="btn" href="/intm-studio.html">Open INTM Studio</a>
+</div>
+</body></html>""", 200
+
+
+@app.route("/api/my/ad-launch/status", methods=["GET"])
+@require_api_key
+def api_ad_launch_status():
+    """Return ad account connection status."""
+    agent_name = _my_name()
+    token_data = db.get_agent_meta_token(agent_name)
+    if not token_data or not token_data.get("ad_account_id"):
+        return jsonify({"connected": False})
+    return jsonify({
+        "connected": True,
+        "ad_account_name": token_data.get("ad_account_name", ""),
+        "ad_account_id": token_data.get("ad_account_id", ""),
+    })
+
+
+@app.route("/api/my/ad-launch/disconnect", methods=["DELETE"])
+@require_api_key
+def api_ad_launch_disconnect():
+    """Remove ad account fields from agent token."""
+    agent_name = _my_name()
+    existing = db.get_agent_meta_token(agent_name)
+    if existing:
+        existing.pop("ad_account_id", None)
+        existing.pop("ad_account_name", None)
+        existing.pop("access_token", None)
+        db.save_agent_meta_token(existing)
+    return jsonify({"message": "Disconnected"})
+
+
+@app.route("/api/my/ad-launch/packages", methods=["POST"])
+@require_api_key
+def api_ad_launch_generate():
+    """Generate a launch package from project brief and save it."""
+    data = request.get_json(force=True) or {}
+    agent_name = _my_name()
+
+    project_name = data.get("project_name", "").strip()
+    location = data.get("location", "").strip()
+    top_year = str(data.get("top_year", "")).strip()
+    daily_budget = str(data.get("daily_budget_sgd", "")).strip()
+    duration = str(data.get("duration_days", "")).strip()
+    angle = data.get("angle", "urgency").strip().lower()
+
+    if not project_name or not location:
+        return jsonify({"error": "project_name and location are required"}), 400
+
+    safe_project = project_name.replace(" ", "_")[:20]
+    safe_location = location.replace(" ", "_")[:15]
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    campaign_name = f"INITIUM_{safe_project}_{safe_location}_{today}"
+    adset_name = f"INITIUM_{safe_project}_SG_35-55_FeedReels"
+
+    # Creative angles
+    creatives = {
+        "urgency": {
+            "headline": f"Only a few units left at {project_name}",
+            "body": f"{project_name} in {location} is moving fast. TOP {top_year}. Buyers who wait lose out on the best stacks and views. Drop me a message before the last units are taken.",
+            "cta": "Message Us Now",
+        },
+        "painkiller": {
+            "headline": f"Tired of overpaying for resale?",
+            "body": f"{project_name} gives you a fresh lease at a fairer entry. {location}, TOP {top_year}. Why buy old when you can buy new? Let me walk you through the stack and pricing.",
+            "cta": "See Pricing",
+        },
+        "financial": {
+            "headline": f"{project_name}: The numbers that matter",
+            "body": f"PSF, maintenance, rental yield — I break it down plainly. {project_name}, {location}, TOP {top_year}. No fluff, just facts. Ask for my one-page financial summary.",
+            "cta": "Get Financial Summary",
+        },
+        "retargeting": {
+            "headline": f"Still thinking about {project_name}?",
+            "body": f"You looked, you considered — but you didn’t act. {project_name} in {location} (TOP {top_year}) still has options. Let me show you what changed this week.",
+            "cta": "See Latest Units",
+        },
+    }
+
+    targeting = {
+        "locations": ["Singapore"],
+        "age_min": 35,
+        "age_max": 55,
+        "placements": ["Feed", "Reels", "Stories"],
+        "languages": ["en"],
+    }
+
+    total_budget = float(daily_budget or 0) * float(duration or 0)
+
+    paste_guide = f"""META ADS MANAGER SETUP GUIDE
+============================
+Campaign: {campaign_name}
+Ad Set:   {adset_name}
+
+STEP 1 — CREATE CAMPAIGN
+- Objective: LEADS or AWARENESS (choose based on your funnel stage)
+- Campaign Name: {campaign_name}
+- Buying Type: Advantage+ placements (recommended)
+- Budget: S${daily_budget}/day for {duration} days (Total ~S${total_budget:.0f})
+
+STEP 2 — AD SET
+- Ad Set Name: {adset_name}
+- Conversion Location: Messaging Apps (WhatsApp/Messenger) or Instant Forms
+- Budget: S${daily_budget}/day
+- Audience:
+  * Locations: Singapore
+  * Age: 35–55
+  * Languages: English
+  * Placements: Feed, Reels, Stories (manual selection recommended for property)
+- Exclude: Current INITIUM clients (if you have a custom audience)
+
+STEP 3 — CREATIVE (pick the angle below)
+
+[⚡ URGENCY]
+Headline: {creatives['urgency']['headline']}
+Body:     {creatives['urgency']['body']}
+CTA:      {creatives['urgency']['cta']}
+
+[🩺 PAINKILLER]
+Headline: {creatives['painkiller']['headline']}
+Body:     {creatives['painkiller']['body']}
+CTA:      {creatives['painkiller']['cta']}
+
+[💵 FINANCIAL]
+Headline: {creatives['financial']['headline']}
+Body:     {creatives['financial']['body']}
+CTA:      {creatives['financial']['cta']}
+
+[🔄 RETARGETING]
+Headline: {creatives['retargeting']['headline']}
+Body:     {creatives['retargeting']['body']}
+CTA:      {creatives['retargeting']['cta']}
+
+STEP 4 — AD CREATION
+- Primary Text: Use the body text from your chosen angle
+- Headline: Use the headline from your chosen angle
+- CTA Button: Use the CTA from your chosen angle
+- Media: Upload your best 1:1 image or 9:16 Reel of the unit/showflat
+- Destination: WhatsApp Business number or Lead Form
+
+STEP 5 — PUBLISH & MONITOR
+- Review and publish
+- Check back in 24h for Cost Per Lead (CPL)
+- A/B test two angles after 3 days; kill the worse performer
+- Scale budget by 20% if CPL stays under S$15
+
+—————————————————————————————————————————————————————————————————
+Generated by INITIUM Creative Factory | {today}
+Agent: {agent_name}
+"""
+
+    chosen = creatives.get(angle, creatives["urgency"])
+    whatsapp_caption = f"*{chosen['headline']}*\n\n{chosen['body']}\n\n_— {agent_name}, INITIUM"
+
+    package = db.save_ad_package({
+        "agent_name": agent_name,
+        "project_name": project_name,
+        "location": location,
+        "top_year": top_year,
+        "daily_budget_sgd": daily_budget,
+        "duration_days": duration,
+        "angle": angle,
+        "creative": creatives,
+        "targeting": targeting,
+        "campaign_name": campaign_name,
+        "adset_name": adset_name,
+        "paste_guide": paste_guide,
+        "whatsapp_caption": whatsapp_caption,
+    })
+
+    return jsonify({"package": package}), 201
+
+
+@app.route("/api/my/ad-launch/packages", methods=["GET"])
+@require_api_key
+def api_ad_launch_packages():
+    """List saved launch packages for this agent."""
+    agent_name = _my_name()
+    packages = db.load_ad_packages(agent_name)
+    return jsonify({"count": len(packages), "packages": packages})
+
+
+@app.route("/api/my/ad-launch/packages/<package_id>", methods=["GET"])
+@require_api_key
+def api_ad_launch_get_package(package_id):
+    """Get a single launch package."""
+    package = db.get_ad_package(package_id)
+    if not package or package.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Package not found"}), 404
+    return jsonify({"package": package})
+
+
+@app.route("/api/my/ad-launch/packages/<package_id>", methods=["DELETE"])
+@require_api_key
+def api_ad_launch_delete_package(package_id):
+    """Delete a launch package."""
+    package = db.get_ad_package(package_id)
+    if not package or package.get("agent_name", "").lower() != _my_name().lower():
+        return jsonify({"error": "Package not found"}), 404
+    if db.delete_ad_package(package_id):
+        return jsonify({"message": "Package deleted"})
+    return jsonify({"error": "Package not found"}), 404
+
+
+# ═════════════════════════════════════════════════════════════════════════════
 if __name__ == "__main__":
     print(f"\n🚀 INITIUM Video Backend")
     print(f"   Admin key: {ADMIN_KEY[:20]}...")

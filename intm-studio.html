@@ -571,6 +571,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                 <div class="tab" onclick="switchTab('image')" id="tab-image">🖼️ Image Studio</div>
                 <div class="tab" onclick="switchTab('tours')" id="tab-tours">🌍 Tour Studio</div>
                 <div class="tab" onclick="switchTab('templates')" id="tab-templates">📋 Templates</div>
+                <div class="tab" onclick="switchTab('adlaunch')" id="tab-adlaunch">🚀 Ad Launch</div>
             </div>
 
             <!-- Video Panel -->
@@ -880,6 +881,102 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
                     </div>
                 </div>
             </div>
+
+            <!-- Ad Launch Panel -->
+            <div class="tab-panel" id="panel-adlaunch">
+                <div class="studio-grid">
+                    <div>
+                        <div class="panel" id="adConnectPanel">
+                            <h3><span class="icon">🔗</span> Connect Meta Account</h3>
+                            <div id="adConnectStatus" style="margin-bottom:16px;font-size:0.9375rem;">
+                                <span style="color:var(--text-muted);">○ Checking connection...</span>
+                            </div>
+                            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                <button class="btn btn-primary" id="adConnectBtn" onclick="connectMetaAds()">Connect Meta Ads Account</button>
+                                <button class="btn btn-secondary" id="adDisconnectBtn" onclick="disconnectMetaAds()" style="display:none;">Disconnect</button>
+                            </div>
+                        </div>
+
+                        <div class="panel" style="margin-top:24px;">
+                            <h3><span class="icon">📋</span> Project Brief</h3>
+                            <div class="input-group">
+                                <label>Project Name</label>
+                                <input type="text" id="adProjectName" placeholder="e.g. The Orie Launch">
+                            </div>
+                            <div class="input-group">
+                                <label>Location</label>
+                                <input type="text" id="adLocation" placeholder="e.g. Toa Payoh / District 12">
+                            </div>
+                            <div class="input-row">
+                                <div class="input-group">
+                                    <label>TOP Year</label>
+                                    <input type="number" id="adTopYear" placeholder="2026">
+                                </div>
+                                <div class="input-group">
+                                    <label>Daily Budget (SGD)</label>
+                                    <input type="number" id="adDailyBudget" placeholder="50">
+                                </div>
+                                <div class="input-group">
+                                    <label>Duration (days)</label>
+                                    <input type="number" id="adDurationDays" placeholder="7">
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label>Marketing Angle</label>
+                                <select id="adAngle">
+                                    <option value="urgency">Urgency (FOMO)</option>
+                                    <option value="painkiller">Painkiller (Solve problem)</option>
+                                    <option value="financial">Financial (ROI / upside)</option>
+                                    <option value="retargeting">Retargeting (Reminder)</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="generateLaunchPackage()" id="adGenBtn" style="width:100%;">
+                                <span class="spinner" id="adGenSpinner" style="display:none;"></span>
+                                <span id="adGenBtnText">Generate Launch Package</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="panel" id="adPackagePanel" style="display:none;">
+                            <h3><span class="icon">🚀</span> Generated Package</h3>
+                            <div id="adPackageContent">
+                                <div style="margin-bottom:16px;">
+                                    <div style="font-size:0.8125rem;color:var(--text-muted);margin-bottom:4px;">Campaign</div>
+                                    <div id="adCampaignName" style="font-weight:600;"></div>
+                                </div>
+                                <div style="margin-bottom:16px;">
+                                    <div style="font-size:0.8125rem;color:var(--text-muted);margin-bottom:4px;">Ad Set</div>
+                                    <div id="adAdsetName" style="font-weight:600;"></div>
+                                </div>
+                                <div style="margin-bottom:16px;">
+                                    <div style="font-size:0.8125rem;color:var(--text-muted);margin-bottom:8px;">Creatives</div>
+                                    <div id="adCreatives" style="display:flex;flex-direction:column;gap:10px;"></div>
+                                </div>
+                                <div style="margin-bottom:20px;padding:14px;background:var(--bg-elevated);border-radius:12px;border:1px solid var(--border);">
+                                    <div style="font-size:0.8125rem;color:var(--text-muted);margin-bottom:4px;">Targeting Summary</div>
+                                    <div style="font-size:0.875rem;">🇸🇬 Singapore · 35-55 years · Feed / Reels / Stories</div>
+                                </div>
+                                <div style="display:flex;gap:10px;flex-wrap:wrap;">
+                                    <button class="btn btn-sm btn-secondary" onclick="downloadPasteGuide()">📋 Download Paste Guide</button>
+                                    <button class="btn btn-sm btn-secondary" onclick="copyPasteGuide()">📋 Copy Paste Guide</button>
+                                    <button class="btn btn-sm btn-secondary" onclick="copyWhatsAppCaption()">💬 Copy WhatsApp Caption</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel" style="margin-top:24px;min-height:300px;">
+                            <h3><span class="icon">📊</span> Past Packages</h3>
+                            <div class="jobs-list" id="adPackagesList">
+                                <div class="empty-state">
+                                    <div class="empty-icon">📊</div>
+                                    <p>No packages yet. Generate your first launch package.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -909,7 +1006,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             document.getElementById('userName').textContent = data.key.name;
             enterStudio();
             toast(`Welcome, ${data.key.name}!`, 'success');
-            loadJobs();
+            loadJobs(); loadAdLaunchStatus(); loadAdPackages();
         } catch (e) {
             let msg = 'Key not recognised. Ask admin for a current key.';
             if (e.name === 'TypeError' || e.message.includes('fetch')) {
@@ -1637,6 +1734,245 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
         } catch (e) { toast(e.message, 'error'); }
     }
 
+    // ══ Ad Launch ══
+    let currentAdPackage = null;
+
+    async function loadAdLaunchStatus() {
+        try {
+            const res = await fetch(`${API_BASE}/api/my/ad-launch/status`, {
+                headers: { 'X-API-Key': apiKey }
+            });
+            const data = await res.json();
+            const statusEl = document.getElementById('adConnectStatus');
+            const connectBtn = document.getElementById('adConnectBtn');
+            const disconnectBtn = document.getElementById('adDisconnectBtn');
+            if (data.connected) {
+                statusEl.innerHTML = `<span style="color:var(--success);">● Connected (${escapeHtml(data.account_name || 'Meta Ads')})</span>`;
+                connectBtn.style.display = 'none';
+                disconnectBtn.style.display = 'inline-flex';
+            } else {
+                statusEl.innerHTML = `<span style="color:var(--text-muted);">○ Not connected</span>`;
+                connectBtn.style.display = 'inline-flex';
+                disconnectBtn.style.display = 'none';
+            }
+        } catch (e) {
+            console.error('Ad launch status error:', e);
+        }
+    }
+
+    function connectMetaAds() {
+        const oauthUrl = `${API_BASE}/api/my/ad-launch/connect`;
+        const popup = window.open(oauthUrl, 'metaOAuth', 'width=600,height=700');
+        if (!popup) return toast('Popup blocked. Please allow popups for this site.', 'error');
+        const timer = setInterval(() => {
+            if (popup.closed) {
+                clearInterval(timer);
+                loadAdLaunchStatus();
+                toast('Connection refreshed', 'info');
+            }
+        }, 1000);
+    }
+
+    async function disconnectMetaAds() {
+        if (!confirm('Disconnect your Meta Ads account?')) return;
+        try {
+            const res = await fetch(`${API_BASE}/api/my/ad-launch/disconnect`, {
+                method: 'DELETE',
+                headers: { 'X-API-Key': apiKey }
+            });
+            if (!res.ok) throw new Error('Disconnect failed');
+            toast('Meta Ads account disconnected', 'success');
+            loadAdLaunchStatus();
+        } catch (e) {
+            toast(e.message, 'error');
+        }
+    }
+
+    async function generateLaunchPackage() {
+        const payload = {
+            project_name: document.getElementById('adProjectName').value.trim(),
+            location: document.getElementById('adLocation').value.trim(),
+            top_year: parseInt(document.getElementById('adTopYear').value) || null,
+            daily_budget_sgd: parseInt(document.getElementById('adDailyBudget').value) || null,
+            duration_days: parseInt(document.getElementById('adDurationDays').value) || null,
+            angle: document.getElementById('adAngle').value
+        };
+        if (!payload.project_name || !payload.location) return toast('Project name and location are required', 'error');
+
+        const btn = document.getElementById('adGenBtn');
+        const spinner = document.getElementById('adGenSpinner');
+        const btnText = document.getElementById('adGenBtnText');
+        btn.disabled = true;
+        spinner.style.display = 'block';
+        btnText.textContent = 'Generating...';
+
+        try {
+            const res = await fetch(`${API_BASE}/api/my/ad-launch/packages`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-API-Key': apiKey
+                },
+                body: JSON.stringify(payload)
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed');
+
+            currentAdPackage = data.package || data;
+            renderAdPackage(currentAdPackage);
+            toast('Launch package generated!', 'success');
+            loadAdPackages();
+        } catch (e) {
+            toast(e.message, 'error');
+        } finally {
+            btn.disabled = false;
+            spinner.style.display = 'none';
+            btnText.textContent = 'Generate Launch Package';
+        }
+    }
+
+    function renderAdPackage(pkg) {
+        document.getElementById('adPackagePanel').style.display = 'block';
+        document.getElementById('adCampaignName').textContent = escapeHtml(pkg.campaign_name || pkg.project_name || '—');
+        document.getElementById('adAdsetName').textContent = escapeHtml(pkg.adset_name || (pkg.project_name ? pkg.project_name + ' - ' + (pkg.angle || 'General') : '—'));
+
+        const creatives = pkg.creatives || [
+            { headline: `${pkg.project_name || 'Project'} — Limited Units Left`, body: 'Don’t miss out on this exclusive launch in ' + (pkg.location || 'Singapore') + '. Register now for priority viewing.', cta: 'Learn More' },
+            { headline: 'Tired of Overpriced Homes?', body: (pkg.project_name || 'This development') + ' offers the value you’ve been searching for in ' + (pkg.location || 'Singapore') + '.', cta: 'Get Prices' },
+            { headline: 'Strong Capital Appreciation Potential', body: 'With TOP ' + (pkg.top_year || 'soon') + ', ' + (pkg.project_name || 'this project') + ' is positioned for upside.', cta: 'View Floor Plans' },
+            { headline: 'Still Thinking About ' + (pkg.project_name || 'this project') + '?', body: 'Prices adjust soon. Secure your unit in ' + (pkg.location || 'Singapore') + ' before it’s too late.', cta: 'Book Now' }
+        ];
+        const angle = pkg.angle || 'urgency';
+        const angleMap = { urgency: 0, painkiller: 1, financial: 2, retargeting: 3 };
+
+        document.getElementById('adCreatives').innerHTML = creatives.map((c, i) => `
+            <div class="tour-card" style="${i === (angleMap[angle] !== undefined ? angleMap[angle] : 0) ? 'border-color:var(--accent);box-shadow:0 0 0 1px var(--accent);' : ''}">
+                <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Creative ${i+1} ${i === (angleMap[angle] !== undefined ? angleMap[angle] : 0) ? '<span style="color:var(--accent);">★ Recommended</span>' : ''}</div>
+                <div style="font-weight:600;margin-bottom:6px;">${escapeHtml(c.headline)}</div>
+                <div style="font-size:0.875rem;color:var(--text-muted);margin-bottom:8px;line-height:1.5;">${escapeHtml(c.body)}</div>
+                <div style="display:inline-block;padding:4px 10px;border-radius:6px;background:var(--bg);font-size:0.75rem;font-weight:600;">CTA: ${escapeHtml(c.cta)}</div>
+            </div>
+        `).join('');
+
+        document.getElementById('adPackagePanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function buildPasteGuide() {
+        if (!currentAdPackage) return '';
+        const p = currentAdPackage;
+        let guide = `INITIUM Ad Launch Paste Guide\n==============================\nCampaign: ${p.campaign_name || p.project_name}\nAd Set: ${p.adset_name || (p.project_name + ' - ' + (p.angle || 'General'))}\n\nTargeting:\n- Location: Singapore\n- Age: 35-55\n- Placements: Feed, Reels, Stories\n- Budget: S$${p.daily_budget_sgd || '-'} / day for ${p.duration_days || '-'} days\n\nCreatives:\n`;
+        const creatives = p.creatives || [];
+        creatives.forEach((c, i) => {
+            guide += `\n[Creative ${i+1}]\nHeadline: ${c.headline}\nBody: ${c.body}\nCTA: ${c.cta}\n`;
+        });
+        guide += `\n---\nProject: ${p.project_name}\nLocation: ${p.location}\nTOP: ${p.top_year || '-'}\nGenerated: ${new Date().toLocaleString()}\n`;
+        return guide;
+    }
+
+    function downloadPasteGuide() {
+        const text = buildPasteGuide();
+        if (!text) return toast('Generate a package first', 'error');
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${currentAdPackage.project_name || 'ad-launch'}_paste_guide.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        toast('Paste guide downloaded', 'success');
+    }
+
+    function copyPasteGuide() {
+        const text = buildPasteGuide();
+        if (!text) return toast('Generate a package first', 'error');
+        navigator.clipboard.writeText(text).then(() => toast('Paste guide copied', 'success')).catch(() => toast('Copy failed', 'error'));
+    }
+
+    function copyWhatsAppCaption() {
+        if (!currentAdPackage) return toast('Generate a package first', 'error');
+        const p = currentAdPackage;
+        const angle = p.angle || 'urgency';
+        const creatives = p.creatives || [];
+        const angleMap = { urgency: 0, painkiller: 1, financial: 2, retargeting: 3 };
+        const c = creatives[angleMap[angle] !== undefined ? angleMap[angle] : 0] || creatives[0];
+        if (!c) return toast('No creatives found', 'error');
+        const caption = `*${c.headline}*\n\n${c.body}\n\n👉 ${c.cta}\n\n${p.project_name || ''} | ${p.location || ''}${p.top_year ? ' | TOP ' + p.top_year : ''}`;
+        navigator.clipboard.writeText(caption).then(() => toast('WhatsApp caption copied', 'success')).catch(() => toast('Copy failed', 'error'));
+    }
+
+    async function loadAdPackages() {
+        try {
+            const res = await fetch(`${API_BASE}/api/my/ad-launch/packages`, {
+                headers: { 'X-API-Key': apiKey }
+            });
+            if (!res.ok) return;
+            const data = await res.json();
+            renderAdPackages(data.packages || []);
+        } catch (e) { console.error('loadAdPackages error:', e); }
+    }
+
+    function renderAdPackages(packages) {
+        const el = document.getElementById('adPackagesList');
+        if (!packages.length) {
+            el.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">📊</div>
+                    <p>No packages yet. Generate your first launch package.</p>
+                </div>`;
+            return;
+        }
+        el.innerHTML = packages.map(p => `
+            <div class="job-card" style="cursor:pointer;" onclick="loadAdPackageIntoForm('${p.id}')">
+                <div class="job-header">
+                    <span class="job-id">${escapeHtml(p.project_name || 'Untitled')}</span>
+                    <span class="job-status" style="background:rgba(80,200,120,0.15);color:var(--accent);text-transform:capitalize;">${escapeHtml(p.angle || 'general')}</span>
+                </div>
+                <div class="job-meta">
+                    <span>${escapeHtml(p.location || '')}</span>
+                    <span>${new Date(p.created_at).toLocaleString()}</span>
+                </div>
+                <div class="job-actions">
+                    <button class="btn btn-sm btn-secondary" onclick="event.stopPropagation(); deleteAdPackage('${p.id}')">🗑️ Delete</button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    async function loadAdPackageIntoForm(id) {
+        try {
+            const res = await fetch(`${API_BASE}/api/my/ad-launch/packages/${id}`, {
+                headers: { 'X-API-Key': apiKey }
+            });
+            if (!res.ok) throw new Error('Failed to load package');
+            const data = await res.json();
+            const pkg = data.package || data;
+            document.getElementById('adProjectName').value = pkg.project_name || '';
+            document.getElementById('adLocation').value = pkg.location || '';
+            document.getElementById('adTopYear').value = pkg.top_year || '';
+            document.getElementById('adDailyBudget').value = pkg.daily_budget_sgd || '';
+            document.getElementById('adDurationDays').value = pkg.duration_days || '';
+            document.getElementById('adAngle').value = pkg.angle || 'urgency';
+            currentAdPackage = pkg;
+            renderAdPackage(pkg);
+            toast('Package loaded into form', 'success');
+        } catch (e) { toast(e.message, 'error'); }
+    }
+
+    async function deleteAdPackage(id) {
+        if (!confirm('Delete this package permanently?')) return;
+        try {
+            const res = await fetch(`${API_BASE}/api/my/ad-launch/packages/${id}`, {
+                method: 'DELETE',
+                headers: { 'X-API-Key': apiKey }
+            });
+            if (!res.ok) throw new Error('Delete failed');
+            toast('Package deleted', 'success');
+            loadAdPackages();
+        } catch (e) { toast(e.message, 'error'); }
+    }
+
     // ══ Init ══
     loadPricing();
     handlePaymentReturn();
@@ -1647,7 +1983,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
             .then(r => r.ok ? r.json() : Promise.reject())
             .then(d => {
                 document.getElementById('userName').textContent = d.key.name;
-                enterStudio(); loadJobs(); loadTours(); updatePriceLabel();
+                enterStudio(); loadJobs(); loadTours(); updatePriceLabel(); loadAdLaunchStatus(); loadAdPackages();
             })
             .catch((e) => {
                 console.error('Auto-login failed:', e);
