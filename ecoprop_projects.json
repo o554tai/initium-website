@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-06-07T08:01:04.956461+00:00",
+  "scraped_at": "2026-06-07T09:00:22.224065+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3985,7 +3985,7 @@
       "address": "50 Dairy Farm Walk S(679268)\n52 Dairy Farm Walk S(679269)\n54 Dairy Farm Walk S(679270)\n56 Dairy Farm Walk S(679273)\n58 Dairy Farm Walk S(679274)\n60 Dairy Farm Walk S(679275)\n62 Dairy Farm Walk S(679276)\n64 Dairy Farm Walk S(679277)",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 1290000.0,
+      "min_price": 1276000.0,
       "max_price": 4277000.0,
       "currency": "$",
       "units": "544",
