@@ -664,7 +664,17 @@
 
     /* District guide banner */
     const banner = document.getElementById('districtGuideBanner');
-    if (district === 'D10') {
+    const guideDistrict = document.getElementById('guideBannerDistrict');
+    const guideLink = document.getElementById('guideBannerLink');
+    const districtGuides = {
+      'D10': { name: 'District 10', url: 'district-10-property-guide.html' },
+      'D11': { name: 'District 11', url: 'district-11-property-guide.html' },
+      'D15': { name: 'District 15', url: 'district-15-property-guide.html' }
+    };
+    if (districtGuides[district]) {
+      guideDistrict.textContent = districtGuides[district].name;
+      guideLink.textContent = districtGuides[district].name + ' Guide';
+      guideLink.href = districtGuides[district].url;
       banner.style.display = 'block';
     } else {
       banner.style.display = 'none';
