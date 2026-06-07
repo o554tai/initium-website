@@ -392,6 +392,16 @@
   </div>
 </div>
 
+<!-- District Guide Banner -->
+<div class="filter-bar" id="districtGuideBanner" style="display:none; background: var(--ig-light); border-bottom: 1px solid rgba(80,200,120,0.2);">
+  <div class="filter-inner" style="justify-content: center;">
+    <span style="color: var(--ig-dark); font-size: 0.9375rem; font-weight: 500;">
+      📖 Looking at <strong id="guideBannerDistrict">District 10</strong>? Read our complete property guide →
+      <a href="district-10-property-guide.html" id="guideBannerLink" style="color: var(--ig-dark); text-decoration: underline; font-weight: 600; margin-left: 4px;">District 10 Guide</a>
+    </span>
+  </div>
+</div>
+
 <!-- Projects Grid -->
 <section class="projects-section">
   <div class="projects-grid" id="projectsGrid">
@@ -651,6 +661,14 @@
     });
 
     renderProjects(filteredProjects);
+
+    /* District guide banner */
+    const banner = document.getElementById('districtGuideBanner');
+    if (district === 'D10') {
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
   }
 
   /* ========== Event Listeners ========== */
