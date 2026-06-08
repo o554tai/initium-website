@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
-  "total": 327,
-  "scraped_at": "2026-06-08T06:00:25.500934+00:00",
+  "source": "ecoprop.com",
+  "total": 328,
+  "scraped_at": "2026-06-08T07:00:45.457575+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5048,7 +5048,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.311366",
       "longitude": "103.852533",
       "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/7cb6efde8c864a4d9919b4eada4b56ad/imgs/20220329/piccadilly.jpeg"
@@ -6152,6 +6152,31 @@
       "latitude": "1.2781799",
       "longitude": "103.7934625",
       "cover_image": "https://img.singmap.com/upload/broke/da3d9f7796fb41409a7febecd684da42/655c7d587a7943a2b95bed4d0b4bf182/imgs/20221223/e85177a9de134b69b91ef8899a861c28.jpeg"
+    },
+    {
+      "project_name": "The Abode at Devonshire",
+      "district": "D09",
+      "location": "D09 - Orchard / River Valley",
+      "address": "9 Devonshire Road",
+      "property_type": "Residential Lowrise",
+      "tenure": "Freehold",
+      "min_price": 4380000.0,
+      "max_price": 4380000.0,
+      "currency": "$",
+      "units": "26",
+      "completion_date": "",
+      "expected_top": "Dec 2022",
+      "launch_date": [
+        2018,
+        1,
+        18,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.2979355464453475",
+      "longitude": "103.83777113966684",
+      "cover_image": "https://img.singmap.com/upload/broke/c0a207ddbb1a4e209599077d1b8babd9/daf7852230c7409c9ff3bc1a8758570b/imgs/20260608/b3d23cd2daf9441fa2d9dd6b84b61e0f.jpeg"
     },
     {
       "project_name": "The Alps Residences",
