@@ -1,14 +1,5 @@
 [
   {
-    "title": "Are executive condominiums increasingly out of reach for aspiring HDB upgraders? - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxPVVV2cFNRc21tNW5YUFVZX3BoNm5LbGh0Sjl5TjZZc1pwelJ3ZTVBaU9qN001YlVGRldiVGlyb1JDd1otY1d6dWtwczNjSHdWeTRvMm91UEw4Q0poV0QzaFlfcVBvSnN3TEhuLTJpTGRRODAwR2huSHVOcHB0SWd2aExEcllJUVVMV1A1Tk1oeHpyQWkzTWFnVUZzZy12X0k2X3k4bHNYNVNKTzJnczVzdTdxVDViYXM?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Sun, 31 May 2026 21:00:00 GMT",
-    "pub_ts": 1780261200.0,
-    "fetched_ts": 1780293662.272995,
-    "source_tag": "ST"
-  },
-  {
     "title": "Vietjet to launch direct flights between Singapore and Nha Trang in Vietnam - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxQMkNsYUhKRTI4YV9aTU1hVjYwVlo4MFlYODQwWV81d185Q05VVmJFNy1pUVdybXZaQU5lbWh0VzJUUFJYOXRvSDhIWHRCSkxzc0RrMkpJdTRaWW9pQjl1YTBFME9lSWJTWGgtczZjS3RKVGV4b3ZHMm9aOW05czQ3cXljVUVFZzhUck12VkFfLW5nQ3VEOTJpM25uRmpoclhQWXlmRklPMVNuUUt1UG0yNGVjUVI?oc=5",
     "source": "The Straits Times",
@@ -16,15 +7,6 @@
     "pub_ts": 1780279200.0,
     "fetched_ts": 1780293662.273143,
     "source_tag": "ST"
-  },
-  {
-    "title": "Three farms affected by Lim Chu Kang land-use changes seek lease extensions as expiry dates draw near - CNA",
-    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNcGQ3cXB2bEdIWEFnNVh6R3N1ZngtSmE1M1ZrQ2NVNXJ5RGhHV3EtY3dhN3FzbDFHU3JGSXlOZHZwWTllMmUwT09IWGl4OFRMQXdySmxhdkFrMnh3Ym5zaVNfS0thWC16N2VoSHFueFRrTm5JaEFUMHNHdGpEc19Fc2xaZWRmTFIybXF3OHdTbUxlVjU3M2dHb09TY3dlY2tLdllwWEVPdjVqUGl3NjR0NlVGVVJDNGpjV0Iw?oc=5",
-    "source": "CNA",
-    "pub_date": "Sun, 31 May 2026 22:00:00 GMT",
-    "pub_ts": 1780264800.0,
-    "fetched_ts": 1780293663.004612,
-    "source_tag": "CNA"
   },
   {
     "title": "Chinese curbs risk derailing record Hong Kong home-buying spree - The Straits Times",
@@ -259,5 +241,23 @@
     "pub_ts": 1780825920.0,
     "fetched_ts": 1780833645.846948,
     "source_tag": "ST"
+  },
+  {
+    "title": "From Chiang Mai’s black house to the Bangkok skyline: Inside 137 Pillars - CNA Luxury",
+    "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQUDFkTmduN0RzM1JYbGJTdnpXbVBjY2xoWF9sTEpiZ0RPdmNMdmQxYmNXcXBlVko1T3YzWGR6Nzh6eS1EaDdiVnM2MXd0UHhDR0pSX1Y4TWhCMEhBQ2l1NHVlSlZPdmFyb1UyR29UZnd6NGkwbllFanQ1WHl0WWhrWUpoOWNkVTF2cTh3cGlZQjAyLVBkUlc3TFdB?oc=5",
+    "source": "CNA Luxury",
+    "pub_date": "Sun, 07 Jun 2026 22:15:00 GMT",
+    "pub_ts": 1780870500.0,
+    "fetched_ts": 1780876828.906778,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "Lack of clarity on JB rail plans heightens bottleneck fears ahead of RTS Link launch - CNA",
+    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQbVFWWW1ZLThPUkNFRmhfSVl5MkF1TmlFVHJwMDNfSXRpSXhfRWwtYVdVS09ZQUN4b21kVkF2NzdCR1ZDQl9OSVpqR2VpYkFMU1hKV1ljMWRhbXNfazM2d29QQlJfUjl4NG5ld3FLNWNUYjB2d2FBcG42XzhoSm5rWkVuVE1tSG9jMHV6eWE2alhVaUdhR0kzcQ?oc=5",
+    "source": "CNA",
+    "pub_date": "Sun, 07 Jun 2026 22:00:00 GMT",
+    "pub_ts": 1780869600.0,
+    "fetched_ts": 1780876828.907116,
+    "source_tag": "CNA"
   }
 ]
