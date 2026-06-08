@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-08T07:00:50.590792+00:00",
+  "scraped_at": "2026-06-08T08:00:08.446927+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -7985,8 +7985,8 @@
       "address": "36,38,40,42,44,46,48,50Shelford Road",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 7837000.0,
-      "max_price": 7837000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "180",
       "completion_date": "Q4 2026",
@@ -7998,7 +7998,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.3285648147479248",
       "longitude": "103.8110793379503",
       "cover_image": "https://img.singmap.com/upload/broke/a0a87c09a8fa45f1b629fd39f27224c6/0afb38fa0c0044e48d07ccd05d0757f3/imgs/20231002/9fdc8f15d602419f8202f780b4c5ea24.jpeg"
