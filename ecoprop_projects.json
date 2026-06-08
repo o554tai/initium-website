@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 327,
-  "scraped_at": "2026-06-08T05:00:57.706778+00:00",
+  "scraped_at": "2026-06-08T06:00:18.413107+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6685,7 +6685,7 @@
       "address": "80 & 82 Yuan Ching Road",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 2800000.0,
+      "min_price": 4280000.0,
       "max_price": 4280000.0,
       "currency": "$",
       "units": "306",
