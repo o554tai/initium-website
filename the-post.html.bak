@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Property Blog Singapore — Market Guides & News 2026 | The Post</title>
+  <meta name="description" content="Singapore property market guides, buying tips & curated news. First-time buyer? Investor? Selling? Find honest, actionable advice on The Post.">
+  <meta name="theme-color" content="#50C878">
+  <link rel="canonical" href="https://initium-estate.com/the-post.html">
+  <link rel="icon" type="image/png" href="assets/images/initium-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css?v=5">
+  <style>
+    /* Page hero */
+    .page-hero {
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--space-24) var(--page-pad-x) var(--space-16);
+      background: var(--dark);
+      overflow: hidden;
+    }
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(80,200,120,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .page-hero .container {
+      position: relative;
+      z-index: 1;
+    }
+    .page-hero .label {
+      color: var(--accent);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      margin-bottom: var(--space-4);
+    }
+    .page-hero .headline-xl {
+      color: var(--white);
+      margin-bottom: var(--space-4);
+    }
+    .page-hero .body-lg {
+      color: rgba(255,255,255,0.7);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* Section labels */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: var(--accent);
+      font-size: var(--text-sm);
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-4);
+    }
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--accent);
+    }
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      margin-bottom: var(--space-10);
+    }
+
+    /* Featured guides */
+    .guides-grid {
+      display: flex;
+      gap: var(--space-6);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding-bottom: var(--space-4);
+      -webkit-overflow-scrolling: touch;
+    }
+    .guides-grid::-webkit-scrollbar {
+      height: 4px;
+    }
+    .guides-grid::-webkit-scrollbar-track {
+      background: var(--surface-warm);
+      border-radius: 2px;
+    }
+    .guides-grid::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 2px;
+    }
+    .guide-card {
+      display: block;
+      flex: 0 0 320px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      transition: all var(--transition-base);
+      text-decoration: none;
+      color: inherit;
+      scroll-snap-align: start;
+    }
+    .guide-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .guide-img {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: var(--surface-warm);
+    }
+    .guide-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .guide-card:hover .guide-img img {
+      transform: scale(1.03);
+    }
+    .guide-body {
+      padding: var(--space-5) var(--space-6) var(--space-6);
+    }
+    .guide-tag {
+      display: inline-block;
+      padding: var(--space-1) var(--space-3);
+      background: var(--surface-warm);
+      color: var(--text-secondary);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-3);
+    }
+    .guide-tag.green {
+      background: rgba(80,200,120,0.12);
+      color: var(--accent-dark);
+    }
+    .guide-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin-bottom: var(--space-2);
+    }
+    .guide-excerpt {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-3);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .guide-meta {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      letter-spacing: 0.04em;
+    }
+
+    /* News grid */
+    .news-grid {
+      display: flex;
+      gap: var(--space-6);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      padding-bottom: var(--space-4);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .news-grid::-webkit-scrollbar { display: none; }
+    .news-card {
+      display: block;
+      flex: 0 0 320px;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-base);
+      text-decoration: none;
+      color: inherit;
+      scroll-snap-align: start;
+    }
+    .news-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+    .news-img {
+      aspect-ratio: 16/10;
+      overflow: hidden;
+      background: var(--surface-warm);
+      position: relative;
+    }
+    .news-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .news-card:hover .news-img img {
+      transform: scale(1.03);
+    }
+    .news-source {
+      position: absolute;
+      bottom: var(--space-3);
+      left: var(--space-3);
+      padding: var(--space-1) var(--space-2);
+      background: rgba(26,26,26,0.85);
+      color: var(--white);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      border-radius: var(--radius-sm);
+    }
+    .news-body {
+      padding: var(--space-5) var(--space-6) var(--space-6);
+    }
+    .news-title {
+      font-family: var(--font-display);
+      font-size: var(--text-base);
+      font-weight: 600;
+      line-height: 1.4;
+      color: var(--text-primary);
+      margin-bottom: var(--space-3);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .news-excerpt {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .news-meta {
+      font-size: var(--text-xs);
+      color: var(--text-tertiary);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .news-meta .source-link {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .news-meta .source-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Archive link */
+    .archive-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      color: var(--accent);
+      font-family: var(--font-display);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      text-decoration: none;
+      transition: opacity var(--transition-base);
+    }
+    .archive-link:hover {
+      opacity: 0.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .guides-grid { gap: var(--space-4); }
+      .news-card { flex: 0 0 280px; }
+      .page-hero { min-height: 40vh; padding: var(--space-16) var(--page-pad-x) var(--space-10); }
+    }
+
+    /* Market Intel */
+    .intel-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+    .intel-card {
+      background: var(--dark);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .intel-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(80,200,120,0.2);
+    }
+    .intel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-3);
+    }
+    .intel-tag {
+      font-size: var(--text-xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+    }
+    .intel-tag.launch { background: rgba(80,200,120,0.12); color: #50C878; }
+    .intel-tag.policy { background: rgba(59,130,246,0.12); color: #60a5fa; }
+    .intel-tag.market { background: rgba(245,158,11,0.12); color: #fbbf24; }
+    .intel-tag.alert { background: rgba(239,68,68,0.12); color: #f87171; }
+    .intel-date {
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.4);
+    }
+    .intel-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--white);
+      margin-bottom: var(--space-2);
+      line-height: 1.35;
+    }
+    .intel-body {
+      font-size: var(--text-sm);
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+    }
+    .intel-source {
+      display: inline-block;
+      margin-top: var(--space-3);
+      font-size: var(--text-xs);
+      color: #50C878;
+      text-decoration: none;
+    }
+    .intel-source:hover { text-decoration: underline; }
+    .intel-empty {
+      text-align: center;
+      padding: var(--space-16) 0;
+      color: rgba(255,255,255,0.4);
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">INITI<span>U</span>M</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link" data-page="index">Home</a>
+      <a href="new-launches.html" class="nav-link" data-page="new-launches">New Launches</a>
+      <a href="services.html" class="nav-link" data-page="services">Services</a>
+      <a href="calculators.html" class="nav-link" data-page="calculators">Calculators</a>
+      <a href="about.html" class="nav-link" data-page="about">About</a>
+      <a href="the-post.html" class="nav-link" data-page="the-post">The Post</a>
+      <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+      <a href="intm-shop.html" class="nav-link" data-page="intm-shop">INTM Shop</a>
+      <a href="agent-hub.html" class="nav-link" data-page="agent-hub">Agent Hub</a>
+    </div>
+  </div>
+</nav>
+<div style="height:64px;"></div>
+
+
+<!-- Hero -->
+<section class="page-hero">
+  <div class="container">
+    <div class="label reveal">Insights & News</div>
+    <h1 class="headline-xl reveal">The Post</h1>
+    <p class="body-lg reveal">What the market is doing, why it matters, and what to do about it.</p>
+  </div>
+</section>
+
+<!-- Guides & Strategies -->
+<section class="section" style="background: var(--surface);">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label reveal">From the Team</div>
+        <h2 class="headline-md reveal">Guides & Strategies</h2>
+      </div>
+    </div>
+    <div class="guides-grid reveal">
+      <a href="district-11-property-guide.html" class="guide-card">
+        <div class="guide-img">
+          <img src="assets/images/blog/guide-district-11.jpg" alt="Newton and Novena Singapore district view" loading="lazy">
+        </div>
+        <div class="guide-body">
+          <span class="guide-tag green">District Guide</span>
+          <h3 class="guide-title">District 11 Property Guide 2026 — Newton, Novena &amp; Watten</h3>
+          <p class="guide-excerpt">The medical and education belt. Freehold value 15% below D10. Top schools, hospital proximity, and quiet family living.</p>
+          <div class="guide-meta">June 2026 · 12 min read</div>
+        </div>
+      </a>
+      <a href="district-15-property-guide.html" class="guide-card">
+        <div class="guide-img">
+          <img src="assets/images/blog/guide-district-15.jpg" alt="East Coast and Katong Singapore district view" loading="lazy">
+        </div>
+        <div class="guide-body">
+          <span class="guide-tag green">District Guide</span>
+          <h3 class="guide-title">District 15 Property Guide 2026 — East Coast, Katong &amp; Marine Parade</h3>
+          <p class="guide-excerpt">Sea breeze, Peranakan heritage, and strong rental yields. The district for families who want culture, food, and East Coast Park.</p>
+          <div class="guide-meta">June 2026 · 12 min read</div>
+        </div>
+      </a>
+      <a href="district-10-property-guide.html" class="guide-card">
+        <div class="guide-img">
+          <img src="assets/images/blog/guide-district-10.jpg" alt="Tanglin and Holland Road Singapore district aerial view" loading="lazy">
+        </div>
+        <div class="guide-body">
+          <span class="guide-tag green">District Guide</span>
+          <h3 class="guide-title">District 10 Property Guide 2026 — Tanglin, Holland &amp; Nassim</h3>
+          <p class="guide-excerpt">Singapore's most prestigious postcode. Freehold gems, top schools, MRT connectivity. We break down what to buy, where, and why.</p>
+          <div class="guide-meta">June 2026 · 12 min read</div>
+        </div>
+      </a>
+      <a href="article-first-condo.html" class="guide-card">
+        <div class="guide-img">
+          <img src="assets/images/blog/guide-condo.jpg" alt="Modern Singapore condo exterior at dusk" loading="lazy">
+        </div>
+        <div class="guide-body">
+          <span class="guide-tag green">Buying Guide</span>
+          <h3 class="guide-title">Buying Your First Condo in Singapore: A Complete Guide</h3>
+          <p class="guide-excerpt">From eligibility checks to financing options, everything a first-time buyer needs to know before signing on the dotted line.</p>
+          <div class="guide-meta">May 2026 · 8 min read</div>
+        </div>
+      </a>
+      <a href="article-new-vs-resale.html" class="guide-card">
+        <div class="guide-img">
+          <img src="assets/images/blog/guide-resale.jpg" alt="Modern condo interior living room" loading="lazy">
+        </div>
+        <div class="guide-body">
+          <span class="guide-tag green">Strategy</span>
+          <h3 class="guide-title">New Launch vs. Resale: Which One Is Right for You?</h3>
+          <p class="guide-excerpt">We break down the pros, cons, and hidden costs of each option so you can make a decision that fits your timeline and budget.</p>
+          <div class="guide-meta">May 2026 · 6 min read</div>
+        </div>
+      </a>
+      <a href="article-landed-buying.html" class="guide-card">
+        <div class="guide-img">
+          <img src="assets/images/blog/guide-landed.jpg" alt="Singapore landed property with tropical garden" loading="lazy">
+        </div>
+        <div class="guide-body">
+          <span class="guide-tag green">Buying Guide</span>
+          <h3 class="guide-title">Things to Look Out for Before Buying a Landed Property</h3>
+          <p class="guide-excerpt">From land tenure and zoning restrictions to renovation budgets and neighbourhood character — the checks that save you from costly surprises.</p>
+          <div class="guide-meta">May 2026 · 7 min read</div>
+        </div>
+      </a>
+      <a href="article-hdb-selling.html" class="guide-card">
+        <div class="guide-img">
+          <img src="assets/images/blog/guide-hdb.jpg" alt="Singapore HDB corridor and facade" loading="lazy">
+        </div>
+        <div class="guide-body">
+          <span class="guide-tag green">Selling Guide</span>
+          <h3 class="guide-title">Do's and Don'ts for HDB Sellers</h3>
+          <p class="guide-excerpt">The common mistakes that slow down your sale — and the simple moves that get you the best price in the shortest time.</p>
+          <div class="guide-meta">May 2026 · 5 min read</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Property News -->
+<section class="section" style="background: var(--surface-warm);">
+  <div class="container">
+    <div class="section-header">
+      <div>
+        <div class="section-label reveal">Market Watch</div>
+        <h2 class="headline-md reveal">Property News</h2>
+      </div>
+      <a href="news-archive.html" class="archive-link reveal">View Archive →</a>
+    </div>
+    <div class="news-grid reveal" id="newsGrid">
+
+      <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOaG82WVJ1MjhGQmhza01hbkM2ZWZjbzF5eTdQUlJIUk5JOHVUT1czcFg0ZVBUUHg5Zm02N0dXSW50cThuVmxldVE3dC13cS1uam8wTHRBai1nM01RRmRHaFF3TXZWRUN0eHQwTGtMRHBfdlRvaE1ORTB2Wml6emR3S3AySVkzcktaYmR3cC1FZ3pibXhxbUp6RjNnNmtnUXphcU9RcHhtU2xqQTFndU96V2ljWnFJZ9IBuwFBVV95cUxPWjNCVmNPMGNfVU90eW5WRldQaHhPLUFmVE1SZU1SUFJXZ2tpZUx6VDBCeFpaWl94d1Q0aGw3ck9EUENDaFFWVG1scUJlZUQtQTFvclBaaDZ5ZlZxRUhtY21fZzB5dWxPbDFHNk82RU1KYXRrR2dhTmN0QlhMSXNQTTNDNU5sQTYxZFlXaEZ3QWlURWZ0NF9lQnNhQ1Z6RkRvV0tqRHdSaXNtWUJmNk04S3M0cHkzT1JnMjA0?oc=5" target="_blank" rel="noopener" class="news-card">
+        <div class="news-img">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
+          <span class="news-source">EdgeProp</span>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">EOI extended for North Bridge Road building sale following revised URA guidelines</h3>
+          <p class="news-excerpt">EOI extended for North Bridge Road building sale following revised URA guidelines</p>
+          <div class="news-meta">
+            <span>Tue, 09 Jun 2026</span>
+            <span>·</span>
+            <span class="source-link">Read on EdgeProp →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://news.google.com/rss/articles/CBMiqwFBVV95cUxOczd3LVVIVzJ6QkE5akZDbDJXOHJBbVV0TkpaaFlTTWNTZWhNUDh6bm9jSm5VYmtVQlBzcTcyWWdlZktVTnhrNWFxT3hmMmxTQ1A5aVhxbXgzVlhJa3J2M08zMWR6bEtHaW5lVm8zTndwNXN2YU01Z29QQ0g3Vk9IdWdwTWp2YVBqUXhoS2ZYd3NTY2ROQTRmUE5xckNyU3RtZzJpXzZxeEpxMXPSAbABQVVfeXFMTmUwVDlPUy1TMlZiUVZBLXIzdTlQaE1ETENWYW5PaFNqQXhZMlV0ZUhYa1RpY3pnb3V2MUlvUlhGRS1BeS1JZGVHRzAxbjNvWk1MdG13bmFCOUh1UmdIYVV2LVJ2NnNXLWpfcjhDOUxiU2EtVkVxamZrU0xYMjg3SzNGaHh0QmtwNzE0aG5zSHJKODdNdlczV3JjOFNPQzFIWTgzRlBfb0lFbUJJS3NsYVg?oc=5" target="_blank" rel="noopener" class="news-card">
+        <div class="news-img">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
+          <span class="news-source">EdgeProp</span>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">Landed homes for $880,000: What’s the catch, and why may some buyers consider them?</h3>
+          <p class="news-excerpt">Landed homes for $880,000: What’s the catch, and why may some buyers...</p>
+          <div class="news-meta">
+            <span>Tue, 09 Jun 2026</span>
+            <span>·</span>
+            <span class="source-link">Read on EdgeProp →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://news.google.com/rss/articles/CBMitwFBVV95cUxNbXVVU3BfMlBVckY5WkpSQmN2MFhuWmIxLUZBUEZUSi1tME4wcXZNbzh1SmJueG1FXzVaT1duU2Y1X0xGd2tpdEw0cXVtTzlxNXRoR0hqWnNOQ2FvendsX3VjTmdZLWo2NE9Rc0VHcnhEU0ZLWUhKRnM0VjNqOFRhb1diMVExZy1JeS0yODRFek16RFRKY0I5dkRjdllXbDVwbl9lRWdHWU5rNExRY1RvUXRrNnVCZnPSAbwBQVVfeXFMT2F3Nzl1S2kzMlRJZHpaeURGMzhkUnlGNEdfR1FvU2hpc0lzQkh2M3RIejBNRUszVDdYYnhINHlSRlNvRnlJNTQzSG5zOHk2SEJ0bXVDWm9KMjZpaUt1dDR4MlNKc0Z0ZVJRTjhpWkZkajZzV3NObFZWX2xVcGFLRTR0Njh4X0dCQXhILU4tT2tzeG9oZlVVeGlqZy1GM1BieGpaczVNRGZxcUIzQ3g0Y1ZpTGNaVHBoR0J1QTI?oc=5" target="_blank" rel="noopener" class="news-card">
+        <div class="news-img">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
+          <span class="news-source">EdgeProp</span>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">Tishman Speyer secures US$300 mil from APG and Bouwinvest for Korean rental housing fund</h3>
+          <p class="news-excerpt">Tishman Speyer secures US$300 mil from APG and Bouwinvest for Korean rental...</p>
+          <div class="news-meta">
+            <span>Tue, 09 Jun 2026</span>
+            <span>·</span>
+            <span class="source-link">Read on EdgeProp →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://news.google.com/rss/articles/CBMitgFBVV95cUxOVDE1Z3FqS2xDZFpOS2pheE1oT2MtX0Vwc2tRRkw0SE02N2ZJakJadDJQSmg4YlM0Wk5zZEdkUkFVb1JtVERsSXo2VnpyODVnaUtEaGtVV3lSVGRVRVNwdXhiak56dHpfdThEeE4td0c3bjQ4cl9hOER6ZzB4eHNscTl1S0VtSjZQRk9CVHZXbklzVjY1dDZNWk9VUUpGdVptLVpHN0lwekN3Z0tJWldMQ283Q0JPUdIBuwFBVV95cUxNdTM0RHp1SENYRTRZQkQ4MzNWNTRwcWtvNGNTZnc3cGJHdUxnWUF4WmlMYlJNbVRlMEl6MnQ0OGthUGJKcnUwelFISFRRLXhJSk0wSk01YWU1REJiS3BqeGV6RkNRVmUwcjU0aGtybHhaaEpTWi1ZSVpOS0RkdnlzSmx5ZGQ1Q1E5SXd5UHJ1Y0ZYNklmTlNtbTRmcG51TUN0RDdoTEZnSUlpLVVaQ0Q1TW5ablZuQlRUVzBN?oc=5" target="_blank" rel="noopener" class="news-card">
+        <div class="news-img">
+          <img src="assets/images/blog/logos/edgeprop-logo.svg" alt="EdgeProp" loading="lazy">
+          <span class="news-source">EdgeProp</span>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">Beachfront plot on Dubai's Naïa Island sold to European buyer for record AED560 mil</h3>
+          <p class="news-excerpt">Beachfront plot on Dubai's Naïa Island sold to European buyer for record...</p>
+          <div class="news-meta">
+            <span>Mon, 08 Jun 2026</span>
+            <span>·</span>
+            <span class="source-link">Read on EdgeProp →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="https://news.google.com/rss/articles/CBMihgFBVV95cUxQNWN1MGFaQmNxdkJsTEdxX2gzYTJXZDBEU3d3QjVvT0V1WFlhNXAxbzZaQkw3VUNZT0hjdEtGZGxRaFNaMDhITTk1S09KdkNOYXR5R2ZhbFNJZk1kU3RSZkNwdzlXVWRtSHI3eDZ0SS1Lc0FYM1VXRnkxdDVDTHBON25hZXVadw?oc=5" target="_blank" rel="noopener" class="news-card">
+        <div class="news-img">
+          <img src="assets/images/blog/logos/cna-logo.svg" alt="CNA" loading="lazy">
+          <span class="news-source">CNA</span>
+        </div>
+        <div class="news-body">
+          <h3 class="news-title">Malaysia’s wage growth lags behind GDP as ‘top firms are not scaling’ – what gives?</h3>
+          <p class="news-excerpt">Malaysia’s wage growth lags behind GDP as ‘top firms are not scaling’...</p>
+          <div class="news-meta">
+            <span>Mon, 08 Jun 2026</span>
+            <span>·</span>
+            <span class="source-link">Read on CNA →</span>
+          </div>
+        </div>
+      </a>
+      </div>
+
+      <!-- Market Intel -->
+      <div class="section-header" style="margin-top:var(--space-16)">
+        <div>
+          <div class="section-label reveal">Team Intel</div>
+          <h2 class="headline-md reveal">Market Intel</h2>
+        </div>
+      </div>
+      <div class="intel-grid reveal" id="intelGrid">
+        <div class="intel-empty" id="intelLoading">Loading market intel...</div>
+      </div>
+
+  </div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">INITI<span>U</span>M</div>
+        <p class="footer-desc">Built on trust, systems, and the drive to lift everyone higher. Singapore, since 2010.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.facebook.com/Initiumsg/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.5c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-heading">Quick Links</div>
+        <div class="footer-links">
+          <a href="new-launches.html" class="footer-link">
+            <span class="footer-link-title">New Launches</span>
+            <span class="footer-link-desc">Early access to Singapore's latest developments</span>
+          </a>
+          <a href="services.html" class="footer-link">
+            <span class="footer-link-title">Services</span>
+            <span class="footer-link-desc">Buy, sell, invest with precision</span>
+          </a>
+          <a href="about.html" class="footer-link">
+            <span class="footer-link-title">About</span>
+            <span class="footer-link-desc">Our story, team, and culture</span>
+          </a>
+          
+          <a href="calculators.html" class="footer-link">
+            <span class="footer-link-title">Calculators</span>
+            <span class="footer-link-desc">Mortgage, stamp duty, rental yield, renovation, progressive payment</span>
+          </a>
+          <a href="the-post.html" class="footer-link">
+            <span class="footer-link-title">The Post</span>
+            <span class="footer-link-desc">Market insights and property stories</span>
+          </a>
+          <a href="contact.html" class="footer-link">
+            <span class="footer-link-title">Contact</span>
+            <span class="footer-link-desc">Start a conversation</span>
+          </a>
+          <a href="intm-shop.html" class="footer-link">
+            <span class="footer-link-title">INTM Shop</span>
+            <span class="footer-link-desc">Branded merchandise and tools</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 INITIUM. All rights reserved.</span>
+      <span>CEA Licence No: L3010858B</span>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // Scroll-triggered nav background
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Simple reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+
+  // ——— Market Intel ———
+  const API_BASE = 'https://initium-video-studio.onrender.com';
+  const INTEL_FALLBACK = [
+    { tag:'launch', tag_label:'New Launch', date:'2026-06-04', title:'Lentor Modern — 85% sold in Phase 1', body:'Remaining 2-bed units from $1.68M. 3-bed dual-key layouts still available. Developer extending early-bird discount until 30 June.', source_url:'' },
+    { tag:'policy', tag_label:'Policy', date:'2026-06-01', title:'ABSD rates held in June 2026 review', body:'No changes to Additional Buyer Stamp Duty. Foreigners remain at 60%, entities at 65%. PR first-home stays at 5%, second at 30%.', source_url:'' },
+    { tag:'market', tag_label:'Market', date:'2026-05-28', title:'Rental index up 2.1% in Q2 2026', body:'URA flash estimate shows continued recovery. Core Central Region leading at +2.8%. Outside Central Region +1.7%. Landed +1.9%.', source_url:'' },
+    { tag:'launch', tag_label:'New Launch', date:'2026-05-25', title:'Chuan Park relaunch — pricing leaked', body:'Expected PSF $2,400–$2,600. 916 units over two 24-storey towers. Preview expected mid-June. Agent briefing 12 June.', source_url:'' },
+    { tag:'alert', tag_label:'Alert', date:'2026-05-20', title:'CEA enforcement: unlicensed marketing', body:'Three agents fined for unlicensed property ads on Carousell. All listings must show CEA registration number.', source_url:'' },
+    { tag:'market', tag_label:'Market', date:'2026-06-04', title:'Mortgage rates: 3M SORA at 3.42%', body:'Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.', source_url:'' }
+  ];
+
+  function escIntel(s) {
+    if (!s) return '';
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function fmtDate(d) {
+    if (!d) return '';
+    const dt = new Date(d);
+    if (isNaN(dt)) return d;
+    return dt.toLocaleDateString('en-SG',{day:'numeric',month:'short',year:'numeric'});
+  }
+
+  function renderIntel(items) {
+    const grid = document.getElementById('intelGrid');
+    if (!items || !items.length) {
+      grid.innerHTML = '<div class="intel-empty">No market intel yet. Check back soon.</div>';
+      return;
+    }
+    grid.innerHTML = items.map(item => `
+      <div class="intel-card">
+        <div class="intel-header">
+          <span class="intel-tag ${escIntel(item.tag)}">${escIntel(item.tag_label || item.tag)}</span>
+          <span class="intel-date">${escIntel(fmtDate(item.date || item.created_at))}</span>
+        </div>
+        <div class="intel-title">${escIntel(item.title)}</div>
+        <div class="intel-body">${escIntel(item.body)}</div>
+        ${item.source_url ? `<a href="${escIntel(item.source_url)}" target="_blank" rel="noopener" class="intel-source">Read source ↗</a>` : ''}
+      </div>
+    `).join('');
+  }
+
+  async function loadIntel() {
+    try {
+      const res = await fetch(API_BASE + '/api/intel');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      if (data.intel && data.intel.length) {
+        renderIntel(data.intel);
+      } else {
+        renderIntel(INTEL_FALLBACK);
+      }
+    } catch (e) {
+      console.warn('Intel backend down, showing fallback:', e.message);
+      renderIntel(INTEL_FALLBACK);
+    }
+  }
+
+  loadIntel();
+
+</script>
+
+<script src="js/nav.js"></script>
+
+</body>
+</html>
