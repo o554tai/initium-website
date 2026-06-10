@@ -1,0 +1,13 @@
+AAPL | $nan | 📈 TREND UP | RSI 53.4 | EMA bullish, RSI 53.4
+TSLA | $nan | 📈 TREND UP | RSI 48.0 | EMA bullish, RSI 48.0
+NVDA | $nan | 📈 TREND UP | RSI 46.9 | EMA bullish, RSI 46.9
+AMD | $nan | 📈 TREND UP | RSI 58.8 | EMA bullish, RSI 58.8
+COIN | $nan | 📉 TREND DOWN | RSI 39.4 | EMA bearish, RSI 39.4
+MSFT | $nan | 📈 TREND UP | RSI 45.5 | EMA bullish, RSI 45.5
+AMZN | $nan | 📉 TREND DOWN | RSI 37.3 | EMA bearish, RSI 37.3
+PLTR | $nan | 📈 TREND UP | RSI 45.7 | EMA bullish, RSI 45.7
+D05.SI | $61.83 | 📈 TREND UP | RSI 52.6 | EMA bullish, RSI 52.6
+U11.SI | $37.88 | 📈 TREND UP | RSI 53.4 | EMA bullish, RSI 53.4
+O39.SI | $23.23 | 📈 TREND UP | RSI 51.0 | EMA bullish, RSI 51.0
+SPY | $nan | 📈 TREND UP | RSI 50.8 | EMA bullish, RSI 50.8
+QQQ | $nan | 📈 TREND UP | RSI 53.6 | EMA bullish, RSI 53.6
