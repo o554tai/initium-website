@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-12T06:00:27.874978+00:00",
+  "scraped_at": "2026-06-12T07:00:49.144245+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5860,8 +5860,8 @@
       "address": "18 Lorong Ampas",
       "property_type": "Industrial",
       "tenure": "Freehold",
-      "min_price": 2702400.0,
-      "max_price": 2763840.0,
+      "min_price": 2594023.0,
+      "max_price": 2708450.0,
       "currency": "$",
       "units": "47",
       "completion_date": "",
