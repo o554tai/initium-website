@@ -8,6 +8,7 @@ import json
 import os
 import re
 import ssl
+import time
 import urllib.request
 from datetime import datetime
 
@@ -22,35 +23,52 @@ API_URL = (
 )
 
 
-def fetch_sora():
-    """Fetch latest 3M SORA from MAS API."""
+def fetch_sora(retries=2, timeout=15):
+    """Fetch latest 3M SORA from MAS API with retries."""
     ctx = ssl.create_default_context()
     req = urllib.request.Request(API_URL, headers={
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         'Accept': 'application/json',
     })
-    try:
-        with urllib.request.urlopen(req, context=ctx, timeout=20) as response:
-            raw = response.read()
-        # MAS API returns UTF-8 with BOM
-        for encoding in ('utf-8-sig', 'utf-8'):
-            try:
-                data = json.loads(raw.decode(encoding))
-                break
-            except Exception:
-                continue
-        else:
-            return None, None
 
-        records = data.get('result', {}).get('records', [])
-        if records:
-            latest = max(records, key=lambda r: r.get('end_of_day', ''))
-            rate = latest.get('sora', '')
-            date = latest.get('end_of_day', '')
-            if rate:
-                return float(rate), date
-    except Exception as e:
-        print(f'API error: {type(e).__name__}: {e}')
+    last_error = None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(req, context=ctx, timeout=15) as response:
+                content_type = response.headers.get('Content-Type', '')
+                raw = response.read()
+
+            # If API returns HTML (maintenance page), treat as unavailable
+            if 'text/html' in content_type:
+                last_error = 'HTML maintenance page'
+                time.sleep(2 ** attempt)
+                continue
+
+            # MAS API returns UTF-8 with BOM
+            for encoding in ('utf-8-sig', 'utf-8'):
+                try:
+                    data = json.loads(raw.decode(encoding))
+                    break
+                except Exception:
+                    continue
+            else:
+                last_error = 'JSON decode failed'
+                time.sleep(2 ** attempt)
+                continue
+
+            records = data.get('result', {}).get('records', [])
+            if records:
+                latest = max(records, key=lambda r: r.get('end_of_day', ''))
+                rate = latest.get('sora', '')
+                date = latest.get('end_of_day', '')
+                if rate:
+                    return float(rate), date
+        except Exception as e:
+            last_error = f'{type(e).__name__}: {e}'
+            time.sleep(2 ** attempt)
+            continue
+
+    print(f'API unavailable after {retries} attempts ({last_error})')
     return None, None
 
 
@@ -81,7 +99,46 @@ def update_html(rate, date_str):
     except ValueError:
         nice_date = date_str
 
-    new_card = f'''      <div class="intel-card">
+    # --- Try new JS array format (INTEL_FALLBACK) ---
+    # Match the mortgage rates entry in the JS array
+    js_pattern = re.compile(
+        r"(\{\s*tag\s*:\s*'market'\s*,\s*tag_label\s*:\s*'Market'\s*,\s*date\s*:\s*')"
+        r"\d{4}-\d{2}-\d{2}"
+        r"('\s*,\s*title\s*:\s*'Mortgage rates: 3M SORA at )"
+        r"[0-9.]+%"
+        r"('.*?body\s*:\s*')"
+        r"[^']*"
+        r"('\s*,\s*source_url\s*:\s*''\s*\})",
+        re.DOTALL
+    )
+
+    js_match = js_pattern.search(html)
+    if js_match:
+        new_entry = (
+            f"{{ tag:'market', tag_label:'Market', date:'{date_str}', "
+            f"title:'Mortgage rates: 3M SORA at {rate_pct}', "
+            f"body:'Major banks holding 3-year fixed at ~3.55%. "
+            f"Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.', "
+            f"source_url:'' }}"
+        )
+        html = html[:js_match.start()] + new_entry + html[js_match.end():]
+        with open(HTML_PATH, 'w') as f:
+            f.write(html)
+        return True
+
+    # --- Fallback: old static HTML format (backwards compatibility) ---
+    old_pattern = re.compile(
+        r'(\s*)<div class="intel-card">(\s*)<div class="intel-header">(\s*)'
+        r'<span class="intel-tag market">Market</span>(\s*)'
+        r'<span class="intel-date">[^<]*</span>(\s*)</div>(\s*)'
+        r'<div class="intel-title">Mortgage rates:[^<]*</div>(\s*)'
+        r'<div class="intel-body">[^<]*</div>(\s*)</div>',
+        re.DOTALL
+    )
+
+    old_match = old_pattern.search(html)
+    if old_match:
+        new_card = f'''      <div class="intel-card">
         <div class="intel-header">
           <span class="intel-tag market">Market</span>
           <span class="intel-date">{nice_date}</span>
@@ -89,21 +146,11 @@ def update_html(rate, date_str):
         <div class="intel-title">Mortgage rates: 3M SORA at {rate_pct}</div>
         <div class="intel-body">Major banks holding 3-year fixed at ~3.55%. Expect slight easing in Q3. Forward rates suggest 3.1% by year-end.</div>
       </div>'''
-
-    pattern = re.compile(
-        r'(\s*)<div class="intel-card">(\s*)<div class="intel-header">(\s*)'
-        r'<span class="intel-tag market">Market</span>(\s*)'
-        r'<span class="intel-date">[^<]*</span>(\s*)</div>(\s*)'
-        r'<div class="intel-title">Mortgage rates:[^<]*</div>(\s*)'
-        r'<div class="intel-body">[^<]*</div>(\s*)</div>'
-    )
-
-    match = pattern.search(html)
-    if match:
-        html = html[:match.start()] + '\n' + new_card + html[match.end():]
+        html = html[:old_match.start()] + '\n' + new_card + html[old_match.end():]
         with open(HTML_PATH, 'w') as f:
             f.write(html)
         return True
+
     return False
 
 
