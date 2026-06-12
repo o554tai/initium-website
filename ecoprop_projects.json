@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-12T11:00:39.194220+00:00",
+  "scraped_at": "2026-06-12T12:00:56.253250+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -4110,7 +4110,7 @@
       "address": "80 Anson Road",
       "property_type": "Residential Highrise",
       "tenure": "Freehold",
-      "min_price": 1423000.0,
+      "min_price": 1431000.0,
       "max_price": 9960000.0,
       "currency": "$",
       "units": "246",
