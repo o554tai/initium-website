@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-16T03:00:24.452884+00:00",
+  "scraped_at": "2026-06-16T04:00:20.602448+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6308,7 +6308,7 @@
       "district": "D12",
       "location": "D12 - Balestier / Toa Payoh",
       "address": "46 Boon Teck Road",
-      "property_type": "Residential Highrise",
+      "property_type": "Residential Lowrise",
       "tenure": "Freehold",
       "min_price": 0,
       "max_price": 0,
