@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-17T08:00:54.654368+00:00",
+  "scraped_at": "2026-06-17T09:00:50.463370+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1610,8 +1610,8 @@
       "address": "8 Draycott Park",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 6333552.0,
-      "max_price": 7697520.0,
+      "min_price": 7037280.0,
+      "max_price": 8552800.0,
       "currency": "$",
       "units": "136",
       "completion_date": "2006",
