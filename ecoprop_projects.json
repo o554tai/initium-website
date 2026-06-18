@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-18T02:00:20.640069+00:00",
+  "scraped_at": "2026-06-18T03:00:15.913113+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2107,7 +2107,7 @@
       "project_name": "Generations @ Tannery",
       "district": "D13",
       "location": "D13 - Macpherson / Potong Pasir",
-      "address": "71 TANNERY LANE",
+      "address": "4 SOON WENG ROAD",
       "property_type": "Commercial",
       "tenure": "Freehold",
       "min_price": 0,
@@ -2124,8 +2124,8 @@
         0
       ],
       "sold_out": false,
-      "latitude": "1.3270785620790524",
-      "longitude": "103.87914272426988",
+      "latitude": "1.3269362440606678",
+      "longitude": "103.87913032040396",
       "cover_image": "https://img.singmap.com/upload/broke/34826334307f499ab404a663acd389ad/a6847b50ef87412f90e490ce0126a6f9/imgs/20260216/36f35787783945f7ace0502bf3c6f9b0.png"
     },
     {
