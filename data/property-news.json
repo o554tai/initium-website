@@ -1,23 +1,5 @@
 [
   {
-    "title": "Morning Briefing: Top stories from The Straits Times on June 11, 2026 - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOVklZcTR5bVdHM3dZc3QxMV9hYV9SN3duWGt0T0VWb0NsODk4SHJZQWhBalh6QjBIZ3ZmeERjbUhBT2J1ZHJKWVh4ckt6RlVmeDRLMVIxM1FvajVwMU1xT0hvM0RLV2o0V3VXeGxBbGp2ckdGYXRxRzZwLWE3a1pvNVlwVmRNSmE2akRMNlg5RDlFUEgyeWlneDVwLWV3Um84dm5PTjFHcF9WXzA?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Thu, 11 Jun 2026 00:05:42 GMT",
-    "pub_ts": 1781136342.0,
-    "fetched_ts": 1781179244.330828,
-    "source_tag": "ST"
-  },
-  {
-    "title": "Property agents' and agencies' disciplinary records now more visible on CEA website; enforcement actions rise - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPVGQ3bzNBWmJ1UGVCZ24zbFhUQko5SWVBLUd5SVd6ZkZ6U0RVNDc2TjduUnl6bmY5dkN1UllJR2tkbm9wQlQ0OEdHOFdpTE44TmJyV3lrTkphWDFMNnJSdkU5MVZkU0hXbjVkQ2tROTFaaGNHM29LenZUZ1prTWlTV1hUY1NLY1VjaTlmTmlYcTBoYV9ndWFZeFhCcW1BV2h1WWgyZnNsdlp5eGJEYW4zZzEtU19fd1NWX2doQTZuSEFlZDc4SnRnTDREYkFEaUlmQ0E?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Thu, 11 Jun 2026 01:34:30 GMT",
-    "pub_ts": 1781141670.0,
-    "fetched_ts": 1781179245.581484,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "CDL and Hong Leong JV submits top bid of $1,865 psf ppr for Peck Hay Road GLS site - EdgeProp.sg",
     "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNTEJ3U2FpcVFYcHJmT2d0dnAxZU5EeXF2dndzb0R0dHpJaWhQNVhoSVBxZFhGWWdtdlc3TG9HQ2dEYzFtYkhGenB1UTNCWHA1NEkzRXFPUnBHQkxyZUVVS3JyZ1dMNV9hc29waFQ1OGxBS0hfSUV1M2Z0Vnd5NlcxN2lSMlhoeUZNVmZpbEZLYkZfaWFGbWY4ZFIxUjRFUlh2NFlZaFdmS082N0I3SUZYV9IBtgFBVV95cUxOX25lQmdMOWl5V0tibUFMSkdWaUhJR2NsbWFuWnR5UFo0U2ZqX1B3aDJWelhzVkNnYzN1MGNDWGZBZTQ1SmItRHRhTEIxZEpTWldSYllTNU53N3VHN2hRVjNUUUpTTV9xZFA4ZF9GZ05ROEZTMjdhbUkzaWRYSEJvcXVyYnJwVDdBUXVjdEUzc1pwbFRLN1hYUzQ2TzVXZjFHcktuRFpvNlByR0FMZ1lfSzEyOVk5Zw?oc=5",
     "source": "EdgeProp.sg",
@@ -33,15 +15,6 @@
     "pub_date": "Thu, 11 Jun 2026 07:00:00 GMT",
     "pub_ts": 1781161200.0,
     "fetched_ts": 1781179245.582021,
-    "source_tag": "EdgeProp"
-  },
-  {
-    "title": "Resale condo unit at Butterworth 8 scores $2.32 mil in profit - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNU2dEQWRDVV9XN2ZobVNON2dVUmY2Nm40SmtUNWxkdnM3cmR6Q00zX192dDdVSmhnSmotU0xxYkNtb3RsdlFPRFVYT1dtZGdDbFczZzRMUjVoeGllVUl6aDloVEt5elV5SGlIU1I2c2F4T2c3Z2QwRkRCcWZrSVBVY0JYeFRjNzRBUU9TQ2tlQzJPOE9HS0HSAZsBQVVfeXFMT2NDV2Rla3REUVBaVVNXOWFmdDhpMGVla1ZIUjlDUE8yMG5oQmM3VzE0R3BSOGk1LTZaV0pKUGJkdm5CNW91dmlYcTFfakNXSGFhXzV1TFNQZTFGVktKcGthVDQyeDRRUGRQOUU0djZRX1V4Z2pHWW1SX1c3dHFKRGQxV0c5OUs1eWE5dXdCZzE0NXZxdzF6U1Z0SzQ?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Thu, 11 Jun 2026 05:00:00 GMT",
-    "pub_ts": 1781154000.0,
-    "fetched_ts": 1781179245.58223,
     "source_tag": "EdgeProp"
   },
   {
@@ -394,5 +367,23 @@
     "pub_ts": 1781698206.0,
     "fetched_ts": 1781719272.202974,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Sedin Technologies Completes IBM Maximo Application Suite SaaS Migration for Major Asia-Pacific Resort Operator Across Five Properties - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMinAJBVV95cUxNS0gxZndZUkQtQjlqM2J3bVBjd0ZjZUxIZXdVd1VKc0dMbm4zZjdVb1JkbjNmSXdJRFZwRmNKMVE3LW02SF8yTUJGeE1yZlVwaFBadG9sa3EwaVVvUmFscUlYNFJqa3FiT294VUJpOWNrREJMY0I2aXc2ZmNIdldKZko1U3FkdFVteW1ndVY0Vllaei1aZVVsWVBhQ0lwRzhPRVJIRW9qN1RScVMtNHhUdF9xY05sRVRfN24zTHlrUjBOTmY3NGtpcW9oakVYZ1A2dnlsa054TUZVZm94ekQ1d05hWnI1RWloZzdZcDRNZGxSZDFwREdfcmxGQWFVUy1lRWZFemlzTlljVUYyNklFdGJTWEJ4LXRETEZENA?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Thu, 18 Jun 2026 02:00:00 GMT",
+    "pub_ts": 1781748000.0,
+    "fetched_ts": 1781762429.011136,
+    "source_tag": "ST"
+  },
+  {
+    "title": "PUB launches guidebook for building owners, developers to help make their premises flood proof - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMi3AFBVV95cUxQV2h2WmtIaktTNi1pM0lOYWQxN0FJOGR2amh2NGswNGZhbENIaGlCcXF6bDNVYmoxWklIM2tjbmo1SFZKN2JWZjloQm1tWHllRjEtSDZ0SnJpRS1adDV4RTRxQjBLOUlRMDNzZk83U3NsUWIteE4tbnM0SjNVWXJlbnNyQlVLUkFrb0Z4ZHJGWjd6UnFheTNzQ2Faa1F3elhLSXJTdThkWkwtWW9XUU1MZjBMczVyQjNUNG85UFh1ZmlDTzhoNFFCdnMtdkEzS0ppeWdLNm5HVlRYU20z?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Thu, 18 Jun 2026 05:00:00 GMT",
+    "pub_ts": 1781758800.0,
+    "fetched_ts": 1781762429.011406,
+    "source_tag": "ST"
   }
 ]
