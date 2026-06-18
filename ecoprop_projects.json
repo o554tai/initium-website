@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-18T08:00:28.203556+00:00",
+  "scraped_at": "2026-06-18T09:00:23.181642+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -526,7 +526,7 @@
       "sold_out": false,
       "latitude": "1.3278326002813605",
       "longitude": "103.78816509874393",
-      "cover_image": "https://img.singmap.com/upload/broke/347d7de60c1c4728ba7d01ee6ffdc5f8/a1bec73dbfd74619848faf3e0c5090c9/imgs/20251030/61e49ba22cad463f95b88d0c5411cca7.jpg"
+      "cover_image": "https://img.singmap.com/upload/broke/347d7de60c1c4728ba7d01ee6ffdc5f8/a1bec73dbfd74619848faf3e0c5090c9/imgs/20260618/ee65379d4a6f4860b6ee78992096a9a6.jpeg"
     },
     {
       "project_name": "Amo Residence",
@@ -1386,7 +1386,7 @@
       "property_type": "Executive Condominium",
       "tenure": "99 years",
       "min_price": 1535000.0,
-      "max_price": 1673000.0,
+      "max_price": 2123000.0,
       "currency": "$",
       "units": "748",
       "completion_date": "",
@@ -2118,8 +2118,8 @@
       "expected_top": "Q1 2029",
       "launch_date": [
         2026,
-        6,
-        6,
+        7,
+        17,
         0,
         0
       ],
@@ -3143,8 +3143,8 @@
       "expected_top": "Dec 2030",
       "launch_date": [
         2026,
-        6,
-        20,
+        7,
+        18,
         0,
         0
       ],
