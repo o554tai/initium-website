@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-18T01:00:19.570653+00:00",
+  "scraped_at": "2026-06-18T02:00:14.859141+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -7833,7 +7833,7 @@
       "district": "D21",
       "location": "D21 - Clementi / Upper Bukit Timah",
       "address": "50 , 52  GREENBANK PARK  –semi-detached\n54 GREENBANK PARK  – bungalow",
-      "property_type": "Villa",
+      "property_type": "Residential Landed",
       "tenure": "Freehold",
       "min_price": 9500000.0,
       "max_price": 15000000.0,
@@ -7858,7 +7858,7 @@
       "district": "D17",
       "location": "D17 - Loyang / Changi",
       "address": "30 , 32 OLD TAMPINES ROAD SINGAPORE (Semi-D) ,      \n\n36 OLD TAMPINES ROAD SINGAPORE (Bungalow)",
-      "property_type": "Villa",
+      "property_type": "Residential Landed",
       "tenure": "Freehold",
       "min_price": 6000000.0,
       "max_price": 11800000.0,
