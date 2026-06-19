@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-19T04:00:56.613953+00:00",
+  "scraped_at": "2026-06-19T05:00:51.711311+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6360,7 +6360,7 @@
       "address": "1A & 1B Sophia Road",
       "property_type": "Mixed Developments",
       "tenure": "99 Years",
-      "min_price": 1248000.0,
+      "min_price": 1250000.0,
       "max_price": 3764000.0,
       "currency": "$",
       "units": "367",
