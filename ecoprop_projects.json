@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-19T01:00:53.377112+00:00",
+  "scraped_at": "2026-06-19T02:00:49.247961+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5498,7 +5498,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.3160371",
       "longitude": "103.8412951",
       "cover_image": "https://img.singmap.com/upload/broke/77bca671819a4ee69063f560fa734361/7e684927ede34a9890c74a416f8db4cc/imgs/20221017/1ad59dbe33d24d8b81c6eb501f8ad822.jpg"
@@ -6160,8 +6160,8 @@
       "address": "9 Devonshire Road",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 4380000.0,
-      "max_price": 4380000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "26",
       "completion_date": "",
@@ -6173,7 +6173,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.2979355464453475",
       "longitude": "103.83777113966684",
       "cover_image": "https://img.singmap.com/upload/broke/c0a207ddbb1a4e209599077d1b8babd9/daf7852230c7409c9ff3bc1a8758570b/imgs/20260608/b3d23cd2daf9441fa2d9dd6b84b61e0f.jpeg"
