@@ -18,15 +18,6 @@
     "source_tag": "ST"
   },
   {
-    "title": "Residential transactions with contracts dated May 26 to June 2 [DONE DEALS] - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOLTczQm9fd25nR00yMlRDYWVfZjA4Tms0UEV2RFM0Tjd6bzVHRnVqTHYybXZBNHJRNmVfWDNCUnlxamFyNDR0Q0FkMmFrOHdxZ0pMc0JKNXlvSzJoV2J3MDQwZW1PWk9KMVg0aGJoWW4ybE1sSXRqbFR1Tm5Qc0E1cW1QUUViRHoyeFd2X1VzYVlvZ0VOVTRIRG1NT2tXaWQ2ZVNPMEIzZU3SAa4BQVVfeXFMTmdmcDFqcnk5bFlZamRmeGZ0TXdtNzhjTDZpR25GbFpXNG1weVQ2NGJkbWtvMmlhT2pSUXVaRFdNcnRTMnJtSFBrSUNQQkZVdThSRmNDQzU4WUZOT2JVS0hncGtwOTJIZzdQYVNtQ0lnYmp6SlhTYTluc2dncXhVMFM0b0lfSkhfWTIxRFl6TDZKM3JmX3BlZFdlejEzU3RqS1IxV1hFTTlBUzdnUWJR?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Fri, 12 Jun 2026 00:00:00 GMT",
-    "pub_ts": 1781222400.0,
-    "fetched_ts": 1781244031.567165,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "Property agents rack up most offences for due diligence, advertising, HDB eligibility failures - EdgeProp.sg",
     "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxPbVVmX1p0MC1JdVNzVElDT1Q0LTgtcVBBU1FHSk80bFpqUlVBTUo5R0YyX2hfRlVXc1JTQjFOTGd1azlteC1ZUTdCTHY5WV9SNXNWM0pEckwteFJBTVN0eFpiTk5MWnVxdFdGd0JobGQwelF4SUpXN3NSXzJrWFNiLXVkMDgxRFA2cWxvYW5iQXhJTmg3aUsxS0xzN1NtVlJwSmZjRVZ2N2lXc3N6OXQxcDloeW4tbmdLYVEtV1FCclI?oc=5",
     "source": "EdgeProp.sg",
@@ -412,5 +403,23 @@
     "pub_ts": 1781776103.0,
     "fetched_ts": 1781805644.838644,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Johor booms, but uneven growth and housing costs loom over state polls - CNA",
+    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQUENuV2ZzbGdjR0llNVp0anhDbkVjeS1GdnR4a2QwdTBlQ2M4NXk3cGRLN3Jfbzhhem82QjRjb0Ryc3F4VXlBU2hCY1dMb0dnTW53OTB2eDhfRVNSMEJTSmp6NmxuNEpDMXV4ZmVfa0FKRGZmTzhZSWd3aUNBMTI3OXhLSTAtM25ITzFSWWFXenNMd05ITTFNSGFwcDZvRGhNTEE?oc=5",
+    "source": "CNA",
+    "pub_date": "Thu, 18 Jun 2026 23:22:26 GMT",
+    "pub_ts": 1781824946.0,
+    "fetched_ts": 1781827255.834442,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "Housing affordability a key issue in Johor election - CNA",
+    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQVnRlcXkyLWg3RGtrQWlrVGdwT1ZPZ3pwZVFQOEdQN29QTUFaTGR5anJ4Z2M5R0UxLVlrdnFSXzNTTWtxd1k5cnhVcEhyTGNWanIySUFKcW9ZNG56Y2R2d3FmRGJqWmFfNGtFT0tQLXZIZTFXWWpkZF96ZkdDWUItQllyUDEySlE5Vlc5RDV0cGdVcFp0V3JZRGVyTQ?oc=5",
+    "source": "CNA",
+    "pub_date": "Thu, 18 Jun 2026 22:00:00 GMT",
+    "pub_ts": 1781820000.0,
+    "fetched_ts": 1781827255.83449,
+    "source_tag": "CNA"
   }
 ]
