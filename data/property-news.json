@@ -1,14 +1,5 @@
 [
   {
-    "title": "Dunearn House: New Launch Condo | EdgeProp Singapore - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE5kQ0doQmJrUFc3bXhOTUdzQ1FQZ2o3WHVHN0FTcjB5VXJDNmE5VnZhdk9pOGJFSHN4aTE0Y2sycF9aQjRMN1ZjeTA1QzdteC13bmFlZ0Rod0U2Z1RzNjBN?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Mon, 15 Jun 2026 03:00:14 GMT",
-    "pub_ts": 1781492414.0,
-    "fetched_ts": 1781503268.768172,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "New private home sales shrank in May, with just one new launch in one-north - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNS3NDV3RoWEUtQVcwNURXQU1PVXpLdklkaUhmdFB1d0M3V1ZLMzczZDRsOEgzWTN5VDc4bHhteVNIeEhKMGRWYU9vdlZQeGp0UFplci1xREdsVUhFWFdnc05jeHoyRm5WMFA3a3ZJdE05OUp6eU8tWEtzTWs2R2Zzck83UDZ4WlF2X2lIajFXWUoyd2l6MTcyVlNjVXBIaGZONERzcWYxeF9ueDE1MVdNcDRrQnJIN0xVNFpYQmd3?oc=5",
     "source": "The Straits Times",
@@ -51,15 +42,6 @@
     "pub_date": "Mon, 15 Jun 2026 06:56:04 GMT",
     "pub_ts": 1781506564.0,
     "fetched_ts": 1781546420.623647,
-    "source_tag": "EdgeProp"
-  },
-  {
-    "title": "HDB shophouses in Toa Payoh and Kovan up for sale at $5.5 mil and $5.3 mil - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPQnJ5cFdILU51STFuQ1hnRTloa1dTRlFrYVN1RGFfbGE1dUZmRFFrRWVpcEtoR04zQVR4WlhiXzNQdXNnakh4UWk4RDdORGduSjFFRzJGaXJ5UWk0M1BBTTAxR2h2UnM2YnRGU0c2Z0poeEFsSmJWUDFONHh0clhTSkFhbHZQd0IzNzd0TmJpUXF4UnA4ZHlTQS0xa9IBoAFBVV95cUxOX3ZaVF8zc1FCQ29pWlRScjRMMVBNMkpBQnRJS1F3UXJpbFNDSnBJanlIV1FEb2NzWUQ3cDdhYmxTS1hyZlYwR1owbmtyaVpLbzRQRWJhcXpWc2NRUEpySkVjZ2xaU3ZVZko3aWJvODhNMlZfNVVKNkpzdEFuZmdjdTdXUnEwazA2dG9ZM202TmlRbUlpajRrTHVIeGs4QjFo?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Mon, 15 Jun 2026 04:01:56 GMT",
-    "pub_ts": 1781496116.0,
-    "fetched_ts": 1781546420.623673,
     "source_tag": "EdgeProp"
   },
   {
@@ -421,5 +403,14 @@
     "pub_ts": 1781923414.0,
     "fetched_ts": 1782021665.014988,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Morning Briefing: Top stories from The Straits Times on June 22, 2026 - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQWTVuNXRwSF9BSHllUEYzb2txZFZMSmRFU21ncXQ2U21BUjlUd2h0dU9tZGhPUGJCcUdoVDd0MjJBZFFtZWhWTU5BRE1ZLUkzZUREZGxnX0JQcklvQ2xneG1KSWpickZwakxLSWM1czdaekdQSlVMb2M3dFlxb1dWU3NZM2dsV0U0WVRwT2lZZzRKVDVCRUZpQkJlNTI5Y2Qtc3BxdVIwLS05ZEk?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Sun, 21 Jun 2026 23:58:32 GMT",
+    "pub_ts": 1782086312.0,
+    "fetched_ts": 1782108029.008012,
+    "source_tag": "ST"
   }
 ]
