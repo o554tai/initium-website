@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-23T08:00:50.417447+00:00",
+  "scraped_at": "2026-06-23T09:00:46.368859+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5960,7 +5960,7 @@
       "address": "Blk 811, 813 , 815 , 817, 819, 821 Upper Thomson Road",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
-      "min_price": 3224000.0,
+      "min_price": 2732000.0,
       "max_price": 3506000.0,
       "currency": "$",
       "units": "941",
