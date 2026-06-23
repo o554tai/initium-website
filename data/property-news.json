@@ -1,38 +1,11 @@
 [
   {
-    "title": "Why Japan’s ambitious urban redevelopment projects are stalling - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPOGM0VFFUb2VxZmFSUk9ILTJJZlU3aFd3cjRLVTZ1d1NOSjZwSlBjci1keS1wc1pIbHRwWllES05rRjIyRTM0emRuVy1EbVFJM0hGSGQyLUU5UlJIT0dZZ0RqMXVfRVFtY09ybkZRZjRSRXEwdW1STGk4X1hCRTRwYkhVR3VPenVPS3ZJSzBfV252NE1hNmFkVDh1TVZyWHpXSFJRamV4ekNEZw?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Mon, 15 Jun 2026 21:02:40 GMT",
-    "pub_ts": 1781557360.0,
-    "fetched_ts": 1781568025.602995,
-    "source_tag": "ST"
-  },
-  {
-    "title": "Commentary: Potential redevelopment of Yishun 10 shows gap in preserving Singapore’s built heritage - CNA",
-    "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOcjduZnlDWE5BUlhpRTdvZnN4QTlvbmNCNmM5Q2JHQjJpaERFN3RzLVNBMTNFbk12Qm5zd2o3QVh5MjlCd3ZyTHRWdS1jdVpwMW1nb09GeDJGME8zYTIzY2RYSlVFVnhxMTVKdFNWdXQ5RjRGQzlMQVh4cEZkaDFPYzNVWmhQV0dES0tCTjZoRkY2cUljY25ReHZHaUxiZFFUTG01c21WMV9HSTgxRFlvMzBSQzRrdw?oc=5",
-    "source": "CNA",
-    "pub_date": "Mon, 15 Jun 2026 23:20:23 GMT",
-    "pub_ts": 1781565623.0,
-    "fetched_ts": 1781568026.081549,
-    "source_tag": "CNA"
-  },
-  {
     "title": "China home prices fall at faster pace in setback to revival - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNbHNlVjQ1Nm9oWFh4YTFuVmV0YUloSW5SdXE0akRNWXBqa1NFV3E5NzNSQ1FyLUtHU0dWcm9xRGNZWkI2bHUwbmNNb2FoUE14X0xueDlDd25fcUhEdUstSi13RzQxU0lVMEFmOGNPQ2NWaWZiMG9aNnhCV3Y0bzR6aFRuVFNTRDdjdkJqYWdJYXFGUU5LVmFlbWNtcHdGZUpZTjZsek5XLWw?oc=5",
     "source": "The Straits Times",
     "pub_date": "Tue, 16 Jun 2026 03:01:14 GMT",
     "pub_ts": 1781578874.0,
     "fetched_ts": 1781589633.067473,
-    "source_tag": "ST"
-  },
-  {
-    "title": "Morning Briefing: Top stories from The Straits Times on June 16, 2026 - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQRk9TWndsUjhieVRESmFQXzUxTjNUeWhLZkI2dkdWYTZwNF9qSUZDbGRmZlBjR2U2UHg2NmhpeGRHVERuSjJBazBhdDdwcXE2Vlp2a3VVRkZlSGQyUU13d2VucjQ0ODVHWFlnWThGcGZnRlRPYVdiUHpoMERXQXRWYTVqWG9fX1VoZHlRUXRpUXR6TUcwTlFzZjhTU1pSSEFtaUtOLWowaU4wWlk?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Mon, 15 Jun 2026 23:50:58 GMT",
-    "pub_ts": 1781567458.0,
-    "fetched_ts": 1781589633.06984,
     "source_tag": "ST"
   },
   {
@@ -367,5 +340,14 @@
     "pub_ts": 1782103974.0,
     "fetched_ts": 1782151244.198931,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Money Talks - Is buying an executive condo still worth it after the new rule changes? - CNA",
+    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNdnU5UVZCU3ktU2tEemRlNG9MeFlYX0lPMUhZWVpIbjBPWnZ0ZHBONVB4eTJJN3llUEFWR3lJeEk5Ui1sZGpJb2JzRmVOUU9vbXlTZF9scnpjNUQ1OUs2M0NTZkQ3UHlhYUFBTjl5RmhDUEduRmpnNUR2QjB4b0pXUmxpUjRzQ2JTRXNZTVRwZkxlYkV4RFBfeDhxU1BCYmJiYnkwSWxzekNuYUptVERoVm5wV0N3Q0N5Q3dr?oc=5",
+    "source": "CNA",
+    "pub_date": "Mon, 22 Jun 2026 23:29:59 GMT",
+    "pub_ts": 1782170999.0,
+    "fetched_ts": 1782172845.396797,
+    "source_tag": "CNA"
   }
 ]
