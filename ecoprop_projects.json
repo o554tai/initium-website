@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-24T09:00:14.925794+00:00",
+  "scraped_at": "2026-06-24T10:00:12.724701+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -7110,8 +7110,8 @@
       "address": "65 Cairnhill Road",
       "property_type": "Residential Highrise",
       "tenure": "Freehold",
-      "min_price": 13500000.0,
-      "max_price": 13500000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "58",
       "completion_date": "2013 (TOP + CSC Obtained)",
