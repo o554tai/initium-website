@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-29T13:00:38.959198+00:00",
+  "scraped_at": "2026-06-29T14:00:35.391700+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1386,7 +1386,7 @@
       "property_type": "Executive Condominium",
       "tenure": "99 years",
       "min_price": 1535000.0,
-      "max_price": 1803000.0,
+      "max_price": 1673000.0,
       "currency": "$",
       "units": "748",
       "completion_date": "",
