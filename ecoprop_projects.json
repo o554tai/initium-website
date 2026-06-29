@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-06-29T07:00:32.014851+00:00",
+  "scraped_at": "2026-06-29T08:00:26.263638+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5861,7 +5861,7 @@
       "property_type": "Industrial",
       "tenure": "Freehold",
       "min_price": 2594023.0,
-      "max_price": 2708450.0,
+      "max_price": 2627197.0,
       "currency": "$",
       "units": "47",
       "completion_date": "",
