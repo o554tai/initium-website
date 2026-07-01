@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-07-01T07:00:40.134254+00:00",
+  "scraped_at": "2026-07-01T08:00:35.935244+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -10,7 +10,7 @@
       "address": "10 Evelyn Road",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 1578855.0,
+      "min_price": 1754730.0,
       "max_price": 3391875.0,
       "currency": "$",
       "units": "56",
@@ -5535,7 +5535,7 @@
       "address": "57, 59 Cove Way",
       "property_type": "Private Condominium",
       "tenure": "99 Years",
-      "min_price": 4459000.0,
+      "min_price": 4455000.0,
       "max_price": 9905000.0,
       "currency": "$",
       "units": "151",
