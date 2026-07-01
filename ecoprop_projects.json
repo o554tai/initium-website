@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 328,
-  "scraped_at": "2026-07-01T02:00:26.648073+00:00",
+  "scraped_at": "2026-07-01T03:00:21.998387+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -110,7 +110,7 @@
       "address": "19 Nassim Hill",
       "property_type": "Residential Low to Mid-rise",
       "tenure": "99 Years",
-      "min_price": 1917000.0,
+      "min_price": 1925000.0,
       "max_price": 1965000.0,
       "currency": "$",
       "units": "101",
