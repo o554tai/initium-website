@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 329,
-  "scraped_at": "2026-07-02T09:00:13.056696+00:00",
+  "scraped_at": "2026-07-02T10:00:12.999134+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5260,8 +5260,8 @@
       "address": "119 Emerald Hill",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 0,
-      "max_price": 0,
+      "min_price": 4425000.0,
+      "max_price": 13942000.0,
       "currency": "$",
       "units": "33",
       "completion_date": "2012",
@@ -5276,7 +5276,7 @@
       "sold_out": false,
       "latitude": "1.3055945306248662",
       "longitude": "103.83937908872846",
-      "cover_image": null
+      "cover_image": "https://img.singmap.com/upload/broke/468b5a26e27c4cc69451d79cebb5cc50/3775da0bb0cb4f758d728c5515860644/imgs/20260702/045ca6129e2e4348a45acb7da77663fb.png"
     },
     {
       "project_name": "Rezi 24",
