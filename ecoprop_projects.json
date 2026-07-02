@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
-  "total": 328,
-  "scraped_at": "2026-07-02T07:01:04.319919+00:00",
+  "source": "ecoprop.com",
+  "total": 329,
+  "scraped_at": "2026-07-02T08:01:05.526466+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5252,6 +5252,31 @@
       "latitude": "1.311448",
       "longitude": "103.835944",
       "cover_image": "https://img.singmap.com/upload/broke/ab4ad26debec4daaba2fee51c73c0abc/2944874e9285475194bd3209b67643be/imgs/86d6c38f9c5f47fdbebd8147573cd69e.jpg"
+    },
+    {
+      "project_name": "Residences at Emerald Hill",
+      "district": "D09",
+      "location": "D09 - Orchard / River Valley",
+      "address": "119 Emerald Hill",
+      "property_type": "Residential Lowrise",
+      "tenure": "Freehold",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "180",
+      "completion_date": "2026-12-31 00:00:00",
+      "expected_top": "Dec 2026",
+      "launch_date": [
+        2023,
+        11,
+        11,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": null,
+      "longitude": null,
+      "cover_image": null
     },
     {
       "project_name": "Rezi 24",
