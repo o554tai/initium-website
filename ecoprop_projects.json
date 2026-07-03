@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 329,
-  "scraped_at": "2026-07-03T02:00:35.503739+00:00",
+  "scraped_at": "2026-07-03T03:00:32.505917+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2108,7 +2108,7 @@
       "district": "D13",
       "location": "D13 - Macpherson / Potong Pasir",
       "address": "4 SOON WING ROAD",
-      "property_type": "Commercial",
+      "property_type": "Industrial",
       "tenure": "Freehold",
       "min_price": 0,
       "max_price": 0,
