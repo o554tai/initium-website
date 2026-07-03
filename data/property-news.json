@@ -1,14 +1,5 @@
 [
   {
-    "title": "CNA938 Rewind - The boom in online property/financial courses: Opportunity or illusion? #SGToday - CNA",
-    "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNUHpWVVJ4OW4tend1OFZjaW5EOE5ScWhJZ0I1TkxqTjk5a3pSbzRIbGY0Wlp3SThiMktwX0tYQ1lyam8ydEx6aDBQLTc4akljZ2tLTEhodFU1a1RnSWhHQ2lfSHhpblduSUwxZVNBRmNaUm5VOVI0TlBOM3JFaDVYTHRRejJKeGV5TnkzZnl4dmRKVi10RHZ5NVdOSnZCNzc4THFlM0FWb200bnZzVmowTnBDRll2RGFtN25KaHEwcGZNQ2hyUVgwX3plMm9Gdw?oc=5",
-    "source": "CNA",
-    "pub_date": "Fri, 26 Jun 2026 13:30:08 GMT",
-    "pub_ts": 1782480608.0,
-    "fetched_ts": 1782496829.751039,
-    "source_tag": "CNA"
-  },
-  {
     "title": "Morning Briefing: Top stories from The Straits Times on June 27, 2026 - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNRk1aUHpwdmtPMVpSUUNFbGVzVHNmeGhKb0RDY29CT0Y2TzhNM3hjdGwtY1pDbGVKOUZqbnRzY2VXc09VTTJiWlo4RTNSMUpIaTlzOUxxbVlEaTJUaWppOEtqVWNOcFVjTXJvRTJxN2diLXB4TU5XU08ydjd4ZkRWb1c5bl9LbWpKVDJ3RVAxTUV3REFyX0dXQk1LakhhaVFkR1NGMjBNeGhvQ3M?oc=5",
     "source": "The Straits Times",
@@ -340,5 +331,32 @@
     "pub_ts": 1783055220.0,
     "fetched_ts": 1783080052.487103,
     "source_tag": "CNA"
+  },
+  {
+    "title": "Chinese heritage meets modern living in Bishan HDB flat - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQekRvRk5kLS13cEVuMF9NekxPNW42X3hMMFFwNUNGQVJVd2czVFVVbk9LQ1Z0OURlRnBmZWRyTnhnVnBNMUk2X2p1UVlnMFRoS1RJenI1aWc4cHJYT0lULVRvT3NFQ0JCbk42X19PUjltRmFpOE92dkd6WENaSHotWm1oR09tZnhBZ3p6T0dhYlM1ZFFnbHFKSGEwUi1TOGhuTDdF?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Fri, 03 Jul 2026 05:45:00 GMT",
+    "pub_ts": 1783057500.0,
+    "fetched_ts": 1783101663.12384,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Child taken to hospital after fire breaks out in Yishun HDB flat - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNaENqZi1kUlhaQ1E0NDZXcEhLaEJXa3hOek5xQ3AyVWFPOTBxUFlaejd5b1l4cGFpdWpzRHNNRkQwbEtYVzE0enhnUDlWV0l5TDZ2ZTJ6cWs4dkNTeE13bEkxRWpxZGg1YzBxRmg0bVNzNEpkWno2WENlNFI5WThOb2ttVUhPZlkycUo3SmNxWGlFTHowX2xvMFQ3X1IydXZXYzRiTUx3?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Fri, 03 Jul 2026 12:43:57 GMT",
+    "pub_ts": 1783082637.0,
+    "fetched_ts": 1783101663.124799,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Cotton On shuts two Singapore stores as leases expire - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOVlhhM0JrdTdCZkJxOEw0alFJdW9wb2tWdkEzeWlOTkdDeXY2cUFiSlBfVjRJeUZzYnVSNTlWSVNHcmpMOUtkd1owVzlkMGhwekYwX3VnSWVva3QxVWRydVRMOXFvX2hsZ3hrMnhYZmY0RGFwSXhLSV85WXJOZkxDT1hOYU14d0M1RjRIWFQ3R2hkcTlxSkE?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Thu, 02 Jul 2026 09:30:00 GMT",
+    "pub_ts": 1782984600.0,
+    "fetched_ts": 1783101663.125537,
+    "source_tag": "ST"
   }
 ]
