@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 329,
-  "scraped_at": "2026-07-05T04:00:51.954246+00:00",
+  "scraped_at": "2026-07-05T05:00:48.990643+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -4960,7 +4960,7 @@
       "address": "70 , 72 Margaret Drive",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
-      "min_price": 1817000.0,
+      "min_price": 1824000.0,
       "max_price": 1902000.0,
       "currency": "$",
       "units": "462",
