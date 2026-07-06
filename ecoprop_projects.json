@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 329,
-  "scraped_at": "2026-07-06T04:00:47.868799+00:00",
+  "scraped_at": "2026-07-06T05:00:43.417944+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3485,8 +3485,8 @@
       "address": "69 & 71 Science Park Drive",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 3435000.0,
-      "max_price": 3435000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "343",
       "completion_date": "",
