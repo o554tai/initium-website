@@ -9,15 +9,6 @@
     "source_tag": "ST"
   },
   {
-    "title": "Money Talks - Is buying an executive condo still worth it after the new rule changes? - CNA",
-    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNdnU5UVZCU3ktU2tEemRlNG9MeFlYX0lPMUhZWVpIbjBPWnZ0ZHBONVB4eTJJN3llUEFWR3lJeEk5Ui1sZGpJb2JzRmVOUU9vbXlTZF9scnpjNUQ1OUs2M0NTZkQ3UHlhYUFBTjl5RmhDUEduRmpnNUR2QjB4b0pXUmxpUjRzQ2JTRXNZTVRwZkxlYkV4RFBfeDhxU1BCYmJiYnkwSWxzekNuYUptVERoVm5wV0N3Q0N5Q3dr?oc=5",
-    "source": "CNA",
-    "pub_date": "Mon, 29 Jun 2026 23:18:57 GMT",
-    "pub_ts": 1782775137.0,
-    "fetched_ts": 1782799261.364936,
-    "source_tag": "CNA"
-  },
-  {
     "title": "US House committee opens investigation into Merck, AbbVie China drug trials - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQRGVFb3NEaEdJWl9sUVA1RWZGZFR4MjlCcUpiMjBJV2dhQTNjYTRWbkJkbl91VlVLWGdJTXItM2p5SS1nRDlPQUZwSk02cEt5QWtyb1p6eXZsSmM4RHhQMjBBZlNXMGg2ZFh3dmdOMnJsOHkwdjJwU2RqYnJtOFFhY0czR1ItenRXbk5ldHpMeGNUbS10SWtycldyQThqM0ZsRTlhdkZTQkdTM3Zz?oc=5",
     "source": "The Straits Times",
@@ -421,5 +412,14 @@
     "pub_ts": 1783322100.0,
     "fetched_ts": 1783339259.662068,
     "source_tag": "ST"
+  },
+  {
+    "title": "Singapore real estate investments cross $30 bil in 1H2026, bolstered by commercial deals - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxQa2hjZUVLSHlfM0Z3aU1jdzFydzEyUEtCazF2dDRyNFhobE5tS3JQcllhYm1hMDFEMURuMFFXQXRwbFZzR3c4UHN3MEhrd3RleE1Cb285R21aY2tiTUFvWDQyQWFFQnpGSmU2cXBra01tbnp0blJLczJUTTZGUWN3ZDhNUjlpRUxneTk3VjVXallRa2g3TWlvYkVsVnVlTkhlam5aSS1abzl2enZhZDJpNEtkVnpQSVhmX3fSAb8BQVVfeXFMTWU4OVJ0ZlBLYzZ0RVpaaXd0LTRIUHRPcDdaWVpXVG05eFFWMDhjTEpVRUdRMG9SbzNmV09WNlZEdjlOb084NmhscmV3MnF1YTNvWGhGNHVmRkg4bHI2bE1KN3ByT29nUkRfQnR1NFpEMjJTUVZReG1UdFZycnJ1N3BmNzM4RGFMeWZmZ1phd2dBZ2FmbUozUm5nTW5SaVJDalZZbHd2NFFFbUI3SXJ3cWRzQ0lGM1BjcTBydWxGUUk?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Mon, 06 Jul 2026 07:55:13 GMT",
+    "pub_ts": 1783324513.0,
+    "fetched_ts": 1783382415.30376,
+    "source_tag": "EdgeProp"
   }
 ]
