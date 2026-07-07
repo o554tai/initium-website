@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 329,
-  "scraped_at": "2026-07-07T01:00:13.333911+00:00",
+  "scraped_at": "2026-07-07T02:00:11.073486+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3498,7 +3498,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.291367410091415",
       "longitude": "103.78824145131401",
       "cover_image": "https://img.singmap.com/upload/broke/26a7e3532c1e40c493ccd4d1302549f3/3180d4d7b2d34fae90872c16853cdbd3/imgs/20250516/0982ecdff4e3489a9ac54b46aaea8f37.jpeg"
