@@ -1,0 +1,14 @@
+AAPL | $312.66 | 🟢 BUY | RSI 62.4 | EMA crossover (296.60 > 295.71), RSI 62.4
+  → BUY 79 shares @ $312.66, Stop @ $287.65
+TSLA | $419.77 | 📉 TREND DOWN | RSI 54.7 | EMA bearish, RSI 54.7
+NVDA | $195.55 | 📉 TREND DOWN | RSI 42.0 | EMA bearish, RSI 42.0
+AMD | $552.05 | 📈 TREND UP | RSI 57.4 | EMA bullish, RSI 57.4
+COIN | $168.87 | 📉 TREND DOWN | RSI 52.8 | EMA bearish, RSI 52.8
+MSFT | $386.74 | 📉 TREND DOWN | RSI 48.2 | EMA bearish, RSI 48.2
+AMZN | $244.16 | 📉 TREND DOWN | RSI 50.0 | EMA bearish, RSI 50.0
+PLTR | $132.54 | 📉 TREND DOWN | RSI 54.3 | EMA bearish, RSI 54.3
+D05.SI | $66.91 | 📈 TREND UP | RSI 68.2 | EMA bullish, RSI 68.2
+U11.SI | $40.52 | 📈 TREND UP | RSI 71.4 | EMA bullish, RSI 71.4
+O39.SI | $25.49 | 📈 TREND UP | RSI 68.5 | EMA bullish, RSI 68.5
+SPY | $751.28 | 📈 TREND UP | RSI 58.1 | EMA bullish, RSI 58.1
+QQQ | $722.82 | 📈 TREND UP | RSI 51.7 | EMA bullish, RSI 51.7
