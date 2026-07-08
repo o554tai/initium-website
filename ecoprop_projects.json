@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
-  "total": 329,
-  "scraped_at": "2026-07-08T06:00:12.985834+00:00",
+  "source": "ecoprop.com",
+  "total": 330,
+  "scraped_at": "2026-07-08T07:00:10.365799+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -760,7 +760,7 @@
       "address": "802 Beach Road",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 1787900.0,
+      "min_price": 1770000.0,
       "max_price": 12498122.0,
       "currency": "$",
       "units": "188",
@@ -4479,6 +4479,31 @@
       "cover_image": "https://img.singmap.com/upload/broke/37eed69bae0a44efbd428e42c827787a/30f2b0932bac4e47a514b1fb9d5ad604/imgs/20221120/e249e8cdbc8346999438f749494ffc38.jpg"
     },
     {
+      "project_name": "One Leonie Residences",
+      "district": "D09",
+      "location": "D09 - Orchard / River Valley",
+      "address": "1 Leonie Hill",
+      "property_type": "Residential Highrise",
+      "tenure": "Freehold",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "25",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
+      "launch_date": [
+        2026,
+        9,
+        30,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.29964942021409",
+      "longitude": "103.83237746013651",
+      "cover_image": "https://img.singmap.com/upload/broke/2bb941dfc39445998b241147df411af3/2268150fa2684304a1b26d45c490ac0e/imgs/20260708/81437982f18641a68d7592f026d8a58e.png"
+    },
+    {
       "project_name": "One Marina Gardens",
       "district": "D01",
       "location": "D01 - Boat Quay / Raffles Place",
@@ -5604,31 +5629,6 @@
       "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/09e13b41134f46b98b596fef6c0136ba/imgs/d86cb996182840d9b11e92e6b57a166a.jpg"
     },
     {
-      "project_name": "Senja Close GLS",
-      "district": "D23",
-      "location": "D23 - Bukit Batok / Bukit Panjang",
-      "address": "Senja Close",
-      "property_type": "Residential Lowrise",
-      "tenure": "99 Years",
-      "min_price": 0,
-      "max_price": 0,
-      "currency": "$",
-      "units": "295",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
-      "launch_date": [
-        2026,
-        8,
-        15,
-        0,
-        0
-      ],
-      "sold_out": false,
-      "latitude": "1.3893900543240472",
-      "longitude": "103.7623771119608",
-      "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/478f87cc6ca64393bc3aea90f798f484/imgs/20251030/534fb2aff8c94286b2a8a684393ce405.jpg"
-    },
-    {
       "project_name": "Seraya Residences",
       "district": "D15",
       "location": "D15 - East Coast / Marine Parade",
@@ -5777,6 +5777,31 @@
       "latitude": "1.2763492843907165",
       "longitude": "103.84742957129785",
       "cover_image": "https://img.singmap.com/upload/broke/2ee5faac45e4465f8a811897312e97a4/8bc99f6e4056433e89a47457580df1bc/imgs/20230908/6b3a0aa223d84d8ab44d88e13c8cf840.jpg"
+    },
+    {
+      "project_name": "Solano Grand",
+      "district": "D23",
+      "location": "D23 - Bukit Batok / Bukit Panjang",
+      "address": "Senja Close",
+      "property_type": "Residential Lowrise",
+      "tenure": "99 Years",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "295",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
+      "launch_date": [
+        2026,
+        8,
+        15,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.3893900543240472",
+      "longitude": "103.7623771119608",
+      "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/478f87cc6ca64393bc3aea90f798f484/imgs/20251030/534fb2aff8c94286b2a8a684393ce405.jpg"
     },
     {
       "project_name": "Sophia Meadow",
@@ -8104,31 +8129,6 @@
       "cover_image": "https://img.singmap.com/upload/broke/e08e357f9f884accb9c10bc4de0c8c3a/c1ebb60d0a184e47bd239808d965b178/imgs/c1ebb60d0a184e47bd239808d965b178.jpg"
     },
     {
-      "project_name": "Woodlands Drive 17 - PA",
-      "district": "D25",
-      "location": "D25 - Admiralty / Woodlands",
-      "address": "Woodlands Drive 17",
-      "property_type": "Residential Highrise",
-      "tenure": "99 Years",
-      "min_price": 0,
-      "max_price": 0,
-      "currency": "$",
-      "units": "420",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
-      "launch_date": [
-        2026,
-        8,
-        15,
-        0,
-        0
-      ],
-      "sold_out": false,
-      "latitude": "1.4259804202285815",
-      "longitude": "103.79132793173679",
-      "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/adbd4a81ec6c4032b0c6d018860067f8/imgs/20251030/a47cc7d2702c421bbf279442689e5ce7.jpg"
-    },
-    {
       "project_name": "Woodlands Drive 17 - PB",
       "district": "D25",
       "location": "D25 - Admiralty / Woodlands",
@@ -8177,6 +8177,31 @@
       "latitude": "1.4351532",
       "longitude": "103.7846985",
       "cover_image": "https://img.singmap.com/upload/broke/2bb941dfc39445998b241147df411af3/a25239a84ced498ebb3caac79b4b33f6/imgs/404420b43a15447f835b6967d55dc6bf.jpg"
+    },
+    {
+      "project_name": "Wynwood Grand",
+      "district": "D25",
+      "location": "D25 - Admiralty / Woodlands",
+      "address": "Woodlands Drive 17",
+      "property_type": "Residential Highrise",
+      "tenure": "99 Years",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "420",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
+      "launch_date": [
+        2026,
+        8,
+        15,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.4259804202285815",
+      "longitude": "103.79132793173679",
+      "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/adbd4a81ec6c4032b0c6d018860067f8/imgs/20251030/a47cc7d2702c421bbf279442689e5ce7.jpg"
     },
     {
       "project_name": "Zyanya",
