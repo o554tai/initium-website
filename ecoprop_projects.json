@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-08T08:00:18.564020+00:00",
+  "scraped_at": "2026-07-08T09:00:13.801688+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1885,7 +1885,7 @@
       "address": "54 ,56, 58 ,60 ,62 ,64 ,66 ,68 ,70 Faber Walk",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
-      "min_price": 2715000.0,
+      "min_price": 2799000.0,
       "max_price": 3476000.0,
       "currency": "$",
       "units": "399",
