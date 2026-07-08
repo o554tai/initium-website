@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-08T09:00:19.431724+00:00",
+  "scraped_at": "2026-07-08T10:00:15.303544+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3335,7 +3335,7 @@
       "address": "65 Lloyd Road",
       "property_type": "Residential Low to Mid-rise",
       "tenure": "Freehold",
-      "min_price": 2802000.0,
+      "min_price": 6968000.0,
       "max_price": 9332000.0,
       "currency": "$",
       "units": "76",
@@ -6985,8 +6985,8 @@
       "address": "11c Balmoral Road",
       "property_type": "Residential Low to Mid-rise",
       "tenure": "Freehold",
-      "min_price": 14109000.0,
-      "max_price": 28600000.0,
+      "min_price": 14869000.0,
+      "max_price": 14869000.0,
       "currency": "$",
       "units": "23",
       "completion_date": "",
