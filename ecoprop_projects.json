@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-09T03:00:44.873413+00:00",
+  "scraped_at": "2026-07-09T04:00:42.277641+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -7457,7 +7457,7 @@
       "project_name": "Thomson Reserve",
       "district": "D20",
       "location": "D20 - Ang Mo Kio / Bishan / Thomson",
-      "address": "Bright Hill Drive",
+      "address": "1, 3, 5, 7, 9, 11 Bright Hill Drive",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
       "min_price": 0,
