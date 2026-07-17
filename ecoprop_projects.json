@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-17T10:00:23.992007+00:00",
+  "scraped_at": "2026-07-17T11:00:20.243883+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6185,8 +6185,8 @@
       "address": "18 , 18A , 18B, 20, 20A, 22, 22A, 22B , 18C Yew Siang Road",
       "property_type": "Private Condominium",
       "tenure": "Freehold",
-      "min_price": 2437000.0,
-      "max_price": 8912000.0,
+      "min_price": 2517000.0,
+      "max_price": 7600000.0,
       "currency": "$",
       "units": "270",
       "completion_date": "Q1 2028",
