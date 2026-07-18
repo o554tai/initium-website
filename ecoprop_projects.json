@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-18T07:01:08.311849+00:00",
+  "scraped_at": "2026-07-18T08:01:04.084305+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3135,7 +3135,7 @@
       "address": "66, 68, 70, 72, 74, 76, 78 Lentor Garden",
       "property_type": "Mixed Developments",
       "tenure": "99 Years",
-      "min_price": 1521000.0,
+      "min_price": 1527500.0,
       "max_price": 3515600.0,
       "currency": "$",
       "units": "499",
