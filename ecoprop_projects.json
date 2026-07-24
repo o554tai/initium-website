@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-24T11:00:44.642698+00:00",
+  "scraped_at": "2026-07-24T12:00:43.473463+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2660,7 +2660,7 @@
       "address": "2 Jurong East Central 1",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 3102000.0,
+      "min_price": 3115000.0,
       "max_price": 3915000.0,
       "currency": "$",
       "units": "368",
