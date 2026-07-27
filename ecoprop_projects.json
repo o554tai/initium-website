@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-27T03:01:08.302416+00:00",
+  "scraped_at": "2026-07-27T04:01:04.148788+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1010,8 +1010,8 @@
       "address": "86, 88 Orchard Boulevard",
       "property_type": "Residential Highrise",
       "tenure": "Freehold",
-      "min_price": 4811100.0,
-      "max_price": 4811100.0,
+      "min_price": 4908000.0,
+      "max_price": 4908000.0,
       "currency": "$",
       "units": "154",
       "completion_date": "",
@@ -1448,7 +1448,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.36131",
       "longitude": "103.7274701",
       "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/72b4e4f064734f3aac44e6c262ab8534/imgs/20220915/0619447fabeb411e9ef059effa374a0b.jpeg"
@@ -4285,8 +4285,8 @@
       "address": "2 , 6, 8  and  10 Champions Way",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 2616000.0,
-      "max_price": 2778000.0,
+      "min_price": 2643000.0,
+      "max_price": 2840000.0,
       "currency": "$",
       "units": "348",
       "completion_date": "Q3 2026",
