@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-28T03:00:41.396317+00:00",
+  "scraped_at": "2026-07-28T04:00:34.091654+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2654,6 +2654,31 @@
       "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/49c49cc9ed2a4e2d80aa5af86ce85b73/imgs/16c2735d17e0470390be1d077e4242a4.jpeg"
     },
     {
+      "project_name": "Island Residence",
+      "district": "D04",
+      "location": "D04 - Harbourfront / Telok Blangah",
+      "address": "Keppel Island\n",
+      "property_type": "Residential Highrise",
+      "tenure": "99 Years",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "86",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
+      "launch_date": [
+        2026,
+        9,
+        30,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.2640754343512965",
+      "longitude": "103.81281869543763",
+      "cover_image": "https://img.singmap.com/upload/broke/f558933424df4c149a651a267bea8e42/c55186912e0c40ed98f8b16838e8ac11/imgs/20240605/49e032cac6cf46b2a58083c94d85a51e.png"
+    },
+    {
       "project_name": "J'den 聚鼎",
       "district": "D22",
       "location": "D22 - Boon Lay / Jurong / Tuas",
@@ -2902,31 +2927,6 @@
       "latitude": "1.2811408",
       "longitude": "103.7900681",
       "cover_image": "https://img.singmap.com/upload/broke/56d272c6dfbb421da06664083d0607d1/8277ec31a0894df1a826742e271e924c/imgs/8277ec31a0894df1a826742e271e924c.png"
-    },
-    {
-      "project_name": "Keppel Bay Plot 6",
-      "district": "D04",
-      "location": "D04 - Harbourfront / Telok Blangah",
-      "address": "Keppel Island\n",
-      "property_type": "Residential Highrise",
-      "tenure": "99 Years",
-      "min_price": 0,
-      "max_price": 0,
-      "currency": "$",
-      "units": "86",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
-      "launch_date": [
-        2026,
-        8,
-        15,
-        0,
-        0
-      ],
-      "sold_out": false,
-      "latitude": "1.2640754343512965",
-      "longitude": "103.81281869543763",
-      "cover_image": "https://img.singmap.com/upload/broke/f558933424df4c149a651a267bea8e42/c55186912e0c40ed98f8b16838e8ac11/imgs/20240605/49e032cac6cf46b2a58083c94d85a51e.png"
     },
     {
       "project_name": "Ki Residences at Brookvale 翠宁苑",
@@ -3369,7 +3369,7 @@
       "launch_date": [
         2026,
         9,
-        30,
+        26,
         0,
         0
       ],
@@ -3868,8 +3868,8 @@
       "expected_top": "TBC",
       "launch_date": [
         2026,
-        7,
-        25,
+        9,
+        30,
         0,
         0
       ],
@@ -4002,6 +4002,31 @@
       "latitude": "1.3676737028871535",
       "longitude": "103.77467558199825",
       "cover_image": "https://img.singmap.com/upload/broke/1557b87be48b40c491095353fd85307c/030fee210b074a86a512f1f6cfaf62b6/imgs/20251201/f1122146a2ff4db988df236d91b743d5.jpg"
+    },
+    {
+      "project_name": "Natura Collection",
+      "district": "D27",
+      "location": "D27 - Sembawang / Yishun",
+      "address": "20 Tung Po Avenue",
+      "property_type": "Residential Landed",
+      "tenure": "Freehold",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "11",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
+      "launch_date": [
+        2026,
+        10,
+        24,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.3815737732043203",
+      "longitude": "103.83184791921802",
+      "cover_image": "https://img.singmap.com/upload/broke/abc91b5b6fd1466493503e5337173f37/34434297696c4553b415c02d514f8ac3/imgs/20251029/d76a46de480546a5ae6183e9b8102d5d.png"
     },
     {
       "project_name": "Nava Grove",
@@ -4493,8 +4518,8 @@
       "expected_top": "TBC",
       "launch_date": [
         2026,
-        9,
-        30,
+        11,
+        25,
         0,
         0
       ],
@@ -7467,9 +7492,9 @@
       "completion_date": "TBC",
       "expected_top": "TBC",
       "launch_date": [
-        2025,
-        12,
-        31,
+        2026,
+        10,
+        17,
         0,
         0
       ],
@@ -7852,31 +7877,6 @@
       "latitude": "1.331525643332697",
       "longitude": "103.7987804538039",
       "cover_image": "https://img.singmap.com/upload/broke/abc91b5b6fd1466493503e5337173f37/e1a1ef5612764b40a55a8807f64c002a/imgs/20251024/7f6ffa95e42940a1b66bf8298f361597.jpeg"
-    },
-    {
-      "project_name": "Vila Natura",
-      "district": "D27",
-      "location": "D27 - Sembawang / Yishun",
-      "address": "20 Tung Po Avenue",
-      "property_type": "Residential Landed",
-      "tenure": "Freehold",
-      "min_price": 0,
-      "max_price": 0,
-      "currency": "$",
-      "units": "11",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
-      "launch_date": [
-        2026,
-        10,
-        24,
-        0,
-        0
-      ],
-      "sold_out": false,
-      "latitude": "1.3815737732043203",
-      "longitude": "103.83184791921802",
-      "cover_image": "https://img.singmap.com/upload/broke/abc91b5b6fd1466493503e5337173f37/34434297696c4553b415c02d514f8ac3/imgs/20251029/d76a46de480546a5ae6183e9b8102d5d.png"
     },
     {
       "project_name": "Villas @ Greenbank Park",
