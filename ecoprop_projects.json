@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-07-29T15:00:31.560554+00:00",
+  "scraped_at": "2026-07-29T16:00:29.207399+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6960,7 +6960,7 @@
       "address": "800/802 Upper Bukit Timah Road",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 3161000.0,
+      "min_price": 3209000.0,
       "max_price": 3822000.0,
       "currency": "$",
       "units": "408",
