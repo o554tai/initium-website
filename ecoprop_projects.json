@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-01T04:00:37.935230+00:00",
+  "scraped_at": "2026-08-01T05:00:35.258314+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2189,8 +2189,8 @@
       "max_price": 7510000.0,
       "currency": "$",
       "units": "1008",
-      "completion_date": "Aug 2026",
-      "expected_top": "Aug 2026",
+      "completion_date": "TOP Obtained",
+      "expected_top": "TOP Obtained",
       "launch_date": [
         2023,
         7,
@@ -3139,8 +3139,8 @@
       "max_price": 3515600.0,
       "currency": "$",
       "units": "499",
-      "completion_date": "3Q 3029",
-      "expected_top": "3Q 3029",
+      "completion_date": "3Q 2029",
+      "expected_top": "3Q 2029",
       "launch_date": [
         2026,
         7,
@@ -4310,8 +4310,8 @@
       "address": "2 , 6, 8  and  10 Champions Way",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 0,
-      "max_price": 0,
+      "min_price": 2643000.0,
+      "max_price": 2877000.0,
       "currency": "$",
       "units": "348",
       "completion_date": "Q3 2026",
@@ -5835,8 +5835,8 @@
       "address": "132 Sophia Road",
       "property_type": "Condominium",
       "tenure": "Leasehold",
-      "min_price": 0,
-      "max_price": 0,
+      "min_price": 1273000.0,
+      "max_price": 2561000.0,
       "currency": "$",
       "units": "41",
       "completion_date": "",
