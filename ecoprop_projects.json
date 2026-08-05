@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-05T02:00:22.926678+00:00",
+  "scraped_at": "2026-08-05T03:00:15.607625+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -685,7 +685,7 @@
       "address": "8 Sin Ming Road",
       "property_type": "Mixed Developments",
       "tenure": "Freehold",
-      "min_price": 1292000.0,
+      "min_price": 1275000.0,
       "max_price": 5019000.0,
       "currency": "$",
       "units": "42",
