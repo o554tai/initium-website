@@ -54,15 +54,6 @@
     "source_tag": "EdgeProp"
   },
   {
-    "title": "Residential transactions with contracts dated July 14 to 21 [DONE DEALS] - edgeprop.sg",
-    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQOUZ1a0RMWmpVS0xNVlhJUTA2SFBjZU5PakFHVEVSTUhFSjNSTmU3OFY0UC15V3ZoemxFVFdOZWY2cERyN1F4ZWRoWE1WbThoZjJrUFpsVENSSWRrZmlKdzB5N1VweVFoNFBtUmhwWmN3ak1ULXBfWUppYzN6Z2MtUTdidlh3OVBlTV9BYW1kNDZPeHpZdTU3YnVDclZIWUhBbkE?oc=5",
-    "source": "edgeprop.sg",
-    "pub_date": "Fri, 31 Jul 2026 00:00:00 GMT",
-    "pub_ts": 1785456000.0,
-    "fetched_ts": 1785477622.180115,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "What's moving the market: Singapore's biggest property deals and hottest searches (July 31) - edgeprop.sg",
     "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNSEp1a25rM09SMTdxbkpnQklRSVdnZHJ0cjdMektmOS1pTExrYWNXX1JNbTd5OEJEdjBhQWh4cm9ORUloZGVLVjAwZ0g3MWVxVEVfSHZkc0N3Z3Nwb1FYdkIwN0NSamxERXdWM2ZSclNxb210T0ZGRkpuSkNnTVFZeHlzQ296VzJ4RXhsUHZVLUJlQV93aDZrRGZob3psc1dLajBCWUQ3N3o4YnhXeHVPZlR3eTRQZzBoVGNJcw?oc=5",
     "source": "edgeprop.sg",
@@ -79,15 +70,6 @@
     "pub_ts": 1785481200.0,
     "fetched_ts": 1785499228.670845,
     "source_tag": "EdgeProp"
-  },
-  {
-    "title": "Forest preservation, early say in Gillman Barracks redevelopment among issues raised at dialogue - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMizwFBVV95cUxPN1dUZUtEb2NEdE95Q2NGYVQ1VlRPWGVjd0cyUnpMVmVPRjRwdzF5UlV2emlGWUUyajhoTlVETzZMRWJiUklhM2ZGRnBaREMwVERBVGxJa0phcXBnQ1hZTmpsRXpXX1F3eWhNWjlWSFZUTlRUNy03dTRNSEZvRmxJNlRZMTRyLTdyWkFYZVVURV9VWVQzMzVWQ2ItSWZEVkIwd0h6SzY2NFV5RGlJY1ZSYml1M1F1cXBoYmh6TnhkakJUcDlhdTlfR0NFZGhTekU?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Thu, 30 Jul 2026 21:00:00 GMT",
-    "pub_ts": 1785445200.0,
-    "fetched_ts": 1785564042.601634,
-    "source_tag": "ST"
   },
   {
     "title": "Lifting of wait-out period has reduced the stress of moving, say private homeowners eyeing a flat - The Straits Times",
@@ -583,5 +565,23 @@
     "pub_ts": 1786006800.0,
     "fetched_ts": 1786017616.360556,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Forum: Consider separate en bloc consent thresholds for mixed-use developments - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxNVXlWU0VfSTlLNVpUdkxFTEVEb3BZTFF5eEZSZ3JhOVdOUzgxQTVyd0JiUmNESU1lRDBrR2NiRlJCNTlqcmlKMGFlb2l1bDY4SERrMml4TTlBZERaa1FjTkRseGZON0ItaWt3Mm1pSnd1bUJ3QmJfY25IdHhMbXZnck9oLUZ3SUJCckNFT21BZ281UUpXSDhycHBBVHA5QW5XRndXbFdhLU91RDlOUm1FM1hscTFBY0RqLUZrdg?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Thu, 06 Aug 2026 21:00:00 GMT",
+    "pub_ts": 1786050000.0,
+    "fetched_ts": 1786060825.601091,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Why demand for older HDB flats is still very high - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxOWGJCYWE3Um1oQnpRNl9JZlpwd3daMmkwb2JJdF9JWi0tUF9uaElodTNtME04VFZEWTViQzdXa0xLR0tqZzlhMlA4MjNobFJrZzVKQjBhZjRzenNnMnEtVW5MRTVfR283TTMzM3hKQXJqWnZhV3dCUHg5MUNnd3A4YUtIMnlrd1BSeEw5YUwxUVZncVJxX3c?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Thu, 06 Aug 2026 21:00:00 GMT",
+    "pub_ts": 1786050000.0,
+    "fetched_ts": 1786060825.603009,
+    "source_tag": "ST"
   }
 ]
