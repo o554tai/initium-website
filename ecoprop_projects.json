@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-07T02:00:28.291346+00:00",
+  "scraped_at": "2026-08-07T03:00:20.879327+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2185,8 +2185,8 @@
       "address": "2 Dunman Road S439188\n6 Dunman Road S439395\n8 Dunman Road S439396\n10 Dunman Road S439397\n12 Dunman Road S439409\n16 Dunman Road S438664\n18 Dunman Road S438665",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 1412000.0,
-      "max_price": 7510000.0,
+      "min_price": 1326000.0,
+      "max_price": 7497000.0,
       "currency": "$",
       "units": "1008",
       "completion_date": "TOP Obtained",
