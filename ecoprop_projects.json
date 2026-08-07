@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-07T09:00:32.222043+00:00",
+  "scraped_at": "2026-08-07T10:00:25.817839+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -635,8 +635,8 @@
       "address": "6C & 6D TANJONG RHU ROAD",
       "property_type": "Residential Highrise",
       "tenure": "Freehold",
-      "min_price": 1985000.0,
-      "max_price": 5506000.0,
+      "min_price": 1830000.0,
+      "max_price": 4453000.0,
       "currency": "$",
       "units": "107",
       "completion_date": "Q4 2027",
