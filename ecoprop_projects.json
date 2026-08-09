@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-09T07:00:19.898447+00:00",
+  "scraped_at": "2026-08-09T08:00:15.166036+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6010,8 +6010,8 @@
       "address": "43 - 52 Meng Suan Road",
       "property_type": "Residential Landed",
       "tenure": "999 Years",
-      "min_price": 7100000.0,
-      "max_price": 7100000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "10",
       "completion_date": "",
