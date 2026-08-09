@@ -1,32 +1,5 @@
 [
   {
-    "title": "Is Australia’s property boom over? - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPNVFBekNOdkljNXMyYmR4eXA1QnYxSmpLbWFkRlNxZlc1WFFOWHAzTkdRMVllUWFBWVM5MFRkVW83OHhhZWdkSnlZd1ZoV05qNndVSXZPbVdGZjVqUGZ1ZGVpYUVwNFhhczgyQnA4QzVRNnhwR3R0NUtqN1doUFZjYnVuVkE?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Sat, 01 Aug 2026 21:00:00 GMT",
-    "pub_ts": 1785618000.0,
-    "fetched_ts": 1785628862.704256,
-    "source_tag": "ST"
-  },
-  {
-    "title": "Iran threatens to strike other nations' energy fields if US launches fresh attacks - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNbjZldnZ6Z0I5eVRPdTZvSC1ZaFgwenc3bmxsWTJsMXlLN0Z5MjRlM1JyN1puWGc4YnVNOW9wNno3RzF5R05HaG9XeldsNno5UlhoYklqOFBMY1NCcmhDR3I0NDJ0UFpUMDhZaXZsdmdWLXNSTXF2Q1hhdzZHSzZIVEszWHJzQ0pLYUE1RXp4ZlF5VWdDTmoyYUtRUGtIRkRzLV84RXVxUGV2UXlFUF9uTnZhVjBwbDJOTU1teU12RzM2QnJ5dWRJ?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Sat, 01 Aug 2026 22:36:51 GMT",
-    "pub_ts": 1785623811.0,
-    "fetched_ts": 1785628862.70576,
-    "source_tag": "ST"
-  },
-  {
-    "title": "Iran threatens to strike other nations' energy fields if US launches fresh attacks - CNA",
-    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxQS252Q2U5SnctWF9hYTlzcUZxWVZJTUtMenByd09MdlpOX3RuRi01YkQ5dDlTSFV2WnhKZ01BTTUyUXMzRVFZR2V5MmhoV1VCai1jeTh2M1BOQjNUeDNmSG93ZEplR1U4UXV2TGQtSEZyRnFmQjFnNEY1aXI3S2x3ZXZYU0p6TndDd3NxOVZQczBUdkJSRmFGV3ZMdU1VLTBtYVQ0MWdpZXNfSGRPQzFnVGZLQWlhRHJJRU1WREY4WUlmQQ?oc=5",
-    "source": "CNA",
-    "pub_date": "Sat, 01 Aug 2026 22:51:00 GMT",
-    "pub_ts": 1785624660.0,
-    "fetched_ts": 1785628863.152113,
-    "source_tag": "CNA"
-  },
-  {
     "title": "Condo VIP sales need clearer rules and limits to ensure transparency - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxObnZycldRZDFya0NSRWQ0LTh2S0gyMzRMMFlRZnJWcTlrOXJFLWF0MGdST0ZDYjA1bHdPT09TRUc4dnhfdURRNkxTVTN6X2NPTnZCZnRjMXl3dlE5bDRVOWZHTEd4X2JRMkV3eThhQjhLYVE0OC1MMDB0VkFOYUZ6REVya1Z2VW8zU1V2VmZvVWZuUWFWUDZiZ0Vmb3BxYWRjTkVfOVF1VFh6MklTYTV6QW1BRVI5QQ?oc=5",
     "source": "The Straits Times",
@@ -547,5 +520,14 @@
     "pub_ts": 1786085400.0,
     "fetched_ts": 1786212072.793856,
     "source_tag": "ST"
+  },
+  {
+    "title": "From trackside shacks to new homes, Jakarta families weigh what comes next - CNA",
+    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOMDRLQmdhRzBFanJDV3cyZGt5S2dNLXdISkxDY1pvVnI5bl91MkRzbmhRSF9leUVkdmdMNXAtZ0dfZTg0QTRvX1BKd0NBVFhpRGhVVGNybFh0R1R3cUMyRnRIV1NBMHluQ2dkTkNacF9KNW82c3h0ck5GT29zb3loOUVyUE9wTkNGeGZ1VnVhNkw?oc=5",
+    "source": "CNA",
+    "pub_date": "Sat, 08 Aug 2026 23:11:27 GMT",
+    "pub_ts": 1786230687.0,
+    "fetched_ts": 1786233619.579049,
+    "source_tag": "CNA"
   }
 ]
