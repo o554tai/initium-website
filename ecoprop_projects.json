@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-13T03:00:41.652656+00:00",
+  "scraped_at": "2026-08-13T04:00:36.765555+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -504,18 +504,18 @@
       "cover_image": "https://img.singmap.com/upload/broke/d73a474cbf094f63b628dbe95adfc0ca/926de77868764a1e9fbfa1e784d72078/imgs/926de77868764a1e9fbfa1e784d72078.jpg"
     },
     {
-      "project_name": "Amberwood At Holland",
+      "project_name": "Amberwood At Holland 昂宝苑",
       "district": "D10",
       "location": "D10 - Tanglin / Holland",
-      "address": "Holland Link",
+      "address": "30,32,34,36,38,40, 42 ,44, 48, 50,52 Holland Link",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
       "min_price": 0,
       "max_price": 0,
       "currency": "$",
       "units": "212",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
+      "completion_date": "",
+      "expected_top": "Jun 2030",
       "launch_date": [
         2026,
         9,
