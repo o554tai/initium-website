@@ -1,14 +1,5 @@
 [
   {
-    "title": "Forum: Transaction numbers alone may not be best measure of property agents’ competence - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxNREhrQ05WU200QUQ4aVlKVTJWanQ5TWFpeUtGcGx4VmtqN0owMnhtVVVVWHBlVE01ZEx6LThOVVFhSUFyX1FtaUt3UzRCR0NURWlDRlYxWG5qbXlUeFNRU2ZWdEVFenNXZHEtRnZzRFpDT1JxbGppMi1LQVlrVHRWcGpGNFdEblN6M1BiSUFtU0JlMDAycGxZZWRUbXJVUmNRTVdUWVFKRXJ4VEpTOXozYXh2SEhjZVpfdFNuaXBqdHB5X0lSc01n?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Wed, 05 Aug 2026 21:00:00 GMT",
-    "pub_ts": 1785963600.0,
-    "fetched_ts": 1785974463.864684,
-    "source_tag": "ST"
-  },
-  {
     "title": "A changing tide in the HDB resale market? - EdgeProp.sg",
     "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE1Ra0FhaGJpbmpJM1YxaF9tNXRvT1I0WHR4UnZTTzdjQ3d0TFJfaExldEhHeUxkbjByMnhFLXktbTNSMVlQTHk5blJfaThMaFowS0JhNWZIa3NaZjFJY1NiazdBNkRqTkh0c3NvSmZORHNHRFJYWC1Ibw?oc=5",
     "source": "EdgeProp.sg",
@@ -493,5 +484,23 @@
     "pub_ts": 1786544100.0,
     "fetched_ts": 1786557638.067271,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Commentary: Outdated knowledge, not technology, is the real threat to property agents - CNA",
+    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQUVRlcHFYRERubTNWZDE0T3pKTlVDREo5VkV3WkVxUXlRWW9KSnNUYXJWZ0VxTlpBNGIzNlp0cTZGZ2gwdGlmSFRJQUdkZW1sTHNsalZ4SFRWSzkyOEYtcjZ5bC1vSFZNQk5vMzU2S0JzdlBKandvZ2NWYzhnN1pibzMtdHQ4WllnLW0xaDU1TTVIaHRGdGNzYVFhQ1J1c2hhOUc2ZQ?oc=5",
+    "source": "CNA",
+    "pub_date": "Wed, 12 Aug 2026 22:00:00 GMT",
+    "pub_ts": 1786572000.0,
+    "fetched_ts": 1786579240.492842,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "Former HUDC estates hopeful about hitting en bloc thresholds under proposed collective sale measures - CNA",
+    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPeE5JdmluN0JuQ2ptQXVMVlM5TXpKWXFucnIwTzJ2LUNyNzBiLXY5Q25SbDZxRmROT2FKaklpVVBqcm8zYnZmVkphVllUeC13VFNTX2QyblZ2SlBkY0R6X29vcjdLZjZkYjBhamVwTkN1UVV5T3FOMDJ3ZTVrei13R1drNWpnR0d6eDl4N3ZROUppeW5obGJ6cndTaEVjcXdLWjcwTjVJdzVQbHZsUVpETw?oc=5",
+    "source": "CNA",
+    "pub_date": "Wed, 12 Aug 2026 22:00:00 GMT",
+    "pub_ts": 1786572000.0,
+    "fetched_ts": 1786579240.493522,
+    "source_tag": "CNA"
   }
 ]
