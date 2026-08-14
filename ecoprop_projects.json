@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-14T03:01:01.952333+00:00",
+  "scraped_at": "2026-08-14T04:00:57.565321+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1910,7 +1910,7 @@
       "address": "21 Mandai Estate",
       "property_type": "Industrial",
       "tenure": "Freehold",
-      "min_price": 2266000.0,
+      "min_price": 2288000.0,
       "max_price": 4710000.0,
       "currency": "$",
       "units": "115",
