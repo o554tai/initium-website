@@ -1,14 +1,5 @@
 [
   {
-    "title": "CNA938 Rewind - RTS Link to boost Johor, Singapore property markets - CNA",
-    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNUkdlMGpIc1pwUDRpLVVFeVlYNjRtU2R1OHFPYzRpTjJiLXJZRzRhTGc0UVdyU09SWXlwOU1LWFJVSVZ5OFhCVUVCb056aXEwYVdOOXhDNHNZSXZzbVBTTkxYQ2xPX0VrT0NCNWV3WElWMmNRMUtkWm1NUVZSNW5xRllKSFhZWTFsTGtCZlVSUVFlbmJ4Vm5KajRaV3FqbVEycGdfZkJ0cEhGMFg5WmRlSnV1bHQ3ZWM?oc=5",
-    "source": "CNA",
-    "pub_date": "Fri, 07 Aug 2026 21:31:18 GMT",
-    "pub_ts": 1786138278.0,
-    "fetched_ts": 1786168859.634053,
-    "source_tag": "CNA"
-  },
-  {
     "title": "From trackside shacks to new homes, Jakarta families weigh what comes next - CNA",
     "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOMDRLQmdhRzBFanJDV3cyZGt5S2dNLXdISkxDY1pvVnI5bl91MkRzbmhRSF9leUVkdmdMNXAtZ0dfZTg0QTRvX1BKd0NBVFhpRGhVVGNybFh0R1R3cUMyRnRIV1NBMHluQ2dkTkNacF9KNW82c3h0ck5GT29zb3loOUVyUE9wTkNGeGZ1VnVhNkw?oc=5",
     "source": "CNA",
@@ -610,5 +601,23 @@
     "pub_ts": 1786669200.0,
     "fetched_ts": 1786687267.514066,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Property legal issues: Avoid home purchase obstacles - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxQTkpObmRhREtvbnh6bFY3NmJlYWRWS1Q4TENlRlB5Z2RScFlCX2RyVVZiZTIwSTVlQWg2YlR4ckExZWlIUERUNjZPRWQ2ME15NFhzeFlSZTRRdVlNeF9XMktJTlRGaENBS19fTlY2NktOVWJFQ2dFem41cXV4cnpqWHNSdV9QUDlmZ0pQMFgzYnZOU0NWTEV3eVFNZk9yWUVZZ0p2dnppZEw1Ni1QQUI3Wjhrcw?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Fri, 14 Aug 2026 21:00:00 GMT",
+    "pub_ts": 1786741200.0,
+    "fetched_ts": 1786752022.388297,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Jail for Shenton Way consignment store owner who misappropriated nearly $140k from 5 victims - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxOd3BFZnZWMllEQTRyQ1VaeHNIWW1NanlTeXNXYlY2S0I3ZUJqaDFVLWRZZlI3Ri1xRnRYQ2V4MW45ZUcxSmlBNEdlcE1IMXpsRDQ4NTN4Ykh2Tk5aTmhVdExsdkFiWi1XZjdNTGhJdmxnQjlXZW1Ca1hKMVBVdlJjQW14Mzhldm02YTZESDNQc2xHVTVhTlQ1QmVmd2o0aW1hYVBtSTBkcGp4Ym5vQ0VPMjZKQXZSa3V2UlNrakp6MHo5X0dnaXUtN0NKT2dCNDFxWHY2a2ZTVTlxcTg?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Fri, 14 Aug 2026 03:51:09 GMT",
+    "pub_ts": 1786679469.0,
+    "fetched_ts": 1786752022.391275,
+    "source_tag": "ST"
   }
 ]
