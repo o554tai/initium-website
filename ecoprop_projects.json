@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-18T08:00:28.392172+00:00",
+  "scraped_at": "2026-08-18T09:00:22.788613+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5985,7 +5985,7 @@
       "address": "21 New Industrial Road",
       "property_type": "Industrial",
       "tenure": "Freehold",
-      "min_price": 2675940.0,
+      "min_price": 2688300.0,
       "max_price": 5335400.0,
       "currency": "$",
       "units": "47",
