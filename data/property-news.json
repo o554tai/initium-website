@@ -63,15 +63,6 @@
     "source_tag": "ST"
   },
   {
-    "title": "New high-performance youth competition ‘Singapore Premier Youth League’ launched - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQOEdwa1N3N3c2ZHF5d3FwbklHR085YzVMenZHUjQyMVREczlSSmRBdVpQZWd1OVlZMnhPYXl2U1EwS1ExUEJXcWhYRTF5Znd1ZEJ5cFcxQ0h0V1d5UVdabUphTzgzQjIzWGtVQjRjT3ZEWVJMVk9NMDdOZlcyX0JJX0pCMHdEaFhtQ3hlUlJCV0V0UkVieHpBclhiMVpOa2FjazRpaVpuSkZCS19pLS1Zczhuc3dBR3o4U1VvS0tTYw?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Fri, 14 Aug 2026 13:42:45 GMT",
-    "pub_ts": 1786714965.0,
-    "fetched_ts": 1786860044.779925,
-    "source_tag": "ST"
-  },
-  {
     "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - CNA",
     "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxNeWxnSDhSTXIxVEhoSEM0amN2VWlzSUhXWGRuaS1mbkRsaE1pVnJ6dmx5RVY2T3lGMlMySU96dDhqbFNTcjRybWc4ZmtuWmd5a2czeDRTMHFqcWFQeVFHTUZUMVk1a3VBQWItcEpORXQ1YlpGQlBkYmxHckhEeXR1VE5vaDRpSWNGeGphcjlPSHJYeHFOODRhTV9RSVdVZ09vRUhWc2pWZWN3Z2x3RjZaSDNIVDU2ajhWcE9oVDVWVkxKNTR3eVMwVXRKdHEwcDVONl85NHkyclBwVk9XZVpPNzd0aEJrR1RhQTU4NHlKYTFpUGlxOGFDTnMyOXItcXpHTjh2ZkN3?oc=5",
     "source": "CNA",
@@ -654,6 +645,33 @@
     "pub_date": "Fri, 21 Aug 2026 03:51:24 GMT",
     "pub_ts": 1787284284.0,
     "fetched_ts": 1787313641.255355,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - CNA",
+    "url": "https://news.google.com/rss/articles/CBMihwJBVV95cUxNNGVVNmJmaU51b0Fab2t2ZWpUdktjTGRmOHNTbWpNUWdNazZYaTZlVjVXTGNDM09zdGRTSG45ZFQ0TVNCN2tOOVAzZmJDdGt3ZXo4NmVaejZTMjNXS1pybGM2VDc3YjFaRUNLS1BDUFVmU09yYTBFUFY4VE14Y0RQZW80dnRBV292ZGtDZ1ZwSV96ekJjS3ZkNy1abXNVRXdaaG9Sam11ZElHQ0R3Wjhwbl9nT0JjZGt1ODBhOTRfWXkxUzJvTldzcDA2MjB6UExqMHI4N1dHalR0UXNZQVFoN1dpVFltdmpXaEZJaF9NY1l3ZTFUcW1RM1dGVEdDdmgtVXlGVG1rWQ?oc=5",
+    "source": "CNA",
+    "pub_date": "Fri, 21 Aug 2026 08:50:59 GMT",
+    "pub_ts": 1787302259.0,
+    "fetched_ts": 1787335248.795977,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "30 BALAM ROAD HDB For Sale m_2231585 - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5JZnVIMzhhdmFhdVFYVHUyQ082Z0hhZUJHWGNKRDg5dFZURmZoeGR3emdOVW9KYWR3Qi1FQ2tEemdGdmFFdW9wU3d6SElxR00wU2htOTNfYlJSOFN5NlctcmpIdjFIVm50TGtRcWpRbFJXZHotdUpqWXkyYmhUQQ?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Fri, 21 Aug 2026 16:09:07 GMT",
+    "pub_ts": 1787328547.0,
+    "fetched_ts": 1787335249.306464,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "BELGRAVIA ACE Landed For Sale m_2231486 - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPTFQydDRUa0tVeXBaOHhyb3NKTjZUV29fS0xSRFRCNHpRazZmU1Rqc0ZnVDVCc3FUSmdveHBqN2ltRjhpczNvQmNhcW9IdmtJSUpTYngyYjlQcU5ZSVJpNWZmdVNTdTkwcElOeEJ4YTB0UUpCUW90bEFZT3ByUnZlSlBn?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Fri, 21 Aug 2026 12:43:24 GMT",
+    "pub_ts": 1787316204.0,
+    "fetched_ts": 1787335249.306495,
     "source_tag": "EdgeProp"
   }
 ]
