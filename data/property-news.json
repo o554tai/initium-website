@@ -1,23 +1,5 @@
 [
   {
-    "title": "‘They don’t simply open doors and earn five figures’: How much do property agents really earn? - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxNc1JtUnA5c3otb3dnam1TQVp5WFZTbHVFTTRONW1nc2c3NFRKTm9KM3BvbUNDd0hKYXgzTDY0NUIzQktQU081MXdpT0JiNWZoR09rbmdrc3oyZzdDRlpNNm1Idk9Da19UMVY4eEpOUDB1dzk2OHZrQl9oVUVwOFNZZUlHYUo4LVlGLTNSWUxxQlQ3UlNpTzdfTDZBNFJJMXI5VENkMkRESDYwM2g4Wm9wRkpodl9RTVlfVjhJV3pScTZGa0V2T0QyMWVsd1pPbjR3Wmc?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Sun, 16 Aug 2026 05:05:53 GMT",
-    "pub_ts": 1786856753.0,
-    "fetched_ts": 1786860044.778451,
-    "source_tag": "ST"
-  },
-  {
-    "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - CNA",
-    "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxNeWxnSDhSTXIxVEhoSEM0amN2VWlzSUhXWGRuaS1mbkRsaE1pVnJ6dmx5RVY2T3lGMlMySU96dDhqbFNTcjRybWc4ZmtuWmd5a2czeDRTMHFqcWFQeVFHTUZUMVk1a3VBQWItcEpORXQ1YlpGQlBkYmxHckhEeXR1VE5vaDRpSWNGeGphcjlPSHJYeHFOODRhTV9RSVdVZ09vRUhWc2pWZWN3Z2x3RjZaSDNIVDU2ajhWcE9oVDVWVkxKNTR3eVMwVXRKdHEwcDVONl85NHkyclBwVk9XZVpPNzd0aEJrR1RhQTU4NHlKYTFpUGlxOGFDTnMyOXItcXpHTjh2ZkN3?oc=5",
-    "source": "CNA",
-    "pub_date": "Sun, 16 Aug 2026 04:02:31 GMT",
-    "pub_ts": 1786852951.0,
-    "fetched_ts": 1786860045.361207,
-    "source_tag": "CNA"
-  },
-  {
     "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - channelnewsasia.com",
     "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxNQzZDV2dueUh6TXJhZmNaTzRWNWxuQkRXRkJmVllHbk5WcnhGRW1tTXR0ZXhWdXMwRGs1TEhRZzh1cUN1TzB6cm9mUENjTWFFYjYtLXRON09MenRuOTZYbFFTSHNNbXVmbnBmbmJJM2tEQUxycktyY0pEMnJQaEY5ai11UUxCSkpkOFExeVRRTjUxZzBZV0NMejRlcUdOTTFnZzVrZnUwV2JwWElBeGFRNXdlZlNvVzgtMTN3SDJkMFYzbl9ueGdYcnVFdmJhYkhCa3M3eEk4QWw1UjJHUXYzOEhJZWhYMWo1WkxfbDFQbnlyYkljS0RGV2k2cEt2QnhDWS10dVZB?oc=5",
     "source": "channelnewsasia.com",
@@ -25,15 +7,6 @@
     "pub_ts": 1786860849.0,
     "fetched_ts": 1786881650.774185,
     "source_tag": "CNA"
-  },
-  {
-    "title": "One dead, 50 evacuated after fire at Jurong East HDB flat - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxQc2REMG9zV19VOFJ2TC10U3R4bExZazFmYWJfR1NfbHc2djNKSTN6MGx6eDN1MDlaaHZVRTZIZk50V2lQTFpFMDNrQzJuMjh6MmE0NExwZDRpZWFkejhpaUVVMGU0dXBpbUprSWRCRzR3SHBIQ3hZRHdIQlk4aURUTTJ0M0hTRTEzMlRvM1dYc2tVbEN5Vmp0TXg3Zw?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Sun, 16 Aug 2026 01:13:00 GMT",
-    "pub_ts": 1786842780.0,
-    "fetched_ts": 1786903258.178837,
-    "source_tag": "ST"
   },
   {
     "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - CNA",
@@ -807,6 +780,42 @@
     "pub_date": "Sat, 22 Aug 2026 18:46:21 GMT",
     "pub_ts": 1787424381.0,
     "fetched_ts": 1787443272.234106,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Why this Jakarta house has almost no visible windows - CNA Luxury",
+    "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPZlpXcTVBb1h0cEJWZ0hNcXB0RTFEVm81bERLck95aFdsREhzNkZCdUxhZ3F6VG1kSE9nNGpoWlphMG9ZaDVmOUQ1VS1pUGFYSEl4R2toZzJvSUNjUFphU1ViR0RnOVhnaXhISnhEUE9ZcUFvMnFNTnAyZUNpeWltRHZUcFNVSmNnNDdxLS1TREd6eUJIR191SQ?oc=5",
+    "source": "CNA Luxury",
+    "pub_date": "Sat, 22 Aug 2026 21:33:00 GMT",
+    "pub_ts": 1787434380.0,
+    "fetched_ts": 1787464821.407122,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "CORNER TERRACE @ UPPER THOMSON ROAD | LIFT, SOLAR PANEL, EV CHARGING ★EMINENCE LANDED★ - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMi2gFBVV95cUxPWTBkcmRHMnZtTTVmalk4bVRKRUF4QjBFR3NVd3VpWVVFcHlGeTdNeHFfZkFoYm1BWE5QbkNXaDFlbmc0ZGgzZFRvYXBzRmFxTUJqNkJVcGpzdVlhM2ZKaU0xOWhNXy1UNEM2RldDSFFBUzNQTlU2SGc3eWtjd3IzREllZi1weGw0MDlOZ1U5WExVb3o4M21NSWd3Ym9sczF0dkRxT011WFpqb3diZEpITmctQXZ5RC1uTzRBa0tXMzNyRFc0TE1WYmpwQ0pUZENEemZ1a0lTZExYZw?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Sun, 23 Aug 2026 00:41:45 GMT",
+    "pub_ts": 1787445705.0,
+    "fetched_ts": 1787464822.20759,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "211 BOON LAY PLACE HDB For Sale m_2233176 - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxOeHpGMzM2bUoxLV9faGE0UTZubTRfYUUwbENsS3dEd2Vzd05pcTZzUWNIVG11dFMxNm4zOE1aV1hKYndXdGRmLVNzU0tuUEh5LXdLSnJ0d3lLdXFSWEdTNzdyYTRCenhCazFQdG5Mc3B2X3ZGMTBqNURmOEJ2amhEN3hn?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Sun, 23 Aug 2026 03:38:01 GMT",
+    "pub_ts": 1787456281.0,
+    "fetched_ts": 1787464822.20769,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "RARE BINJAI PARK GCB PLOT | ELEVATED FREEHOLD LAND FOR REBUILD Landed For Sale m_2232936 - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQMlRQV0txd0VqWXIyMk9xcWt4ek5fX2pWM1NvZFV2emY3ajhrUy1hTWU3SVI4UGZud2FhSEJxVWdMWHNzY2FaNUFnY3dET3hFbW1iRDJpNFBHc1p6Y25pWk44N1cxSWZRUTctSXRadkRFc2xxdDNKNG1hMFlQT1lJNVVHOEdweE85bU44bDA5a1lGVndZZXE3WjBuekhnSW5OTndaempEUVVURGVvdXBCZWZCUGJDUXF3WjdWM3pNQkZzTVJzT1hKTw?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Sun, 23 Aug 2026 00:44:32 GMT",
+    "pub_ts": 1787445872.0,
+    "fetched_ts": 1787464822.207862,
     "source_tag": "EdgeProp"
   }
 ]
