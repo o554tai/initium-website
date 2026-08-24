@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-24T09:00:39.204633+00:00",
+  "scraped_at": "2026-08-24T10:00:34.291859+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -585,7 +585,7 @@
       "address": "181 Haig Road",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 2224000.0,
+      "min_price": 3463000.0,
       "max_price": 3463000.0,
       "currency": "$",
       "units": "35",
