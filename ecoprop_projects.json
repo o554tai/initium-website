@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-08-26T02:01:08.140050+00:00",
+  "scraped_at": "2026-08-26T03:01:04.428870+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1086,7 +1086,7 @@
       "property_type": "Mixed Developments",
       "tenure": "99 Years",
       "min_price": 1729000.0,
-      "max_price": 8995000.0,
+      "max_price": 8963000.0,
       "currency": "$",
       "units": "696",
       "completion_date": "Q4 2026",
