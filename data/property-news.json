@@ -1,32 +1,5 @@
 [
   {
-    "title": "Hong Kong banks turn to student housing as property bright spot - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNa3lhbS1WOTlGQW0zbjlfMUQ1NjZqRnpNQy03SGRUcEZFUWUtNThEc1h2SHhDNV92TUcxM21CSGctazdxN0hpbGVCMlMzdlJ2TW0xbmJhOXEzazBpZXdaR3EtSVlJV05SZ1owTW90bjFpTWlpdjYxbkljb2tIV1JSZjNweGpzdUhvM2hRT0FFXzlpcE1SVWRTRGptekRZbjhiU0o4?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Thu, 20 Aug 2026 00:54:00 GMT",
-    "pub_ts": 1787187240.0,
-    "fetched_ts": 1787205669.943839,
-    "source_tag": "ST"
-  },
-  {
-    "title": "Co-living an emerging housing option for young adults, but affordability and familiarity concerns remain - CNA",
-    "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPU3Z3VmtwV1VwRU5vZFJNU2wxNFY4enp6NDJDM1VFV2lzOVB5S1JPcnVtU24wWkRYdmN4S18xZjFYYlpzellyTlJUWHZvMVFjVEJ0WHgzb0lCWF9zN2l4V2o5VnB6OVJ2RThkMWNiaUhadk5aNWN2ZGNvWGpCQ2pzYl9nWUdIRkRFbDE5Q293Y1BqMEhsSVdj?oc=5",
-    "source": "CNA",
-    "pub_date": "Thu, 20 Aug 2026 00:23:00 GMT",
-    "pub_ts": 1787185380.0,
-    "fetched_ts": 1787205670.706815,
-    "source_tag": "CNA"
-  },
-  {
-    "title": "Rivergate three-bedder sale yields $2.89 mil profit - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxNQUFxang4S1ZhNXc0cFFjNVlTWm9RWjZOTmU0eWIwTnlEZXc5eHBNbDJVTVlobTduazNPVGFjdl9LSnhTMGJJRVBUcUxKMnN5T2pTTUlLUFlYV3NQcTZyMHFzZW9nY1pteUJwR21KVHA2ZS1mVjV3NWhJMk1rQURtVzd1MWpQUXpvNWl4LTl0WUI?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Thu, 20 Aug 2026 04:00:00 GMT",
-    "pub_ts": 1787198400.0,
-    "fetched_ts": 1787205671.237133,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "What property giant Evergrande’s court rulings mean for China’s economy - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxQMmtPTFcxZ2ItbF91eEdmM1BCaFlWQ0ltUHRUcmNTWDRWQ3BXek50YzgwT0FPajVKc2FHTDVGeWNWZWgtZFVMT1hJaURCaWh1U3ZQQXM4SXBfQTFQaDh6eWlmUW00cGQwNnR2cTVJUzVRYXY2TGhtdkJvMm5ZYTBHUzlHVHl5LTFoekt6TThmOU9zV0l6eUl6bHlVQ19rdjdTZVQzZXVJN09ULTBacHc?oc=5",
     "source": "The Straits Times",
@@ -69,15 +42,6 @@
     "pub_date": "Thu, 20 Aug 2026 08:00:00 GMT",
     "pub_ts": 1787212800.0,
     "fetched_ts": 1787227219.481952,
-    "source_tag": "EdgeProp"
-  },
-  {
-    "title": "China’s first-tier new home prices flat in July, ending four-month rebound - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNQVdwcElLWGU0d3FQOUtheFBUU1k0RlRSc1FzaENmMFhhOEdtclljRVN2RzNibE1rVl9SNUFfc0dZeFVIUThPS2xlejJOaUNiSkVkbTFUS3gyaFg3M21OWEU3Z3hFdmJ6aTZkbzhaeWtNYnY1NG1KZUlOSlFHQWtjZjhLR0RKbFdiQ2tYVXRSVlRmLUh1VGQ4aHRSTTJwNURzUWRWcjFlY1FKdFU?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Thu, 20 Aug 2026 06:00:00 GMT",
-    "pub_ts": 1787205600.0,
-    "fetched_ts": 1787227219.48199,
     "source_tag": "EdgeProp"
   },
   {
@@ -133,15 +97,6 @@
     "pub_ts": 1787240514.0,
     "fetched_ts": 1787292035.84733,
     "source_tag": "ST"
-  },
-  {
-    "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - CNA",
-    "url": "https://news.google.com/rss/articles/CBMihwJBVV95cUxPZUxCeWxnLXJIeERhZjhLaURZZkwxa0gya1lqQ0Vtd2JnNllfcGZwWjl5bTRXNjVpSmNwV2kxdmtVNGVIVFh6SU1BQmxMWDdjRGFRV09aY2hQbUZJemZxcVlmQzFwVUNGVkpNN2xjWUhCMUljenpfUllnZF9fTWVlZVA5dFFHM1o1RV9NOF9POXRpbjNmTzVjbnFHZm9XaE51NjZVVjh2LS1qMGJIOGpBbjMtUi00ZFNCTXg3bWJqVXJIMjlZVUZESDAybWc2bTM0UXNjSFA2S196Z0Y2TUw1T0RfMVlTYndCazREaVA3NVJwb2FjNE5OWUNlN3dwamJObXRFM2lmaw?oc=5",
-    "source": "CNA",
-    "pub_date": "Thu, 20 Aug 2026 00:40:33 GMT",
-    "pub_ts": 1787186433.0,
-    "fetched_ts": 1787292036.35082,
-    "source_tag": "CNA"
   },
   {
     "title": "What’s moving the market: Singapore’s biggest property deals and hottest searches (Aug 21) - EdgeProp.sg",
@@ -934,5 +889,50 @@
     "pub_ts": 1787781600.0,
     "fetched_ts": 1787788831.278762,
     "source_tag": "CNA"
+  },
+  {
+    "title": "Air India seeks $1.9 billion from owners Tata, Singapore Airlines as losses mount, sources say - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOWmpVVzNRT0d0WkJGRFIweFZrd1lmN3VSMmkyOU44TmEtbGhrdkNWam8wTmp5bTIwQnBiMm55NEtjbWo0YlJtdlpvQ29FcEtFbDZCdi0yb2hla01NcFhRenQ5Tl85a1d0RzVyQ3BJajZtRFE4bmwwT0hoTUlrQWwtQjZNdkdWcG5LVlEyNXppd1R0bnJ0VkdaUzV2RmllcHpQWFRIX055V2E4Z2c3SGN3emVuckM1X2V5c0RWSjZDTnRsQQ?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Tue, 25 Aug 2026 14:15:00 GMT",
+    "pub_ts": 1787667300.0,
+    "fetched_ts": 1787810439.244466,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Grieving parents launch Singapore non-profit to beat childhood brain cancer - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxNT2pkVGxralJQNDRHdllZa0M1Q1hxQ0pYNGtmaUxHMWh0MGR0YWlVRVYxX3E3TTN5M0taMTh5b2lzSzdTTmJ6MWxieVlJajZfSWh4RkRkMGNZS2o0Q0VfQVJEcjA1UWp2TmV1X2cwdVZCNTZ4WDluU2Z5OUZicWR4dEpjdmdWclBtTUoxakk4MWJDUlB4NnFib1VpM2tYMTBKZHRKZVNzdzNORl8zWldVWGg0VkJxZXNvR3Vv?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Tue, 25 Aug 2026 06:05:00 GMT",
+    "pub_ts": 1787637900.0,
+    "fetched_ts": 1787810439.245032,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Disney Adventure launches four-night sailings with stop in Langkawi from Dec 31 - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxPYzIxMzZieDBmeTdXSkJib2xCVndyaGtrbGNkckw1UkN3RDc4SWZHRk9idHgtYmFNU0RPcGJDMjVRSWdXajZfNE5ZZXNrUmFUODZEVW50Q0pIWFhPVlR0UE1YTXpoYWtHaGNNWkRzTE9Cc0RkUmd5VGtrZWhhNmdwMVVMaFhWYnlZQzF6ZGR6ekliREE3TXYtWlBRZDhBLWZZeDIzMzdEYzZVekVHNWNRRWRwTEZPMHg5ZElHcg?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Tue, 25 Aug 2026 15:30:00 GMT",
+    "pub_ts": 1787671800.0,
+    "fetched_ts": 1787810439.245779,
+    "source_tag": "ST"
+  },
+  {
+    "title": "At The Initial Sama serviced apartments in former Eusoff College, University of Malaya's first female residence hall - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPd25vWEpzeFdnZTZudjhURzFmbm9EaFNHc2ROcHlaQUIzUVVlblF6eFdVYWxOSkJteE56cy1aVUxFN1JRUGd0S25zc250RS1vbEh0VEphcS1UbDAtWWl5Nmw5dU9NVVRDYmpOMWVuM3hTd0VVS21Sd3FUdEZpdzJoXzJ4SW13Tmx2R1paZ1JfMzJrbFVxOEhrRzhXSnZwNlNFR0otT093YXNhY2wyd1VvanRjczBJeU0xTnhWUHVwRW11NktjajlFaGhMWGNJX3czTkE?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Thu, 27 Aug 2026 04:00:00 GMT",
+    "pub_ts": 1787803200.0,
+    "fetched_ts": 1787810440.295765,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "Resale condo unit nets $3.1 mil profit at Palm Spring in prime District 10 - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQZHB0NVJnN3p6MjVBdVQwWjYxempXbThldmp0QXZGdmpEOU9remRoVTRFY2loV01WSVRjV0FONlBlcXRBeC1QUTBZckJ5Z0VlenBIQU9CdmtZb2hOeVU1cnpCVXF0bDNJR3kyeEFTNVNlbFA0a0tnV2JlbEI3eHhmbng5NE9XQUd6WUVnUFo5RGpjWWc5cUVoV2xKQmtueXlVVC1tLU1DVQ?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Thu, 27 Aug 2026 05:00:00 GMT",
+    "pub_ts": 1787806800.0,
+    "fetched_ts": 1787810440.296321,
+    "source_tag": "EdgeProp"
   }
 ]
