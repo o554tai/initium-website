@@ -90,24 +90,6 @@
     "source_tag": "ST"
   },
   {
-    "title": "Balancing stakes in en bloc deals: Should we raise or lower the bar? - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQOE5lS0pPVUw5OXdTUWxiZ0lnZExmbDA0cHlKczNzRTFFYjFDdlNMZl9LdmhELURYSV9zR3ZSM0oyUk95WFJEQmJKbnljTlNYY3ZjQlhpbTFMTVc5S0p6UDg5cGRIdnpRb1E5VlItRWZYaGZFUGo2c0RWUk9YcnA4enVVbFRoZGZuajBlRmpIWkdoSnpDSnpwZk1hVnhOWXVNZ05yeFln?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Wed, 19 Aug 2026 21:00:00 GMT",
-    "pub_ts": 1787173200.0,
-    "fetched_ts": 1787248824.08849,
-    "source_tag": "ST"
-  },
-  {
-    "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - CNA",
-    "url": "https://news.google.com/rss/articles/CBMihwJBVV95cUxNRVcwMzE0S0t1bnRvN3NsTS1hS2JfZENqdHZuampPOExGQkJiemRHUkdYUG4yZjJFaGNIalZhTnZsWXQ1NWVfX3NrQTFEQW9FMlZqaGlQTGN1dzUxM3NSU2h6Y2xoMkdxbHRGZEd1WVpmeF91VzV4cEk5d05uWHJTTzF2b3paQ25abHczREduSXlBdUtOUkg0WHlZVmNxd0V0eGE4dVo4d0RZNzNCY1pobFdiSno5VW1QR2VMc3Q2aVY2NUw2LXNrQ1pDd0pzWGRuLU9nNElWaE5tX3ZJd3A3dkMwYzVXY0JJOHhJOFU1TEI5Rk1wRElvZ3lEZFVVbWlvbHNyLVAybw?oc=5",
-    "source": "CNA",
-    "pub_date": "Wed, 19 Aug 2026 22:11:40 GMT",
-    "pub_ts": 1787177500.0,
-    "fetched_ts": 1787248824.632578,
-    "source_tag": "CNA"
-  },
-  {
     "title": "Sustained Land plans 776-unit condo in Thomson Road enclave after 16-year launch drought - EdgeProp.sg",
     "url": "https://news.google.com/rss/articles/CBMiwAFBVV95cUxQQVVvX29PaEtKRGlCVnlKdDNkWEdLUEVyQUNjS09WNVFYMjRabVBwYzRpUVl3NjdvWm5yZEtSMGc4SngwT1d6RUZXVkFtX1hTRmFDTl9HY0tvZHFFSnlkcEFVVWJTODAtenZuZWtGb2g2S1JKWFRWZWZwVHgtTzNTMEx5U3NCRlVka2w5eEpiRHg5TWVHaTlyY0xHNmt0N1pKMHlzellickU5SUFlZkRoQU11czlJRHZJd3FFSmRPNjQ?oc=5",
     "source": "EdgeProp.sg",
@@ -943,5 +925,14 @@
     "pub_ts": 1787741595.0,
     "fetched_ts": 1787767224.156598,
     "source_tag": "ST"
+  },
+  {
+    "title": "Commentary: NDR 2026 – why a higher BTO income ceiling isn’t just a housing policy adjustment - CNA",
+    "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxNT1VoM2hZc1l1TjNPV1NUWlk3R29ORGNUaVZRN0RraWhSNHJiYzZyNkFSNU5lNlFESGx4NTlYYVh3Z3BMQzRKTmM4UnBCVFhtbEl0TWhUWmhxc3BfRnI0a0ZxbU9wdDJVUjZkRWFmTWZkZ0ExUklESjlDZXRzWklHQW5ZTkNfNzRMYmV6SjJLYnRIRDkxWFQteTloMU0weU96OWV3cQ?oc=5",
+    "source": "CNA",
+    "pub_date": "Wed, 26 Aug 2026 22:00:00 GMT",
+    "pub_ts": 1787781600.0,
+    "fetched_ts": 1787788831.278762,
+    "source_tag": "CNA"
   }
 ]
