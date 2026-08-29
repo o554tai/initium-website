@@ -1,14 +1,5 @@
 [
   {
-    "title": "Morning Briefing: Top stories from The Straits Times on Aug 22, 2026 - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPR2cwclk1dFBrSDhEb1VlTlN4SV9EeEpCWklSRm03NWg0b3RXSnBmR2tTTHZUdTZ0OTdfTFliWGZ4MmF3dHVQd3diTDJYeG1aS3pHM1p4cnR5ZUtGblY1d1psSkZzNFMzbXZzelBBTTRTUkozQjJtWWlmYzV4Y3c2VllDR1dZZzFJSHdkTTVXSHh1N25BSkNIUnprUHU1UFc0QUs1Q0NNVWNvdw?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Sat, 22 Aug 2026 00:07:34 GMT",
-    "pub_ts": 1787357254.0,
-    "fetched_ts": 1787378456.802252,
-    "source_tag": "ST"
-  },
-  {
     "title": "24 MARSILING DRIVE HDB For Sale m_2232356 - EdgeProp.sg",
     "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQOXNiQmxLUDJpWWRSWjRudWFSWG1udWJtOUNUcHhEdG5SVVEyYVdFQU43OEZHWkhPYjllc3BYdHhEV1hKNVBHdjc5aWhvcW9mc3NoSVlfTm5Sc3dxZ0JieE8tNFh5a2lDQmRBa3h3VGNrNk1TQlNqZDVWQkVkVVFuOGptZFBtU1VEWWZz?oc=5",
     "source": "EdgeProp.sg",
@@ -141,15 +132,6 @@
     "pub_date": "Sun, 23 Aug 2026 00:44:32 GMT",
     "pub_ts": 1787445872.0,
     "fetched_ts": 1787464822.207862,
-    "source_tag": "EdgeProp"
-  },
-  {
-    "title": "3 TANJONG PAGAR PLAZA HDB For Sale m_2230313 - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQa2ZJaE5nc1AxWmF2aXRUV2pCUnV5SEVhWmM5YnRtdm9LcEEwU1BuU09PdkVQTm8zZkdDZzlMbTlyUkhzWS10ZVlyb182eUZyZHJuMnhianViT0ZCMWp4R1U1Tmc4MFhmTEJyQ0RaNzdyRUN1TGhTNnhldVNxSDloQlh5VjdwZw?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Sat, 22 Aug 2026 04:16:00 GMT",
-    "pub_ts": 1787372160.0,
-    "fetched_ts": 1787486425.154039,
     "source_tag": "EdgeProp"
   },
   {
@@ -916,5 +898,32 @@
     "pub_ts": 1787928611.0,
     "fetched_ts": 1787940065.547419,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "$3b money laundering case: Luxury properties, handbags and jewellery up for auction - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOc21LLXQzQzRuaXNKYWEwb2hnMFltb2MybVQtZTJ3cFlQSXktQ2xuQVNxMUlJX3JsVEMxZkl3akVFR2h4R0RDYkY3NDIxaF9lVER0V2NhWnVrRklYYUhralotTWx2NF9YOUdtZ3RrN0I0Z0xmTVpMem44QlpXaFh2RURMNUNvRmVMQjFnNjVOV3ZkRFVwOTZldXQ4bVpJMDh2b1czVEhSSVN1djFkZEctQm5vT2RUeDNpYUFfUzItT3hpeGhVbzFnTnNpa3Y?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Sat, 29 Aug 2026 04:00:00 GMT",
+    "pub_ts": 1787976000.0,
+    "fetched_ts": 1787983271.186557,
+    "source_tag": "ST"
+  },
+  {
+    "title": "S$3b money laundering case: Forfeited luxury goods, properties to go on auction from September - CNA",
+    "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxNT2Y0LTdGa3l5MEtsbTQxRzZDMVcxVnhCUkhOdnU0bUZlV2p1MU9xd2dKNXpURjd1MUVsa1pWVUdWUC0td0dXc2hvRW9ESXItLWxtWV9mR3VRNlgya016U0hJengtb1N2Nm5zYnZWTFF0ckhCYnR0d1BQbmZ6S1dpaWxuWXAybGhtY3dtQWVveGlZQ0tVVnd3SDBwZ2NnR1VYVXhqTlZJbw?oc=5",
+    "source": "CNA",
+    "pub_date": "Sat, 29 Aug 2026 04:00:04 GMT",
+    "pub_ts": 1787976004.0,
+    "fetched_ts": 1787983271.734124,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "Why this Sentosa Cove house was wrapped in charred black timber - CNA Luxury",
+    "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQN3JjY1hPb1o4YXZrNl9YUzFBUG9CZ1hGUVhoS2UyNnFRaUtPOHUwS0lScDY5YWRWeHQ5cnEyQUxwRFNza2VGdVlIVHlGUkhIazJDb2FmYjhrYkdWQUpSRlNFelNFbHVpMVdHR0V2RmZNWlFQUmhLZkdBR2lKU1MxYnlvTHIwOS10ZkxraU5rMldSQQ?oc=5",
+    "source": "CNA Luxury",
+    "pub_date": "Fri, 28 Aug 2026 22:22:00 GMT",
+    "pub_ts": 1787955720.0,
+    "fetched_ts": 1787983271.734468,
+    "source_tag": "CNA"
   }
 ]
