@@ -1,14 +1,5 @@
 [
   {
-    "title": "Two HDB commercial properties in Toa Payoh for sale at $40 mil - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQdmsxNFpRZ2FhMkVHRjA4b0x3amlqSGpEb2lyOHExTV83WEtoV0NFdW1pNlEtZUttVVd6cU94TThEd0dCQjNVRmdNTXE1TFBxQms0ZXY4M3VaNF95b05ucU1qT2JuVlNLeUkwTkYyd2lZX2wwdmtrZU1Mcmw1VXpMdUx0X21yZlN1R0NyQ2NmZzh5bDA?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Mon, 24 Aug 2026 23:00:00 GMT",
-    "pub_ts": 1787612400.0,
-    "fetched_ts": 1787616051.71847,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "Temu-owner PDD revenue misses estimates, profit falls on ‘intense’ China competition - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxOR0VYZzQ2ZEh6cTVoYVkzMGNUSnVJN2dRUGVLTmxBUmpyRFJuY1UwV1BMdnpaMFRqMzhrTk5HeW5iS0FFQURRMzNnOFJFZ1Z6MjNDWl9sX2JfbDhWMDhQWldVdi1XOC00elh4Y3FPaE5YWXgzQ2g2WWxybFlHZUlnZURISUtaYWwzSEFSTHJ6cnd1R2lkOGZhemdDclNWVEhSZENKaFpQY2w0Nmd6TkJxY0NNOXBXaGR1M3BN?oc=5",
     "source": "The Straits Times",
@@ -700,5 +691,14 @@
     "pub_ts": 1788179630.0,
     "fetched_ts": 1788199266.862608,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "NASA’s Roman telescope set to launch on cosmic mapping mission - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQVTFrb2d0bXhxaEJoSDBYRm91ZWhsWXRKT0ZKWTA3Z2VZZHVDd2hHQzdiVGN3RkEtekl0X295ZkxHTHozcUdheEY3VlpudnpZZXBjYVhZZTM3N282WjRyN2Z5dUdoSkQ2NFlIQ05rU1VRZ2UzYXJOeU10NUtYNGdQdGUweE5Jdkl1NFAtT1NlNWlULTUyY3VINUhicGU4TVRNNkFuYmg0RFA1bWVuVEdR?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Sun, 30 Aug 2026 01:50:00 GMT",
+    "pub_ts": 1788054600.0,
+    "fetched_ts": 1788220817.638758,
+    "source_tag": "ST"
   }
 ]
