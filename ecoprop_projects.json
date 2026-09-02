@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 330,
-  "scraped_at": "2026-09-02T07:00:41.812425+00:00",
+  "scraped_at": "2026-09-02T08:00:39.307779+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3473,7 +3473,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.3602079051373357",
       "longitude": "103.74115306930901",
       "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/b4cbf1070bad4c188584e220fa9a0fe6/imgs/20231229/8f2429baa8ac4d3b9e8c3749659d6367.png"
@@ -3986,7 +3986,7 @@
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
       "min_price": 1331000.0,
-      "max_price": 4277000.0,
+      "max_price": 4141000.0,
       "currency": "$",
       "units": "544",
       "completion_date": "Q1 2029",
@@ -7973,7 +7973,7 @@
         0,
         0
       ],
-      "sold_out": false,
+      "sold_out": true,
       "latitude": "1.2990805895842266",
       "longitude": "103.84262462734814",
       "cover_image": "https://img.singmap.com/upload/broke/0fac91b0ca8d4aa9aaf81fb6b0fc57c3/6a46bea1383341b59ddedef947302a5e/imgs/20240529/bef6dab562334e02ad9388e32708b70c.jpg"
