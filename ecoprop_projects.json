@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 331,
-  "scraped_at": "2026-09-03T09:01:02.102284+00:00",
+  "scraped_at": "2026-09-03T10:00:57.554564+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1635,8 +1635,8 @@
       "address": "2,4,6 Mount Emily Road",
       "property_type": "Residential Lowrise",
       "tenure": "Freehold",
-      "min_price": 1010000.0,
-      "max_price": 3265000.0,
+      "min_price": 1019000.0,
+      "max_price": 3291000.0,
       "currency": "$",
       "units": "20",
       "completion_date": "",
