@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
-  "total": 330,
-  "scraped_at": "2026-09-03T02:00:57.050438+00:00",
+  "source": "ecoprop.com",
+  "total": 331,
+  "scraped_at": "2026-09-03T03:00:52.544601+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -3552,6 +3552,31 @@
       "latitude": "1.299236",
       "longitude": "103.802963",
       "cover_image": "https://img.singmap.com/upload/broke/d379d488126c4abf9505367876588b57/d6381ed36b9c4d31ac02417f38786eab/imgs/d6381ed36b9c4d31ac02417f38786eab.jpg"
+    },
+    {
+      "project_name": "Margate Duo",
+      "district": "D15",
+      "location": "D15 - East Coast / Marine Parade",
+      "address": "7 Margate Road",
+      "property_type": "Residential Landed",
+      "tenure": "Freehold",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "2",
+      "completion_date": "",
+      "expected_top": "Jan 2029",
+      "launch_date": [
+        2026,
+        10,
+        24,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.2991646722786625",
+      "longitude": "103.88904946323996",
+      "cover_image": null
     },
     {
       "project_name": "Marina Collection",
