@@ -1,23 +1,5 @@
 [
   {
-    "title": "Forum: Consider needs of larger families in public housing support - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQY3BiTGliS3pDck1VWDlVQVBHQ3JnMHB2SlNSMm5MSS1xRUI1N1NrMHBqbVZSakVTWGdRTzgxUFg1d1dUTGd1NjRwaWVRa0p3cTZvQmQwLVR0UmJ6UWtha0wzTkpkZHJIRHB6cUx0Z1J4ZmRqNzRWSXk0M1NQYWkwR05ENTNqUURac05reWswU1lyWEtJQklUZDZJY3pSQjd4OUE?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Thu, 27 Aug 2026 21:00:00 GMT",
-    "pub_ts": 1787864400.0,
-    "fetched_ts": 1787875248.250217,
-    "source_tag": "ST"
-  },
-  {
-    "title": "Tropicana lines up RM1.9 bil development pipeline for 2026–2027 - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPYkVsNm5VTWNhUHBhY05iSmtIZTFZd0xFaFVlRzFOLVRSNWlySG9ETkVOa2hJTjFCU3ZnNl9selhnQUpJMy1kUUdVRjUwcm1sVmhNaDZDZW0zcXhGVlBONEQ0Ym5MWm1ZMzdKTjliWUU2Y0JMTkpKV21Kd1lScU9JV1JMVTl4TF9heTROekowTjZnVEFMeHpiUjdqU2xaWk5qVEl0T2V3?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Thu, 27 Aug 2026 18:17:54 GMT",
-    "pub_ts": 1787854674.0,
-    "fetched_ts": 1787875249.31,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "Australia data centre firm NextDC reports rising water, energy use with profit beat - CNA",
     "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPejNQY1hwaGQxQk9DNGFVcktNcVVoNU1COVFqUWtrSDNIN1c0MENackp6NDllTzNBUjBVT3NGWGk2WDY5UVQ3bXpfd3VGbVFoeU1DY2FPb2Z0dU41cmxvUGJHM3JzQWRlYm8wSUpTQ1YtTE1adUtCRlpvcU8yS2ZGVHlTZUZ4YkNmM2VkY1JoVEZFQkZza3ZfLWpXOXpWLW5lbU5wd2NzTU9yV0lXeFBPdk5NbUdfWjJ3ZWhidzBRSnQ3d2RE?oc=5",
     "source": "CNA",
@@ -33,15 +15,6 @@
     "pub_date": "Fri, 28 Aug 2026 04:30:00 GMT",
     "pub_ts": 1787891400.0,
     "fetched_ts": 1787896854.98799,
-    "source_tag": "EdgeProp"
-  },
-  {
-    "title": "Residential transactions with contracts dated Aug 11 to 18 [DONE DEALS] - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPd2xjeWhqbEVXRTNuamV1bzRPZ0RITDB3NmoxLVM2R3MtdHZhdjJZbVh6bjQ0M1dIYXQ0bGRzRzQ3VjdYWXVtUmNpdF9aYWVqQUlUd3dLZnFYNmQ2WkVFcGNuWlM5YklKMUxlU05IQ05WSFJtd0R1T010MHJsYkxVZzA4emlEZXc5NE83aGlKZ1o0MWhtYk15dy1Id0JwYU42?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Fri, 28 Aug 2026 00:00:00 GMT",
-    "pub_ts": 1787875200.0,
-    "fetched_ts": 1787896854.98802,
     "source_tag": "EdgeProp"
   },
   {
@@ -691,5 +664,23 @@
     "pub_ts": 1788426000.0,
     "fetched_ts": 1788436867.808105,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "CNA938 Rewind - Singapore property changes: New licence rules for agents, HDB wait-out period scrapped - CNA",
+    "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOU1hSZ254bXZUNDZ5TlRoMk1lZE9ieDkxNHRHTnFzWjhkeHVSbkFvRzg5ZFdpS1lrOEY4aWstN0tQczluaVlQdGMxNFdOXzZVVTJvYkVEbGJxN3VCQmxWTkIwSkhqT05kTUVGa0Z3dG5BNExsYnRuUGVNcjVmM0ZIcHJ3THlXT2FVcG5GQVkwLTF1bUZRVWpOQUlaTTVEb3AzTW9OMVNhaXpnTXZnMWJQNzJxWkdoWl9UWUZ4aGRxeDhuNzd1a3lFcmNsSnB0aDFKTUJjcHJjQWJRa0lySzBoUGRPYkdvOU1ZUnhHMm5iMEJqRVlkT095SkI4YURNbURNRUl3NE13?oc=5",
+    "source": "CNA",
+    "pub_date": "Thu, 03 Sep 2026 17:26:31 GMT",
+    "pub_ts": 1788456391.0,
+    "fetched_ts": 1788480015.247721,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "CNA938 Rewind - RTS Link to boost Johor, Singapore property markets - CNA",
+    "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPV01ENGZuNGpybXZaY3NRa01ZM245NDQyaFlJRVZFTmhERUJlZHE5dHh1Q0hEeXR0bkltWGFVX2NlTldDaER2NDV0TG5FRFdYR2lWN3ppX1FPS1N1U3hxRHFFT2pzcEN2SFR5X2xGbzE5ZjVTTjAybjhybTNuQWFyWENsN25aU0lCSHJRVTlMQVYydEpBMERVVVdnTmdWUGlHdWduTmI4T1dGRnFwY1pvYl8zUXZ2M0dt?oc=5",
+    "source": "CNA",
+    "pub_date": "Thu, 03 Sep 2026 11:03:31 GMT",
+    "pub_ts": 1788433411.0,
+    "fetched_ts": 1788480015.24774,
+    "source_tag": "CNA"
   }
 ]
