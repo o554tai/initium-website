@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 331,
-  "scraped_at": "2026-09-08T02:00:46.844749+00:00",
+  "scraped_at": "2026-09-08T03:00:42.301008+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1235,7 +1235,7 @@
       "address": "Lorong Chuan",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 1961700.0,
+      "min_price": 1981900.0,
       "max_price": 3247300.0,
       "currency": "$",
       "units": "916",
