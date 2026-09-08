@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 331,
-  "scraped_at": "2026-09-08T09:00:50.685262+00:00",
+  "scraped_at": "2026-09-08T10:00:45.443057+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1010,8 +1010,8 @@
       "address": "86, 88 Orchard Boulevard",
       "property_type": "Residential Highrise",
       "tenure": "Freehold",
-      "min_price": 4908000.0,
-      "max_price": 4908000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "154",
       "completion_date": "",
