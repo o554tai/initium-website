@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 331,
-  "scraped_at": "2026-09-09T09:00:58.517409+00:00",
+  "scraped_at": "2026-09-09T10:00:53.773382+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5189,8 +5189,8 @@
       "max_price": 7971000.0,
       "currency": "$",
       "units": "520",
-      "completion_date": "3Q 2026",
-      "expected_top": "3Q 2026",
+      "completion_date": "TOP Obtained",
+      "expected_top": "TOP Obtained",
       "launch_date": [
         2023,
         7,
