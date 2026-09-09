@@ -1,14 +1,5 @@
 [
   {
-    "title": "Forum: Requirement for all resale flat sellers to use Resale Flat Listing service being studied - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNdS1FRVA3Szh6cVB1a1RrRHNaa0lIcldwNWhfNFY5TFV3VDk3aDZKMFdNOHFwRWpwZjZEZDBCVm9hY2taS3RMNDBxNTY3YzBSeVdJcE04SWJfWHFXSmpEVGUyUWtqX3A1U3c4Sk1lLWFheEtiVXZDNmhSUTVFSUkxakVMTVdPY2RBa1AxVHpyZlJhVnBMVkNJR096M0VRZjJaQnh6akcxbzFQN2lxQ0c3b1ljTFpBWjZNWUJpa3VXVUNocDJJZHhqNjFFeHZWUjZwcWg4?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Tue, 01 Sep 2026 21:00:00 GMT",
-    "pub_ts": 1788296400.0,
-    "fetched_ts": 1788307235.949487,
-    "source_tag": "ST"
-  },
-  {
     "title": "Frasers Property to redevelop Yishun 10 into mixed-used complex by mid-2031 - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxNb1pMLXRPblBLMjh0bjdhZU1QSDI0cEdwRHRoSGxwYk05d2l0elBaalBUN240dFl1M29zdTZNZFBlbVRGTjFRX21NZ3J1OU9WQUhjQmR0VlFNX0R0MlctcEZjMHdRaFJHZ1JhbW84TERUUVh5b2FTcXhoUWw5QTZuLTlydHJtTEtjUS16U1J0YVJsYV90cG1TSHFyUldkbzJ5bHdpb1Uwanh1cktydTJyZWt3QQ?oc=5",
     "source": "The Straits Times",
@@ -600,6 +591,33 @@
     "pub_date": "Tue, 08 Sep 2026 12:01:06 GMT",
     "pub_ts": 1788868866.0,
     "fetched_ts": 1788890456.714034,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "White House pulls Tetris-style ‘Build the Wall’ game - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxOTDFRZ1EyWUJkUXU5NTdJYnpLZUNwS1JkNWxmMjN5M3ppbFFsNjdmQ0pwa0R6Z3FiT24xQUxuckloSmFKY1ZFWWl4cFJFUFdwY1pBX3pKRE55dEtseFJyZUI0RTBOMlZaeFQzbjhZWTVOZmpjY042MGZka21YOElLbUVWeUU5TlBEY2ljdjluMFR0VjR1LUU4THN5X2FPdkRl?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Tue, 08 Sep 2026 23:03:00 GMT",
+    "pub_ts": 1788908580.0,
+    "fetched_ts": 1788912056.613573,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Huawei launches new foldable smartphone as competition with Xiaomi, Apple heats up - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMioAFBVV95cUxPMjJBb2JwWHNfOXNkOWZyR2lvOEp0OVh1M2pRc1p4blI0YzJNbTNmZHhPTlJIUGhjMEpBcGZ6TEhnNjBMX0xpUW5jSS10bXh6RzRNeE1XMWNQbGR4QlpsekVsZlYyV2trLTZQM3FlNy1BNzEyVm05YlpwODk4cWpqUmdHNFUtVVFpT2VFV3k4VWtuV1VEOXRuMHF5Q3JhcUM4?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Mon, 07 Sep 2026 05:27:00 GMT",
+    "pub_ts": 1788758820.0,
+    "fetched_ts": 1788912056.613764,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Commentary: Condo en bloc rules are changing, and neighbours will feel it first - CNA",
+    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQMXpxVngwb3hUUm1IeVBBYl90YW15eDQzdHhOb0lxMkxCS0lsY0wxZFdrQjJNOEh5dkhkeGIyWmp2YUJwTHZDejF2cVFMc193ZVg3TEZZd2lrUnhZMW1TY3VJRm1kZ3NOU2MtRTMxdXZTMXNBbUFSamM4VmdHcllCUHE4bEVzMlQ3U1l0Sm5RQlJIQU9tZUxDclRmbDg5SDRNU293?oc=5",
+    "source": "CNA",
+    "pub_date": "Tue, 08 Sep 2026 22:00:00 GMT",
+    "pub_ts": 1788904800.0,
+    "fetched_ts": 1788912057.024664,
     "source_tag": "CNA"
   }
 ]
