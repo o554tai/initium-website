@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 331,
-  "scraped_at": "2026-09-11T13:00:19.576413+00:00",
+  "scraped_at": "2026-09-11T14:00:17.000956+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2461,7 +2461,7 @@
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
       "min_price": 1513000.0,
-      "max_price": 1748000.0,
+      "max_price": 1513000.0,
       "currency": "$",
       "units": "474",
       "completion_date": "2H 2026",
