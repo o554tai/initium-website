@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 331,
-  "scraped_at": "2026-09-11T08:00:18.048610+00:00",
+  "scraped_at": "2026-09-11T09:00:12.745394+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5185,8 +5185,8 @@
       "address": "30 Pine Grove (Singapore 598441)\n32 Pine Grove (Singapore 598441)\n36 Pine Grove (Singapore 598444)",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 7971000.0,
-      "max_price": 7971000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "520",
       "completion_date": "TOP Obtained",
