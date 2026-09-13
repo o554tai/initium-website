@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 331,
-  "scraped_at": "2026-09-13T11:00:57.397862+00:00",
+  "scraped_at": "2026-09-13T12:00:52.619362+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -6485,8 +6485,8 @@
       "address": "Thiam Siew Avenue",
       "property_type": "Private Condominium",
       "tenure": "Freehold",
-      "min_price": 0,
-      "max_price": 0,
+      "min_price": 5370000.0,
+      "max_price": 5370000.0,
       "currency": "$",
       "units": "816",
       "completion_date": "Q2 2027",
