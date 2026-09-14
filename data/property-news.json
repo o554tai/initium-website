@@ -1,23 +1,5 @@
 [
   {
-    "title": "Tokyo's Shinjuku to ban more than half of vacation rentals - CNA",
-    "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNMFhRRHlpZ1gwa205a0VWR3d4S2ZnZHd1NWI4X0JqejdSallJcTlaMkhqRl9KWFRKVmVhaEpyaVJLeFp4WHN2VG1rOHRBV1Y0V2k0TFFJZTZGWm5rRzhKNVhXT0NQNk9Ka3hVcGpDU2kwQVdqOWxsTXZBVFZnT0V2THIyLVUzRllSUUoyLUI4b2lFSjJK?oc=5",
-    "source": "CNA",
-    "pub_date": "Mon, 07 Sep 2026 06:47:00 GMT",
-    "pub_ts": 1788763620.0,
-    "fetched_ts": 1788782445.094486,
-    "source_tag": "CNA"
-  },
-  {
-    "title": "Shophouse with 999-year leasehold tenure in Serangoon Garden up for sale at $10.8 mil - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxPZjhITzdxTmh4Rk5nMDlVMXhXalIxb3FrMlpZZXo0NFlRakFRVlVIRUk0aWJMQzdUTXljNVZFZC1GVmNuQkJydm1zSkQzXzB4VkFfMjM3NzR3TjVfMDQ1TFhzS3h1ZjBKTGtlSVhaSWtDX0JqYlVUaXZHVlRHZFRZRXJpOHhuZFgxTjFsZUtpR2lBeWtJNTVvcnU5SUthRVByRk1wcDZR?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Mon, 07 Sep 2026 11:19:31 GMT",
-    "pub_ts": 1788779971.0,
-    "fetched_ts": 1788782445.81404,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "Money Talks - Will rising US Treasury yields push up your mortgage? - CNA",
     "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNVlM4YlJSRHdjeGpmTHhiRERqeldnVDl5Zm1SZV9aQko0NW9MeS1BMklNcDUzeWVyS09nbUZBLURsZUw3XzBkUlB2Sk5UQVd0RGJLOFlYa0dRbWF1cW93Y0VLaWd1ZXBhUVRLbnBjZ2xpU2ljd25rVkY1aFdsd1ZkWmlTb0k4eDFhQ0xobGlCR2hDa3FBWWtzS2x5WU9kVFozSUdLQ1hNbEp1VFRzQkxtRA?oc=5",
     "source": "CNA",
@@ -348,6 +330,24 @@
     "pub_date": "Mon, 14 Sep 2026 04:00:00 GMT",
     "pub_ts": 1789358400.0,
     "fetched_ts": 1789365668.947105,
+    "source_tag": "EdgeProp"
+  },
+  {
+    "title": "South Korea’s Lee hits new approval low as housing discontent grows - straitstimes.com",
+    "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPODB4N2F5TzRMY1piYU5KVmVYaFVNYU5IU0JUa25MY2tXMlBiZXAwMjd1VE1TOW1BSFBRN25iU3RiV1FUd1BMZk0xRjkzNnlxUThKN0lNeU04VnVNQ25OdzdQX0tvanFMUW92dWgyOS1seGl0NERndlVibnpkUXJJRGo3MW9KdWNZcXk1a0o5VWRwZzFZenVvRXJPQ0JWRkQ5SFBaYl9DREJUMmhaYWpn?oc=5",
+    "source": "straitstimes.com",
+    "pub_date": "Mon, 14 Sep 2026 08:11:00 GMT",
+    "pub_ts": 1789373460.0,
+    "fetched_ts": 1789387268.844644,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Building people before profits: The philosophy behind Michael Lim's growing real estate business - EdgeProp Singapore",
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxPQlZpal9BajJLc0tlMGlFdnpud3BwSUUzdVEyam45MWdmSWxrTTE0YnJSRHF6N29KSzNtc3Vlam1mbXJHRTZMTDJlMTV2aHo1b3VGcFNRdUlEd1hLdldRVjlIRWFJdXNtT011anFIdWwtTm9ENllXa3ZwbEVGeGg1V2xhS0JDSXBoT0ZfbWxHQjlJbFd6VmkyelVCQUdMX1BQRGo4dS1PSjMzT0lNMW1ab1VQcGJ1QlN5TzJ5RkVR?oc=5",
+    "source": "EdgeProp Singapore",
+    "pub_date": "Mon, 14 Sep 2026 07:00:00 GMT",
+    "pub_ts": 1789369200.0,
+    "fetched_ts": 1789387270.858078,
     "source_tag": "EdgeProp"
   }
 ]
