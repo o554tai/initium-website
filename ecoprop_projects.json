@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 332,
-  "scraped_at": "2026-09-14T05:01:03.519549+00:00",
+  "scraped_at": "2026-09-14T06:00:58.814237+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -7689,8 +7689,8 @@
       "max_price": 0,
       "currency": "$",
       "units": "595",
-      "completion_date": "2028-08-01 00:00:00",
-      "expected_top": "Aug 2028",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
       "launch_date": [
         2027,
         3,
@@ -7699,9 +7699,9 @@
         0
       ],
       "sold_out": false,
-      "latitude": null,
-      "longitude": null,
-      "cover_image": null
+      "latitude": "1.3984140916698482",
+      "longitude": "103.8173385190882",
+      "cover_image": "https://img.singmap.com/upload/broke/e852f339c5cc4e12bc33f5e189dd0ad1/973382ad1fdc416ca7163507c162ec9d/imgs/20260914/ebaf7ed4dcc34abfa9f1483f684e8437.png"
     },
     {
       "project_name": "UPPERHOUSE at Orchard Boulevard 傲杰嘉苑",
