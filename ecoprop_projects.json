@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
-  "total": 331,
-  "scraped_at": "2026-09-14T02:01:02.441491+00:00",
+  "source": "ecoprop.com",
+  "total": 332,
+  "scraped_at": "2026-09-14T03:00:57.731152+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -7677,6 +7677,31 @@
       "latitude": "1.2883272147297518",
       "longitude": "103.8432810036456",
       "cover_image": "https://img.singmap.com/upload/broke/2029c11d79004b5e915809fbd6e19f7b/8799614909f948d280ad127a9f14360a/imgs/20241014/0098a5d9cb834b35a51e8817b9070811.png"
+    },
+    {
+      "project_name": "Upper Thomson Residences",
+      "district": "D26",
+      "location": "D26 - Mandai / Upper Thomson",
+      "address": "Upper Thomson Road",
+      "property_type": "Residential Highrise",
+      "tenure": "99 Years",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "595",
+      "completion_date": "2028-08-01 00:00:00",
+      "expected_top": "Aug 2028",
+      "launch_date": [
+        2027,
+        3,
+        31,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": null,
+      "longitude": null,
+      "cover_image": null
     },
     {
       "project_name": "UPPERHOUSE at Orchard Boulevard 傲杰嘉苑",
