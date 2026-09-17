@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
-  "total": 332,
-  "scraped_at": "2026-09-17T08:00:50.467975+00:00",
+  "source": "ecoprop.com",
+  "total": 333,
+  "scraped_at": "2026-09-17T09:00:45.801210+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5204,6 +5204,31 @@
       "cover_image": "https://img.singmap.com/upload/broke/a0a87c09a8fa45f1b629fd39f27224c6/657700aa392c42fbb318650cde9731fd/imgs/20230520/cfc6fb1c2489480fa4c71dd1302fe52d.jpg"
     },
     {
+      "project_name": "PLUS",
+      "district": "D01",
+      "location": "D01 - Boat Quay / Raffles Place",
+      "address": "20 Cecil St",
+      "property_type": "Commercial",
+      "tenure": "99 Years",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "259",
+      "completion_date": "Completed",
+      "expected_top": "Completed",
+      "launch_date": [
+        2019,
+        10,
+        5,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.282937",
+      "longitude": "103.850484",
+      "cover_image": "https://img.singmap.com/upload/broke/26a7e3532c1e40c493ccd4d1302549f3/6e28a45fb5034bcea11256f2540211c2/imgs/c90bc56cf0634b70b7bb2d978dbd0019.jpeg"
+    },
+    {
       "project_name": "Provence Residence",
       "district": "D27",
       "location": "D27 - Sembawang / Yishun",
@@ -6535,8 +6560,8 @@
       "address": "66 East Coast Rd",
       "property_type": "Commercial",
       "tenure": "Freehold",
-      "min_price": 2307000.0,
-      "max_price": 7157000.0,
+      "min_price": 1750000.0,
+      "max_price": 1950000.0,
       "currency": "$",
       "units": "56",
       "completion_date": "TOP Obtained",
@@ -6548,7 +6573,7 @@
         0,
         0
       ],
-      "sold_out": true,
+      "sold_out": false,
       "latitude": "1.30454099178314",
       "longitude": "103.904190063477",
       "cover_image": "https://img.singmap.com/upload/broke/56d272c6dfbb421da06664083d0607d1/41a29d474fee4a27a4f6fdb3fb24f3b6/imgs/5506550bb5bf41a2a23924de7153da27.jpg"
