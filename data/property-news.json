@@ -1,14 +1,5 @@
 [
   {
-    "title": "Aurum Land pays $84.2 mil for a 37,155 sq ft freehold site at Watten Estate - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxNblBFNGhMWmUzc0hDS21YQjEycXMyUFlSZS1tOUxyUmctandNc1hHdXN1d2FkN2N1YTNtZXk2VEljV0poU0dfdHg1ZW5lbnk4SHpuRlRSN1BmQWd6ZDdRZUx2am9OZkZ5SnJsalhobjNsT2dvVmptTnc2NjhyUmVmbVI4MndxTmJfcTBqMGlIVFNLbmQtcDJwUllzc1pqemFkOERV?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Thu, 10 Sep 2026 14:09:33 GMT",
-    "pub_ts": 1789049373.0,
-    "fetched_ts": 1789063275.880795,
-    "source_tag": "EdgeProp"
-  },
-  {
     "title": "HK principal fired over SAFRA Jurong swearing incident seeks over $154,000 in unfair dismissal claim - Stomp",
     "url": "https://news.google.com/rss/articles/CBMi8wFBVV95cUxNa0NadF9mcmRIRDNUWm51VFVTSlppajlFMzVkTnNjbWdaVktDZDA3ZnJuUXR2cnEzZlh0V2Q0Tmppd2RabXh3TmROQ2RSV18zVTQzUHpqR1FWaUZLeHNlLVFKeFJBMTNVa285THRicTJyVFEySnVZU3VHSjdWNEVuZlFxcllmeXVVUTRJSkEzNzc5WEdsbXdXS2M2QkxWUG9rcmg0MF9VZkprQ1BJbWdKTGRzWXZxRG5xQnRXc2czVndvOVIzRnBQOFFDb2s0bEtSY2pmOWtSdmFpSzJRN21sZU9ZOWhheEt5UWkwWGdVM0hnUTQ?oc=5",
     "source": "Stomp",
@@ -520,5 +511,32 @@
     "pub_ts": 1789636500.0,
     "fetched_ts": 1789646455.817388,
     "source_tag": "EdgeProp"
+  },
+  {
+    "title": "KKH-MUIS team wins top healthcare award for guiding Muslim couples from marriage to parenting - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxQNG04eVEwbUNUZUlBNC11TFUybXVISFk4Q2R5SDRNWW93QlpiMmZiTGs4TU9WeUlLNGR4aGZLWUVpd0NKMW0xc1RuZ3RqSm5hWGFYaDlhVHp5aUkteXZtNXpuVGNzQXpCMzJ1QjlIZ3lEY2NXYlZFZFJZblVsYy04WWh6V3pSblVXbFMxZ2N5ank5Z1J4ekE4WUtUMEZic05CZFF0Q2FtYUVXX3FldW5NU0Q0YmJXSDNVUGVBaTYzT016YWtTb3pFME9oR1g2YWkycEh3U1B3?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Thu, 17 Sep 2026 13:05:00 GMT",
+    "pub_ts": 1789650300.0,
+    "fetched_ts": 1789668059.52383,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Crystal Jade shuts Clementi Mall and Jurong Point outlets, bringing total closures in 2026 to five - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxQbGd1bWNsV3RvTTNEd19QcXJ5ZGswOFBVUjVJN285b0U2aTcwXzR5bUVWOFRySllfSk5TalNJT3EzVGZtZmtMOWpvSjkzRnZZOHlEal9ienhWZXBpQ0E2a2gyZjBLRXFGYzZTZ3hMVW90OUdSbzhpOWN3M0NwOWhUaXpGMmZaTmNNcVU1THhES2ZYVDgzeWI0b3Via0F3NTVFZ29ZY293ay1yQ2JzMWR0SWVHYUFzM1dwbU9vS2tRdmZZYjc5RGhrOHV6S0VZQU5abVE?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Thu, 17 Sep 2026 14:10:00 GMT",
+    "pub_ts": 1789654200.0,
+    "fetched_ts": 1789668059.523849,
+    "source_tag": "ST"
+  },
+  {
+    "title": "No units sold at first auction for luxury properties seized in S$3b money laundering case - CNA",
+    "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxQc1VRdWVTbC1yMnhDYVh6SDl4SEFQNHhVdk9xRi1Hay0wZE9hMENPcnBVdDl1UXpDWlFNb1FweWdSV0tISWpFZWpLYjByVkZlc2VKRU9Wck1mOGcyUnhKeWdGaV9BYXFCSkRuTFhmTk5aakQxc3Q5dmVxSjVFaVJkd1ZNV0M3NFJNTy1sR3VVX0JIaHBPd2QxeFlhR3Vic19GbkNSX2hmQVdrT1BPRTlmVGNaUFlsMkRMV1RNUjlfeU9sOEotQ3c?oc=5",
+    "source": "CNA",
+    "pub_date": "Thu, 17 Sep 2026 15:12:55 GMT",
+    "pub_ts": 1789657975.0,
+    "fetched_ts": 1789668059.962538,
+    "source_tag": "CNA"
   }
 ]
