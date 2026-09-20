@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 333,
-  "scraped_at": "2026-09-20T06:00:28.913032+00:00",
+  "scraped_at": "2026-09-20T07:00:18.603532+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2460,8 +2460,8 @@
       "address": "22 Lentor Central Singapore 788877\n24 Lentor Central Singapore 788878\n26 Lentor Central Singapore 788879\n28 Lentor Central Singapore 788880",
       "property_type": "Residential Highrise",
       "tenure": "99 Years",
-      "min_price": 1513000.0,
-      "max_price": 1513000.0,
+      "min_price": 0,
+      "max_price": 0,
       "currency": "$",
       "units": "474",
       "completion_date": "2H 2026",
@@ -6210,7 +6210,7 @@
       "address": "92,94,96,98 Jalan Tembusu",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
-      "min_price": 1409000.0,
+      "min_price": 1546000.0,
       "max_price": 1546000.0,
       "currency": "$",
       "units": "638",
