@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 333,
-  "scraped_at": "2026-09-21T03:00:32.878865+00:00",
+  "scraped_at": "2026-09-21T04:00:26.806217+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5485,7 +5485,7 @@
       "address": "11 River Valley Green",
       "property_type": "Residential Highrise",
       "tenure": "99 years",
-      "min_price": 1404000.0,
+      "min_price": 1395000.0,
       "max_price": 3159000.0,
       "currency": "$",
       "units": "524",
