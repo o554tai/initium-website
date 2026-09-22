@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 333,
-  "scraped_at": "2026-09-22T07:00:43.288557+00:00",
+  "scraped_at": "2026-09-22T08:00:39.622649+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -2085,8 +2085,8 @@
       "address": "8 Lorong 13 Geylang",
       "property_type": "Low-rise residential",
       "tenure": "Freehold",
-      "min_price": 1598000.0,
-      "max_price": 2408000.0,
+      "min_price": 1578000.0,
+      "max_price": 2438000.0,
       "currency": "$",
       "units": "24",
       "completion_date": "",
@@ -2667,9 +2667,9 @@
       "completion_date": "TBC",
       "expected_top": "TBC",
       "launch_date": [
-        2026,
-        9,
-        30,
+        2027,
+        3,
+        31,
         0,
         0
       ],
@@ -3892,7 +3892,7 @@
       "completion_date": "TBC",
       "expected_top": "TBC",
       "launch_date": [
-        2026,
+        2027,
         9,
         30,
         0,
@@ -4042,9 +4042,9 @@
       "completion_date": "TBC",
       "expected_top": "TBC",
       "launch_date": [
-        2026,
-        10,
-        24,
+        2027,
+        3,
+        31,
         0,
         0
       ],
@@ -4542,9 +4542,9 @@
       "completion_date": "TBC",
       "expected_top": "TBC",
       "launch_date": [
-        2026,
-        11,
-        25,
+        2027,
+        3,
+        31,
         0,
         0
       ],
@@ -7539,12 +7539,12 @@
       "max_price": 0,
       "currency": "$",
       "units": "1268",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
+      "completion_date": "",
+      "expected_top": "Feb 2031",
       "launch_date": [
         2026,
         10,
-        17,
+        31,
         0,
         0
       ],
@@ -8217,9 +8217,9 @@
       "completion_date": "TBC",
       "expected_top": "TBC",
       "launch_date": [
-        2026,
-        8,
-        29,
+        2027,
+        6,
+        30,
         0,
         0
       ],
