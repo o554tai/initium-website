@@ -1,14 +1,5 @@
 [
   {
-    "title": "CNA Explains: First properties seized in S$3b money laundering case go to auction this week. How will it work? - channelnewsasia.com",
-    "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxONDlEQ1ZIM09OVTNhUExwQ2NuTWtXZG5VOHZSZkpnRFVoSWxvMVJ4dm0zUUFQSjBMb2xaQm1lOFUyaEZmNk5LSmlEN0hjTkFnN2JiVGRRZEhfNzliMFlQSnlyV3NkTW85enpfNHo3STM1RThuMDBfUGNUbk9ZWC1VVzk2TXZWbjJZc2dGVUNET0szSGp3M2UtZTEzNTl0MGZGZENSMnJWZjA?oc=5",
-    "source": "channelnewsasia.com",
-    "pub_date": "Tue, 15 Sep 2026 22:00:00 GMT",
-    "pub_ts": 1789509600.0,
-    "fetched_ts": 1789516823.756116,
-    "source_tag": "CNA"
-  },
-  {
     "title": "Former Group Director of HDB charged with breaching agency’s database 161 times - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMiygFBVV95cUxQWkpNV0VTSjh2Q2VCRnNXSFpLeUFBd3B2MVRGdG5RWk9KdklLOUFVdXA5TS1TeTR6MndTcXlLX3FWVHZ5ZFRfektRSXByVU9CZEVjSGtTTk1VcGZqOUFRQ2dsT0ktTXJFa0Q5ZWZ1bC16Wl9icmRMalRPU2Y3dEJ1bDFmZmhoMlkwamFzZ3NvaXMzRDc3MlFTV1h3S3N5Q2dQMllZUDFHSVdJVzNqb1BxN19FQUxIV0pTQ2tBYlhvWEFtTzVGYXVYUnV3?oc=5",
     "source": "The Straits Times",
@@ -69,15 +60,6 @@
     "pub_date": "Wed, 16 Sep 2026 07:00:00 GMT",
     "pub_ts": 1789542000.0,
     "fetched_ts": 1789560031.078634,
-    "source_tag": "EdgeProp"
-  },
-  {
-    "title": "Two-storey HDB shophouse at Bedok Reservoir hits market again at $3.8 mil - EdgeProp.sg",
-    "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOM284VUd3c1U5WHBScFg5X0M0WUI1ZWZJLS1zU0w4T2NraHZGVjJBZ3NmcHlWU3U0YlZ4NTF2UUlpdF9XTWoxVWdLZnFzbXIxUnpZcl9rTmgtREQ1Y0ZJMzF5UXdFcVRuRlNMcEhuQmZFa0VlOF9ldUpxTnVKZTN2bE9URXVRTHFXSV9sb1psaFZCMVY4ZDROTl9SNWRtVlJFVWJyVzZB?oc=5",
-    "source": "EdgeProp.sg",
-    "pub_date": "Wed, 16 Sep 2026 00:00:00 GMT",
-    "pub_ts": 1789516800.0,
-    "fetched_ts": 1789560031.078654,
     "source_tag": "EdgeProp"
   },
   {
@@ -502,5 +484,14 @@
     "pub_ts": 1790056620.0,
     "fetched_ts": 1790078449.852892,
     "source_tag": "CNA"
+  },
+  {
+    "title": "URA reviewing guidelines on floor space to give developers more design flexibility: Chee Hong Tat - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMi0AFBVV95cUxQeDJfRFYxOHNpNjh6bDZrUGZla0RaM05qTVBJb1VxbVA4QjRzaVVBdHE1U1pDNkRaRzJzbmRvRjMxQ014RUhZNzZod2JyLVlHX3U1bFVHTmktWk40MW1saVpiNjRydVVJbXBUVURyb29tVUxnZGxTel9xSUFQN0M0eDR3dGdkcU5JWEZlOTljaXpRc2NYVlBsbUwzQmFiV1pIdFhQNTFGS1REWmNvMGV1dUc5b0s5ZlZRRldqMmJuTjlzV3ktZm8wN1hnOWxHTlpQ?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Tue, 22 Sep 2026 03:24:00 GMT",
+    "pub_ts": 1790047440.0,
+    "fetched_ts": 1790121651.422838,
+    "source_tag": "ST"
   }
 ]
