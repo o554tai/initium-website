@@ -45,15 +45,6 @@
     "source_tag": "ST"
   },
   {
-    "title": "Singapore medtech start-up Bioactivx launches synthetic skin substitute - The Straits Times",
-    "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQQ0xpNVBSQ1ZUOG8tTkRoM0pmaWlaaW9lZkFjRHFiekZNOFFYYWlxeHFlNnVlYW1ZT1p1REl3NHlINF9Xb1hYXzdqQWI3U01BWUwzdkpZWG9Xb01HRWJ3bGNMbFRmZXE0TGpvRnVkUDZFdFlhSWhPcXlFX1hmNlIyaHJFaVhBMmFuQ1Rwb3hiWFBXWExTSlFhRTFkUDhkVzRhUzZOY1l6aDF4Nzg?oc=5",
-    "source": "The Straits Times",
-    "pub_date": "Wed, 16 Sep 2026 13:15:00 GMT",
-    "pub_ts": 1789564500.0,
-    "fetched_ts": 1789646454.491319,
-    "source_tag": "ST"
-  },
-  {
     "title": "Radio DJ Sonia Chew launches first footwear line with PrettyFit - The Straits Times",
     "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxQZHBkMEh2R3lnVWZLOUI5elhYZGktT01WaGUzblQwOUJNTjM2YkE5NU5Lei1iYnRrN2ptNi01cWRpUk43UUJ6Y29QYkZsLXhyendMRF93YVJaZnMwbENBd1hJY3VQc1RMMEJLa2NNN0l1WWFPaG5LM3ZoQkFObGd6YVVlVFJKNFc5LXZGUUdFdE8xYkdOTDRfNHZGdFFSUU8wOGdadUR3?oc=5",
     "source": "The Straits Times",
@@ -493,5 +484,41 @@
     "pub_ts": 1790156451.0,
     "fetched_ts": 1790164856.743797,
     "source_tag": "CNA"
+  },
+  {
+    "title": "Dramatic eviction of 87-year-old Madrid tenant spotlights Spain’s housing crisis - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxOeXJNbjViQ0Z3ZnQ0MHNmam1NTFNqa3pOOXFDSHpjenhjeE0tZVBNdnpLdFp1TzNYNnp5cU9PRHZjX1Y1SzhBU0NaT0pvRWp6Ql96NHR2UDdRSUZpZmpHVWhEODR0U0l2b0owWndGbktrWGZRNE4yczhsS2xUNWxVTFFKV2FpWl8yVzZ6MUhKd05mOXBaaXNJaFNtdmdHVUFLQ1NQWHVWWl92NkkyRnAyN2pTLUdaTnQyQk5SQ1Vn?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Wed, 23 Sep 2026 12:46:00 GMT",
+    "pub_ts": 1790167560.0,
+    "fetched_ts": 1790186462.059425,
+    "source_tag": "ST"
+  },
+  {
+    "title": "Land planned for housing in Tengah converted to park after consulting nature groups: HDB - The Straits Times",
+    "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxQTFNPVHhjSkR4dmhIMldrcFNwX040SVRwQXF0R2djcmFBQmF6eFpMcHhFbHlsenRXeW12QlB5WUdTMVNDNUV5X1QwZVNobDd4VEY2NVJ0U1hBa2FwTEY0ZEdoQkV6ekhROXk5eTdWQ3U2Mm96TnF1N3FhMUxKU1RqZTR1TG9oUEhidUY3Y1MxQ1VudERpNEhSeXhFVmFRTGFoY3BMSW9aUXV0bm1vZUxhY05JMV9OUFp3MzZ5UkV4bnktb0xMbG1KWWFwb0VHdjhqMVVPcw?oc=5",
+    "source": "The Straits Times",
+    "pub_date": "Tue, 22 Sep 2026 11:40:00 GMT",
+    "pub_ts": 1790077200.0,
+    "fetched_ts": 1790186462.061032,
+    "source_tag": "ST"
+  },
+  {
+    "title": "4 condominium units seized in S$3b money laundering case sold for more than S$16m - CNA",
+    "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxNNjVkMzdyY2tBS0xzbnpxTXNoaTBua18zbU5YNnN1ZFJ4OFRXSjZrMEpZb2VwdGIwZWs5bEItRUJDUzVJcGFaem9rbk80Qk1wRHRDbjg3WExGYm55Q0xSektOZ25sMl83UjJSMnFxUUh5VnVrRXBWS3g3dnZwV3FFRkF3QkZaelJBTXM4cWI0UDB1S1k5OW45NXFYWHpWT25Bb2hzUzhFT2x6aXU2NW5pYlZ0cmpZY2M?oc=5",
+    "source": "CNA",
+    "pub_date": "Wed, 23 Sep 2026 15:26:45 GMT",
+    "pub_ts": 1790177205.0,
+    "fetched_ts": 1790186462.505917,
+    "source_tag": "CNA"
+  },
+  {
+    "title": "Four condo units seized in money laundering case sold at auction for $2.08 mil to $6.6 mil - EdgeProp.sg",
+    "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxNaWpndG5hT0Q2cU9FanN4alBpNEZKeUltYlEweWVTeUdpemN1b1doYXpBcURrOC1XM3Y0cUp3UnhDa0JvaU1yaGhMTVhidG5oYUt1ZE9CZ3I4TXBOeS1ZX2tod20zdnhYSjA0Q2YwOUJJYmRpVW9iSTNEU1lDdS1CRGlXcDc3ZkNXV28yc1ByRGNpM0pNTEV5eGJXbFJCN0RZbTRXUTdacGh2TWNuVXljdQ?oc=5",
+    "source": "EdgeProp.sg",
+    "pub_date": "Wed, 23 Sep 2026 13:12:09 GMT",
+    "pub_ts": 1790169129.0,
+    "fetched_ts": 1790186463.215113,
+    "source_tag": "EdgeProp"
   }
 ]
