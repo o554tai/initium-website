@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 333,
-  "scraped_at": "2026-09-23T07:00:52.833214+00:00",
+  "scraped_at": "2026-09-23T08:00:47.163097+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1377,6 +1377,31 @@
       "latitude": "1.3138044292363735",
       "longitude": "103.9061490741442",
       "cover_image": "https://img.singmap.com/upload/broke/b2a56a1390e2434ea668741ea50aae6f/04dcca956d0349fbb634fa135c33454c/imgs/20221116/695338c2ad5246fab0e26b2372b01474.jpg"
+    },
+    {
+      "project_name": "Clovelle of Woodlands",
+      "district": "D25",
+      "location": "D25 - Admiralty / Woodlands",
+      "address": "Woodlands Drive 17",
+      "property_type": "Residential Highrise",
+      "tenure": "99 Years",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "570",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
+      "launch_date": [
+        2027,
+        6,
+        30,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.4259963",
+      "longitude": "103.7973154",
+      "cover_image": "https://img.singmap.com/upload/broke/347d7de60c1c4728ba7d01ee6ffdc5f8/679021ecbcab48be90b64e16e77b82b7/imgs/20260511/eccc703a1c98440f86a78f0d21680651.png"
     },
     {
       "project_name": "Coastal Cabana",
@@ -8202,31 +8227,6 @@
       "latitude": "1.31292200088501",
       "longitude": "103.804656982422",
       "cover_image": "https://img.singmap.com/upload/broke/e08e357f9f884accb9c10bc4de0c8c3a/c1ebb60d0a184e47bd239808d965b178/imgs/c1ebb60d0a184e47bd239808d965b178.jpg"
-    },
-    {
-      "project_name": "Woodlands Drive 17 - PB",
-      "district": "D25",
-      "location": "D25 - Admiralty / Woodlands",
-      "address": "Woodlands Drive 17",
-      "property_type": "Residential Highrise",
-      "tenure": "99 Years",
-      "min_price": 0,
-      "max_price": 0,
-      "currency": "$",
-      "units": "560",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
-      "launch_date": [
-        2027,
-        6,
-        30,
-        0,
-        0
-      ],
-      "sold_out": false,
-      "latitude": "1.4259963",
-      "longitude": "103.7973154",
-      "cover_image": "https://img.singmap.com/upload/broke/347d7de60c1c4728ba7d01ee6ffdc5f8/679021ecbcab48be90b64e16e77b82b7/imgs/20260511/eccc703a1c98440f86a78f0d21680651.png"
     },
     {
       "project_name": "Woods Square",
