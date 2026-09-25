@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 333,
-  "scraped_at": "2026-09-25T09:00:13.557320+00:00",
+  "scraped_at": "2026-09-25T10:00:08.044035+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -1202,31 +1202,6 @@
       "latitude": "1.4165660383314316",
       "longitude": "103.82863040749669",
       "cover_image": "https://img.singmap.com/upload/broke/21f1bbb880494513b71eab1b7bc0393c/a8dc1c7b80914f65a5c07128aaa9e777/imgs/20251030/4ab956a847254ab4abb3be7cc3e0e8ed.png"
-    },
-    {
-      "project_name": "Chuan Grove GLS",
-      "district": "D19",
-      "location": "D19 - Hougang / Punggol / Sengkang",
-      "address": "Chuan Grove",
-      "property_type": "Residential Highrise",
-      "tenure": "99 Years",
-      "min_price": 0,
-      "max_price": 0,
-      "currency": "$",
-      "units": "1055",
-      "completion_date": "TBC",
-      "expected_top": "TBC",
-      "launch_date": [
-        2027,
-        3,
-        31,
-        0,
-        0
-      ],
-      "sold_out": false,
-      "latitude": "1.3517439658305814",
-      "longitude": "103.85938676051663",
-      "cover_image": "https://img.singmap.com/upload/broke/0e98949df752401f984325fa8911a1af/f12c41ea74b5463a91ff0c84f7481218/imgs/20251030/95e7bba67183467fb8227ec6d489bd56.jpg"
     },
     {
       "project_name": "Chuan Park 鑫丰瑞府",
@@ -4527,6 +4502,31 @@
       "latitude": "1.273798",
       "longitude": "103.843605",
       "cover_image": "https://img.singmap.com/upload/broke/5787345a9ed34e31a089c90dec3ebbd2/0770e52acd3e4fed80608aef9f07b257/imgs/3fed357ebd6440e48c23a8ca34c2d51a.jpeg"
+    },
+    {
+      "project_name": "One Chuan Grove",
+      "district": "D19",
+      "location": "D19 - Hougang / Punggol / Sengkang",
+      "address": "Chuan Grove",
+      "property_type": "Residential Highrise",
+      "tenure": "99 Years",
+      "min_price": 0,
+      "max_price": 0,
+      "currency": "$",
+      "units": "1056",
+      "completion_date": "TBC",
+      "expected_top": "TBC",
+      "launch_date": [
+        2026,
+        10,
+        31,
+        0,
+        0
+      ],
+      "sold_out": false,
+      "latitude": "1.3517439658305814",
+      "longitude": "103.85938676051663",
+      "cover_image": "https://img.singmap.com/upload/broke/0e98949df752401f984325fa8911a1af/f12c41ea74b5463a91ff0c84f7481218/imgs/20251030/95e7bba67183467fb8227ec6d489bd56.jpg"
     },
     {
       "project_name": "One Draycott",
