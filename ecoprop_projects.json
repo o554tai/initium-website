@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 333,
-  "scraped_at": "2026-09-25T08:00:12.539793+00:00",
+  "scraped_at": "2026-09-25T09:00:07.669224+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -7710,7 +7710,7 @@
       "address": "28 Havelock Road\n",
       "property_type": "Mixed Developments",
       "tenure": "99 Years",
-      "min_price": 1291000.0,
+      "min_price": 1296000.0,
       "max_price": 9500000.0,
       "currency": "$",
       "units": "366",
