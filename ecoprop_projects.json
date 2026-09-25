@@ -1,7 +1,7 @@
 {
-  "source": "singmap.com",
+  "source": "ecoprop.com",
   "total": 333,
-  "scraped_at": "2026-09-25T01:01:08.068202+00:00",
+  "scraped_at": "2026-09-25T02:01:04.908602+00:00",
   "projects": [
     {
       "project_name": "10 Evelyn",
@@ -5180,8 +5180,8 @@
     },
     {
       "project_name": "Pinery Residences",
-      "district": "D16",
-      "location": "D16 - Bedok / Upper East Coast",
+      "district": "D18",
+      "location": "D18 - Pasir Ris / Tampines",
       "address": "920 to 932 Bedok Reservoir Road (Residential),91 Tampines Street 94 (Commercial), ",
       "property_type": "Mixed Developments",
       "tenure": "99 years",
