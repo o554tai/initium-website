@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Finder — Find Homes Near Top Primary Schools | INITIUM</title>
+<meta name="description" content="Search Singapore primary schools by 1km / 2km P1 registration distance. Find out which schools your home qualifies for, or discover homes near your target school.">
+<meta name="theme-color" content="#50C878">
+<link rel="icon" type="image/png" href="assets/images/initium-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css?v=5">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="animations.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<style>
+  :root {
+    --ig: #50C878;
+    --ig-dark: #3DA35F;
+    --ig-light: #E8F5EE;
+    --ig-surface: #F7F8F5;
+    --ig-ink: #1A1A1A;
+    --ig-ink-2: #6B7B6E;
+    --ig-ink-3: #A8B5AC;
+    --font-editorial: 'Playfair Display', serif;
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ig-ink);
+    background: var(--ig-surface);
+    overflow-x: hidden;
+  }
+
+  .page-hero {
+    position: relative;
+    min-height: 55vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 160px 24px 80px;
+    background: var(--ig-surface);
+    overflow: hidden;
+  }
+  .page-hero-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 24px;
+  }
+  .page-hero-title {
+    font-family: var(--font-editorial);
+    font-size: clamp(40px, 6vw, 72px);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--ig-ink);
+    margin-bottom: 20px;
+    max-width: 800px;
+  }
+  .page-hero-sub {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: 400;
+    color: var(--ig-ink-2);
+    max-width: 620px;
+    line-height: 1.7;
+  }
+
+  section { position: relative; padding: 100px 48px; }
+  .section-inner { max-width: 1200px; margin: 0 auto; }
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--ig);
+  }
+  .section-title {
+    font-family: var(--font-editorial);
+    font-size: clamp(36px, 4.5vw, 64px);
+    font-weight: 500;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    max-width: 700px;
+    margin: 0 auto 24px;
+    text-align: center;
+  }
+  .section-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+    max-width: 640px;
+    margin: 0 auto 48px;
+    text-align: center;
+  }
+
+  .finder-grid {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .finder-panel {
+    background: #fff;
+    border-radius: 24px;
+    padding: 32px;
+    box-shadow: 0 8px 32px rgba(26,26,26,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  .finder-panel h3 {
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .finder-tabs {
+    display: flex;
+    gap: 8px;
+    background: var(--ig-surface);
+    padding: 6px;
+    border-radius: 12px;
+  }
+  .finder-tab {
+    flex: 1;
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--ig-ink-2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .finder-tab.active {
+    background: #fff;
+    color: var(--ig);
+    box-shadow: 0 2px 8px rgba(26,26,26,0.06);
+  }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group label {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ig-ink-2);
+  }
+  .form-group input,
+  .form-group select {
+    padding: 14px 16px;
+    border: 1px solid rgba(80,200,120,0.12);
+    border-radius: 12px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    background: var(--ig-surface);
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  .form-group input:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: var(--ig);
+    box-shadow: 0 0 0 3px rgba(80,200,120,0.08);
+    background: #fff;
+  }
+
+  .btn-primary {
+    padding: 14px 24px;
+    background: var(--ig);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  .btn-primary:hover { background: var(--ig-dark); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--ig-ink-2);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-1km { background: rgba(80,200,120,0.35); border: 2px solid var(--ig); }
+  .dot-2km { background: rgba(80,200,120,0.15); border: 2px solid rgba(80,200,120,0.5); }
+  .dot-school { background: var(--ig); }
+
+  #map {
+    width: 100%;
+    height: 640px;
+    border-radius: 24px;
+    box-shadow: 0 8px 32px rgba(26,26,26,0.06);
+    z-index: 1;
+  }
+
+  .results-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(26,26,26,0.04);
+  }
+  .results-card h4 {
+    font-family: var(--font-display);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ig);
+    margin-bottom: 16px;
+  }
+  .school-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .school-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 14px;
+    background: var(--ig-surface);
+    border-radius: 12px;
+    font-size: 14px;
+  }
+  .school-name { font-weight: 600; color: var(--ig-ink); }
+  .school-meta { color: var(--ig-ink-2); font-size: 12px; margin-top: 2px; }
+  .school-badge {
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .badge-1km { background: rgba(80,200,120,0.12); color: var(--ig-dark); }
+  .badge-2km { background: rgba(80,200,120,0.06); color: var(--ig-ink-2); }
+  .empty-state {
+    text-align: center;
+    color: var(--ig-ink-3);
+    font-size: 14px;
+    padding: 24px 0;
+  }
+
+  /* Lead form section */
+  .lead-section { background: #fff; }
+  .lead-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .lead-form-card {
+    background: var(--ig-surface);
+    border-radius: 24px;
+    padding: 48px;
+  }
+  .lead-form-card h3 {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .lead-form-card > p {
+    font-size: 14px;
+    color: var(--ig-ink-2);
+    margin-bottom: 32px;
+  }
+  .lead-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .lead-form .full-width { grid-column: 1 / -1; }
+  .lead-form .form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+    padding: 14px 16px;
+    border: 1px solid rgba(80,200,120,0.12);
+    border-radius: 12px;
+    font-family: var(--font-body);
+    font-size: 15px;
+    background: #fff;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  .lead-form .form-group textarea:focus {
+    outline: none;
+    border-color: var(--ig);
+    box-shadow: 0 0 0 3px rgba(80,200,120,0.08);
+  }
+  .form-status {
+    grid-column: 1 / -1;
+    font-size: 14px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    display: none;
+  }
+  .form-status.success {
+    display: block;
+    background: rgba(80,200,120,0.08);
+    color: var(--ig-dark);
+    border: 1px solid rgba(80,200,120,0.15);
+  }
+  .form-status.error {
+    display: block;
+    background: rgba(200,50,50,0.06);
+    color: #c83232;
+    border: 1px solid rgba(200,50,50,0.12);
+  }
+
+  .faq-list { display: flex; flex-direction: column; gap: 20px; }
+  .faq-item h4 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .faq-item p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ig-ink-2);
+  }
+
+  @media (max-width: 1024px) {
+    .finder-grid { grid-template-columns: 1fr; }
+    #map { height: 420px; }
+    .lead-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 900px) {
+    section { padding: 80px 24px; }
+    .lead-form-card { padding: 32px 24px; }
+    .lead-form { grid-template-columns: 1fr; }
+    .finder-panel { padding: 24px; }
+  }
+</style>
+<link rel="canonical" href="school-finder.html">
+<meta property="og:title" content="School Finder — Find Homes Near Top Primary Schools | INITIUM">
+<meta property="og:description" content="Search Singapore primary schools by 1km / 2km P1 registration distance. Find out which schools your home qualifies for.">
+<meta property="og:image" content="https://initium.sg/og-image.jpg">
+<meta property="og:url" content="https://initium.sg/school-finder.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="INITIUM">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://initium.sg/" },
+    { "@type": "ListItem", "position": 2, "name": "School Finder", "item": "https://initium.sg/school-finder.html" }
+  ]
+}
+</script>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo">INITI<span>U</span>M</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="nav-link" data-page="index">Home</a>
+      <a href="new-launches.html" class="nav-link" data-page="new-launches">New Launches</a>
+      <a href="services.html" class="nav-link" data-page="services">Services</a>
+      <a href="calculators.html" class="nav-link" data-page="calculators">Calculators</a>
+      <a href="school-finder.html" class="nav-link active" data-page="school-finder">School Finder</a>
+      <a href="about.html" class="nav-link" data-page="about">About</a>
+      <a href="the-post.html" class="nav-link" data-page="the-post">The Post</a>
+      <a href="contact.html" class="nav-link" data-page="contact">Contact</a>
+      <a href="intm-shop.html" class="nav-link" data-page="intm-shop">INTM Shop</a>
+      <a href="agent-hub.html" class="nav-link" data-page="agent-hub">Agent Hub</a>
+    </div>
+  </div>
+</nav>
+
+<header class="page-hero">
+  <div class="page-hero-label">For Growing Families</div>
+  <h1 class="page-hero-title">Find the Right Home Near the Right School</h1>
+  <p class="page-hero-sub">Check 1km and 2km P1 registration distances for all 179 Singapore primary schools. Search by school, or enter your address to see which schools you qualify for.</p>
+</header>
+
+<section id="finder" style="padding-top: 40px;">
+  <div class="section-inner">
+    <div class="finder-grid">
+      <div class="finder-panel">
+        <div>
+          <h3>Search</h3>
+          <div class="finder-tabs">
+            <button class="finder-tab active" data-tab="school">By School</button>
+            <button class="finder-tab" data-tab="address">By Address</button>
+          </div>
+        </div>
+
+        <div id="tab-school" class="tab-content active">
+          <div class="form-group">
+            <label for="schoolSelect">Primary School</label>
+            <select id="schoolSelect">
+              <option value="" disabled selected>Choose a school</option>
+            </select>
+          </div>
+          <p style="font-size:13px;color:var(--ig-ink-2);line-height:1.6;">We will show the 1km and 2km zones used in MOE P1 Registration. Homes inside 1km get priority in Phase 2C.</p>
+        </div>
+
+        <div id="tab-address" class="tab-content">
+          <div class="form-group">
+            <label for="addressInput">Your Home Address</label>
+            <input type="text" id="addressInput" placeholder="e.g. 1 Kim Seng Promenade">
+          </div>
+          <button class="btn-primary" id="searchAddressBtn">Find Nearby Schools</button>
+          <p style="font-size:13px;color:var(--ig-ink-2);line-height:1.6;">Enter a block number + street name or postal code. We will list all primary schools within 1km and 2km.</p>
+        </div>
+
+        <div class="legend">
+          <div class="legend-item"><span class="dot dot-school"></span> School</div>
+          <div class="legend-item"><span class="dot dot-1km"></span> 1km zone</div>
+          <div class="legend-item"><span class="dot dot-2km"></span> 2km zone</div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div id="map"></div>
+        <div class="results-card" id="resultsCard" style="display:none;">
+          <h4 id="resultsTitle">Nearby Schools</h4>
+          <ul class="school-list" id="schoolList"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="lead-section" id="enquire">
+  <div class="section-inner">
+    <div class="lead-grid">
+      <div>
+        <div class="section-label" style="justify-content:flex-start;"><span></span>Next Step</div>
+        <h2 class="section-title" style="text-align:left;margin-left:0;">Want a Home Within 1km?</h2>
+        <p class="section-text" style="text-align:left;margin-left:0;">Tell us your target schools and budget. An INITIUM advisor will shortlist properties, check distances, and guide you through the P1 timeline.</p>
+        <div class="faq-list">
+          <div class="faq-item">
+            <h4>How accurate is the 1km / 2km distance?</h4>
+            <p>Distances are computed as the straight-line distance from the school boundary to your address, consistent with MOE's methodology. For official eligibility, always verify on the MOE P1 Registration portal.</p>
+          </div>
+          <div class="faq-item">
+            <h4>Does this include all primary schools?</h4>
+            <p>Yes — all 179 mainstream primary schools in Singapore, using MOE's open data directory.</p>
+          </div>
+          <div class="faq-item">
+            <h4>What happens after I enquire?</h4>
+            <p>An advisor will contact you within 2 hours to understand your timeline, budget, and school priorities.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="lead-form-card">
+        <h3>Get School-Shortlisted Homes</h3>
+        <p>Fill in your details and we will match you to properties near your chosen schools.</p>
+        <form class="lead-form" id="leadForm">
+          <div class="form-group">
+            <label for="leadName">Full Name</label>
+            <input type="text" id="leadName" name="name" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="leadPhone">Mobile</label>
+            <input type="tel" id="leadPhone" name="phone" placeholder="+65 XXXX XXXX" required>
+          </div>
+          <div class="form-group">
+            <label for="leadEmail">Email</label>
+            <input type="email" id="leadEmail" name="email" placeholder="you@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="leadBudget">Budget (optional)</label>
+            <input type="text" id="leadBudget" name="budget" placeholder="e.g. S$1.5m">
+          </div>
+          <div class="form-group full-width">
+            <label for="leadTargetSchools">Target Schools</label>
+            <input type="text" id="leadTargetSchools" name="targetSchools" placeholder="e.g. Ai Tong School, Henry Park Primary">
+          </div>
+          <div class="form-group full-width">
+            <label for="leadHomeAddress">Home Address (optional)</label>
+            <input type="text" id="leadHomeAddress" name="homeAddress" placeholder="Current or target address">
+          </div>
+          <div class="form-group full-width">
+            <label for="leadMessage">Message (optional)</label>
+            <textarea id="leadMessage" name="message" placeholder="Timeline, unit type, or anything else..."></textarea>
+          </div>
+          <div class="form-status" id="leadStatus"></div>
+          <button type="submit" class="btn-primary" id="leadSubmitBtn" style="grid-column:1/-1;">Send to an Advisor</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="section" style="background: var(--dark); text-align: center;">
+  <div class="container">
+    <div class="label reveal" style="color: var(--accent-light);">Stay in the Loop</div>
+    <h2 class="headline-md reveal" style="color: var(--white); margin-bottom: var(--space-4);">The Market Moves Fast.</h2>
+    <p class="body-lg reveal" style="color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto var(--space-8);">Get the latest guides, market updates, and INITIUM news sent straight to you. No spam. No fluff. Just what matters.</p>
+    <div class="reveal">
+      <a href="contact.html" class="btn btn-primary btn-lg">Join the List</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">INITI<span>U</span>M</div>
+        <p class="footer-desc">Built on trust, systems, and the drive to lift everyone higher. Singapore, since 2010.</p>
+        <div class="footer-socials">
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          </a>
+          <a href="https://www.facebook.com/Initiumsg/" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+          </a>
+          <a href="https://www.instagram.com/initium.grp?igsh=MTdtYzB4dHF0djkyeg%3D%3D&utm_source=qr" target="_blank" rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19.5c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <div class="footer-heading">Quick Links</div>
+        <div class="footer-links">
+          <a href="new-launches.html" class="footer-link"><span class="footer-link-title">New Launches</span><span class="footer-link-desc">Early access to Singapore's latest developments</span></a>
+          <a href="services.html" class="footer-link"><span class="footer-link-title">Services</span><span class="footer-link-desc">Buy, sell, invest with precision</span></a>
+          <a href="calculators.html" class="footer-link"><span class="footer-link-title">Calculators</span><span class="footer-link-desc">Mortgage, stamp duty, rental yield, renovation, progressive payment</span></a>
+          <a href="school-finder.html" class="footer-link"><span class="footer-link-title">School Finder</span><span class="footer-link-desc">Find homes near primary schools</span></a>
+          <a href="about.html" class="footer-link"><span class="footer-link-title">About</span><span class="footer-link-desc">Our story, team, and culture</span></a>
+          <a href="the-post.html" class="footer-link"><span class="footer-link-title">The Post</span><span class="footer-link-desc">Market insights and property stories</span></a>
+          <a href="contact.html" class="footer-link"><span class="footer-link-title">Contact</span><span class="footer-link-desc">Start a conversation</span></a>
+          <a href="intm-shop.html" class="footer-link"><span class="footer-link-title">INTM Shop</span><span class="footer-link-desc">Branded merchandise and tools</span></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; 2026 INITIUM. All rights reserved.</span>
+      <span>CEA Licence No: L3010858B</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/nav.js"></script>
+<script>
+(function() {
+  // ── State ───────────────────────────────────────────────────────────────
+  let map = null;
+  let markersLayer = null;
+  let circlesLayer = null;
+  let schools = [];
+
+  const KM1 = 1000;
+  const KM2 = 2000;
+
+  // ── Utilities ───────────────────────────────────────────────────────────
+  function toRad(deg) { return deg * Math.PI / 180; }
+
+  function haversine(lat1, lng1, lat2, lng2) {
+    const R = 6371000; // metres
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  }
+
+  function debounce(fn, ms) {
+    let t;
+    return (...args) => {
+      clearTimeout(t);
+      t = setTimeout(() => fn(...args), ms);
+    };
+  }
+
+  // ── Map ─────────────────────────────────────────────────────────────────
+  function initMap() {
+    map = L.map('map', { scrollWheelZoom: false }).setView([1.3521, 103.8198], 12);
+
+    L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png', {
+      attribution: '<img src="https://www.onemap.gov.sg/images/oneMapLogo.png" style="height:18px;vertical-align:middle;"> OneMap | &copy; SLA',
+      maxZoom: 19,
+      minZoom: 11,
+    }).addTo(map);
+
+    markersLayer = L.layerGroup().addTo(map);
+    circlesLayer = L.layerGroup().addTo(map);
+  }
+
+  function clearMap() {
+    markersLayer.clearLayers();
+    circlesLayer.clearLayers();
+  }
+
+  function addSchoolMarker(school) {
+    const marker = L.circleMarker([school.lat, school.lng], {
+      radius: 7,
+      fillColor: '#50C878',
+      color: '#fff',
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.95,
+    }).bindPopup(`<strong>${school.name}</strong><br>${school.address}<br>${school.postal}`);
+    markersLayer.addLayer(marker);
+    return marker;
+  }
+
+  function drawRadius(lat, lng) {
+    const c1 = L.circle([lat, lng], {
+      radius: KM1,
+      fillColor: '#50C878',
+      fillOpacity: 0.12,
+      color: '#50C878',
+      weight: 1.5,
+      opacity: 0.6,
+    });
+    const c2 = L.circle([lat, lng], {
+      radius: KM2,
+      fillColor: '#50C878',
+      fillOpacity: 0.06,
+      color: '#50C878',
+      weight: 1,
+      opacity: 0.35,
+    });
+    circlesLayer.addLayer(c1);
+    circlesLayer.addLayer(c2);
+  }
+
+  // ── Results list ────────────────────────────────────────────────────────
+  function renderResults(title, items) {
+    const card = document.getElementById('resultsCard');
+    const list = document.getElementById('schoolList');
+    const h = document.getElementById('resultsTitle');
+
+    card.style.display = 'block';
+    h.textContent = title;
+    list.innerHTML = '';
+
+    if (!items.length) {
+      list.innerHTML = '<li class="empty-state">No schools found within this radius.</li>';
+      return;
+    }
+
+    items.forEach(item => {
+      const li = document.createElement('li');
+      const badgeClass = item.distance <= KM1 ? 'badge-1km' : 'badge-2km';
+      const badgeText = item.distance <= KM1 ? 'Within 1km' : 'Within 2km';
+      const dKm = (item.distance / 1000).toFixed(2);
+      li.innerHTML = `
+        <div>
+          <div class="school-name">${item.school.name}</div>
+          <div class="school-meta">${item.school.address} &middot; ${dKm} km</div>
+        </div>
+        <span class="school-badge ${badgeClass}">${badgeText}</span>
+      `;
+      list.appendChild(li);
+    });
+  }
+
+  function clearResults() {
+    document.getElementById('resultsCard').style.display = 'none';
+    document.getElementById('schoolList').innerHTML = '';
+  }
+
+  // ── Tab switching ───────────────────────────────────────────────────────
+  document.querySelectorAll('.finder-tab').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.finder-tab').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      clearMap();
+      clearResults();
+    });
+  });
+
+  // ── By School ───────────────────────────────────────────────────────────
+  function populateSchoolSelect() {
+    const select = document.getElementById('schoolSelect');
+    schools.sort((a, b) => a.name.localeCompare(b.name));
+    schools.forEach(school => {
+      const opt = document.createElement('option');
+      opt.value = school.name;
+      opt.textContent = school.name;
+      select.appendChild(opt);
+    });
+
+    select.addEventListener('change', () => {
+      const name = select.value;
+      const school = schools.find(s => s.name === name);
+      if (!school) return;
+
+      clearMap();
+      drawRadius(school.lat, school.lng);
+      addSchoolMarker(school);
+      map.flyTo([school.lat, school.lng], 15, { duration: 1 });
+
+      // List all homes are within 2km? Show distances around school
+      renderResults(`Homes within 2km of ${school.name}`, []);
+      document.getElementById('schoolList').innerHTML =
+        `<li class="empty-state">1km and 2km zones are shown on the map. Use "By Address" to check a specific home.</li>`;
+
+      // Pre-fill lead form
+      document.getElementById('leadTargetSchools').value = school.name;
+    });
+  }
+
+  // ── By Address ──────────────────────────────────────────────────────────
+  async function geocodeAddress(query) {
+    const url = new URL('https://www.onemap.gov.sg/api/common/elastic/search');
+    url.searchParams.set('searchVal', query);
+    url.searchParams.set('returnGeom', 'Y');
+    url.searchParams.set('getAddrDetails', 'Y');
+    url.searchParams.set('pageNum', '1');
+
+    const res = await fetch(url.toString());
+    if (!res.ok) throw new Error('Geocoding failed');
+    const data = await res.json();
+    const results = data.results || [];
+    if (!results.length) return null;
+    return {
+      lat: parseFloat(results[0].LATITUDE),
+      lng: parseFloat(results[0].LONGITUDE),
+      address: results[0].ADDRESS,
+    };
+  }
+
+  async function searchByAddress() {
+    const input = document.getElementById('addressInput');
+    const btn = document.getElementById('searchAddressBtn');
+    const query = input.value.trim();
+    if (!query) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Searching...';
+
+    try {
+      const point = await geocodeAddress(query);
+      if (!point) {
+        alert('Address not found. Try a postal code or block + street name.');
+        return;
+      }
+
+      clearMap();
+
+      // Find schools within 2km
+      const nearby = schools
+        .filter(s => s.lat && s.lng)
+        .map(s => ({ school: s, distance: haversine(point.lat, point.lng, s.lat, s.lng) }))
+        .filter(item => item.distance <= KM2)
+        .sort((a, b) => a.distance - b.distance);
+
+      // Mark home
+      const homeMarker = L.circleMarker([point.lat, point.lng], {
+        radius: 8,
+        fillColor: '#1A1A1A',
+        color: '#fff',
+        weight: 2,
+        fillOpacity: 1,
+      }).bindPopup(`<strong>Your Home</strong><br>${point.address}`);
+      markersLayer.addLayer(homeMarker);
+
+      // Mark schools
+      nearby.forEach(item => addSchoolMarker(item.school));
+
+      renderResults(`Schools near ${point.address}`, nearby);
+
+      if (nearby.length) {
+        const bounds = L.latLngBounds(nearby.map(i => [i.school.lat, i.school.lng]));
+        bounds.extend([point.lat, point.lng]);
+        map.flyToBounds(bounds, { padding: [40, 40], duration: 1 });
+      } else {
+        map.flyTo([point.lat, point.lng], 15, { duration: 1 });
+      }
+
+      // Pre-fill lead form
+      document.getElementById('leadHomeAddress').value = point.address;
+      if (nearby.length) {
+        document.getElementById('leadTargetSchools').value = nearby.slice(0, 3).map(i => i.school.name).join(', ');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Could not search address. Please try again.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Find Nearby Schools';
+    }
+  }
+
+  document.getElementById('searchAddressBtn').addEventListener('click', searchByAddress);
+  document.getElementById('addressInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') searchByAddress();
+  });
+
+  // ── Lead form ───────────────────────────────────────────────────────────
+  document.getElementById('leadForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('leadSubmitBtn');
+    const status = document.getElementById('leadStatus');
+    const form = e.target;
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    status.className = 'form-status';
+    status.textContent = '';
+
+    const data = {
+      name: form.name.value,
+      phone: form.phone.value,
+      email: form.email.value,
+      budget: form.budget.value,
+      targetSchools: form.targetSchools.value,
+      homeAddress: form.homeAddress.value,
+      message: form.message.value,
+      pageUrl: window.location.href,
+    };
+
+    try {
+      const endpoint = window.location.origin.includes('localhost')
+        ? '/api/school-lead'
+        : 'https://initium-video-studio.onrender.com/api/school-lead';
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        status.className = 'form-status success';
+        status.textContent = 'Thank you! An INITIUM advisor will contact you within 2 hours.';
+        form.reset();
+      } else {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || 'Server error');
+      }
+    } catch (err) {
+      status.className = 'form-status error';
+      status.textContent = err.message || 'Something went wrong. Please try again or WhatsApp us.';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send to an Advisor';
+    }
+  });
+
+  // ── Init ────────────────────────────────────────────────────────────────
+  async function init() {
+    initMap();
+    try {
+      const res = await fetch('data/primary-schools.json');
+      schools = await res.json();
+      populateSchoolSelect();
+    } catch (err) {
+      console.error('Failed to load school data:', err);
+      document.getElementById('schoolSelect').innerHTML =
+        '<option value="" disabled selected>Could not load schools</option>';
+    }
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
