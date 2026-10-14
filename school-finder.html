@@ -238,11 +238,11 @@
     z-index: 1;
   }
 
-  .school-marker, .home-marker {
+  .school-marker, .home-marker, .project-marker {
     background: transparent;
     border: none;
   }
-  .school-marker svg, .home-marker svg {
+  .school-marker svg, .home-marker svg, .project-marker svg {
     display: block;
     filter: drop-shadow(0 2px 6px rgba(0,0,0,0.18));
   }
@@ -628,6 +628,7 @@
   let markersLayer = null;
   let circlesLayer = null;
   let schools = [];
+  let projects = [];
 
   const KM1 = 1000;
   const KM2 = 2000;
@@ -673,6 +674,17 @@
     circlesLayer.clearLayers();
   }
 
+  const projectIcon = L.divIcon({
+    className: 'project-marker',
+    html: `<svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 20 12 20s12-11 12-20C24 5.373 18.627 0 12 0z" fill="#1d1d1f"/>
+      <rect x="7" y="8" width="10" height="10" rx="2" fill="#fff"/>
+    </svg>`,
+    iconSize: [24, 32],
+    iconAnchor: [12, 32],
+    popupAnchor: [0, -32],
+  });
+
   const schoolIcon = L.divIcon({
     className: 'school-marker',
     html: `<svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -694,6 +706,19 @@
     iconAnchor: [12, 32],
     popupAnchor: [0, -32],
   });
+
+  function addProjectMarker(project) {
+    const lat = parseFloat(project.latitude);
+    const lng = parseFloat(project.longitude);
+    if (!lat || !lng) return null;
+    const marker = L.marker([lat, lng], { icon: projectIcon })
+      .bindPopup(`<div style="font-family:DM Sans,sans-serif;min-width:180px;">
+        <strong style="font-size:14px;color:#1d1d1f;">${project.project_name}</strong><br>
+        <span style="font-size:12px;color:#86868b;">${project.address || ''} · ${project.property_type || ''}</span>
+      </div>`);
+    markersLayer.addLayer(marker);
+    return marker;
+  }
 
   function addSchoolMarker(school) {
     const marker = L.marker([school.lat, school.lng], { icon: schoolIcon })
@@ -747,10 +772,13 @@
       const badgeClass = item.distance <= KM1 ? 'badge-1km' : 'badge-2km';
       const badgeText = item.distance <= KM1 ? 'Within 1km' : 'Within 2km';
       const dKm = (item.distance / 1000).toFixed(2);
+      const name = item.school ? item.school.name : (item.project ? item.project.project_name : 'Unknown');
+      const address = item.school ? item.school.address : (item.project ? (item.project.address || item.project.location || '') : '');
+      const meta = item.project ? `${item.project.property_type || 'Condo'} · ${dKm} km` : `${address} · ${dKm} km`;
       li.innerHTML = `
         <div>
-          <div class="school-name">${item.school.name}</div>
-          <div class="school-meta">${item.school.address} &middot; ${dKm} km</div>
+          <div class="school-name">${name}</div>
+          <div class="school-meta">${meta}</div>
         </div>
         <span class="school-badge ${badgeClass}">${badgeText}</span>
       `;
@@ -794,15 +822,39 @@
       clearMap();
       drawRadius(school.lat, school.lng);
       addSchoolMarker(school);
-      map.flyTo([school.lat, school.lng], 15, { duration: 1 });
 
-      // List all homes are within 2km? Show distances around school
-      renderResults(`Homes within 2km of ${school.name}`, []);
-      document.getElementById('schoolList').innerHTML =
-        `<li class="empty-state" style="text-align:left;padding:0;">
-          <strong style="color:#1d1d1f;display:block;margin-bottom:6px;">Zones displayed on map</strong>
-          <span style="color:#86868b;">Switch to "By Address" to check a specific home, or WhatsApp us for a shortlist of condos within 1km.</span>
-        </li>`;
+      // Find condos / projects within 2km
+      const nearbyProjects = projects
+        .map(p => {
+          const plat = parseFloat(p.latitude);
+          const plng = parseFloat(p.longitude);
+          return { project: p, lat: plat, lng: plng, distance: haversine(school.lat, school.lng, plat, plng) };
+        })
+        .filter(item => item.distance <= KM2)
+        .sort((a, b) => a.distance - b.distance);
+
+      nearbyProjects.forEach(item => addProjectMarker(item.project));
+
+      // Fit map to show school + projects
+      if (nearbyProjects.length) {
+        const bounds = L.latLngBounds([[school.lat, school.lng]]);
+        nearbyProjects.forEach(item => bounds.extend([item.lat, item.lng]));
+        map.flyToBounds(bounds, { padding: [50, 50], maxZoom: 16, duration: 1 });
+      } else {
+        map.flyTo([school.lat, school.lng], 15, { duration: 1 });
+      }
+
+      // Render results
+      if (nearbyProjects.length) {
+        renderResults(`Condos within 2km of ${school.name}`, nearbyProjects);
+      } else {
+        renderResults(`Condos within 2km of ${school.name}`, []);
+        document.getElementById('schoolList').innerHTML =
+          `<li class="empty-state" style="text-align:left;padding:0;">
+            <strong style="color:#1d1d1f;display:block;margin-bottom:6px;">No condos in our database within 2km</strong>
+            <span style="color:#86868b;">WhatsApp us — we can shortlist resale and rental homes near this school that may not be in the public new-launch database.</span>
+          </li>`;
+      }
 
       // Pre-fill lead form
       document.getElementById('leadTargetSchools').value = school.name;
@@ -945,11 +997,16 @@
   async function init() {
     initMap();
     try {
-      const res = await fetch('data/primary-schools.json');
-      schools = await res.json();
+      const [schoolRes, projectRes] = await Promise.all([
+        fetch('data/primary-schools.json'),
+        fetch('ecoprop_projects.json'),
+      ]);
+      schools = await schoolRes.json();
+      const projectData = await projectRes.json();
+      projects = projectData.projects || [];
       populateSchoolSelect();
     } catch (err) {
-      console.error('Failed to load school data:', err);
+      console.error('Failed to load data:', err);
       document.getElementById('schoolSelect').innerHTML =
         '<option value="" disabled selected>Could not load schools</option>';
     }
