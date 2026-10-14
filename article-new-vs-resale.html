@@ -546,6 +546,7 @@
   }
 </style>
   <link rel="stylesheet" href="css/apple-shared.css">
+  <link rel="stylesheet" href="css/apple-articles.css">
 </head>
 <body>
 
@@ -773,6 +774,21 @@
 </script>
 
 
+<script>
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal, .page-hero, .article-hero, .hero, .hero-section, section h2, section h3, .card, .article-card');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => {
+    el.classList.add('reveal');
+    observer.observe(el);
+  });
+</script>
 <!-- Sticky CTA -->
 <div class="sticky-cta" id="stickyCta">
   <span>Need help? <strong>We reply within 2 hours, 24/7</strong></span>

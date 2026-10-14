@@ -1,0 +1,283 @@
+/* Apple-style overrides for article, district, news, join, policy pages */
+
+body {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fbfbfd;
+  color: #1d1d1f;
+  letter-spacing: -0.018em;
+}
+
+/* Hero overrides */
+.page-hero,
+.article-hero,
+.hero,
+.hero-section,
+.news-hero {
+  min-height: 60vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  padding: 14vh 6vw 8vh !important;
+  background: #fbfbfd !important;
+  position: relative !important;
+}
+
+.page-hero .page-hero-title,
+.page-hero h1,
+.article-hero h1,
+.article-title,
+.hero h1,
+.hero-section h1,
+.news-hero h1 {
+  font-family: 'Playfair Display', serif !important;
+  font-size: clamp(2.2rem, 5.5vw, 4.2rem) !important;
+  font-weight: 500 !important;
+  line-height: 1.08 !important;
+  letter-spacing: -0.035em !important;
+  color: #1d1d1f !important;
+  max-width: 800px !important;
+  margin: 0 auto 1.25rem !important;
+}
+
+.page-hero .page-hero-sub,
+.page-hero p,
+.article-hero p,
+.hero p,
+.hero-section p,
+.news-hero p,
+.article-meta {
+  font-size: clamp(1rem, 1.8vw, 1.25rem) !important;
+  color: #86868b !important;
+  max-width: 640px !important;
+  margin: 0 auto !important;
+  line-height: 1.5 !important;
+}
+
+/* Dark hero variants */
+.page-hero.dark,
+.hero.dark,
+.hero-section.dark,
+.news-hero.dark {
+  background: #0a0a0a !important;
+  color: #fff !important;
+}
+.page-hero.dark .page-hero-title,
+.page-hero.dark h1,
+.hero.dark h1,
+.hero-section.dark h1,
+.news-hero.dark h1 {
+  color: #fff !important;
+}
+.page-hero.dark .page-hero-sub,
+.page-hero.dark p,
+.hero.dark p,
+.hero-section.dark p,
+.news-hero.dark p {
+  color: #a1a1a6 !important;
+}
+
+/* Section spacing and typography */
+section,
+.article-section,
+.content-section,
+.guide-section {
+  padding: 5rem 0 !important;
+}
+
+.container,
+.article-container,
+.content-container,
+.guide-container {
+  max-width: 780px !important;
+  margin: 0 auto !important;
+  padding: 0 6vw !important;
+}
+
+.container.wide,
+.wide-container {
+  max-width: 1200px !important;
+}
+
+h2, h3, h4 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+}
+
+h2 {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -0.02em !important;
+  margin-bottom: 1rem !important;
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem) !important;
+  line-height: 1.2 !important;
+  margin-bottom: 0.75rem !important;
+}
+
+p, li {
+  font-size: 1.05rem !important;
+  line-height: 1.7 !important;
+  color: #1d1d1f;
+}
+
+p {
+  margin-bottom: 1.25rem !important;
+}
+
+ul, ol {
+  margin-bottom: 1.5rem !important;
+  padding-left: 1.5rem !important;
+}
+
+li {
+  margin-bottom: 0.5rem !important;
+}
+
+a {
+  color: #50C878;
+  text-decoration: none;
+}
+
+/* Cards */
+.card,
+.article-card,
+.project-card,
+.guide-card,
+.value-card,
+.team-card,
+.benefit-card,
+.faq-item {
+  background: #fff !important;
+  border: 1px solid rgba(0,0,0,0.06) !important;
+  border-radius: 20px !important;
+  padding: 1.75rem !important;
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04) !important;
+}
+
+/* Buttons / CTAs */
+.btn,
+.button,
+.cta-button,
+.submit-button,
+.guide-cta,
+.join-btn {
+  display: inline-block !important;
+  background: #50C878 !important;
+  color: #000 !important;
+  padding: 0.9rem 2rem !important;
+  border-radius: 980px !important;
+  font-weight: 600 !important;
+  text-decoration: none !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: transform 0.2s !important;
+}
+.btn:hover,
+.button:hover,
+.cta-button:hover,
+.submit-button:hover {
+  transform: scale(1.04) !important;
+}
+
+.btn-outline,
+.button-outline {
+  background: transparent !important;
+  color: #1d1d1f !important;
+  border: 1.5px solid rgba(0,0,0,0.15) !important;
+}
+.btn-outline:hover,
+.button-outline:hover {
+  border-color: #50C878 !important;
+}
+
+/* Forms */
+input, textarea, select {
+  font-family: 'DM Sans', sans-serif !important;
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  border-radius: 12px !important;
+  padding: 0.85rem 1rem !important;
+  background: #fff !important;
+  font-size: 1rem !important;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  border-color: #50C878 !important;
+}
+
+/* Labels and small text */
+.label,
+.section-label,
+.tag,
+.badge {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.15em !important;
+  text-transform: uppercase !important;
+  color: #50C878 !important;
+}
+
+/* Tables */
+table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  margin-bottom: 1.5rem !important;
+  font-size: 0.95rem !important;
+}
+th, td {
+  padding: 0.85rem 1rem !important;
+  border-bottom: 1px solid rgba(0,0,0,0.08) !important;
+  text-align: left !important;
+}
+th {
+  font-family: 'Space Grotesk', sans-serif !important;
+  font-weight: 600 !important;
+  background: rgba(80,200,120,0.08) !important;
+}
+
+/* Scroll reveal helper */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Make old component classes less harsh */
+.headline-xl, .headline-lg, .headline-md, .headline-sm {
+  font-family: 'Playfair Display', serif !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.body-lg, .body-md, .body-sm {
+  color: #1d1d1f !important;
+}
+
+.text-secondary, .muted, .text-muted {
+  color: #86868b !important;
+}
+
+/* Hide old decorative noise where possible */
+.bg-pattern, .noise, .grain {
+  display: none !important;
+}
+
+@media (max-width: 768px) {
+  .page-hero,
+  .article-hero,
+  .hero,
+  .hero-section,
+  .news-hero {
+    min-height: 50vh !important;
+    padding: 12vh 6vw 6vh !important;
+  }
+}
