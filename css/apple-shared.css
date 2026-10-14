@@ -1,0 +1,200 @@
+/* Apple-style shared nav, footer, sticky CTA */
+
+/* Minimal fixed nav */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  height: 52px;
+  background: rgba(251,251,253,0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+.nav-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 4vw;
+}
+.nav-logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: -0.03em;
+  color: #1d1d1f;
+  text-decoration: none;
+}
+.nav-logo span { color: #50C878; }
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+.nav-link {
+  text-decoration: none;
+  color: #1d1d1f;
+  opacity: 0.75;
+  font-size: 0.78rem;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+.nav-link:hover { opacity: 1; }
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+}
+.nav-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #1d1d1f;
+  transition: 0.3s;
+}
+@media (max-width: 1024px) {
+  .nav-toggle { display: flex; }
+  .nav-links {
+    position: fixed;
+    top: 52px; left: 0; right: 0;
+    background: rgba(251,251,253,0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 2rem 4vw;
+    gap: 1.5rem;
+    transform: translateY(-150%);
+    transition: transform 0.3s ease;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  }
+  .nav-links.open { transform: translateY(0); }
+  .nav-link { font-size: 1rem; }
+}
+
+/* Footer */
+.footer {
+  background: #fbfbfd;
+  color: #1d1d1f;
+  padding: 5rem 0 2rem;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.footer-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 4vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+}
+.footer-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+}
+.footer-brand span { color: #50C878; }
+.footer-desc {
+  color: #86868b;
+  font-size: 0.9rem;
+  max-width: 280px;
+  margin-bottom: 1.5rem;
+}
+.footer-socials {
+  display: flex;
+  gap: 1rem;
+}
+.footer-socials a {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1d1d1f;
+  transition: background 0.2s;
+}
+.footer-socials a:hover { background: #50C878; color: #fff; }
+.footer-socials svg { width: 16px; height: 16px; }
+.footer-heading {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  color: #86868b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem 2rem;
+}
+.footer-link {
+  text-decoration: none;
+  color: #1d1d1f;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.footer-link-title {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+.footer-link-desc {
+  font-size: 0.8rem;
+  color: #86868b;
+  line-height: 1.4;
+}
+.footer-bottom {
+  max-width: 1200px;
+  margin: 4rem auto 0;
+  padding: 2rem 4vw 0;
+  border-top: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: #86868b;
+}
+@media (max-width: 900px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 3rem; }
+  .footer-links { grid-template-columns: repeat(2, 1fr); }
+  .footer-bottom { flex-direction: column; gap: 0.5rem; }
+}
+
+/* Sticky CTA */
+.sticky-cta {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 999;
+  background: #0a0a0a;
+  color: #fff;
+  padding: 0.75rem 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  font-size: 0.85rem;
+  transform: translateY(100%);
+  transition: transform 0.3s ease;
+}
+.sticky-cta.visible { transform: translateY(0); }
+.sticky-cta strong { color: #50C878; }
+.sticky-cta-btn {
+  padding: 0.5rem 1rem;
+  background: #50C878;
+  color: #000;
+  font-weight: 600;
+  font-size: 0.75rem;
+  border-radius: 980px;
+  text-decoration: none;
+}
+@media (max-width: 900px) {
+  .sticky-cta { flex-direction: column; gap: 0.5rem; text-align: center; padding: 0.75rem; }
+}

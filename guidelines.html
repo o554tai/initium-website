@@ -341,6 +341,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     .logo-showcase, .do-dont-grid { grid-template-columns: 1fr; }
   }
 </style>
+  <link rel="stylesheet" href="css/apple-shared.css">
 </head>
 <body>
 <aside class="sidebar">
@@ -658,6 +659,28 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
       link.classList.toggle('active', link.getAttribute('href') === '#' + current);
     });
   });
+</script>
+
+<!-- Sticky CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span>Need help? <strong>We reply within 2 hours, 24/7</strong></span>
+  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." class="sticky-cta-btn" target="_blank" rel="noopener">Chat on WhatsApp</a>
+</div>
+
+<script src="js/nav.js"></script>
+<script>
+  // Sticky CTA
+  (function() {
+    const sticky = document.getElementById('stickyCta');
+    if (!sticky) return;
+    let shown = false;
+    window.addEventListener('scroll', () => {
+      if (!shown && window.scrollY > 600) {
+        sticky.classList.add('visible');
+        shown = true;
+      }
+    });
+  })();
 </script>
 </body>
 </html>

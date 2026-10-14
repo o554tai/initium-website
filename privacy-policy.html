@@ -54,6 +54,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .back:hover { color: var(--dark); }
   footer { border-top: 1px solid #eee; margin-top: 60px; padding-top: 30px; font-size: 0.85rem; color: var(--gray); text-align: center; }
 </style>
+  <link rel="stylesheet" href="css/apple-shared.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="container">
@@ -124,5 +126,27 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     <p>© 2026 INITIUM. All rights reserved. <a href="/terms-of-service.html">Terms of Service</a></p>
   </footer>
 </div>
+
+<!-- Sticky CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span>Need help? <strong>We reply within 2 hours, 24/7</strong></span>
+  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." class="sticky-cta-btn" target="_blank" rel="noopener">Chat on WhatsApp</a>
+</div>
+
+<script src="js/nav.js"></script>
+<script>
+  // Sticky CTA
+  (function() {
+    const sticky = document.getElementById('stickyCta');
+    if (!sticky) return;
+    let shown = false;
+    window.addEventListener('scroll', () => {
+      if (!shown && window.scrollY > 600) {
+        sticky.classList.add('visible');
+        shown = true;
+      }
+    });
+  })();
+</script>
 </body>
 </html>
