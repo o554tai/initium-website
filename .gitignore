@@ -22,3 +22,9 @@ backend/jobs.json
 venv/
 test_face.png
 test_video.mp4
+
+# Hermes internal
+.hermes/
+
+# Sample HDB transaction data (regenerate from data.gov.sg)
+data/hdb_transactions.json

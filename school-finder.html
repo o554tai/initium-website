@@ -123,19 +123,20 @@
 
   .finder-grid {
     display: grid;
-    grid-template-columns: 380px 1fr;
-    gap: 32px;
+    grid-template-columns: 400px 1fr;
+    gap: 28px;
     align-items: start;
   }
 
   .finder-panel {
     background: #fff;
-    border-radius: 24px;
+    border-radius: 28px;
     padding: 32px;
-    box-shadow: 0 8px 32px rgba(26,26,26,0.06);
+    box-shadow: 0 8px 40px rgba(26,26,26,0.05);
     display: flex;
     flex-direction: column;
     gap: 24px;
+    border: 1px solid rgba(0,0,0,0.04);
   }
   .finder-panel h3 {
     font-family: var(--font-display);
@@ -644,9 +645,11 @@
   function initMap() {
     map = L.map('map', { scrollWheelZoom: false }).setView([1.3521, 103.8198], 12);
 
-    L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png', {
-      attribution: '<img src="https://www.onemap.gov.sg/images/oneMapLogo.png" style="height:18px;vertical-align:middle;"> OneMap | &copy; SLA',
-      maxZoom: 19,
+    // Clean, Apple-style light tiles
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20,
       minZoom: 11,
     }).addTo(map);
 
@@ -659,15 +662,34 @@
     circlesLayer.clearLayers();
   }
 
+  const schoolIcon = L.divIcon({
+    className: 'school-marker',
+    html: `<svg width="28" height="36" viewBox="0 0 28 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M14 0C6.268 0 0 6.268 0 14c0 10.5 14 22 14 22s14-11.5 14-22C28 6.268 21.732 0 14 0z" fill="#50C878"/>
+      <path d="M14 8l-5 3v6l5 3 5-3v-6l-5-3z" fill="#fff"/>
+    </svg>`,
+    iconSize: [28, 36],
+    iconAnchor: [14, 36],
+    popupAnchor: [0, -36],
+  });
+
+  const homeIcon = L.divIcon({
+    className: 'home-marker',
+    html: `<svg width="24" height="32" viewBox="0 0 24 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 0C5.373 0 0 5.373 0 12c0 9 12 20 12 20s12-11 12-20C24 5.373 18.627 0 12 0z" fill="#1d1d1f"/>
+      <path d="M12 7l-6 5.25V18h12v-5.75L12 7z" fill="#fff"/>
+    </svg>`,
+    iconSize: [24, 32],
+    iconAnchor: [12, 32],
+    popupAnchor: [0, -32],
+  });
+
   function addSchoolMarker(school) {
-    const marker = L.circleMarker([school.lat, school.lng], {
-      radius: 7,
-      fillColor: '#50C878',
-      color: '#fff',
-      weight: 2,
-      opacity: 1,
-      fillOpacity: 0.95,
-    }).bindPopup(`<strong>${school.name}</strong><br>${school.address}<br>${school.postal}`);
+    const marker = L.marker([school.lat, school.lng], { icon: schoolIcon })
+      .bindPopup(`<div style="font-family:DM Sans,sans-serif;min-width:180px;">
+        <strong style="font-size:14px;color:#1d1d1f;">${school.name}</strong><br>
+        <span style="font-size:12px;color:#86868b;">${school.address}<br>${school.postal}</span>
+      </div>`);
     markersLayer.addLayer(marker);
     return marker;
   }
@@ -676,18 +698,18 @@
     const c1 = L.circle([lat, lng], {
       radius: KM1,
       fillColor: '#50C878',
-      fillOpacity: 0.12,
+      fillOpacity: 0.10,
       color: '#50C878',
-      weight: 1.5,
-      opacity: 0.6,
+      weight: 2,
+      opacity: 0.5,
     });
     const c2 = L.circle([lat, lng], {
       radius: KM2,
       fillColor: '#50C878',
-      fillOpacity: 0.06,
+      fillOpacity: 0.05,
       color: '#50C878',
       weight: 1,
-      opacity: 0.35,
+      opacity: 0.25,
     });
     circlesLayer.addLayer(c1);
     circlesLayer.addLayer(c2);
@@ -818,13 +840,8 @@
         .sort((a, b) => a.distance - b.distance);
 
       // Mark home
-      const homeMarker = L.circleMarker([point.lat, point.lng], {
-        radius: 8,
-        fillColor: '#1A1A1A',
-        color: '#fff',
-        weight: 2,
-        fillOpacity: 1,
-      }).bindPopup(`<strong>Your Home</strong><br>${point.address}`);
+      const homeMarker = L.marker([point.lat, point.lng], { icon: homeIcon })
+        .bindPopup(`<div style="font-family:DM Sans,sans-serif;"><strong style="font-size:14px;">Your Home</strong><br><span style="font-size:12px;color:#86868b;">${point.address}</span></div>`);
       markersLayer.addLayer(homeMarker);
 
       // Mark schools
