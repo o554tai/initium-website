@@ -657,9 +657,9 @@
   function initMap() {
     map = L.map('map', { scrollWheelZoom: false }).setView([1.3521, 103.8198], 12);
 
-    // Free OSM tiles (no API key required)
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    // OneMap Singapore tiles (clean, no API key for 2D Default)
+    L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png', {
+      attribution: '<img src="https://www.onemap.gov.sg/images/oneMapLogo.png" style="height:16px;vertical-align:middle;opacity:.7;"> OneMap | &copy; SLA',
       maxZoom: 19,
       minZoom: 11,
     }).addTo(map);
@@ -708,19 +708,20 @@
   function drawRadius(lat, lng) {
     const c1 = L.circle([lat, lng], {
       radius: KM1,
-      fillColor: '#50C878',
-      fillOpacity: 0.10,
-      color: '#50C878',
-      weight: 2,
-      opacity: 0.5,
+      fillColor: '#2EBF6A',
+      fillOpacity: 0.18,
+      color: '#2EBF6A',
+      weight: 2.5,
+      opacity: 0.7,
     });
     const c2 = L.circle([lat, lng], {
       radius: KM2,
-      fillColor: '#50C878',
-      fillOpacity: 0.05,
-      color: '#50C878',
-      weight: 1,
-      opacity: 0.25,
+      fillColor: '#2EBF6A',
+      fillOpacity: 0.09,
+      color: '#2EBF6A',
+      weight: 1.5,
+      opacity: 0.45,
+      dashArray: '6 6',
     });
     circlesLayer.addLayer(c1);
     circlesLayer.addLayer(c2);
