@@ -799,7 +799,10 @@
       // List all homes are within 2km? Show distances around school
       renderResults(`Homes within 2km of ${school.name}`, []);
       document.getElementById('schoolList').innerHTML =
-        `<li class="empty-state">1km and 2km zones are shown on the map. Use "By Address" to check a specific home.</li>`;
+        `<li class="empty-state" style="text-align:left;padding:0;">
+          <strong style="color:#1d1d1f;display:block;margin-bottom:6px;">Zones displayed on map</strong>
+          <span style="color:#86868b;">Switch to "By Address" to check a specific home, or WhatsApp us for a shortlist of condos within 1km.</span>
+        </li>`;
 
       // Pre-fill lead form
       document.getElementById('leadTargetSchools').value = school.name;
