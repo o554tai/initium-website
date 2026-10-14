@@ -16,18 +16,50 @@
   <link rel="stylesheet" href="css/components.css?v=5">
   <link rel="stylesheet" href="css/apple-shared.css">
   <style>
-    /* Hero with photo slideshow */
+    :root {
+      --accent: #50C878;
+      --apple-light: #fbfbfd;
+      --apple-warm: #f5f5f7;
+      --apple-dark: #0a0a0a;
+      --apple-ink: #1d1d1f;
+      --apple-muted: #86868b;
+    }
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--apple-light);
+      color: var(--apple-ink);
+      letter-spacing: -0.022em;
+    }
+
+    /* Dark hero needs light nav (HTML unchanged) */
+    .about-page .nav {
+      background: rgba(10,10,10,0.65);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .about-page .nav-logo,
+    .about-page .nav-link { color: #fff; }
+    .about-page .nav-link { opacity: 0.8; }
+    .about-page .nav-link:hover { opacity: 1; }
+    .about-page .nav-toggle span { background: #fff; }
+    @media (max-width: 1024px) {
+      .about-page .nav-links {
+        background: rgba(10,10,10,0.96);
+      }
+      .about-page .nav-link { color: #fff; }
+    }
+
+    /* Hero */
     .page-hero {
       position: relative;
-      min-height: 70vh;
+      min-height: 92vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 140px 24px 100px;
+      padding: 16vh 6vw 10vh;
       overflow: hidden;
-      background: var(--dark);
+      background: var(--apple-dark);
     }
     .hero-slideshow {
       position: absolute;
@@ -40,205 +72,204 @@
       background-size: cover;
       background-position: center;
       opacity: 0;
-      transition: opacity 1.2s ease-in-out;
+      transition: opacity 1.4s ease-in-out, transform 8s ease;
+      transform: scale(1.08);
     }
     .hero-slideshow .slide.active {
       opacity: 1;
+      transform: scale(1);
     }
     .hero-slideshow::after {
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.75) 100%);
+      background: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.82) 100%);
       z-index: 1;
     }
     .page-hero-content {
       position: relative;
       z-index: 2;
+      max-width: 900px;
     }
     .page-hero-label {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--accent-light);
-      margin-bottom: var(--space-6);
-    }
-    .page-hero-title {
-      font-family: var(--font-editorial);
-      font-size: clamp(var(--text-4xl), 5.5vw, var(--text-7xl));
-      font-weight: 500;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-      color: var(--white);
-      margin-bottom: var(--space-5);
-      max-width: 700px;
-      text-shadow: 0 2px 20px rgba(0,0,0,0.4);
-    }
-    .page-hero-sub {
-      font-size: var(--text-lg);
-      color: rgba(255,255,255,0.8);
-      max-width: 560px;
-      line-height: 1.7;
-      text-shadow: 0 1px 10px rgba(0,0,0,0.4);
-    }
-
-    /* Section base */
-    .section-about {
-      padding: var(--space-24) var(--space-6);
-    }
-    .section-about .container {
-      max-width: var(--container-max);
-      margin: 0 auto;
-    }
-    .about-label {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: var(--space-5);
-      display: flex;
-      align-items: center;
-      gap: var(--space-3);
+      margin-bottom: 1.5rem;
     }
-    .about-label::before {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 2px;
-      background: var(--accent);
-    }
-    .about-title {
-      font-family: var(--font-editorial);
-      font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
+    .page-hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 6.5rem);
       font-weight: 500;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
-      margin-bottom: var(--space-6);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      color: #fff;
+      margin-bottom: 1.5rem;
     }
-    .about-text {
-      font-size: var(--text-base);
-      color: var(--text-secondary);
-      line-height: 1.7;
-      max-width: 600px;
+    .page-hero-sub {
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      color: rgba(255,255,255,0.75);
+      max-width: 620px;
+      margin: 0 auto;
+      line-height: 1.5;
     }
 
-    /* Story grid */
-    .story-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      justify-items: center;
+    /* Sections */
+    section {
+      padding: 8rem 0;
+    }
+    section.dark {
+      background: var(--apple-dark);
+      color: #fff;
+    }
+    section.warm {
+      background: var(--apple-warm);
+    }
+    section.white {
+      background: #fff;
+    }
+    .section-content {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 0 6vw;
       text-align: center;
-      gap: var(--space-8);
     }
-    .story-grid > div {
-      max-width: 720px;
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
     }
+    h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      color: var(--apple-muted);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    section.dark .section-sub { color: #a1a1a6; }
+    .section-body {
+      font-size: 1.05rem;
+      color: var(--apple-muted);
+      line-height: 1.7;
+      max-width: 640px;
+      margin: 1.5rem auto 0;
+    }
+
+    /* Story quote */
     .story-quote {
-      margin-top: var(--space-10);
-      padding: var(--space-8) var(--space-10);
+      margin-top: 4rem;
+      padding: 2.5rem 2rem;
       border-left: 2px solid var(--accent);
       text-align: left;
+      background: var(--apple-warm);
+      border-radius: 0 20px 20px 0;
     }
     .story-quote p {
-      font-family: var(--font-editorial);
-      font-size: var(--text-2xl);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
       font-style: italic;
-      color: var(--text-primary);
+      color: var(--apple-ink);
       line-height: 1.4;
-      margin-bottom: var(--space-4);
+      margin-bottom: 1rem;
     }
     .story-quote span {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--apple-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
     }
 
     /* Pillars */
     .pillars-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: var(--space-8);
-      margin-top: var(--space-14);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 4rem auto 0;
+      padding: 0 4vw;
     }
     .pillar-card {
-      padding: var(--space-10);
-      background: var(--white);
-      border: 1px solid rgba(0,0,0,0.05);
-      border-top: 3px solid var(--accent);
-      border-radius: var(--radius-lg);
-      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.35s ease;
-      position: relative;
-      overflow: hidden;
-    }
-    .pillar-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
-      opacity: 0;
-      transition: opacity 0.35s ease;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 24px;
+      padding: 2.5rem 2rem;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
     }
     .pillar-card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.08);
     }
-    .pillar-card:hover::before {
-      opacity: 1;
+    .pillar-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(80,200,120,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      color: var(--accent);
+    }
+    .pillar-icon svg {
+      width: 20px;
+      height: 20px;
+      stroke-width: 1.5;
     }
     .pillar-number {
-      font-family: var(--font-display);
-      font-size: clamp(var(--text-3xl), 3.5vw, var(--text-5xl));
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
       font-weight: 700;
-      line-height: 1;
       color: var(--accent);
-      margin-bottom: var(--space-5);
-      opacity: 0.85;
-      letter-spacing: -0.03em;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
     }
     .pillar-title {
-      font-family: var(--font-display);
-      font-size: var(--text-2xl);
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: var(--space-4);
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.3rem, 2.5vw, 1.6rem);
+      font-weight: 500;
+      color: var(--apple-ink);
+      margin-bottom: 1rem;
       letter-spacing: -0.02em;
     }
     .pillar-desc {
-      font-size: var(--text-base);
-      color: var(--text-secondary);
-      line-height: 1.7;
+      font-size: 0.95rem;
+      color: var(--apple-muted);
+      line-height: 1.6;
     }
-    .pillar-icon {
-      width: 28px;
-      height: 28px;
-      margin-bottom: var(--space-4);
-      color: var(--accent);
-      opacity: 0.7;
-    }
+    .pillar-desc strong { color: var(--apple-ink); font-weight: 600; }
 
-    /* Founder spotlight */
+    /* Founder */
     .founder-card {
       display: grid;
-      grid-template-columns: 2fr 3fr;
-      gap: var(--space-16);
-      align-items: start;
-      margin-top: var(--space-14);
-      max-width: 1000px;
-      margin-left: auto;
-      margin-right: auto;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 5rem auto 0;
+      padding: 0 6vw;
     }
     .founder-photo-wrap {
-      position: relative;
-      background: var(--surface-warm);
-      border-radius: var(--radius-lg);
-      padding: var(--space-4);
+      border-radius: 28px;
+      overflow: hidden;
+      background: var(--apple-warm);
     }
     .founder-photo {
       width: 100%;
@@ -246,65 +277,56 @@
       object-fit: cover;
       object-position: center 15%;
       display: block;
-      border-radius: var(--radius-md);
-    }
-    .founder-info {
-      padding: var(--space-4) 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      min-height: 100%;
     }
     .founder-name {
-      font-family: var(--font-display);
-      font-size: clamp(var(--text-3xl), 3vw, var(--text-5xl));
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: var(--space-3);
-      letter-spacing: -0.02em;
-      line-height: 1.1;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 4vw, 3.2rem);
+      font-weight: 500;
+      color: var(--apple-ink);
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.03em;
     }
     .founder-role {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
       font-weight: 600;
       color: var(--accent);
       text-transform: uppercase;
-      letter-spacing: 0.14em;
-      margin-bottom: var(--space-8);
+      letter-spacing: 0.15em;
+      margin-bottom: 2rem;
     }
     .founder-bio {
-      font-size: var(--text-base);
-      color: var(--text-secondary);
-      line-height: 1.75;
-      margin-bottom: var(--space-5);
+      font-size: 1.05rem;
+      color: var(--apple-muted);
+      line-height: 1.7;
+      margin-bottom: 1.25rem;
     }
-    .founder-bio:last-child {
-      margin-bottom: 0;
-    }
+    .founder-bio:last-child { margin-bottom: 0; }
 
-    /* Team grid */
+    /* Team */
     .team-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: var(--space-6);
-      margin-top: var(--space-12);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 4rem auto 0;
+      padding: 0 4vw;
     }
     .team-card {
-      background: var(--white);
-      border: 1px solid rgba(0,0,0,0.06);
-      border-radius: var(--radius-lg);
+      background: #fff;
+      border-radius: 24px;
       overflow: hidden;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
     }
     .team-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.08);
     }
     .team-photo {
       width: 100%;
       aspect-ratio: 4/5;
-      background: var(--surface-warm);
+      background: var(--apple-warm);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -316,67 +338,250 @@
       object-fit: cover;
       object-position: center top;
     }
-    .team-photo-initial {
-      font-family: var(--font-display);
-      font-size: var(--text-5xl);
-      font-weight: 700;
-      color: var(--accent);
-    }
     .team-info {
-      padding: var(--space-5);
+      padding: 1.5rem;
+      text-align: left;
     }
     .team-name {
-      font-family: var(--font-display);
-      font-size: var(--text-lg);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.05rem;
       font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: var(--space-1);
+      color: var(--apple-ink);
+      margin-bottom: 0.25rem;
     }
     .team-role {
-      font-size: var(--text-sm);
-      font-weight: 500;
+      font-size: 0.75rem;
+      font-weight: 600;
       color: var(--accent);
-      margin-bottom: var(--space-3);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
     .team-bio {
-      font-size: var(--text-sm);
-      color: var(--text-secondary);
+      font-size: 0.9rem;
+      color: var(--apple-muted);
       line-height: 1.5;
+      margin-bottom: 0.75rem;
     }
     .team-readmore {
-      margin-top: var(--space-3);
-      font-size: var(--text-sm);
-      font-weight: 500;
+      font-size: 0.85rem;
+      font-weight: 600;
       color: var(--accent);
-      cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: var(--space-1);
+      gap: 0.35rem;
       transition: color 0.2s;
     }
-    .team-readmore:hover {
-      color: var(--text-primary);
-    }
+    .team-readmore:hover { color: var(--apple-ink); }
     .team-readmore::after {
       content: '→';
       transition: transform 0.2s;
     }
-    .team-readmore:hover::after {
-      transform: translateX(3px);
+    .team-card:hover .team-readmore::after { transform: translateX(3px); }
+
+    /* Culture Mosaic */
+    .culture-mosaic-header {
+      text-align: center;
+      padding: 0 6vw;
+      margin-bottom: 4rem;
     }
+    .culture-mosaic-header h2 { color: #fff; }
+    .culture-mosaic-header p {
+      color: #a1a1a6;
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+    .mosaic-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-auto-rows: 220px;
+      gap: 4px;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 4vw;
+    }
+    .mosaic-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+    .mosaic-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+    }
+    .mosaic-item:hover img { transform: scale(1.05); }
+    .mosaic-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.7) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.25rem;
+    }
+    .mosaic-item:hover .mosaic-overlay { opacity: 1; }
+    .mosaic-caption {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      transform: translateY(8px);
+      transition: transform 0.4s ease;
+    }
+    .mosaic-meta {
+      font-size: 0.75rem;
+      color: #a1a1a6;
+      margin-top: 0.25rem;
+      transform: translateY(8px);
+      transition: transform 0.4s ease 0.05s;
+    }
+    .mosaic-item:hover .mosaic-caption,
+    .mosaic-item:hover .mosaic-meta { transform: translateY(0); }
+
+    /* Culture values tags */
+    .culture-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 3rem;
+      justify-content: center;
+    }
+    .culture-tag {
+      padding: 0.65rem 1.25rem;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 980px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--apple-ink);
+      transition: all 0.3s ease;
+    }
+    .culture-tag:hover {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Timeline */
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 4rem auto 0;
+      padding: 0 6vw;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 6vw;
+      right: 6vw;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent) 0%, rgba(80,200,120,0.2) 100%);
+    }
+    .timeline-item {
+      position: relative;
+      padding-top: 2.5rem;
+    }
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 0;
+      width: 16px;
+      height: 16px;
+      background: var(--accent);
+      border-radius: 50%;
+      border: 3px solid #fff;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .timeline-year {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .timeline-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--apple-ink);
+      margin-bottom: 0.5rem;
+    }
+    .timeline-desc {
+      font-size: 0.85rem;
+      color: var(--apple-muted);
+      line-height: 1.5;
+    }
+
+    /* CTA */
+    .cta-section {
+      padding: 10rem 0;
+      background: var(--apple-dark);
+      color: #fff;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      margin-bottom: 1rem;
+    }
+    .cta-section p {
+      color: #a1a1a6;
+      max-width: 560px;
+      margin: 0 auto 2rem;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #000;
+      padding: 1.1rem 2.5rem;
+      border-radius: 980px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 0.2s;
+      margin: 0 0.5rem;
+    }
+    .cta-btn:hover { transform: scale(1.04); }
+    .cta-btn-outline {
+      display: inline-block;
+      background: transparent;
+      color: #fff;
+      padding: 1.1rem 2.5rem;
+      border-radius: 980px;
+      text-decoration: none;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.25);
+      transition: transform 0.2s, background 0.2s;
+      margin: 0 0.5rem;
+    }
+    .cta-btn-outline:hover { background: rgba(255,255,255,0.08); transform: scale(1.04); }
 
     /* Profile Modal */
     .profile-modal {
       position: fixed;
       inset: 0;
-      z-index: 1000;
+      z-index: 1001;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: var(--space-6);
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      padding: 1.5rem;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       opacity: 0;
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -386,14 +591,14 @@
       visibility: visible;
     }
     .profile-modal-inner {
-      background: var(--white);
-      border-radius: var(--radius-lg);
+      background: #fff;
+      border-radius: 28px;
       max-width: 900px;
       width: 100%;
       max-height: 90vh;
       overflow-y: auto;
       display: grid;
-      grid-template-columns: 340px 1fr;
+      grid-template-columns: 360px 1fr;
       position: relative;
       transform: translateY(20px) scale(0.98);
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -403,7 +608,7 @@
     }
     .profile-modal-photo {
       position: relative;
-      background: var(--surface-warm);
+      background: var(--apple-warm);
       min-height: 100%;
       display: flex;
       align-items: center;
@@ -416,19 +621,22 @@
       object-position: center top;
     }
     .profile-modal-photo .team-photo-initial {
-      font-size: var(--text-8xl);
-      opacity: 0.4;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 8rem;
+      font-weight: 700;
+      color: var(--accent);
+      opacity: 0.35;
     }
     .profile-modal-body {
-      padding: var(--space-10);
+      padding: 3rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
     .profile-modal-close {
       position: absolute;
-      top: var(--space-4);
-      right: var(--space-4);
+      top: 1rem;
+      right: 1rem;
       width: 40px;
       height: 40px;
       border-radius: 50%;
@@ -440,305 +648,99 @@
       justify-content: center;
       font-size: 20px;
       line-height: 1;
-      color: var(--text-primary);
+      color: var(--apple-ink);
       z-index: 10;
       transition: background 0.2s, transform 0.2s;
     }
     .profile-modal-close:hover {
-      background: var(--white);
+      background: #fff;
       transform: rotate(90deg);
     }
     .profile-modal-name {
-      font-family: var(--font-display);
-      font-size: var(--text-3xl);
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: var(--space-1);
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 500;
+      color: var(--apple-ink);
+      margin-bottom: 0.25rem;
       line-height: 1.1;
     }
     .profile-modal-role {
-      font-size: var(--text-base);
-      font-weight: 500;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
       color: var(--accent);
-      margin-bottom: var(--space-6);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1.5rem;
     }
     .profile-modal-stats {
       display: flex;
-      gap: var(--space-8);
-      margin-bottom: var(--space-6);
-      padding-bottom: var(--space-6);
+      gap: 2.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
       border-bottom: 1px solid rgba(0,0,0,0.08);
     }
-    .profile-stat {
-      text-align: left;
-    }
     .profile-stat-value {
-      font-family: var(--font-display);
-      font-size: var(--text-xl);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
       font-weight: 700;
-      color: var(--text-primary);
+      color: var(--apple-ink);
       line-height: 1;
     }
     .profile-stat-label {
-      font-size: var(--text-xs);
-      color: var(--text-secondary);
-      margin-top: var(--space-1);
+      font-size: 0.7rem;
+      color: var(--apple-muted);
+      margin-top: 0.25rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
     .profile-modal-bio {
-      font-size: var(--text-base);
-      color: var(--text-secondary);
-      line-height: 1.75;
-    }
-    .profile-modal-bio p {
-      margin-bottom: var(--space-4);
-    }
-    .profile-modal-bio p:last-child {
-      margin-bottom: 0;
-    }
-    @media (max-width: 768px) {
-      .profile-modal-inner {
-        grid-template-columns: 1fr;
-        max-height: 85vh;
-      }
-      .profile-modal-photo {
-        height: 280px;
-        min-height: auto;
-      }
-      .profile-modal-body {
-        padding: var(--space-6);
-      }
-      .profile-modal-stats {
-        gap: var(--space-6);
-      }
-    }
-
-    /* Culture tags */
-    .culture-values {
-      display: flex;
-      flex-wrap: wrap;
-      gap: var(--space-3);
-      margin-top: var(--space-8);
-      justify-content: center;
-    }
-    .culture-tag {
-      padding: var(--space-2) var(--space-4);
-      background: var(--white);
-      border: 1px solid rgba(0,0,0,0.08);
-      border-radius: 100px;
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 500;
-      color: var(--text-primary);
-      transition: all 0.3s ease;
-    }
-    .culture-tag:hover {
-      background: var(--accent);
-      color: var(--white);
-      border-color: var(--accent);
-    }
-
-    /* Culture Mosaic */
-    .culture-mosaic-section {
-      background: var(--dark);
-      padding: var(--space-24) 0;
-    }
-    .culture-mosaic-header {
-      text-align: center;
-      padding: 0 var(--space-6);
-      margin-bottom: var(--space-12);
-    }
-    .culture-mosaic-header .about-label {
-      color: var(--accent-light);
-      justify-content: center;
-    }
-    .culture-mosaic-header .about-label::before {
-      background: var(--accent-light);
-    }
-    .culture-mosaic-header .about-title {
-      color: var(--text-on-dark);
-      margin: 0 auto var(--space-4);
-    }
-    .culture-mosaic-header p {
-      color: var(--text-on-dark-muted);
-      max-width: 560px;
-      margin: 0 auto;
+      font-size: 0.95rem;
+      color: var(--apple-muted);
       line-height: 1.7;
     }
-    .mosaic-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-auto-rows: 220px;
-      gap: 4px;
-      max-width: var(--container-max);
-      margin: 0 auto;
-      padding: 0 var(--space-2);
-    }
-    .mosaic-item {
-      position: relative;
-      overflow: hidden;
-      border-radius: var(--radius-sm);
-      cursor: pointer;
-      grid-column: span 1;
-      grid-row: span 1;
-    }
-    .mosaic-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-    .mosaic-item:hover img {
-      transform: scale(1.04);
-    }
-    .mosaic-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.75) 100%);
+    .profile-modal-bio p { margin-bottom: 1rem; }
+    .profile-modal-bio p:last-child { margin-bottom: 0; }
+
+    /* Animations */
+    .reveal {
       opacity: 0;
-      transition: opacity 0.4s ease;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: var(--space-4);
+      transform: translateY(50px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .mosaic-item:hover .mosaic-overlay {
+    .reveal.visible {
       opacity: 1;
-    }
-    .mosaic-caption {
-      font-family: var(--font-display);
-      font-size: var(--text-sm);
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: -0.01em;
-      transform: translateY(8px);
-      transition: transform 0.4s ease;
-    }
-    .mosaic-item:hover .mosaic-caption {
       transform: translateY(0);
     }
-    .mosaic-meta {
-      font-size: var(--text-xs);
-      color: var(--text-on-dark-muted);
-      margin-top: var(--space-1);
-      transform: translateY(8px);
-      transition: transform 0.4s ease 0.05s;
-    }
-    .mosaic-item:hover .mosaic-meta {
-      transform: translateY(0);
-    }
+
     @media (max-width: 1024px) {
-      .mosaic-grid {
-        grid-template-columns: repeat(3, 1fr);
-        grid-auto-rows: 190px;
-      }
-    }
-    @media (max-width: 640px) {
-      .mosaic-grid {
-        grid-template-columns: repeat(2, 1fr);
-        grid-auto-rows: 160px;
-      }
-    }
-
-    /* Timeline */
-    .timeline {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: var(--space-6);
-      margin-top: var(--space-12);
-      position: relative;
-    }
-    .timeline::before {
-      content: '';
-      position: absolute;
-      top: 20px;
-      left: 0;
-      right: 0;
-      height: 2px;
-      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-light) 100%);
-      opacity: 0.3;
-    }
-    .timeline-item {
-      position: relative;
-      padding-top: var(--space-10);
-    }
-    .timeline-item::before {
-      content: '';
-      position: absolute;
-      top: 12px;
-      left: 0;
-      width: 16px;
-      height: 16px;
-      background: var(--accent);
-      border-radius: 50%;
-      border: 3px solid var(--white);
-      box-shadow: 0 0 0 2px var(--accent);
-    }
-    .timeline-year {
-      font-family: var(--font-display);
-      font-size: var(--text-xl);
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: var(--space-3);
-    }
-    .timeline-title {
-      font-family: var(--font-display);
-      font-size: var(--text-base);
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: var(--space-2);
-    }
-    .timeline-desc {
-      font-size: var(--text-sm);
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    /* CTA override */
-    .cta-about {
-      text-align: center;
-      padding: var(--space-24) var(--space-6);
-      background: var(--surface);
-    }
-    .cta-about h2 {
-      font-family: var(--font-display);
-      font-size: clamp(var(--text-3xl), 4vw, var(--text-5xl));
-      font-weight: 700;
-      color: var(--accent);
-      margin-bottom: var(--space-4);
-      letter-spacing: -0.02em;
-    }
-    .cta-about p {
-      font-size: var(--text-lg);
-      color: var(--text-secondary);
-      max-width: 560px;
-      margin: 0 auto var(--space-8);
-      line-height: 1.6;
-    }
-
-    /* Responsive */
-    @media (max-width: 1024px) {
-      .story-grid { grid-template-columns: 1fr; gap: var(--space-10); }
       .pillars-grid { grid-template-columns: repeat(2, 1fr); }
-      .founder-card { grid-template-columns: 1fr; gap: var(--space-8); max-width: 640px; }
-      .founder-photo { aspect-ratio: 4/5; max-height: 520px; object-position: center 10%; }
-      .founder-info { padding: 0; }
+      .founder-card { grid-template-columns: 1fr; gap: 3rem; }
       .team-grid { grid-template-columns: repeat(2, 1fr); }
       .timeline { grid-template-columns: repeat(3, 1fr); }
+      .mosaic-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 190px; }
+      .profile-modal-inner { grid-template-columns: 1fr; }
+      .profile-modal-photo { height: 300px; min-height: auto; }
+    }
+    @media (max-width: 768px) {
+      section { padding: 5rem 0; }
+      .founder-card { padding: 0 4vw; }
+      .timeline { grid-template-columns: 1fr; }
+      .timeline::before { display: none; }
+      .timeline-item { padding-top: 0; padding-left: 2rem; border-left: 2px solid var(--accent); }
+      .timeline-item::before { top: 0; left: -9px; }
+      .cta-btn, .cta-btn-outline { display: block; margin: 0.5rem auto; width: fit-content; }
     }
     @media (max-width: 640px) {
       .pillars-grid { grid-template-columns: 1fr; }
       .team-grid { grid-template-columns: 1fr; }
-      .timeline { grid-template-columns: 1fr; }
-      .timeline::before { display: none; }
-      .timeline-item { padding-top: 0; padding-left: var(--space-8); border-left: 2px solid var(--accent-light); }
-      .timeline-item::before { top: 0; left: -9px; }
+      .mosaic-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+      .profile-modal-body { padding: 1.5rem; }
+      .profile-modal-stats { gap: 1.5rem; }
     }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
-<body>
+<body class="about-page">
 
 <!-- Navigation -->
 <nav class="nav" id="nav">
@@ -761,8 +763,6 @@
     </div>
   </div>
 </nav>
-<div style="height:64px;"></div>
-
 
 <!-- Hero with Slideshow -->
 <section class="page-hero">
@@ -787,121 +787,123 @@
 </section>
 
 <!-- Origin Story -->
-<section class="section-about">
-  <div class="container">
-    <div class="story-grid">
-      <div>
-        <div class="about-label reveal">Origin Story</div>
-        <h2 class="about-title reveal">From Visual Communication to Property Journeys</h2>
-        <p class="about-text reveal">With background in art and visual communication. We were trained to read light, proportion, and composition — and to notice the story a space tells before anyone speaks. That is the eye we brought to real estate.</p>
-        <p class="about-text reveal" style="margin-top: var(--space-4);">When I entered real estate, I saw an industry that shouted when it should listen, that pushed when it should guide. So we built INITIUM around a simple idea: treat every client's journey like a craft project. Research before recommendation. Honesty before hype. And the discipline to say "this isn't the right fit" when it isn't.</p>
-        <div class="story-quote reveal">
-          <p>"We want to be remembered as trustworthy, reliable, and the go-to people for work or personal matters."</p>
-          <span>— Tasso Chan, Founder</span>
-        </div>
-      </div>
+<section class="white">
+  <div class="section-content">
+    <div class="section-label reveal">Origin Story</div>
+    <h2 class="reveal">From Visual Communication<br>to Property Journeys</h2>
+    <p class="section-sub reveal">With a background in art and visual communication, we were trained to read light, proportion, and composition — and to notice the story a space tells before anyone speaks. That is the eye we brought to real estate.</p>
+    <p class="section-body reveal">When I entered real estate, I saw an industry that shouted when it should listen, that pushed when it should guide. So we built INITIUM around a simple idea: treat every client's journey like a craft project. Research before recommendation. Honesty before hype. And the discipline to say "this isn't the right fit" when it isn't.</p>
+    <div class="story-quote reveal">
+      <p>"We want to be remembered as trustworthy, reliable, and the go-to people for work or personal matters."</p>
+      <span>— Tasso Chan, Founder</span>
     </div>
   </div>
 </section>
 
 <!-- Three Pillars -->
-<section class="section-about" style="background: var(--surface-warm);">
-  <div class="container" style="text-align: center;">
-    <div class="about-label reveal" style="justify-content: center;">Mission & Values</div>
-    <h2 class="about-title reveal" style="margin: 0 auto var(--space-6);">Three Pillars That Guide Every Decision</h2>
-    <p class="about-text reveal" style="margin: 0 auto;">INITIUM operates on three interconnected pillars. Each one informs how we serve clients, support our agents, and grow as a collective.</p>
-    <div class="pillars-grid">
-      <div class="pillar-card reveal">
-        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        <div class="pillar-number">01</div>
-        <div class="pillar-title">Trust Before Transactions</div>
-        <div class="pillar-desc"><strong style="color:var(--text-primary);">Vision:</strong> To be remembered as Singapore's most trustworthy property partners — the people clients call for life decisions, not just house hunts.<br><br><strong style="color:var(--text-primary);">Mission:</strong> We tell the full truth about the market, the property, and the fit. We never script a pitch. We never push for a close that isn't right.</div>
+<section class="warm">
+  <div class="section-content">
+    <div class="section-label reveal">Mission & Values</div>
+    <h2 class="reveal">Three Pillars That Guide<br>Every Decision</h2>
+    <p class="section-sub reveal">INITIUM operates on three interconnected pillars. Each one informs how we serve clients, support our agents, and grow as a collective.</p>
+  </div>
+  <div class="pillars-grid">
+    <div class="pillar-card reveal">
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
       </div>
-      <div class="pillar-card reveal">
-        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-        <div class="pillar-number">02</div>
-        <div class="pillar-title">Rise Together</div>
-        <div class="pillar-desc"><strong style="color:var(--text-primary);">Vision:</strong> A team culture where success is measured by how many people you pull up with you — not by individual rankings or personal glory.<br><br><strong style="color:var(--text-primary);">Mission:</strong> We share knowledge openly, celebrate each other's wins, and invest in people before we measure their output. No one rises alone.</div>
+      <div class="pillar-number">01</div>
+      <div class="pillar-title">Trust Before Transactions</div>
+      <div class="pillar-desc"><strong>Vision:</strong> To be remembered as Singapore's most trustworthy property partners — the people clients call for life decisions, not just house hunts.<br><br><strong>Mission:</strong> We tell the full truth about the market, the property, and the fit. We never script a pitch. We never push for a close that isn't right.</div>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
       </div>
-      <div class="pillar-card reveal">
-        <svg class="pillar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-        <div class="pillar-number">03</div>
-        <div class="pillar-title">Craft Over Noise</div>
-        <div class="pillar-desc"><strong style="color:var(--text-primary);">Vision:</strong> A future where property advice is treated as a discipline — deep, intentional, and rooted in genuine expertise rather than sales hype.<br><br><strong style="color:var(--text-primary);">Mission:</strong> We master the market through continuous study. We prepare rigorously. We deliver recommendations we would follow ourselves.</div>
+      <div class="pillar-number">02</div>
+      <div class="pillar-title">Rise Together</div>
+      <div class="pillar-desc"><strong>Vision:</strong> A team culture where success is measured by how many people you pull up with you — not by individual rankings or personal glory.<br><br><strong>Mission:</strong> We share knowledge openly, celebrate each other's wins, and invest in people before we measure their output. No one rises alone.</div>
+    </div>
+    <div class="pillar-card reveal">
+      <div class="pillar-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
       </div>
+      <div class="pillar-number">03</div>
+      <div class="pillar-title">Craft Over Noise</div>
+      <div class="pillar-desc"><strong>Vision:</strong> A future where property advice is treated as a discipline — deep, intentional, and rooted in genuine expertise rather than sales hype.<br><br><strong>Mission:</strong> We master the market through continuous study. We prepare rigorously. We deliver recommendations we would follow ourselves.</div>
     </div>
   </div>
 </section>
 
 <!-- Founder -->
-<section class="section-about">
-  <div class="container">
-    <div class="about-label reveal">Founder</div>
-    <h2 class="about-title reveal">The Person Behind the Vision</h2>
-    <div class="founder-card reveal">
-      <div class="founder-photo-wrap">
-        <img class="founder-photo" src="assets/images/tasso-chan.jpg" alt="Tasso Chan">
-      </div>
-      <div class="founder-info">
-        <div class="founder-name">Tasso Chan</div>
-        <div class="founder-role">Founder & Vision Lead</div>
-        <p class="founder-bio">I still have the sketchbook. Filled with buildings I drew before I ever thought I'd sell them. That habit — noticing light, negative spaces, the story a space tells — never left. I just stopped putting it on paper and started using it for people instead.</p>
-        <p class="founder-bio">INITIUM happened because I needed a place where honesty wasn't a disadvantage. Where saying "this isn't the right fit" was considered good advice, not bad sales. Where the people you help remember your name for the right reasons.</p>
-        <p class="founder-bio">I am a husband and a dad. I cook because my family deserves my full attention, not whatever is left at the end of the day. And I love streetwear culture because some things are worth the wait — and because that kid who believed in waiting for what matters? He grew up. He just never grew out of it.</p>
-      </div>
+<section class="white">
+  <div class="section-content">
+    <div class="section-label reveal">Founder</div>
+    <h2 class="reveal">The Person Behind<br>the Vision</h2>
+  </div>
+  <div class="founder-card reveal">
+    <div class="founder-photo-wrap">
+      <img class="founder-photo" src="assets/images/tasso-chan.jpg" alt="Tasso Chan">
+    </div>
+    <div class="founder-info">
+      <div class="founder-name">Tasso Chan</div>
+      <div class="founder-role">Founder & Vision Lead</div>
+      <p class="founder-bio">I still have the sketchbook. Filled with buildings I drew before I ever thought I'd sell them. That habit — noticing light, negative spaces, the story a space tells — never left. I just stopped putting it on paper and started using it for people instead.</p>
+      <p class="founder-bio">INITIUM happened because I needed a place where honesty wasn't a disadvantage. Where saying "this isn't the right fit" was considered good advice, not bad sales. Where the people you help remember your name for the right reasons.</p>
+      <p class="founder-bio">I am a husband and a dad. I cook because my family deserves my full attention, not whatever is left at the end of the day. And I love streetwear culture because some things are worth the wait — and because that kid who believed in waiting for what matters? He grew up. He just never grew out of it.</p>
     </div>
   </div>
 </section>
 
 <!-- Leadership Team -->
-<section class="section-about" style="background: var(--surface-warm);">
-  <div class="container" style="text-align: center;">
-    <div class="about-label reveal" style="justify-content: center;">Leadership Team</div>
-    <h2 class="about-title reveal" style="margin: 0 auto var(--space-6);">They Show Up.</h2>
-    <p class="about-text reveal" style="margin: 0 auto;">Not because it's in a job description. Because your timeline doesn't wait, your questions don't sleep, and your deal deserves someone who actually answers the phone.</p>
-    <div class="team-grid">
-      <div class="team-card reveal" data-profile="ainsley" style="cursor: pointer;">
-        <div class="team-photo">
-          <img src="assets/images/ainsley.jpg" alt="Ainsley Chong">
-        </div>
-        <div class="team-info">
-          <div class="team-name">Ainsley Chong</div>
-          <div class="team-role">Co-Founder | Training</div>
-          <div class="team-bio">Real estate has always been about people — their next chapter, and the life they are building.</div>
-          <span class="team-readmore">Read profile</span>
-        </div>
+<section class="warm">
+  <div class="section-content">
+    <div class="section-label reveal">Leadership Team</div>
+    <h2 class="reveal">They Show Up.</h2>
+    <p class="section-sub reveal">Not because it's in a job description. Because your timeline doesn't wait, your questions don't sleep, and your deal deserves someone who actually answers the phone.</p>
+  </div>
+  <div class="team-grid">
+    <div class="team-card reveal" data-profile="ainsley">
+      <div class="team-photo">
+        <img src="assets/images/ainsley.jpg" alt="Ainsley Chong">
       </div>
-      <div class="team-card reveal" data-profile="grace" style="cursor: pointer;">
-        <div class="team-photo" style="background:url('assets/images/grace-v3.jpg?v=1') center top/cover no-repeat;">
-        </div>
-        <div class="team-info">
-          <div class="team-name">Grace Yong</div>
-          <div class="team-role">Events & Culture</div>
-          <div class="team-bio">Grace builds the moments that bind the team together. From town halls to client appreciation events, she makes INITIUM feel like family.</div>
-          <span class="team-readmore">Read profile</span>
-        </div>
+      <div class="team-info">
+        <div class="team-name">Ainsley Chong</div>
+        <div class="team-role">Co-Founder | Training</div>
+        <div class="team-bio">Real estate has always been about people — their next chapter, and the life they are building.</div>
+        <span class="team-readmore">Read profile</span>
       </div>
-      <div class="team-card reveal" data-profile="kesang" style="cursor: pointer;">
-        <div class="team-photo">
-          <img src="assets/images/kesang.jpg" alt="Kesang Labattu">
-        </div>
-        <div class="team-info">
-          <div class="team-name">Kesang Labattu</div>
-          <div class="team-role">Real Estate Strategist & Mentor</div>
-          <div class="team-bio">The person who knows the market before the market knows itself. Kesang builds the training, curates the intelligence, and keeps INITIUM agents ahead of the curve.</div>
-          <span class="team-readmore">Read profile</span>
-        </div>
+    </div>
+    <div class="team-card reveal" data-profile="grace">
+      <div class="team-photo" style="background:url('assets/images/grace-v3.jpg?v=1') center top/cover no-repeat;">
       </div>
-      <div class="team-card reveal" data-profile="william" style="cursor: pointer;">
-        <div class="team-photo">
-          <img src="assets/images/william.jpg" alt="William Tan">
-        </div>
-        <div class="team-info">
-          <div class="team-name">William Tan</div>
-          <div class="team-role">Top Producer & Team Lead</div>
-          <div class="team-bio">Leads INITIUM's largest sub-team and still answers his phone. He proves that growing big does not mean caring less.</div>
-          <span class="team-readmore">Read profile</span>
-        </div>
+      <div class="team-info">
+        <div class="team-name">Grace Yong</div>
+        <div class="team-role">Events & Culture</div>
+        <div class="team-bio">Grace builds the moments that bind the team together. From town halls to client appreciation events, she makes INITIUM feel like family.</div>
+        <span class="team-readmore">Read profile</span>
+      </div>
+    </div>
+    <div class="team-card reveal" data-profile="kesang">
+      <div class="team-photo">
+        <img src="assets/images/kesang.jpg" alt="Kesang Labattu">
+      </div>
+      <div class="team-info">
+        <div class="team-name">Kesang Labattu</div>
+        <div class="team-role">Real Estate Strategist & Mentor</div>
+        <div class="team-bio">The person who knows the market before the market knows itself. Kesang builds the training, curates the intelligence, and keeps INITIUM agents ahead of the curve.</div>
+        <span class="team-readmore">Read profile</span>
+      </div>
+    </div>
+    <div class="team-card reveal" data-profile="william">
+      <div class="team-photo">
+        <img src="assets/images/william.jpg" alt="William Tan">
+      </div>
+      <div class="team-info">
+        <div class="team-name">William Tan</div>
+        <div class="team-role">Top Producer & Team Lead</div>
+        <div class="team-bio">Leads INITIUM's largest sub-team and still answers his phone. He proves that growing big does not mean caring less.</div>
+        <span class="team-readmore">Read profile</span>
       </div>
     </div>
   </div>
@@ -924,10 +926,10 @@
 </div>
 
 <!-- Culture Mosaic -->
-<section class="culture-mosaic-section">
+<section class="dark">
   <div class="culture-mosaic-header">
-    <div class="about-label reveal">Our Culture</div>
-    <h2 class="about-title reveal">Built in the Hours Nobody Sees</h2>
+    <div class="section-label reveal">Our Culture</div>
+    <h2 class="reveal">Built in the Hours<br>Nobody Sees</h2>
     <p class="reveal">The early mornings. The late-night strategy calls. The laughter when someone finally gets it. These moments are not staged. They are what happens when people trust each other enough to build something real.</p>
   </div>
   <div class="mosaic-grid reveal">
@@ -1019,11 +1021,11 @@
 </section>
 
 <!-- Culture Values -->
-<section class="section-about" style="background: var(--surface-warm);">
-  <div class="container" style="text-align: center;">
-    <div class="about-label reveal" style="justify-content: center;">The Real Culture</div>
-    <h2 class="about-title reveal" style="margin: 0 auto var(--space-6);">We Build Each Other's Wins</h2>
-    <p class="about-text reveal" style="margin: 0 auto;">Our best ideas do not come from one person at the top. They come from the 9 AM huddle, the late-night strategy call, and the moment someone says, 'I tried this, and it actually worked.' Every agent here has access to what everyone else knows. That is not a policy. That is just how we operate.</p>
+<section class="warm">
+  <div class="section-content">
+    <div class="section-label reveal">The Real Culture</div>
+    <h2 class="reveal">We Build Each Other's Wins</h2>
+    <p class="section-sub reveal">Our best ideas do not come from one person at the top. They come from the 9 AM huddle, the late-night strategy call, and the moment someone says, 'I tried this, and it actually worked.' Every agent here has access to what everyone else knows. That is not a policy. That is just how we operate.</p>
     <div class="culture-values reveal">
       <span class="culture-tag">We Listen</span>
       <span class="culture-tag">Share What Works</span>
@@ -1037,49 +1039,47 @@
 </section>
 
 <!-- Timeline -->
-<section class="section-about" style="background: var(--surface-warm);">
-  <div class="container">
-    <div class="about-label reveal">Our Journey</div>
-    <h2 class="about-title reveal">Key Milestones</h2>
-    <div class="timeline">
-      <div class="timeline-item reveal">
-        <div class="timeline-year">2022</div>
-        <div class="timeline-title">The First Step</div>
-        <div class="timeline-desc">A handful of agents asked a simple question: what if we start showing up for people? Less noise. More truth. Less competing with each other. More building together.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-year">2023</div>
-        <div class="timeline-title">Your First Huddle</div>
-        <div class="timeline-desc">Thirty agents. The weekly ritual began. Senior agents sharing what actually worked. Juniors asking questions without fear. The culture wasn't declared. It was practised.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-year">2024</div>
-        <div class="timeline-title">Tools That Actually Help</div>
-        <div class="timeline-desc">Fifty agents. New launch advisory designed by agents who closed those deals. Marketing support built by people who knew the difference between a listing and a story. Less generic. More useful.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-year">2025</div>
-        <div class="timeline-title">Leaders From Within</div>
-        <div class="timeline-desc">Seventy agents. Leadership roles earned by the people already doing the heavy lifting. Not imported talent. Just the people who were already mentoring, organising, and solving problems — given the space to do it at scale.</div>
-      </div>
-      <div class="timeline-item reveal">
-        <div class="timeline-year">2026</div>
-        <div class="timeline-title">The Room Keeps Growing</div>
-        <div class="timeline-desc">Targeting 120 agents. More voices. More experience. The question isn't can we grow. It's can we grow without losing what made the first thirty special. So far, so good.</div>
-      </div>
+<section class="white">
+  <div class="section-content" style="max-width: 1200px;">
+    <div class="section-label reveal">Our Journey</div>
+    <h2 class="reveal">Key Milestones</h2>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2022</div>
+      <div class="timeline-title">The First Step</div>
+      <div class="timeline-desc">A handful of agents asked a simple question: what if we start showing up for people? Less noise. More truth. Less competing with each other. More building together.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2023</div>
+      <div class="timeline-title">Your First Huddle</div>
+      <div class="timeline-desc">Thirty agents. The weekly ritual began. Senior agents sharing what actually worked. Juniors asking questions without fear. The culture wasn't declared. It was practised.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2024</div>
+      <div class="timeline-title">Tools That Actually Help</div>
+      <div class="timeline-desc">Fifty agents. New launch advisory designed by agents who closed those deals. Marketing support built by people who knew the difference between a listing and a story. Less generic. More useful.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2025</div>
+      <div class="timeline-title">Leaders From Within</div>
+      <div class="timeline-desc">Seventy agents. Leadership roles earned by the people already doing the heavy lifting. Not imported talent. Just the people who were already mentoring, organising, and solving problems — given the space to do it at scale.</div>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-year">2026</div>
+      <div class="timeline-title">The Room Keeps Growing</div>
+      <div class="timeline-desc">Targeting 120 agents. More voices. More experience. The question isn't can we grow. It's can we grow without losing what made the first thirty special. So far, so good.</div>
     </div>
   </div>
 </section>
 
 <!-- CTA -->
-<section class="cta-about">
-  <div class="container">
-    <h2 class="reveal">Ready to take the leap?</h2>
-    <p class="reveal">Whether you are looking for a partner in your property journey or a team that sees your potential, INITIUM is where your next chapter begins.</p>
-    <div class="reveal">
-      <a href="contact.html" class="btn btn-primary btn-lg">Get in Touch</a>
-      <a href="contact.html" class="btn btn-outline btn-lg" style="margin-left: var(--space-4);">Join the Team</a>
-    </div>
+<section class="cta-section">
+  <div class="section-content reveal">
+    <h2>Ready to take the leap?</h2>
+    <p>Whether you are looking for a partner in your property journey or a team that sees your potential, INITIUM is where your next chapter begins.</p>
+    <a href="contact.html" class="cta-btn">Get in Touch</a>
+    <a href="contact.html" class="cta-btn-outline">Join the Team</a>
   </div>
 </section>
 
@@ -1142,7 +1142,13 @@
   </div>
 </footer>
 
+<!-- Sticky CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span>Need help? <strong>We reply within 2 hours, 24/7</strong></span>
+  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." class="sticky-cta-btn" target="_blank" rel="noopener">Chat on WhatsApp</a>
+</div>
 
+<script src="js/nav.js"></script>
 <script>
   // Scroll-triggered nav background
   const nav = document.getElementById('nav');
@@ -1150,7 +1156,7 @@
     nav.classList.toggle('scrolled', window.scrollY > 50);
   });
 
-  // Hero slideshow crossfade
+  // Hero slideshow crossfade with slow zoom
   (function(){
     const slides = document.querySelectorAll('#heroSlideshow .slide');
     if (!slides.length) return;
@@ -1162,24 +1168,17 @@
     }, 3000);
   })();
 
-  // Simple reveal on scroll
+  // Reveal on scroll
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
-        observer.unobserve(entry.target);
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-  });
+  reveals.forEach(el => revealObserver.observe(el));
 
   // Profile Modal
   const profileModal = document.getElementById('profileModal');
@@ -1297,19 +1296,7 @@
       closeProfileModal();
     }
   });
-</script>
 
-<script src="js/nav.js"></script>
-
-
-<!-- Sticky CTA -->
-<div class="sticky-cta" id="stickyCta">
-  <span>Need help? <strong>We reply within 2 hours, 24/7</strong></span>
-  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." class="sticky-cta-btn" target="_blank" rel="noopener">Chat on WhatsApp</a>
-</div>
-
-<script src="js/nav.js"></script>
-<script>
   // Sticky CTA
   (function() {
     const sticky = document.getElementById('stickyCta');
@@ -1323,5 +1310,6 @@
     });
   })();
 </script>
+
 </body>
 </html>

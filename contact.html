@@ -30,9 +30,6 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 </script>
 <!-- End Google tag -->
 
-
-
-
 <meta name="description" content="Free property consultation — we reply within 2 hours. WhatsApp, call or visit our Great World City office. No pressure, just clarity.">
 <meta name="theme-color" content="#50C878">
 <link rel="icon" type="image/png" href="assets/images/initium-icon.png">
@@ -42,150 +39,140 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 <link rel="stylesheet" href="css/base.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css?v=5">
-  <link rel="stylesheet" href="css/apple-shared.css">
+<link rel="stylesheet" href="css/apple-shared.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="animations.js"></script>
+<script src="animations.js"></script>
 <style>
   :root {
     --ig: #50C878;
-    --ig-dark: #3DA35F;
-    --ig-light: #E8F5EE;
-    --ig-surface: #F7F8F5;
-    --ig-ink: #1A1A1A;
-    --ig-ink-2: #6B7B6E;
-    --ig-ink-3: #A8B5AC;
-    --font-editorial: 'Playfair Display', serif;
-    --font-display: 'Space Grotesk', sans-serif;
-    --font-body: 'DM Sans', sans-serif;
-  }
-  * { margin:0; padding:0; box-sizing:border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    font-family: var(--font-body);
-    color: var(--ig-ink);
-    background: var(--ig-surface);
-    overflow-x: hidden;
+    --ig-dark: #3DA65F;
+    --apple-light: #fbfbfd;
+    --apple-dark: #0a0a0a;
+    --apple-ink: #1d1d1f;
+    --apple-muted: #86868b;
   }
 
-  /* Page Hero */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--apple-light);
+    color: var(--apple-ink);
+    letter-spacing: -0.022em;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero */
   .page-hero {
-    position: relative;
-    min-height: 55vh;
+    min-height: 80vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 160px 24px 80px;
-    background: var(--ig-surface);
-    overflow: hidden;
+    padding: 14vh 6vw 8vh;
+    background: var(--apple-light);
   }
   .page-hero-label {
-    font-family: var(--font-display);
-    font-size: 11px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--ig);
-    margin-bottom: 24px;
+    margin-bottom: 1.5rem;
   }
   .page-hero-title {
-    font-family: var(--font-editorial);
-    font-size: clamp(40px, 6vw, 72px);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 6rem);
     font-weight: 500;
     line-height: 1.05;
-    letter-spacing: -0.03em;
-    color: var(--ig-ink);
-    margin-bottom: 20px;
-    max-width: 700px;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    max-width: 900px;
   }
   .page-hero-sub {
-    font-size: clamp(16px, 2vw, 20px);
-    font-weight: 400;
-    color: var(--ig-ink-2);
-    max-width: 520px;
-    line-height: 1.7;
+    font-size: clamp(1.2rem, 2.2vw, 1.5rem);
+    color: var(--apple-muted);
+    max-width: 640px;
+    line-height: 1.4;
   }
 
-  /* Section base */
+  /* Section */
   section {
-    position: relative;
-    padding: 100px 48px;
+    padding: 6rem 0;
   }
-  .section-inner {
-    max-width: 1200px;
+  .section-content {
+    max-width: 980px;
     margin: 0 auto;
+    padding: 0 6vw;
+    text-align: center;
   }
   .section-label {
-    font-family: var(--font-display);
-    font-size: 11px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--ig);
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 32px;
-    height: 1px;
-    background: var(--ig);
+    margin-bottom: 1rem;
   }
   .section-title {
-    font-family: var(--font-editorial);
-    font-size: clamp(36px, 4.5vw, 64px);
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
     font-weight: 500;
     line-height: 1.1;
-    letter-spacing: -0.02em;
-    max-width: 700px;
-    margin-bottom: 24px;
-    text-align: center;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
   }
-  .section-text {
-    font-size: 17px;
-    line-height: 1.7;
-    color: var(--ig-ink-2);
-    max-width: 540px;
-    text-align: center;
+  .section-sub {
+    font-size: clamp(1rem, 1.8vw, 1.25rem);
+    color: var(--apple-muted);
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.5;
   }
 
-  /* Contact Layout */
+  /* Contact */
+  .contact-section {
+    background: #fff;
+  }
   .contact-grid {
     display: grid;
     grid-template-columns: 1.2fr 1fr;
-    gap: 64px;
+    gap: 4rem;
     align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 6vw;
   }
 
-  /* Contact Form */
+  /* Form */
   .contact-form-card {
-    background: #fff;
-    border-radius: 24px;
-    padding: 48px;
-    box-shadow: 0 8px 32px rgba(26,26,26,0.06);
+    background: var(--apple-light);
+    border-radius: 28px;
+    padding: 56px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.05);
   }
   .contact-form-card h3 {
-    font-family: var(--font-display);
-    font-size: 22px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 8px;
-    color: var(--ig-ink);
+    margin-bottom: 0.5rem;
+    color: var(--apple-ink);
   }
   .contact-form-card > p {
-    font-size: 14px;
-    color: var(--ig-ink-3);
-    margin-bottom: 32px;
+    font-size: 1rem;
+    color: var(--apple-muted);
+    margin-bottom: 2rem;
   }
   .contact-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    gap: 20px;
   }
   .contact-form .full-width {
     grid-column: 1 / -1;
@@ -193,59 +180,64 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
   .form-group label {
-    font-size: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
     font-weight: 600;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--ig-ink-2);
+    color: var(--apple-muted);
   }
   .form-group input,
   .form-group select,
   .form-group textarea {
-    padding: 14px 16px;
-    border: 1px solid rgba(80,200,120,0.12);
-    border-radius: 12px;
-    font-family: var(--font-body);
-    font-size: 15px;
-    background: var(--ig-surface);
-    transition: all 0.3s ease;
+    padding: 16px 18px;
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    color: var(--apple-ink);
+    background: #fff;
+    transition: all 0.25s ease;
     width: 100%;
+  }
+  .form-group input::placeholder,
+  .form-group textarea::placeholder,
+  .form-group select:invalid {
+    color: #a1a1a6;
   }
   .form-group input:focus,
   .form-group select:focus,
   .form-group textarea:focus {
     outline: none;
     border-color: var(--ig);
-    box-shadow: 0 0 0 3px rgba(80,200,120,0.08);
-    background: #fff;
+    box-shadow: 0 0 0 4px rgba(80,200,120,0.08);
   }
   .form-group textarea {
-    min-height: 120px;
+    min-height: 140px;
     resize: vertical;
   }
   .submit-btn {
     grid-column: 1 / -1;
-    padding: 16px 36px;
+    padding: 18px 40px;
     background: var(--ig);
-    color: #fff;
-    font-family: var(--font-display);
-    font-size: 13px;
+    color: #000;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
     border: none;
-    border-radius: 100px;
+    border-radius: 980px;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.16,1,0.3,1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
     margin-top: 8px;
   }
   .submit-btn:hover {
-    background: var(--ig-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px rgba(80,200,120,0.2);
+    transform: scale(1.04);
+    box-shadow: 0 12px 40px rgba(80,200,120,0.25);
   }
   .submit-btn:disabled {
     opacity: 0.6;
@@ -255,8 +247,8 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   .form-status {
     grid-column: 1 / -1;
     font-size: 14px;
-    padding: 12px 16px;
-    border-radius: 12px;
+    padding: 14px 18px;
+    border-radius: 14px;
     display: none;
   }
   .form-status.success {
@@ -272,28 +264,28 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     border: 1px solid rgba(200,50,50,0.12);
   }
 
-  /* Contact Info Side */
+  /* Info side */
   .contact-info {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: 28px;
   }
   .info-card {
-    background: #fff;
-    border-radius: 20px;
+    background: var(--apple-light);
+    border-radius: 24px;
     padding: 32px;
-    box-shadow: 0 4px 20px rgba(26,26,26,0.04);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.04);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
   .info-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 40px rgba(26,26,26,0.08);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.08);
   }
   .info-card h4 {
-    font-family: var(--font-display);
-    font-size: 14px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     color: var(--ig);
     margin-bottom: 16px;
@@ -301,10 +293,13 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     align-items: center;
     gap: 10px;
   }
+  .info-card h4 svg {
+    width: 16px; height: 16px;
+  }
   .info-card p {
-    font-size: 15px;
+    font-size: 1rem;
     line-height: 1.7;
-    color: var(--ig-ink-2);
+    color: var(--apple-muted);
   }
   .info-card a {
     color: var(--ig);
@@ -313,25 +308,32 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   }
   .info-card a:hover { text-decoration: underline; }
 
-  /* WhatsApp CTA */
+  /* WhatsApp */
   .whatsapp-card {
     background: linear-gradient(135deg, #25d366 0%, #128c7e 100%);
     color: #fff;
-    border-radius: 20px;
+    border-radius: 24px;
     padding: 32px;
     text-align: center;
   }
   .whatsapp-card h4 {
-    font-family: var(--font-display);
-    font-size: 16px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
     font-weight: 600;
     margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+  .whatsapp-card h4 svg {
+    width: 18px; height: 18px;
   }
   .whatsapp-card p {
-    font-size: 14px;
+    font-size: 0.95rem;
     opacity: 0.9;
     margin-bottom: 20px;
-    line-height: 1.6;
+    line-height: 1.5;
   }
   .whatsapp-btn {
     display: inline-flex;
@@ -340,62 +342,99 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
     padding: 14px 32px;
     background: #fff;
     color: #128c7e;
-    font-family: var(--font-display);
-    font-size: 13px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: 100px;
-    transition: all 0.3s ease;
+    border-radius: 980px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .whatsapp-btn:hover {
-    transform: translateY(-2px);
+    transform: scale(1.04);
     box-shadow: 0 8px 24px rgba(0,0,0,0.15);
   }
 
-  /* Response Promise */
+  /* Promise bar */
   .promise-bar {
-    background: rgba(80,200,120,0.04);
-    border: 1px solid rgba(80,200,120,0.08);
-    border-radius: 16px;
+    background: rgba(80,200,120,0.08);
+    border: 1px solid rgba(80,200,120,0.12);
+    border-radius: 18px;
     padding: 20px 28px;
     display: flex;
     align-items: center;
     gap: 16px;
   }
   .promise-bar strong {
-    font-family: var(--font-display);
-    font-size: 14px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
     color: var(--ig);
   }
   .promise-bar span {
-    font-size: 14px;
-    color: var(--ig-ink-2);
+    font-size: 0.95rem;
+    color: var(--apple-muted);
   }
 
-  /* Map placeholder */
+  /* Map */
   .map-frame {
     width: 100%;
-    height: 280px;
-    border-radius: 16px;
+    height: 220px;
+    border-radius: 18px;
     border: none;
-    background: var(--ig-light);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ig-ink-3);
-    font-size: 14px;
+    margin-top: 20px;
+    background: #e8f5ee;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 10rem 0;
+    background: var(--apple-dark);
+    color: #fff;
+    text-align: center;
+  }
+  .cta-section .section-title {
+    color: #fff;
+  }
+  .cta-section .section-sub {
+    color: #a1a1a6;
+    margin-bottom: 2rem;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: var(--ig);
+    color: #000;
+    padding: 1.1rem 2.5rem;
+    border-radius: 980px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+  }
+  .cta-btn:hover { transform: scale(1.04); }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   @media (max-width: 900px) {
-    section { padding: 80px 24px; }
-    .contact-grid { grid-template-columns: 1fr; }
-    .contact-form-card { padding: 32px 24px; }
+    section { padding: 4rem 0; }
+    .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-form-card { padding: 36px 28px; }
+    .cta-section { padding: 6rem 0; }
+  }
+  @media (max-width: 640px) {
     .contact-form { grid-template-columns: 1fr; }
+    .promise-bar { flex-direction: column; align-items: flex-start; gap: 8px; }
   }
 </style>
-  <link rel="canonical" href="contact.html">
+<link rel="canonical" href="contact.html">
 <meta property="og:title" content="Contact INITIUM — Free Property Consultation | WhatsApp +65 8846 4814">
 <meta property="og:description" content="Get in touch with INITIUM. We reply within 2 hours, 24/7. WhatsApp, email, or visit us at Great World City.">
 <meta property="og:image" content="https://initium.sg/og-image.jpg">
@@ -430,7 +469,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
       "name": "INITIUM",
       "image": "https://initium.sg/logo-nav-crop.png",
       "url": "https://initium.sg",
-      "telephone": "+6588464814",
+      "telephone": "+658****4814",
       "email": "hello@initium.sg",
       "address": {
         "@type": "PostalAddress",
@@ -505,95 +544,93 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   <p class="page-hero-sub">Whether you are buying, selling, renting, or joining the team — we are here to listen and guide.</p>
 </header>
 
-<section id="contact">
-  <div class="section-inner">
-    <div class="contact-grid">
-      <div class="contact-form-card">
-        <h3>Send an Enquiry</h3>
-        <p>Fill out the form below and we will get back to you within 2 hours, 24/7.</p>
-        <form class="contact-form" id="enquiryForm">
-          <div class="form-group">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" name="name" placeholder="Your full name" required>
-          </div>
-          <div class="form-group">
-            <label for="mobile">Mobile Number</label>
-            <input type="tel" id="mobile" name="mobile" placeholder="+65 XXXX XXXX" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" name="email" placeholder="you@example.com" required>
-          </div>
-          <div class="form-group">
-            <label for="enquiryType">Enquiry Type</label>
-            <select id="enquiryType" name="enquiryType" required>
-              <option value="" disabled selected>Select one</option>
-              <option value="buy">I want to buy a property</option>
-              <option value="sell">I want to sell my property</option>
-              <option value="rent">I want to rent / lease</option>
-              <option value="newlaunch">New launch interest</option>
-              <option value="join">I want to join INITIUM</option>
-              <option value="general">General enquiry</option>
-            </select>
-          </div>
-          <div class="form-group full-width">
-            <label for="district">Preferred District (optional)</label>
-            <input type="text" id="district" name="district" placeholder="e.g. Bukit Timah, Orchard, East Coast">
-          </div>
-          <div class="form-group full-width">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell us a bit about what you are looking for..."></textarea>
-          </div>
-          <div class="form-status" id="formStatus"></div>
-          <button type="submit" class="submit-btn" id="submitBtn">Send Enquiry</button>
-        </form>
+<section class="contact-section" id="contact">
+  <div class="contact-grid">
+    <div class="contact-form-card reveal">
+      <h3>Send an Enquiry</h3>
+      <p>Fill out the form below and we will get back to you within 2 hours, 24/7.</p>
+      <form class="contact-form" id="enquiryForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Your full name" required>
+        </div>
+        <div class="form-group">
+          <label for="mobile">Mobile Number</label>
+          <input type="tel" id="mobile" name="mobile" placeholder="+65 XXXX XXXX" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="enquiryType">Enquiry Type</label>
+          <select id="enquiryType" name="enquiryType" required>
+            <option value="" disabled selected>Select one</option>
+            <option value="buy">I want to buy a property</option>
+            <option value="sell">I want to sell my property</option>
+            <option value="rent">I want to rent / lease</option>
+            <option value="newlaunch">New launch interest</option>
+            <option value="join">I want to join INITIUM</option>
+            <option value="general">General enquiry</option>
+          </select>
+        </div>
+        <div class="form-group full-width">
+          <label for="district">Preferred District (optional)</label>
+          <input type="text" id="district" name="district" placeholder="e.g. Bukit Timah, Orchard, East Coast">
+        </div>
+        <div class="form-group full-width">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell us a bit about what you are looking for..."></textarea>
+        </div>
+        <div class="form-status" id="formStatus"></div>
+        <button type="submit" class="submit-btn" id="submitBtn">Send Enquiry</button>
+      </form>
+    </div>
+
+    <div class="contact-info">
+      <div class="whatsapp-card reveal">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Prefer WhatsApp?
+        </h4>
+        <p>Chat with us directly for faster responses. Available 24/7.</p>
+        <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20my%20name%20is%20%20%20%20%2C%20I%27m%20interested%20in%20your%20services" class="whatsapp-btn" target="_blank" rel="noopener">
+          Chat on WhatsApp
+        </a>
       </div>
 
-      <div class="contact-info">
-        <div class="whatsapp-card">
-          <h4>Prefer WhatsApp?</h4>
-          <p>Chat with us directly for faster responses. Available 24/7.</p>
-          <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20my%20name%20is%20%20%20%20%2C%20I%27m%20interested%20in%20your%20services" class="whatsapp-btn" target="_blank" rel="noopener">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Chat on WhatsApp
-          </a>
-        </div>
+      <div class="info-card reveal">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          Email
+        </h4>
+        <p><a href="mailto:hello@initium.sg">hello@initium.sg</a></p>
+      </div>
 
-        <div class="info-card">
-          <h4>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            Email
-          </h4>
-          <p><a href="mailto:hello@initium.sg">hello@initium.sg</a></p>
-        </div>
+      <div class="info-card reveal">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Visit Us
+        </h4>
+        <p>1 Kim Seng Promenade #17-10/12<br>Great World City, West Tower<br>Singapore 237994<br>Nearest MRT: Great World</p>
+        <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8036!2d103.8315!3d1.2936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da1977e1a5b9c5%3A0x5237110f3a472b!2sGreat%20World%20City!5e0!3m2!1sen!2ssg!4v1700000000000!5m2!1sen!2ssg" allowfullscreen="" loading="lazy"></iframe>
+      </div>
 
-        <div class="info-card">
-          <h4>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-            Visit Us
-          </h4>
-          <p>1 Kim Seng Promenade #17-10/12<br>Great World City, West Tower<br>Singapore 237994<br>Nearest MRT: Great World</p>
-          <iframe class="map-frame" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.8036!2d103.8315!3d1.2936!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31da1977e1a5b9c5%3A0x5237110f3a472b!2sGreat%20World%20City!5e0!3m2!1sen!2ssg!4v1700000000000!5m2!1sen!2ssg" allowfullscreen="" loading="lazy"></iframe>
-        </div>
-
-        <div class="promise-bar">
-          <strong>Response Promise</strong>
-          <span>We reply within 2 hours, 24/7.</span>
-        </div>
+      <div class="promise-bar reveal">
+        <strong>Response Promise</strong>
+        <span>We reply within 2 hours, 24/7.</span>
       </div>
     </div>
   </div>
 </section>
 
 <!-- CTA Section -->
-<section class="section" style="background: var(--dark); text-align: center;">
-  <div class="container">
-    <div class="label reveal" style="color: var(--accent-light);">Stay in the Loop</div>
-    <h2 class="headline-md reveal" style="color: var(--white); margin-bottom: var(--space-4);">The Market Moves Fast.</h2>
-    <p class="body-lg reveal" style="color: rgba(255,255,255,0.65); max-width: 560px; margin: 0 auto var(--space-8);">Get the latest guides, market updates, and INITIUM news sent straight to you. No spam. No fluff. Just what matters.</p>
-    <div class="reveal">
-      <a href="contact.html" class="btn btn-primary btn-lg">Join the List</a>
-    </div>
+<section class="cta-section">
+  <div class="section-content">
+    <div class="section-label">Stay in the Loop</div>
+    <h2 class="section-title">The Market Moves Fast.</h2>
+    <p class="section-sub">Get the latest guides, market updates, and INITIUM news sent straight to you. No spam. No fluff. Just what matters.</p>
+    <a href="contact.html" class="cta-btn">Join the List</a>
   </div>
 </section>
 
@@ -656,26 +693,25 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
   </div>
 </footer>
 
+<!-- Sticky CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <span>Need help? <strong>We reply within 2 hours, 24/7</strong></span>
+  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." class="sticky-cta-btn" target="_blank" rel="noopener">Chat on WhatsApp</a>
+</div>
+
 <script src="js/nav.js"></script>
 <script>
-  // Simple reveal on scroll
+  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.style.opacity = '1';
-        entry.target.style.transform = 'translateY(0)';
+        entry.target.classList.add('visible');
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
-  reveals.forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-  });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => observer.observe(el));
 
   // Auto-fill WhatsApp link with name from form
   const nameInput = document.getElementById('name');
@@ -684,12 +720,9 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
 
   function updateWhatsAppLink() {
     const name = nameInput.value.trim();
-    let text;
-    if (name) {
-      text = `Hi INITIUM, my name is ${name}, I'm interested in your services`;
-    } else {
-      text = `Hi INITIUM, my name is ____, I'm interested in your services`;
-    }
+    const text = name
+      ? `Hi INITIUM, my name is ${name}, I'm interested in your services`
+      : `Hi INITIUM, my name is ____, I'm interested in your services`;
     whatsappBtn.href = `https://wa.me/${baseNumber}?text=${encodeURIComponent(text)}`;
   }
 
@@ -740,18 +773,7 @@ gtag('config', 'REPLACE_WITH_GA4_ID', { 'send_page_view': true });
       submitBtn.textContent = 'Send Enquiry';
     }
   });
-</script>
 
-
-
-<!-- Sticky CTA -->
-<div class="sticky-cta" id="stickyCta">
-  <span>Need help? <strong>We reply within 2 hours, 24/7</strong></span>
-  <a href="https://wa.me/6588464814?text=Hi%20INITIUM%2C%20I%27m%20interested%20in%20your%20services." class="sticky-cta-btn" target="_blank" rel="noopener">Chat on WhatsApp</a>
-</div>
-
-<script src="js/nav.js"></script>
-<script>
   // Sticky CTA
   (function() {
     const sticky = document.getElementById('stickyCta');
