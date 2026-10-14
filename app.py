@@ -1338,6 +1338,83 @@ def lead_capture():
     }), 201
 
 
+@app.route("/api/school-lead", methods=["POST"])
+def school_lead_capture():
+    """Receive lead from the School Finder page. Saves to CRM + submissions + Telegram."""
+    data = request.get_json(silent=True) or {}
+
+    required = ["name", "email", "phone"]
+    missing = [f for f in required if not data.get(f)]
+    if missing:
+        return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
+
+    lead_id = str(uuid.uuid4())[:8]
+    now = datetime.utcnow().isoformat() + "Z"
+
+    target_schools = data.get("targetSchools", "")
+    if isinstance(target_schools, list):
+        target_schools = ", ".join(target_schools)
+
+    home_address = data.get("homeAddress", "").strip()
+    budget = data.get("budget", "").strip()
+    message = data.get("message", "").strip()
+    page_url = data.get("pageUrl", "").strip()
+
+    notes_lines = ["Source: School Finder"]
+    if target_schools:
+        notes_lines.append(f"Target schools: {target_schools}")
+    if home_address:
+        notes_lines.append(f"Home address: {home_address}")
+    if budget:
+        notes_lines.append(f"Budget: {budget}")
+    if message:
+        notes_lines.append(f"Message: {message}")
+    notes = "\n".join(notes_lines)
+
+    # Save to CRM with proper Supabase column mapping
+    db.save_lead({
+        "id": lead_id,
+        "client_name": data.get("name", "").strip(),
+        "contact": data.get("phone", "").strip(),
+        "source": "school-finder",
+        "enquiry_type": "School Proximity Search",
+        "status": "new",
+        "budget": budget,
+        "area": target_schools,
+        "project_name": "School Finder",
+        "property_address": home_address,
+        "agent_name": "",
+        "notes": notes,
+        "created_at": now,
+        "updated_at": now,
+    })
+
+    # Mirror to submissions for unified inbox
+    submission = {
+        "id": lead_id,
+        "name": data.get("name", "").strip(),
+        "mobile": data.get("phone", "").strip(),
+        "email": data.get("email", "").strip(),
+        "enquiryType": "school-finder",
+        "district": "",
+        "message": f"Target schools: {target_schools} | Home: {home_address} | Budget: {budget} | {message}",
+        "project": "School Finder",
+        "timestamp": now,
+        "source": f"school-finder | {page_url}",
+    }
+    subs = _load_submissions()
+    subs.insert(0, submission)
+    _save_submissions(subs)
+
+    _send_telegram_notification(submission)
+
+    return jsonify({
+        "success": True,
+        "id": lead_id,
+        "message": "Thank you. An INITIUM advisor will contact you within 2 hours."
+    }), 201
+
+
 @app.route("/admin/submissions", methods=["GET"])
 @require_admin_key
 def admin_list_submissions():

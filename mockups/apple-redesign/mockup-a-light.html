@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INITIUM — Mockup A: Light Apple</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #50C878;
+      --dark: #1A1A1A;
+      --surface: #F7F8F5;
+      --ink: #1A1A1A;
+      --muted: #6B7B6E;
+      --max-width: 1200px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fff;
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 4vw;
+      background: rgba(255,255,255,0.82);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+    .logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 1.35rem; letter-spacing: -0.03em; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; font-size: 0.9rem; font-weight: 500; }
+    .nav-links a { text-decoration: none; color: var(--ink); opacity: 0.75; transition: opacity 0.2s; }
+    .nav-links a:hover { opacity: 1; }
+    .nav-cta {
+      background: var(--accent);
+      color: #fff;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #000;
+    }
+    .hero video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0.5));
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      color: #fff;
+      max-width: 900px;
+      padding: 0 4vw;
+    }
+    .hero-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 500;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero p {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 1rem 2rem;
+      border-radius: 2px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+
+    section { padding: 8rem 4vw; }
+    .container { max-width: var(--max-width); margin: 0 auto; }
+    .section-header {
+      text-align: center;
+      margin-bottom: 5rem;
+    }
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+    .section-header p {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 1.5rem auto 0;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    .feature-card:hover { transform: translateY(-8px); }
+    .feature-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+    .feature-card-content { padding: 2rem; }
+    .feature-card h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .feature-card p { color: var(--muted); font-size: 0.95rem; }
+
+    .full-bleed {
+      position: relative;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      background: #000;
+      overflow: hidden;
+    }
+    .full-bleed img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.7;
+    }
+    .full-bleed-content {
+      position: relative;
+      z-index: 2;
+      color: #fff;
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 0 4vw;
+      width: 100%;
+    }
+    .full-bleed h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 500;
+      line-height: 1.1;
+      max-width: 700px;
+      margin-bottom: 1.5rem;
+    }
+    .full-bleed p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat h3 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    .stat p { color: var(--muted); font-size: 0.95rem; }
+
+    footer {
+      background: var(--dark);
+      color: #fff;
+      padding: 4rem 4vw;
+      text-align: center;
+    }
+    footer .logo { margin-bottom: 1rem; }
+    footer p { opacity: 0.6; font-size: 0.9rem; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      section { padding: 5rem 4vw; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">INITIUM</div>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#new-launches">New Launches</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Get Started</a>
+  </nav>
+
+  <section class="hero">
+    <video autoplay muted loop playsinline poster="../../assets/images/hero-property.jpg">
+      <source src="../../assets/videos/hero-cinematic.mp4" type="video/mp4">
+    </video>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-label">Singapore Real Estate</div>
+      <h1>Property, elevated.</h1>
+      <p>Trust before transactions. A modern team of 70 agents serving Singapore since 2010.</p>
+      <div class="hero-buttons">
+        <a href="#contact" class="btn btn-primary">Start Your Search</a>
+        <a href="#services" class="btn btn-secondary">Explore Services</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats">
+    <div class="container">
+      <div class="stats reveal">
+        <div class="stat">
+          <h3>70+</h3>
+          <p>Agents</p>
+        </div>
+        <div class="stat">
+          <h3>14</h3>
+          <p>Years</p>
+        </div>
+        <div class="stat">
+          <h3>500+</h3>
+          <p>Transactions</p>
+        </div>
+        <div class="stat">
+          <h3>0</h3>
+          <p>Pressure</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">The INITIUM Standard</div>
+        <h2>Four disciplines.<br>One standard.</h2>
+        <p>From first-time buyers to portfolio investors, every engagement is built on precision, transparency, and outcomes you can measure.</p>
+      </div>
+      <div class="feature-grid">
+        <div class="feature-card reveal">
+          <img src="../../assets/images/service-newlaunch.jpg" alt="New Launch">
+          <div class="feature-card-content">
+            <h3>VIP Access, Not Public Listings</h3>
+            <p>Developer floor plans before they hit the market. Unit-selection strategy engineered for capital appreciation.</p>
+          </div>
+        </div>
+        <div class="feature-card reveal">
+          <img src="../../assets/images/service-sell.jpg" alt="Resale">
+          <div class="feature-card-content">
+            <h3>Sell Above Valuation</h3>
+            <p>Staging coordination, data-backed pricing, and negotiation tactics that outperform market valuation.</p>
+          </div>
+        </div>
+        <div class="feature-card reveal">
+          <img src="../../assets/images/service-buy.jpg" alt="Investment">
+          <div class="feature-card-content">
+            <h3>Build Wealth, Not Just Own Property</h3>
+            <p>ABSD optimization, financing strategy, and portfolio modelling for investors who think in decades.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="full-bleed">
+    <img src="../../assets/images/river-green.jpg" alt="Singapore Property">
+    <div class="full-bleed-content reveal">
+      <div class="section-label" style="color:#fff">New Launches</div>
+      <h2>The right unit, the right facing, the right entry.</h2>
+      <p>We don’t show you launches — we engineer your entry. Access floor plans, unit analysis, and developer insights before the public.</p>
+      <a href="#" class="btn btn-primary">View New Launches</a>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="container">
+      <div class="section-header reveal">
+        <div class="section-label">Our People</div>
+        <h2>They show up.</h2>
+        <p>Not because it's in a job description. Because your timeline doesn't wait, your questions don't sleep, and your deal deserves someone who actually answers the phone.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="logo">INITIUM</div>
+    <p>Built on trust, systems, and the drive to lift everyone higher.<br>Singapore, since 2010.</p>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
