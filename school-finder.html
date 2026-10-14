@@ -368,7 +368,9 @@
 
   @media (max-width: 1024px) {
     .finder-grid { grid-template-columns: 1fr; }
-    #map { height: 420px; }
+    .finder-grid .finder-panel { order: 2; }
+    .finder-grid > #map { order: 1; }
+    #map { height: 480px; }
     .lead-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 900px) {
