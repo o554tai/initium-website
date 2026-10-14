@@ -285,7 +285,7 @@ def api_generate():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-    job_id = str(uuid.uuid4())[:8]
+    job_id = str(uuid.uuid4())
     job = {
         "id": job_id,
         "task_id": task_id,
@@ -328,7 +328,7 @@ def api_generate_image():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-    job_id = str(uuid.uuid4())[:8]
+    job_id = str(uuid.uuid4())
 
     # BytePlus is synchronous — complete immediately
     if result.get("provider") == "byteplus":
@@ -1013,7 +1013,7 @@ def api_create_tour():
 
     tours = _load_tours()
     tour = {
-        "id": str(uuid.uuid4())[:8],
+        "id": str(uuid.uuid4()),
         "url": url,
         "embed_url": _build_embed_iframe(url),
         "platform": _detect_platform(url),
@@ -1245,7 +1245,7 @@ def contact_submit():
         return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
     
     submission = {
-        "id": str(uuid.uuid4())[:8],
+        "id": str(uuid.uuid4()),
         "name": data.get("name", "").strip(),
         "mobile": data.get("mobile", "").strip(),
         "email": data.get("email", "").strip(),
@@ -1292,7 +1292,7 @@ def lead_capture():
     }
 
     lead = {
-        "id": str(uuid.uuid4())[:8],
+        "id": str(uuid.uuid4()),
         "type": "landing_page",
         "name": data.get("name", "").strip(),
         "email": data.get("email", "").strip(),
